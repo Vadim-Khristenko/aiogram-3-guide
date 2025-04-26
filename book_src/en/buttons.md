@@ -406,10 +406,7 @@ async def send_random_value(callback: types.CallbackQuery):
 
 ![Reaction to pressing the callback button](../images/en/buttons/l03_5.png)
 
-Oh, what are those clocks? It turns out that the Telegram server is waiting for us to confirm the delivery of the callback, otherwise, within 30 
-seconds, it will show a special icon. To hide the clocks, you need to call the `answer()` method on the callback (or use 
-the API method `answer_callback_query()`). In general, you can call the `answer()` method without any arguments, but you can also call 
-a special window (pop-up or overlay):
+Oh, why is the button pulsing with white? It turns out that the Telegram server is waiting for us to confirm the delivery of the callback, otherwise, within 30 seconds, it will highlight the button with an animated effect (pulsing white or in a different color depending on the client theme). To stop this animation, you need to call the `answer()` method on the callback (or use the API method `answer_callback_query()`). In general, you can call the `answer()` method without any arguments, but you can also call a special window (pop-up or overlay):
 
 ```python
 @dp.callback_query(F.data == "random_value")
