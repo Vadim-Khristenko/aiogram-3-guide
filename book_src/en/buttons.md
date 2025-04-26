@@ -1,7 +1,6 @@
 ---
 title: Buttons
 description: Buttons
-t_status: in_progress
 ---
 
 # Buttons
