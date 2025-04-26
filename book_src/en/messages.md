@@ -81,7 +81,6 @@ bot = Bot(
         # there are many other interesting settings here
     )
 )
-bot = Bot(token="123:abcxyz", parse_mode="HTML")
 
 # somewhere in a function...
 await message.answer("Message with <u>HTML markup</u>")
