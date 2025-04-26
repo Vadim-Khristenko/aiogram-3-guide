@@ -423,8 +423,8 @@ async def send_random_value(callback: types.CallbackQuery):
 
 The reader may wonder: at what point in the processing should we respond to the callback with the `answer()` method? In general, the main thing is to simply not forget to inform Telegram about receiving the callback request, but I recommend placing 
 the `answer()` call at the very end, and here's why: if an error occurs during the callback processing and 
-the bot encounters an unhandled exception, the user will see the non-disappearing clocks for half a minute and understand that something 
-is wrong. Otherwise, the clocks will disappear, and the user will remain unaware of whether their request was successfully processed or not.
+the bot encounters an unhandled exception, the user will see the pulsing button animation for half a minute and understand that something 
+is wrong. Otherwise, the animation will stop, and the user will remain unaware of whether their request was successfully processed or not.
 
 !!! info "Note"
     In the `send_random_value` function, we called the `answer()` method not on `message`, but on `callback.message`. This is because 
