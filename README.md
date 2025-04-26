@@ -14,6 +14,6 @@
 ---
 ### Переводит [VAI || Programmer](https://github.com/Vadim-Khristenko)
 **Перевод книги поддерживает не лично автор**, а Переводчик (Указано выше), если перевод не успевает за оригиналом можете смело жаловаться [VAI || Programmer](https://github.com/Vadim-Khristenko).
-Также можете писать в [Личные сообщения Telegram Переводчика](https://t.me/VOLT_SYNAPSE_CREATOR).
+Также можете писать в [Личные сообщения Telegram Переводчика](https://t.me/VAI_Programmer).
 
 Книга собрана с помощью [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).
