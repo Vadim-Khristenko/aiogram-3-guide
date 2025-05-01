@@ -12,7 +12,7 @@ repo_url: https://github.com/MasterGroosha/aiogram-3-guide
 edit_uri: ""
 
 # Copyright
-copyright: Copyright &copy; 2020-2024 Groosha
+copyright: Copyright &copy; 2020-2025 Groosha
 
 # Configuration
 theme:
@@ -50,13 +50,29 @@ extra:
       link: https://github.com/MasterGroosha/aiogram-3-guide
       name: GitHub
   announcement: Кажется эта страница не была переведена на этот Язык и предварительно будет показана на Русском Языке.
-  translation_warning_string: Важное предупреждение о переводе!
+  translation_warning_string: Информация о переводе
   translation_in_work_string: |
-    Привет! Это сообщение от переводчика <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>.
-    Пожалуйста, имейте в виду, что эта страница все еще переводится.
+    👋 Приветствую! Я, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, работаю над переводом этой страницы.
+    Контент находится в процессе перевода и может содержать неточности. Если вы заметите ошибки или хотите помочь, 
+    пожалуйста, создайте issue или pull request на <a href="https://github.com/MasterGroosha/aiogram-3-guide">GitHub</a>.
   translation_stopped_string: |
-    Привет! Это сообщение от переводчика <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>.
-    Перевод этой страницы остановлен.
+    ⚠️ Внимание! Я, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, хочу сообщить, что 
+    перевод этой страницы временно приостановлен. Вы можете видеть частично переведенный контент или оригинальный текст на русском.
+    Буду благодарен за помощь в завершении перевода.
+  translation_need_help: |
+    🆘 Нужна помощь с переводом! Эта страница содержит сложную техническую терминологию, 
+    и я, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, ищу помощников для проверки 
+    качества перевода. Если вы владеете обоими языками и разбираетесь в aiogram, 
+    буду признателен за содействие через <a href="https://github.com/MasterGroosha/aiogram-3-guide">GitHub</a>.
+  translation_complete_besides_photo: |
+    ✅ Текст этой страницы полностью переведен мной, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, 
+    но некоторые изображения и скриншоты могут быть всё ещё на русском языке. Работа над локализацией 
+    визуальных элементов продолжается. Спасибо за понимание!
+  translator_unical_paper: |
+    🌟 Уникальный контент! Эта страница создана мной, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, 
+    специально для дополнения оригинального руководства. Она содержит информацию, которой нет в русской версии, 
+    и призвана помочь англоязычным разработчикам лучше освоить aiogram 3.x. Буду рад вашим отзывам и предложениям!
+  help_translation_cta: Помогите с переводом
     
 
 # Extensions
@@ -160,13 +176,29 @@ plugins:
                 link: https://github.com/MasterGroosha/aiogram-3-guide
                 name: GitHub
             announcement: It seems this page has not been translated into this Language and will preliminarily be displayed in Russian.
-            translation_warning_string: An important warning about translation!
+            translation_warning_string: Translation Information
             translation_in_work_string: |
-              Hello! This message is from the translator <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>.
-              Please keep in mind that this page is still being translated.
+              👋 Hello! I'm <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, and I'm working on translating this page.
+              This content is in the process of translation and may contain inaccuracies. If you notice any errors or want to help,
+              please create an issue or pull request on <a href="https://github.com/MasterGroosha/aiogram-3-guide">GitHub</a>.
             translation_stopped_string: |
-              Hello! This message is from the translator <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>.
-              Translation of this page has been stopped.
+              ⚠️ Attention! I, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, want to inform you that
+              translation of this page is temporarily suspended. You may see partially translated content or original Russian text.
+              I would appreciate help in completing the translation.
+            translation_need_help: |
+              🆘 Translation help needed! This page contains complex technical terminology, 
+              and I, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, am looking for help in verifying 
+              the quality of the translation. If you are fluent in both languages and familiar with aiogram, 
+              I would appreciate your assistance via <a href="https://github.com/MasterGroosha/aiogram-3-guide">GitHub</a>.
+            translation_complete_besides_photo: |
+              ✅ The text on this page has been fully translated by me, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, 
+              but some images and screenshots may still be in Russian. Work on localizing 
+              visual elements continues. Thank you for your understanding!
+            translator_unical_paper: |
+              🌟 Unique content! This page was created by me, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, 
+              specifically to supplement the original guide. It contains information not present in the Russian version 
+              and aims to help English-speaking developers better understand aiogram 3.x. I welcome your feedback and suggestions!
+            help_translation_cta: Help with Translation
         - locale: uk
           name: Українська
           build: false
@@ -216,13 +248,29 @@ plugins:
                 link: https://github.com/MasterGroosha/aiogram-3-guide
                 name: GitHub
             announcement: Здається, ця сторінка ще не перекладена на цю мову і попередньо буде відображена російською.
-            translation_warning_string: Важливе попередження про переклад!
+            translation_warning_string: Інформація про переклад
             translation_in_work_string: |
-              Привіт! Це повідомлення від перекладача <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>.
-              Будь ласка, майте на увазі, що ця сторінка ще перекладається.
+              👋 Вітаю! Я, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, працюю над перекладом цієї сторінки.
+              Контент знаходиться у процесі перекладу і може містити неточності. Якщо ви помітили помилки або хочете допомогти,
+              будь ласка, створіть issue або pull request на <a href="https://github.com/MasterGroosha/aiogram-3-guide">GitHub</a>.
             translation_stopped_string: |
-              Привіт! Це повідомлення від перекладача <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>.
-              Переклад цієї сторінки зупинено.
+              ⚠️ Увага! Я, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, хочу повідомити, що
+              переклад цієї сторінки тимчасово призупинено. Ви можете бачити частково перекладений контент або оригінальний текст російською.
+              Буду вдячний за допомогу в завершенні перекладу.
+            translation_need_help: |
+              🆘 Потрібна допомога з перекладом! Ця сторінка містить складну технічну термінологію,
+              і я, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>, шукаю помічників для перевірки
+              якості перекладу. Якщо ви володієте обома мовами та розбираєтеся в aiogram,
+              буду вдячний за сприяння через <a href="https://github.com/MasterGroosha/aiogram-3-guide">GitHub</a>.
+            translation_complete_besides_photo: |
+              ✅ Текст цієї сторінки повністю перекладено мною, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>,
+              але деякі зображення та скріншоти можуть бути все ще російською мовою. Робота над локалізацією
+              візуальних елементів триває. Дякую за розуміння!
+            translator_unical_paper: |
+              🌟 Унікальний контент! Ця сторінка створена мною, <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>,
+              спеціально для доповнення оригінального керівництва. Вона містить інформацію, якої немає в російській версії,
+              і покликана допомогти україномовним розробникам краще опанувати aiogram 3.x. Буду радий вашим відгукам та пропозиціям!
+            help_translation_cta: Допомогти з перекладом
 
 
 # Custom

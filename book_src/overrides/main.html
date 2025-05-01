@@ -13,128 +13,279 @@
     {% set url_description = page.meta.description %}
   {% endif %}
 
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="{{ config.site_name }}" />
-  <meta property="og:description" content="{{ url_description }}" />
-  <meta property="og:url" content="{{ page.canonical_url }}" />
-  <meta property="og:image" content="{{ config.site_url }}images/social.png" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ url_description }}">
+  <meta property="og:url" content="{{ page.canonical_url }}">
+  <meta property="og:image" content="{{ config.site_url }}images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="{{ page.canonical_url }}">
-  <meta name="twitter:title" content="{{ config.site_name }}">
+  <meta name="twitter:title" content="{{ title }}">
   <meta name="twitter:description" content="{{ url_description }}">
   <meta name="twitter:image" content="{{ config.site_url }}images/social.png">
-
 {% endblock %}
-
 
 {% block site_meta %}
   <script src="https://telegram.org/js/telegram-web-app.js?35"></script>
-    <script type="text/javascript">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
       const webapp = window.Telegram.WebApp;
-      webapp.disableVerticalSwipes()
+      
+      // Initialize Telegram WebApp
       webapp.ready();
       webapp.expand();
+      webapp.disableVerticalSwipes();
+      
+      // Handle navigation based on start_param
       const initData = webapp.initDataUnsafe;
+      
       if (window.location.pathname === "/aiogram-3-guide/" && Object.hasOwn(initData, 'auth_date')) {
         if (initData.start_param) {
-          let additionalParam = '';
-          switch (initData.start_param) {
-            case 'quickstart':
-            case 'messages':
-            case 'buttons':
-            case 'routers':
-            case 'special-updates':
-            case 'fsm':
-            case 'inline-mode':
-              additionalParam = initData.start_param;
-              break;
-            case 'filters':
-              additionalParam = 'filters-and-middlewares/#filters';
-              break
-            case 'middlewares':
-              additionalParam = 'filters-and-middlewares/#middlewares';
-              break
-            case 'magic-filter':
-            case 'magic':
-              additionalParam = 'filters-and-middlewares/#magic-filters';
-              break
-            case 'entities':
-              additionalParam = 'messages/#message-entities';
-              break;
-            case 'escaping':
-              additionalParam = 'messages/#input-escaping';
-              break;
-            case 'keep-formatting':
-              additionalParam = 'messages/#keep-formatting';
-              break
-            case 'send-files':
-            case 'upload':
-              additionalParam = 'messages/#uploading-media';
-              break;
-            case 'download-files':
-            case 'download':
-              additionalParam = 'messages/#downloading-media';
-              break;
-            case 'hide-image':
-              additionalParam = 'messages/#bonus';
-              break
-            case 'callback-factory':
-              additionalParam = 'buttons/#callback-factory';
-              break
-            case 'my-chat-member':
-              additionalParam = 'special-updates/#my-chat-member';
-              break
-            case 'chat-member':
-              additionalParam = 'special-updates/#chat-member';
-              break
-            default:
-              additionalParam = '/';
-          }
-          window.location.href = (`${window.location.origin}${window.location.pathname}${additionalParam}`);
+          // Map of start parameters to their corresponding paths
+          const routeMap = {
+            // Main sections
+            'quickstart': 'quickstart',
+            'messages': 'messages',
+            'buttons': 'buttons',
+            'routers': 'routers',
+            'special-updates': 'special-updates',
+            'fsm': 'fsm',
+            'inline-mode': 'inline-mode',
+            
+            // Filters and middlewares
+            'filters': 'filters-and-middlewares/#filters',
+            'middlewares': 'filters-and-middlewares/#middlewares',
+            'magic-filter': 'filters-and-middlewares/#magic-filters',
+            'magic': 'filters-and-middlewares/#magic-filters',
+            
+            // Message handling
+            'entities': 'messages/#message-entities',
+            'escaping': 'messages/#input-escaping',
+            'keep-formatting': 'messages/#keep-formatting',
+            'send-files': 'messages/#uploading-media',
+            'upload': 'messages/#uploading-media',
+            'download-files': 'messages/#downloading-media',
+            'download': 'messages/#downloading-media',
+            'hide-image': 'messages/#bonus',
+            
+            // Buttons
+            'callback-factory': 'buttons/#callback-factory',
+            
+            // Special updates
+            'my-chat-member': 'special-updates/#my-chat-member',
+            'chat-member': 'special-updates/#chat-member'
+          };
+          
+          const path = routeMap[initData.start_param] || '/';
+          const targetUrl = `${window.location.origin}${window.location.pathname}${path}`;
+          
+          window.location.href = targetUrl;
         }
       }
+    });
   </script>
 
   {{ super() }}
 {% endblock %}
 
-
-{% block announce %}
-  {% if page.meta and i18n_page_locale != "ru" and i18n_file_locale != i18n_page_locale %}
-    <div class="announcement__translation">
-      {{ config.extra.announcement | default('It seems this page has not been translated into this language and will preliminarily be displayed in Russian.') }}
-    </div>
-  {% endif %}
-{% endblock %}
-
-
 {% block content %}
-  {% if page.meta and page.meta.t_status %}
-    {% set locale = i18n_page_locale | default('en') %}
-    {% if locale != "ru" and page.meta.t_status == "in_progress" %}
-      <div class="admonition warning">
+  <!-- Translation status notifications -->
+  {% if page.meta and i18n_page_locale != "ru" %}
+    {% if i18n_file_locale != i18n_page_locale %}
+      <div class="admonition info language-notification">
         <p class="admonition-title">
-          {{ config.extra.translation_warning_string | default('An important warning about translation!') }}
+          <span class="twemoji language-icon">
+            {% include ".icons/material/translate.svg" %}
+          </span>
+          {{ config.extra.translation_warning_string | default('Translation Information') }}
         </p>
         <p>
-          {{ config.extra.translation_in_work_string | default('Hello! This message is from the translator <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>. Please keep in mind that this page is still being translated.') }}
+          {{ config.extra.announcement | default('It seems this page has not been translated into this language and will preliminarily be displayed in Russian.') }}
         </p>
-      </div>
-    {% elif locale != "ru" and page.meta.t_status == "dropped" %}
-      <div class="admonition note">
-        <p class="admonition-title">
-          {{ config.extra.translation_warning_string | default('An important warning about translation!') }}
-        </p>
-        <p>
-          {{ config.extra.translation_stopped_string | default('Hello! This message is from the translator <a href="https://github.com/Vadim-Khristenko">VAI || Programmer</a>. Translation of this page has been stopped.') }}
+        <p class="help-translation-cta">
+          {% set repo_url = config.repo_url | default("https://github.com/MasterGroosha/aiogram-3-guide") %}
+          {% set repo_name = repo_url.split("/")[-2] ~ "/" ~ repo_url.split("/")[-1] %}
+          
+          {% set file_path = page.file.src_path %}
+          {% set lang = i18n_page_locale | default("en") %}
+          
+          {% if file_path.startswith(lang + "/") %}
+            {% set actual_file_path = file_path %}
+          {% elif "/" in file_path %}
+            {% set actual_file_path = lang + "/" + file_path.split("/", 1)[1] %}
+          {% else %}
+            {% set actual_file_path = lang + "/" + file_path %}
+          {% endif %}
+          
+          <a href="{{ repo_url }}/blob/master/book_src/{{ actual_file_path }}" 
+            class="md-button md-button--primary" target="_blank">
+            <span class="twemoji github-icon">
+              {% include ".icons/fontawesome/brands/github.svg" %}
+            </span>
+            <span class="button-text">{{ config.extra.help_translation_cta | default('Edit this page on GitHub') }}</span>
+          </a>
         </p>
       </div>
     {% endif %}
+    
+    {% if page.meta.t_status %}
+      {% set status_type = {
+        "in_progress": ["warning", "construction"],
+        "dropped": ["note", "close-box"],
+        "need_help": ["tip", "hand-heart"],
+        "complete_except_images": ["success", "check-circle"],
+        "unique_content": ["abstract", "star"]
+      } %}
+      
+      {% if status_type[page.meta.t_status] %}
+        {% set notification_class = status_type[page.meta.t_status][0] %}
+        {% set icon_name = status_type[page.meta.t_status][1] %}
+        
+        <div class="admonition {{ notification_class }} translation-status">
+          <p class="admonition-title">
+            <span class="twemoji status-icon">
+              {% include ".icons/material/" ~ icon_name ~ ".svg" %}
+            </span>
+            {{ config.extra.translation_warning_string | default('Translation Information') }}
+          </p>
+          <p>
+            {% if page.meta.t_status == "in_progress" %}
+              {{ config.extra.translation_in_work_string | default('This page is still being translated.') }}
+            {% elif page.meta.t_status == "dropped" %}
+              {{ config.extra.translation_stopped_string | default('Translation of this page has been stopped.') }}
+            {% elif page.meta.t_status == "need_help" %}
+              {{ config.extra.translation_need_help | default('Translation help needed for this page.') }}
+            {% elif page.meta.t_status == "complete_except_images" %}
+              {{ config.extra.translation_complete_besides_photo | default('Text is translated but images may still be in Russian.') }}
+            {% elif page.meta.t_status == "unique_content" %}
+              {{ config.extra.translator_unical_paper | default('This is unique content created by Translator.') }}
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
+    {% endif %}
   {% endif %}
+  
   {{ super() }}
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <style>
+    /* Custom styles for translation notifications */
+    .language-notification {
+      margin-bottom: 1.5em;
+      border-left-color: var(--md-primary-fg-color) !important;
+      transition: all 0.3s ease;
+    }
+    
+    .language-icon svg,
+    .status-icon svg,
+    .github-icon svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+    
+    .translation-status {
+      margin-bottom: 2em;
+      transition: all 0.3s ease;
+    }
+    
+    .help-translation-cta {
+      text-align: center;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    
+    .md-button.md-button--primary {
+      background-color: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border-radius: 6px;
+      padding: 0.6em 1.2em;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      transition: all 0.25s cubic-bezier(0.3, 0.1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .md-button.md-button--primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(100%);
+      transition: transform 0.25s cubic-bezier(0.3, 0.1, 0.3, 1);
+      z-index: -1;
+    }
+    
+    .md-button.md-button--primary:hover {
+      background-color: var(--md-primary-fg-color--dark);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .md-button.md-button--primary:hover::before {
+      transform: translateY(0);
+    }
+    
+    .md-button.md-button--primary:hover .github-icon svg {
+      transform: scale(1.1) rotate(-5deg);
+    }
+    
+    .md-button.md-button--primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .md-button.md-button--primary .button-text {
+      position: relative;
+      z-index: 2;
+    }
+    
+    @media screen and (max-width: 480px) {
+      .md-button.md-button--primary {
+        display: flex;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+    }
+    
+    [data-md-color-scheme="slate"] .md-button.md-button--primary {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button.md-button--primary:hover {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+    
+    :root {
+      --md-transition-duration: 0.3s;
+    }
+    
+    html {
+      transition: var(--md-transition-duration);
+    }
+  </style>
 {% endblock %}
