@@ -6,7 +6,8 @@ description: Знакомство с aiogram
 # Знакомство с aiogram
 
 !!! info ""
-    Используемая версия aiogram: 3.7.0
+    Используемая версия aiogram: 3.7.0  
+    Протестировано на версии aiogram: 3.21.0 | 07.07.2025
 
 !!! warning "Некоторые детали сознательно упрощены!"
     Автор этой книги убеждён, что помимо теории должна быть и практика. Чтобы максимально упростить повторение 
@@ -48,11 +49,16 @@ description: Знакомство с aiogram
 
 Для начала давайте создадим каталог для бота, организуем там virtual environment (далее venv) и
 установим библиотеку [aiogram](https://github.com/aiogram/aiogram).  
-Проверим, что установлен Python версии 3.9 (если вы знаете, что установлен 3.9 и выше, можете пропустить этот раздел):
+Проверим, что установлен Python версии 3.11 или выше (если вы знаете, что установлен 3.11 и выше, можете пропустить этот раздел):
+
+!!! warning "Важно о версиях Python"
+    Начиная с aiogram 3.14+, минимальная поддерживаемая версия Python — **3.9**.  
+    Python 3.9 достигает End of Life (EOL) и скоро не будут поддерживаться Aiogram.  
+    Рекомендуется использовать Python **3.12** или новее для лучшей производительности и безопасности.
 
 ```plain
-[groosha@main lesson_01]$ python3.9
-Python 3.9.9 (main, Jan 11 2022, 16:35:07) 
+[groosha@main lesson_01]$ python3.12
+Python 3.12.11 (main, July 06 2025, 16:35:07) 
 [GCC 11.1.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> exit()
@@ -67,7 +73,7 @@ Type "help", "copyright", "credits" or "license" for more information.
     более новая, начинающаяся с цифры 3, поскольку aiogram 2.x более рассматриваться не будет и считается устаревшим.
 
 ```plain
-[groosha@main 01_quickstart]$ python3.11 -m venv venv
+[groosha@main 01_quickstart]$ python3.12 -m venv venv
 [groosha@main 01_quickstart]$ echo "aiogram<4.0" > requirements.txt
 [groosha@main 01_quickstart]$ echo "pydantic-settings" >> requirements.txt
 [groosha@main 01_quickstart]$ source venv/bin/activate
@@ -78,10 +84,10 @@ Successfully installed ...тут длинный список...
 ```
 
 Обратите внимание на префикс "venv" в терминале. Он указывает, что мы находимся в виртуальном окружении с именем "venv".
-Проверим, что внутри venv вызов команды `python` указывает на всё тот же Python 3.11:  
+Проверим, что внутри venv вызов команды `python` указывает на всё тот же Python 3.12:  
 ```plain
 (venv) [groosha@main 01_quickstart]$ python
-Python 3.11.9 (main, Jan 11 2024, 16:35:07) 
+Python 3.12.11 (main, July 06 2025, 16:35:07) 
 [GCC 11.1.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> exit()
@@ -108,14 +114,14 @@ from aiogram.filters.command import Command
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
 # Объект бота
-bot = Bot(token="12345678:AaBbCcDdEeFfGgHh")
+bot = Bot(token="0000000000:AaBbCcDdEeFfGgHhIiJjKkLlMmNn")
 # Диспетчер
 dp = Dispatcher()
 
 # Хэндлер на команду /start
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
-    await message.answer("Hello!")
+    await message.answer("Привет!")
 
 # Запуск процесса поллинга новых апдейтов
 async def main():
@@ -149,29 +155,31 @@ if __name__ == "__main__":
 # Хэндлер на команду /test1
 @dp.message(Command("test1"))
 async def cmd_test1(message: types.Message):
-    await message.reply("Test 1")
+    await message.reply("Тест 1")
 
 # Хэндлер на команду /test2
 async def cmd_test2(message: types.Message):
-    await message.reply("Test 2")
+    await message.reply("Тест 2")
 ```
 
 Давайте запустим с ним бота:  
-![Команда /test2 не работает](../images/ru/quickstart/l01_1.jpg)
+![Команда /test2 не работает](../images/ru/quickstart/l01_1_Light.jpg#only-light)
+![Команда /test2 не работает](../images/ru/quickstart/l01_1_Dark.jpg#only-dark)
 
 Хэндлер `cmd_test2` не сработает, т.к. диспетчер о нём не знает. Исправим эту ошибку 
 и отдельно зарегистрируем функцию:
 ```python
 # Хэндлер на команду /test2
 async def cmd_test2(message: types.Message):
-    await message.reply("Test 2")
+    await message.reply("Тест 2")
 
 # Где-то в другом месте, например, в функции main():
 dp.message.register(cmd_test2, Command("test2"))
 ```
 
 Снова запустим бота:  
-![Обе команды работают](../images/ru/quickstart/l01_2.jpg)
+![Обе команды работают](../images/ru/quickstart/l01_2_Light.jpg#only-light)
+![Обе команды работают](../images/ru/quickstart/l01_2_Dark.jpg#only-dark)
 
 ## Синтаксический сахар {: id="sugar" }
 
@@ -190,7 +198,8 @@ async def cmd_answer(message: types.Message):
 async def cmd_reply(message: types.Message):
     await message.reply('Это ответ с "ответом"')
 ```
-![Разница между message.answer() и message.reply()](../images/ru/quickstart/l01_3.jpg)
+![Разница между message.answer() и message.reply()](../images/ru/quickstart/l01_3_Light.jpg#only-light)
+![Разница между message.answer() и message.reply()](../images/ru/quickstart/l01_3_Dark.jpg#only-dark)
 
 Более того, для большинства типов сообщений есть вспомогательные методы вида 
 "answer_{type}" или "reply_{type}", например:
@@ -267,7 +276,8 @@ async def cmd_info(message: types.Message, started_at: str):
 уникальные для каждого апдейта значения (например, объект сессии СУБД), 
 то ознакомьтесь с [мидлварями](filters-and-middlewares.md#middlewares).
 
-![Аргумент mylist может быть изменён между вызовами](../images/ru/quickstart/extra-args.png)
+![Аргумент mylist может быть изменён между вызовами](../images/ru/quickstart/l01_4_Light.jpg#only-light)
+![Аргумент mylist может быть изменён между вызовами](../images/ru/quickstart/l01_4_Dark.jpg#only-dark)
 
 ## Файлы конфигурации {: id="configuration-files" }
 
