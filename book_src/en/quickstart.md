@@ -3,10 +3,11 @@ title: Getting Started with aiogram
 description: Getting Started with aiogram
 ---
 
-# Getting Started with aiogram
+# Getting Started with aiogram {: id="quickstart" }
 
 !!! info ""
-    The version of aiogram used: 3.7.0
+    The version of aiogram used: 3.7.0  
+    Tested on aiogram version: 3.21.0 | 07.07.2025
 
 !!! warning "Some details are intentionally simplified!"
     The author of this book is convinced that along with theory, there should be practice. 
@@ -47,11 +48,16 @@ to process the received update.
 
 First, let's create a directory for the bot, set up a virtual environment (venv) there, and
 install the [aiogram](https://github.com/aiogram/aiogram) library.  
-Let's check that Python version 3.9 is installed (if you know that you have version 3.9 or higher, you can skip this section):
+Let's check that Python version 3.11 or higher is installed (if you know that you have version 3.11 or higher, you can skip this section):
+
+!!! warning "Important about Python versions"
+    Starting with aiogram 3.14+, the minimum supported Python version is **3.9**.  
+    Python 3.9 reaches End of Life (EOL) and will soon no longer be supported by Aiogram.  
+    It is recommended to use Python **3.12** or newer for better performance and security.
 
 ```plain
-[groosha@main lesson_01]$ python3.9
-Python 3.9.9 (main, Jan 11 2022, 16:35:07) 
+[groosha@main lesson_01]$ python3.12
+Python 3.12.11 (main, July 06 2025, 16:35:07) 
 [GCC 11.1.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> exit()
@@ -66,7 +72,7 @@ We will also need the pydantic-settings library for configuration files.
     Any newer version starting with the number 3 will do, as aiogram 2.x will not be considered anymore and is deemed outdated.
 
 ```plain
-[groosha@main 01_quickstart]$ python3.11 -m venv venv
+[groosha@main 01_quickstart]$ python3.12 -m venv venv
 [groosha@main 01_quickstart]$ echo "aiogram<4.0" > requirements.txt
 [groosha@main 01_quickstart]$ echo "pydantic-settings" >> requirements.txt
 [groosha@main 01_quickstart]$ source venv/bin/activate
@@ -77,10 +83,10 @@ Successfully installed ...here a long list...
 ```
 
 Note the "venv" prefix in the terminal. It indicates that we are inside a virtual environment named "venv".
-Let's verify that inside venv the command `python` still points to the same Python 3.11:  
+Let's verify that inside venv the command `python` still points to the same Python 3.12:  
 ```plain
 (venv) [groosha@main 01_quickstart]$ python
-Python 3.11.9 (main, Jan 11 2024, 16:35:07) 
+Python 3.12.11 (main, July 06 2025, 16:35:07) 
 [GCC 11.1.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> exit()
@@ -107,7 +113,7 @@ from aiogram.filters.command import Command
 # Enable logging to avoid missing important messages
 logging.basicConfig(level=logging.INFO)
 # Bot object
-bot = Bot(token="12345678:AaBbCcDdEeFfGgHh")
+bot = Bot(token="0000000000:AaBbCcDdEeFfGgHhIiJjKkLlMmNn")
 # Dispatcher
 dp = Dispatcher()
 
@@ -140,7 +146,7 @@ for example, "processing messages that are images, in a chat with ID x and with 
 If two functions have logically identical filters, the one that was registered first will be called.
 
 To register a function as a message handler, you need to do one of two things:  
-1. Attach a [decorator](https://devpractice.ru/python-lesson-19-decorators/) to it, as in the example above. 
+1. Attach a [decorator](https://realpython.com/primer-on-python-decorators/) to it, as in the example above. 
 We will get acquainted with various types of decorators later.  
 2. Directly call the registration method on the dispatcher or router.
 
@@ -158,7 +164,8 @@ async def cmd_test2(message: types.Message):
 ```
 
 Let's start the bot with it:  
-![The /test2 command is not working](../images/en/quickstart/l01_1.png)
+![The /test2 command is not working](../images/en/quickstart/l01_1_Light.jpg#only-light)
+![The /test2 command is not working](../images/en/quickstart/l01_1_Dark.jpg#only-dark)
 
 The `cmd_test2` handler won't work because the dispatcher doesn't know about it. 
 Let's fix this error and register the function separately:
@@ -172,7 +179,8 @@ dp.message.register(cmd_test2, Command("test2"))
 ```
 
 Let's run the bot again:  
-![Both commands work](../images/en/quickstart/l01_2.png)
+![Both commands work](../images/en/quickstart/l01_2_Light.jpg#only-light)
+![Both commands work](../images/en/quickstart/l01_2_Dark.jpg#only-dark)
 
 ## Syntactic Sugar {: id="sugar" }
 
@@ -196,7 +204,8 @@ async def cmd_reply(message: types.Message):
     await message.reply('This is a reply with a "reply"')
 ```
 
-![Difference between message.answer() and message.reply()](../images/en/quickstart/l01_3.png)
+![Difference between message.answer() and message.reply()](../images/en/quickstart/l01_3_Light.jpg#only-light)
+![Difference between message.answer() and message.reply()](../images/en/quickstart/l01_3_Dark.jpg#only-dark)
 
 Moreover, for most message types, 
 there are helper methods like "answer_{type}" or "reply_{type}", for example:
@@ -275,7 +284,8 @@ Now the variable `started_at` and the list `mylist` can be read and written in d
 values unique to each update (for example, a DBMS session object), 
 then check out [middlewares](filters-and-middlewares.md#middlewares).
 
-![The mylist argument can be modified between calls](../images/en/quickstart/extra-args.png)
+![The mylist argument can be modified between calls](../images/en/quickstart/l01_4_Light.jpg#only-light)
+![The mylist argument can be modified between calls](../images/en/quickstart/l01_4_Dark.jpg#only-dark)
 
 ## Configuration Files {: id="configuration-files" }
 
