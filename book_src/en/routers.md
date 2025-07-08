@@ -6,7 +6,8 @@ description: Routers, Multi-file Structure and Bot Architecture
 # Routers, Multi-file Structure and Bot Architecture
 
 !!! info ""
-    aiogram version used: 3.7.0
+    aiogram version used: 3.7.0  
+    Tested on aiogram version: 3.21.0 | 07.07.2025
 
 In this chapter, we'll explore a new feature of aiogram 3.x — routers, learn how to split our code into separate components, and establish a basic bot structure that will be useful in subsequent chapters and in general practice.
 
