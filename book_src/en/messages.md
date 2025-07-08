@@ -6,7 +6,8 @@ description: Working with Messages
 # Working with Messages
 
 !!! info ""
-    The version of aiogram used: 3.7.0
+    The version of aiogram used: 3.7.0  
+    Tested on aiogram version: 3.21.0 | 07.07.2025
 
 In this chapter, we will learn how to apply different types of formatting to messages 
 and work with media files.
