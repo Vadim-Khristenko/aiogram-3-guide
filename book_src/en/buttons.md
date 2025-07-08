@@ -6,7 +6,8 @@ description: Buttons
 # Buttons
 
 !!! info ""
-    Using aiogram version: 3.7.0
+    Using aiogram version: 3.7.0  
+    Tested on aiogram version: 3.21.0 | 07.07.2025
 
 In this chapter, we will explore the wonderful feature of Telegram bots known as buttons. 
 First, to avoid confusion, let's define the terms. 
