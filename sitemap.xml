@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/advanced-teaser/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/buttons/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/buttons/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/filters-and-middlewares/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/fsm/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/fsm/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/inline-mode/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/messages/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/messages/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/payments/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/payments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/payments/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/quickstart/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/routers/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/routers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/routers/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/special-updates/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/about-translation/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/about-translation/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/advanced-teaser/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/buttons/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/buttons/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/filters-and-middlewares/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/messages/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/messages/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/routers/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/routers/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/routers/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/fsm/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/fsm/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/inline-mode/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/payments/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/payments/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/payments/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/en/special-updates/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/advanced-teaser/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/buttons/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/buttons/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/fsm/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/fsm/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/inline-mode/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/messages/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/messages/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/payments/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/payments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/payments/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/quickstart/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/routers/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/routers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/routers/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://mastergroosha.github.io/aiogram-3-guide/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://mastergroosha.github.io/aiogram-3-guide/uk/about-translation/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://mastergroosha.github.io/aiogram-3-guide/uk/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mastergroosha.github.io/aiogram-3-guide/en/about-translation/"/>
+    </url>
+</urlset>

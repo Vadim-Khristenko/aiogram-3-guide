@@ -1,0 +1,1555 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+  <script src="https://telegram.org/js/telegram-web-app.js?35"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const webapp = window.Telegram.WebApp;
+      
+      // Initialize Telegram WebApp
+      webapp.ready();
+      webapp.expand();
+      webapp.disableVerticalSwipes();
+      
+      // Handle navigation based on start_param
+      const initData = webapp.initDataUnsafe;
+      
+      if (window.location.pathname === "/aiogram-3-guide/" && Object.hasOwn(initData, 'auth_date')) {
+        if (initData.start_param) {
+          // Map of start parameters to their corresponding paths
+          const routeMap = {
+            // Main sections
+            'quickstart': 'quickstart',
+            'messages': 'messages',
+            'buttons': 'buttons',
+            'routers': 'routers',
+            'special-updates': 'special-updates',
+            'fsm': 'fsm',
+            'inline-mode': 'inline-mode',
+            
+            // Filters and middlewares
+            'filters': 'filters-and-middlewares/#filters',
+            'middlewares': 'filters-and-middlewares/#middlewares',
+            'magic-filter': 'filters-and-middlewares/#magic-filters',
+            'magic': 'filters-and-middlewares/#magic-filters',
+            
+            // Message handling
+            'entities': 'messages/#message-entities',
+            'escaping': 'messages/#input-escaping',
+            'keep-formatting': 'messages/#keep-formatting',
+            'send-files': 'messages/#uploading-media',
+            'upload': 'messages/#uploading-media',
+            'download-files': 'messages/#downloading-media',
+            'download': 'messages/#downloading-media',
+            'hide-image': 'messages/#bonus',
+            
+            // Buttons
+            'callback-factory': 'buttons/#callback-factory',
+            
+            // Special updates
+            'my-chat-member': 'special-updates/#my-chat-member',
+            'chat-member': 'special-updates/#chat-member'
+          };
+          
+          const path = routeMap[initData.start_param] || '/';
+          const targetUrl = `${window.location.origin}${window.location.pathname}${path}`;
+          
+          window.location.href = targetUrl;
+        }
+      }
+    });
+  </script>
+
+  
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Getting Started with aiogram">
+      
+      
+        <meta name="author" content="MasterGroosha, Translated by VAI">
+      
+      
+        <link rel="canonical" href="https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/">
+      
+      
+        <link rel="prev" href="../about-translation/">
+      
+      
+        <link rel="next" href="../messages/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+
+    
+      
+        <title>Getting Started with aiogram - Writing Telegram Bots with aiogram 3.x</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+  <style>
+    /* ==================================================================
+       TRANSLATION NOTIFICATION STYLES
+       ================================================================== */
+    
+    /* Language notification */
+    .language-notification {
+      margin: 1.5em 0 2em 0;
+      border-left-width: 4px;
+      border-left-color: var(--md-primary-fg-color) !important;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.1) 0%, transparent 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Translation status notification */
+    .translation-status {
+      margin: 1.5em 0 2em 0;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Icons styling */
+    .language-icon svg,
+    .status-icon svg,
+    .github-icon svg,
+    .issue-icon svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+    
+    /* Content sections */
+    .translation-notification-content {
+      margin-top: 1em;
+    }
+    
+    .translation-fallback-message {
+      margin-bottom: 1.5em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.05);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-primary-fg-color);
+    }
+    
+    .help-translation-section {
+      margin-top: 1.5em;
+      padding: 1.5em;
+      background: rgba(var(--md-primary-fg-color--rgb), 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(var(--md-primary-fg-color--rgb), 0.1);
+    }
+    
+    .help-translation-section h4 {
+      margin: 0 0 0.5em 0;
+      color: var(--md-primary-fg-color);
+      font-weight: 600;
+    }
+    
+    .help-translation-section p {
+      margin: 0.5em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    /* Action buttons */
+    .translation-actions {
+      display: flex;
+      gap: 0.75em;
+      margin-top: 1.5em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .md-button {
+      border-radius: 6px;
+      padding: 0.6em 1.2em;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      min-width: 140px;
+    }
+    
+    .md-button--primary {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      box-shadow: 0 2px 4px rgba(var(--md-primary-fg-color--rgb), 0.3);
+    }
+    
+    .md-button--primary:hover {
+      background: var(--md-primary-fg-color--dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(var(--md-primary-fg-color--rgb), 0.4);
+    }
+    
+    .md-button--secondary {
+      background: transparent;
+      color: var(--md-default-fg-color);
+      border-color: var(--md-default-fg-color--lighter);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .md-button--secondary:hover {
+      background: var(--md-default-fg-color--lightest);
+      border-color: var(--md-default-fg-color--light);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .md-button:active {
+      transform: translateY(0);
+    }
+    
+    .md-button:hover .github-icon svg,
+    .md-button:hover .issue-icon svg {
+      transform: scale(1.1);
+    }
+    
+    .button-text {
+      margin-left: 0.25em;
+    }
+    
+    /* Status specific styling */
+    .translation-status[data-status="in_progress"] {
+      border-left-color: var(--md-warning-fg-color);
+    }
+    
+    .translation-status[data-status="dropped"] {
+      border-left-color: var(--md-default-fg-color--light);
+    }
+    
+    .translation-status[data-status="need_help"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    .translation-status[data-status="complete_except_images"] {
+      border-left-color: var(--md-success-fg-color);
+    }
+    
+    .translation-status[data-status="unique_content"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    /* Help section */
+    .status-help-section {
+      margin-top: 1em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.03);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-accent-fg-color);
+    }
+    
+    .status-help-section ul {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    
+    .status-help-section li {
+      margin: 0.25em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info a {
+      color: var(--md-primary-fg-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive design */
+    @media screen and (max-width: 768px) {
+      .translation-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .md-button {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .help-translation-section {
+        padding: 1em;
+      }
+    }
+    
+    /* Dark theme adjustments */
+    [data-md-color-scheme="slate"] .translation-fallback-message {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-md-color-scheme="slate"] .help-translation-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-md-color-scheme="slate"] .status-help-section {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animation for status changes */
+    @keyframes statusFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .translation-status {
+      animation: statusFadeIn 0.4s ease-out;
+    }
+    
+    /* Print styles */
+    @media print {
+      .language-notification,
+      .translation-status {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      
+      .translation-actions {
+        display: none;
+      }
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Writing Telegram Bots with aiogram 3.x - Getting Started with aiogram">
+  <meta property="og:description" content="Getting Started with aiogram">
+  <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/">
+  <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/en/quickstart/">
+  <meta name="twitter:title" content="Writing Telegram Bots with aiogram 3.x - Getting Started with aiogram">
+  <meta name="twitter:description" content="Getting Started with aiogram">
+  <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quickstart" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../" title="Writing Telegram Bots with aiogram 3.x" class="md-header__button md-logo" aria-label="Writing Telegram Bots with aiogram 3.x" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Writing Telegram Bots with aiogram 3.x
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting Started with aiogram
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="indigo"  aria-label="Switch to Dark Theme"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to Dark Theme" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="purple" data-md-color-accent="indigo"  aria-label="Switch to Light Theme"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to Light Theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../quickstart/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../uk/quickstart/" hreflang="uk" class="md-select__link">
+              Українська
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<!-- Determine classes -->
+
+
+
+
+<!-- Navigation -->
+<nav
+  class="md-nav md-nav--primary"
+  aria-label="Navigation"
+  data-md-level="0"
+>
+
+  <!-- Site title -->
+  <label class="md-nav__title" for="__drawer">
+    <a
+      href="../"
+      title="Writing Telegram Bots with aiogram 3.x"
+      class="md-nav__button md-logo"
+      aria-label="Writing Telegram Bots with aiogram 3.x"
+      data-md-component="logo"
+    >
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    Contents
+  </label>
+
+  <!-- Repository information -->
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+    </div>
+  
+
+  <!-- Navigation list -->
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about-translation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About Translation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Getting Started with aiogram
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started with aiogram
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Terminology
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      First Bot
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sugar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Syntactic Sugar
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-extras" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passing Extra Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working with Messages
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Buttons
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Routers. Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filters-and-middlewares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Filters and Middlewares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Special Updates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fsm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Finite State Machines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inline-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inline Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../payments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Payments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced-teaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🔒 Advanced Level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Terminology
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      First Bot
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sugar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Syntactic Sugar
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-extras" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passing Extra Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  <!-- Translation status notifications for non-Russian pages -->
+  
+    
+    <!-- Language availability notification -->
+    
+    
+    <!-- Translation status notification -->
+    
+  
+  
+  
+                  
+
+
+  
+  
+
+
+<div><h1 id="quickstart">Getting Started with aiogram<a class="headerlink" href="#quickstart" title="Permanent link">¶</a></h1>
+<div class="admonition info">
+<p>The version of aiogram used: 3.7.0<br>
+Tested on aiogram version: 3.21.0 | 07.07.2025</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Some details are intentionally simplified!</p>
+<p>The author of this book is convinced that along with theory, there should be practice. 
+To simplify the replication of the code provided below, it was necessary to use approaches 
+suitable only for local development and learning.</p>
+<p>Thus, for example, in all or almost all chapters, the bot's token will be indicated 
+directly in the source texts. This is a <strong>bad</strong> approach because it can lead to the token being disclosed 
+if you forget to remove it before uploading the code to a public repository (e.g., GitHub).</p>
+<p>Or, sometimes, data storage structures located exclusively in memory (dictionaries, lists...) will be used. 
+In reality, such objects are undesirable, as stopping the bot will lead to the irreversible loss of data.</p>
+<p>Also, polling is chosen as the mechanism for receiving updates from Telegram 
+because it is guaranteed to work in the vast majority of environments and suits almost all developers.</p>
+<p><strong>It is important to remember that the author's goal is to explain specifically how to work with the Telegram Bot API
+using aiogram, not to teach all of Computer Science in its entirety.</strong></p>
+</div>
+<h2 id="glossary">Terminology<a class="headerlink" href="#glossary" title="Permanent link">¶</a></h2>
+<p>To communicate using the same concepts, let's introduce some terms to avoid confusion moving forward:</p>
+<ul>
+<li>DM — direct messages, in the context of a bot this is a one-on-one conversation with a user, not a group/channel.</li>
+<li>Chat — a general term for DMs, groups, supergroups, and channels.</li>
+<li>Update — any event from <a href="https://core.telegram.org/bots/api#update">this list</a>: 
+messages, edited messages, callbacks, inline queries, payments, adding bots to groups, etc.</li>
+<li>Handler — an asynchronous function that receives the next update from the dispatcher/router 
+and processes it.</li>
+<li>Dispatcher — an object that handles receiving updates from Telegram and subsequently chooses a handler 
+to process the received update.</li>
+<li>Router — similar to the dispatcher, but responsible for a subset of handlers. 
+<strong>It can be said that the dispatcher is the root router</strong>.</li>
+<li>Filter — an expression that usually returns True or False and affects whether a handler will be called or not.</li>
+<li>Middleware — a layer that is inserted into the processing of updates.</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">¶</a></h2>
+<p>First, let's create a directory for the bot, set up a virtual environment (venv) there, and
+install the <a href="https://github.com/aiogram/aiogram">aiogram</a> library.<br>
+Let's check that Python version 3.11 or higher is installed (if you know that you have version 3.11 or higher, you can skip this section):</p>
+<div class="admonition warning">
+<p class="admonition-title">Important about Python versions</p>
+<p>Starting with aiogram 3.14+, the minimum supported Python version is <strong>3.9</strong>.<br>
+Python 3.9 reaches End of Life (EOL) and will soon no longer be supported by Aiogram.<br>
+It is recommended to use Python <strong>3.12</strong> or newer for better performance and security.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[groosha@main lesson_01]$ python3.12
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Python 3.12.11 (main, July 06 2025, 16:35:07) 
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>[GCC 11.1.0] on linux
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Type "help", "copyright", "credits" or "license" for more information.
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>&gt;&gt;&gt; exit()
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>[groosha@main lesson_01]$ 
+</span></code></pre></div>
+<p>Now let's create a <code>requirements.txt</code> file, in which we will specify the version of aiogram we are using. 
+We will also need the pydantic-settings library for configuration files.</p>
+<div class="admonition important">
+<p class="admonition-title">About aiogram versions</p>
+<p>This chapter uses aiogram <strong>3.x</strong>. Before you start, 
+I recommend checking the <a href="https://t.me/aiogram_live">release channel</a> of the library to see if there is a newer version available. 
+Any newer version starting with the number 3 will do, as aiogram 2.x will not be considered anymore and is deemed outdated.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[groosha@main 01_quickstart]$ python3.12 -m venv venv
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[groosha@main 01_quickstart]$ echo "aiogram&lt;4.0" &gt; requirements.txt
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[groosha@main 01_quickstart]$ echo "pydantic-settings" &gt;&gt; requirements.txt
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>[groosha@main 01_quickstart]$ source venv/bin/activate
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>(venv) [groosha@main 01_quickstart]$ pip install -r requirements.txt 
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a># ...here a bunch of lines about installation...
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Successfully installed ...here a long list...
+</span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>[groosha@main 01_quickstart]$
+</span></code></pre></div>
+<p>Note the "venv" prefix in the terminal. It indicates that we are inside a virtual environment named "venv".
+Let's verify that inside venv the command <code>python</code> still points to the same Python 3.12:<br>
+</p><div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>(venv) [groosha@main 01_quickstart]$ python
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Python 3.12.11 (main, July 06 2025, 16:35:07) 
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>[GCC 11.1.0] on linux
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Type "help", "copyright", "credits" or "license" for more information.
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>&gt;&gt;&gt; exit()
+</span><span id="__code-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>(venv) [groosha@main 01_quickstart]$ deactivate 
+</span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>[groosha@main 01_quickstart]$ 
+</span></code></pre></div>
+<p>Using the last <code>deactivate</code> command, we exited venv so that it doesn't interfere with us now.</p>
+<div class="admonition info">
+<p>If you use PyCharm for writing bots, I also recommend installing the third-party 
+<a href="https://plugins.jetbrains.com/plugin/12861-pydantic">Pydantic</a> plugin to support code autocompletion 
+in Telegram objects.</p>
+</div>
+<h2 id="hello-world">First Bot<a class="headerlink" href="#hello-world" title="Permanent link">¶</a></h2>
+<p>Let's create a <code>bot.py</code> file with a basic bot template using aiogram:
+</p><div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span><span class="p">,</span> <span class="n">types</span>
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Enable logging to avoid missing important messages</span>
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Bot object</span>
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="s2">"0000000000:AaBbCcDdEeFfGgHhIiJjKkLlMmNn"</span><span class="p">)</span>
+</span><span id="__code-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Dispatcher</span>
+</span><span id="__code-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
+</span><span id="__code-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__code-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Handler for the /start command</span>
+</span><span id="__code-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"start"</span><span class="p">))</span>
+</span><span id="__code-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Hello!"</span><span class="p">)</span>
+</span><span id="__code-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__code-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># Start polling for new updates</span>
+</span><span id="__code-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__code-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
+</span><span id="__code-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__code-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__code-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<p>The first thing to note is that aiogram is an asynchronous library, so your handlers must also be asynchronous, 
+and you need to put the <strong>await</strong> keyword before API method calls, as these calls return <a href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutines</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Asynchronous programming in Python</p>
+<p>Don't neglect the official documentation!<br>
+A great tutorial on asyncio is available <a href="https://docs.python.org/3/library/asyncio-task.html">on the Python website</a></p>
+</div>
+<p>If you have previously worked with another library for Telegram, for example, pyTelegramBotAPI, 
+then the concept of handlers (event processors) will immediately become clear to you. 
+The difference is that in aiogram, handlers are managed by the dispatcher. The dispatcher registers handler functions, 
+further limiting the list of events that call them through filters. After receiving the next update (event from Telegram), 
+the dispatcher will select the appropriate processing function that matches all the filters, 
+for example, "processing messages that are images, in a chat with ID x and with a caption length of y". 
+If two functions have logically identical filters, the one that was registered first will be called.</p>
+<p>To register a function as a message handler, you need to do one of two things:<br>
+1. Attach a <a href="https://realpython.com/primer-on-python-decorators/">decorator</a> to it, as in the example above. 
+We will get acquainted with various types of decorators later.<br>
+2. Directly call the registration method on the dispatcher or router.</p>
+<p>Let's consider the following code:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Handler for the /test1 command</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"test1"</span><span class="p">))</span>
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_test1</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s2">"Test 1"</span><span class="p">)</span>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Handler for the /test2 command</span>
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_test2</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s2">"Test 2"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Let's start the bot with it:<br>
+<img alt="The /test2 command is not working" src="../../images/en/quickstart/l01_1_Light.jpg#only-light">
+<img alt="The /test2 command is not working" src="../../images/en/quickstart/l01_1_Dark.jpg#only-dark"></p>
+<p>The <code>cmd_test2</code> handler won't work because the dispatcher doesn't know about it. 
+Let's fix this error and register the function separately:
+</p><div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Handler for the /test2 command</span>
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_test2</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s2">"Test 2"</span><span class="p">)</span>
+</span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__code-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Somewhere else, for example, in the main() function:</span>
+</span><span id="__code-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">dp</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">cmd_test2</span><span class="p">,</span> <span class="n">Command</span><span class="p">(</span><span class="s2">"test2"</span><span class="p">))</span>
+</span></code></pre></div>
+<p>Let's run the bot again:<br>
+<img alt="Both commands work" src="../../images/en/quickstart/l01_2_Light.jpg#only-light">
+<img alt="Both commands work" src="../../images/en/quickstart/l01_2_Dark.jpg#only-dark"></p>
+<h2 id="sugar">Syntactic Sugar<a class="headerlink" href="#sugar" title="Permanent link">¶</a></h2>
+<p>To make the code cleaner and more readable, 
+aiogram extends the capabilities of standard Telegram objects. 
+For example, instead of <code>bot.send_message(...)</code>, 
+you can write <code>message.answer(...)</code> or <code>message.reply(...)</code>. 
+In the latter two cases, there's no need to specify <code>chat_id</code>, 
+as it's assumed to be the same as in the original message.<br>
+The difference between <code>answer</code> and <code>reply</code> is simple: 
+the first method just sends a message to the same chat, 
+while the second makes a "reply" to the message from <code>message</code>:
+</p><div class="highlight"><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"answer"</span><span class="p">))</span>
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_answer</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"This is a simple answer"</span><span class="p">)</span>
+</span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"reply"</span><span class="p">))</span>
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_reply</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">'This is a reply with a "reply"'</span><span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="Difference between message.answer() and message.reply()" src="../../images/en/quickstart/l01_3_Light.jpg#only-light">
+<img alt="Difference between message.answer() and message.reply()" src="../../images/en/quickstart/l01_3_Dark.jpg#only-dark"></p>
+<p>Moreover, for most message types, 
+there are helper methods like "answer_{type}" or "reply_{type}", for example:
+</p><div class="highlight"><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"dice"</span><span class="p">))</span>
+</span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_dice</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_dice</span><span class="p">(</span><span class="n">emoji</span><span class="o">=</span><span class="s2">"🎲"</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">what does 'message: types.Message' mean?</p>
+<p>Python is an interpreted language with <a href="https://www.bairesdev.com/blog/static-vs-dynamic-typing/">strong but dynamic typing</a>,
+which means it lacks built-in type checking like in C++ or Java. However, starting with version 3.5,
+the language introduced support for <a href="https://docs.python.org/3/library/typing.html">type hints</a>, thanks to which
+various checkers and IDEs like PyCharm analyze the types of used values and suggest
+to the programmer if they are passing something incorrect. In this case, the hint <code>types.Message</code> informs
+PyCharm that the variable <code>message</code> is of type <code>Message</code>, described in the <code>types</code> module of the
+aiogram library (see imports at the beginning of the code). This allows the IDE to suggest attributes and functions on the fly.</p>
+</div>
+<p>When the <code>/dice</code> command is called, the bot will send a dice to the same chat. 
+Of course, if it needs to be sent to some other chat, you would have to call <code>await bot.send_dice(...)</code> the old-fashioned way. 
+However, the <code>bot</code> object (an instance of the Bot class) might not be available in the scope of a specific function. 
+In aiogram 3.x, the bot object to which an update is sent is implicitly passed into the handler and can be accessed as the <code>bot</code> argument. 
+Let's say you want to send a dice not to the same chat but to a channel with the ID -100123456789 in response to the <code>/dice</code> command. 
+Let's rewrite the previous function:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># don't forget to import</span>
+</span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.enums.dice_emoji</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiceEmoji</span>
+</span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__code-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"dice"</span><span class="p">))</span>
+</span><span id="__code-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_dice</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
+</span><span id="__code-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_dice</span><span class="p">(</span><span class="o">-</span><span class="mi">100123456789</span><span class="p">,</span> <span class="n">emoji</span><span class="o">=</span><span class="n">DiceEmoji</span><span class="o">.</span><span class="n">DICE</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="pass-extras">Passing Extra Parameters<a class="headerlink" href="#pass-extras" title="Permanent link">¶</a></h2>
+<p>Sometimes when launching a bot, you may need to pass one or several additional values. 
+This could be some variable, a configuration object, a list of something, a timestamp, or anything else. 
+To do this, it is sufficient to pass these data as named (kwargs) arguments into the dispatcher, or assign values as 
+if you were working with a dictionary.</p>
+<p>This possibility is best suited for passing objects that must exist in a single instance and not change 
+during the bot's operation (i.e., be read-only). If you anticipate that the value should change over time, remember that 
+this will only work with <a href="https://mathspp.com/blog/pydonts/pass-by-value-reference-and-assignment">mutable objects</a>. 
+To get the values in the handlers, simply specify them as arguments. 
+Let's consider an example:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Somewhere else</span>
+</span><span id="__code-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># For example, at the entry point of the application</span>
+</span><span id="__code-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span id="__code-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__code-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># bot = ...</span>
+</span><span id="__code-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
+</span><span id="__code-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">dp</span><span class="p">[</span><span class="s2">"started_at"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M"</span><span class="p">)</span>
+</span><span id="__code-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">,</span> <span class="n">mylist</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</span><span id="__code-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__code-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__code-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"add_to_list"</span><span class="p">))</span>
+</span><span id="__code-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_add_to_list</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span> <span class="n">mylist</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+</span><span id="__code-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="n">mylist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+</span><span id="__code-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Number 7 added"</span><span class="p">)</span>
+</span><span id="__code-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+</span><span id="__code-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+</span><span id="__code-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"show_list"</span><span class="p">))</span>
+</span><span id="__code-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_show_list</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span> <span class="n">mylist</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+</span><span id="__code-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Your list: </span><span class="si">{</span><span class="n">mylist</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__code-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>
+</span><span id="__code-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+</span><span id="__code-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"info"</span><span class="p">))</span>
+</span><span id="__code-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_info</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span> <span class="n">started_at</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__code-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bot launched </span><span class="si">{</span><span class="n">started_at</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Now the variable <code>started_at</code> and the list <code>mylist</code> can be read and written in different handlers. And if you need to pass 
+values unique to each update (for example, a DBMS session object), 
+then check out <a href="../filters-and-middlewares/#middlewares">middlewares</a>.</p>
+<p><img alt="The mylist argument can be modified between calls" src="../../images/en/quickstart/l01_4_Light.jpg#only-light">
+<img alt="The mylist argument can be modified between calls" src="../../images/en/quickstart/l01_4_Dark.jpg#only-dark"></p>
+<h2 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">¶</a></h2>
+<p>In order not to store the token directly in the code (what if you want to upload your bot to a public repository?), 
+you can move such data to a separate configuration file. There is <a href="https://configu.com/blog/dotenv-managing-environment-variables-in-node-python-php-and-more/">a good and reasonable opinion</a>, 
+that for production it is enough to use environment variables, however, within the framework of this book, we will use separate <code>.env</code> files, 
+to simplify our lives a bit and save readers time on deploying a demo project.</p>
+<p>So, let's create a separate file <code>config_reader.py</code> next to <code>bot.py</code> with the following content</p>
+<div class="highlight"><span class="filename">config_reader.py</span><pre><span></span><code><span id="__code-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">SettingsConfigDict</span>
+</span><span id="__code-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretStr</span>
+</span><span id="__code-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__code-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__code-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+</span><span id="__code-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="c1"># It is preferable to use SecretStr instead of str </span>
+</span><span id="__code-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="c1"># for confidential data, such as the bot token</span>
+</span><span id="__code-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">bot_token</span><span class="p">:</span> <span class="n">SecretStr</span>
+</span><span id="__code-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+</span><span id="__code-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="c1"># Starting with the second version of pydantic, the settings of the settings class are set</span>
+</span><span id="__code-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="c1"># through model_config</span>
+</span><span id="__code-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="c1"># In this case, a .env file will be used, which will be read</span>
+</span><span id="__code-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="c1"># with UTF-8 encoding</span>
+</span><span id="__code-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span><span class="n">env_file</span><span class="o">=</span><span class="s1">'.env'</span><span class="p">,</span> <span class="n">env_file_encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
+</span><span id="__code-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+</span><span id="__code-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+</span><span id="__code-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="c1"># Upon importing the file, a config object will be immediately created </span>
+</span><span id="__code-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="c1"># and validated, </span>
+</span><span id="__code-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1"># which can then be imported from different places</span>
+</span><span id="__code-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="n">config</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Now let's make some edits to our <code>bot.py</code>:</p>
+<div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># imports</span>
+</span><span id="__code-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">config_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+</span><span id="__code-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__code-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># For entries of type Secret* you need to </span>
+</span><span id="__code-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># call the get_secret_value() method, </span>
+</span><span id="__code-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># to get the real content instead of '*******'</span>
+</span><span id="__code-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bot_token</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">())</span>
+</span></code></pre></div>
+<p>Finally, we will create a <code>.env</code> file (with a dot at the beginning), 
+where we will describe the bot token:</p>
+<div class="highlight"><span class="filename">.env</span><pre><span></span><code><span id="__code-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>BOT_TOKEN = 0000000000:AaBbCcDdEeFfGgHhIiJjKkLlMmNn
+</span></code></pre></div>
+<p>If everything is done correctly, then when starting, python-dotenv will load the variables from the <code>.env</code> file, 
+pydantic will validate them and the bot object will be successfully created with the required token.</p>
+<p>With this, we conclude our introduction to the library, and in the following chapters, 
+we will look at other "features" of aiogram and the Telegram Bot API.</p></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="September 7, 2025 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="September 7, 2025 14:41:01 UTC">2025-09-07</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="September 7, 2025 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="September 7, 2025 14:41:01 UTC">2025-09-07</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Original Copyright &copy; 2020-2025 Groosha, Translation Copyright &copy; 2024-2025 VAI
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Chat in Telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>
