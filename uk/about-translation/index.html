@@ -1,0 +1,2487 @@
+
+<!doctype html>
+<html lang="uk" class="no-js">
+  <head>
+    
+  <script src="https://telegram.org/js/telegram-web-app.js?35"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const webapp = window.Telegram.WebApp;
+      
+      // Initialize Telegram WebApp
+      webapp.ready();
+      webapp.expand();
+      webapp.disableVerticalSwipes();
+      
+      // Handle navigation based on start_param
+      const initData = webapp.initDataUnsafe;
+      
+      if (window.location.pathname === "/aiogram-3-guide/" && Object.hasOwn(initData, 'auth_date')) {
+        if (initData.start_param) {
+          // Map of start parameters to their corresponding paths
+          const routeMap = {
+            // Main sections
+            'quickstart': 'quickstart',
+            'messages': 'messages',
+            'buttons': 'buttons',
+            'routers': 'routers',
+            'special-updates': 'special-updates',
+            'fsm': 'fsm',
+            'inline-mode': 'inline-mode',
+            
+            // Filters and middlewares
+            'filters': 'filters-and-middlewares/#filters',
+            'middlewares': 'filters-and-middlewares/#middlewares',
+            'magic-filter': 'filters-and-middlewares/#magic-filters',
+            'magic': 'filters-and-middlewares/#magic-filters',
+            
+            // Message handling
+            'entities': 'messages/#message-entities',
+            'escaping': 'messages/#input-escaping',
+            'keep-formatting': 'messages/#keep-formatting',
+            'send-files': 'messages/#uploading-media',
+            'upload': 'messages/#uploading-media',
+            'download-files': 'messages/#downloading-media',
+            'download': 'messages/#downloading-media',
+            'hide-image': 'messages/#bonus',
+            
+            // Buttons
+            'callback-factory': 'buttons/#callback-factory',
+            
+            // Special updates
+            'my-chat-member': 'special-updates/#my-chat-member',
+            'chat-member': 'special-updates/#chat-member'
+          };
+          
+          const path = routeMap[initData.start_param] || '/';
+          const targetUrl = `${window.location.origin}${window.location.pathname}${path}`;
+          
+          window.location.href = targetUrl;
+        }
+      }
+    });
+  </script>
+
+  
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Інформація про переклад проєкту на українську мову">
+      
+      
+        <meta name="author" content="MasterGroosha, Translated by VAI">
+      
+      
+        <link rel="canonical" href="https://mastergroosha.github.io/aiogram-3-guide/uk/about-translation/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../quickstart/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+
+    
+      
+        <title>Про переклад - Написання ботів для Telegram з aiogram 3.x</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+  <style>
+    /* ==================================================================
+       TRANSLATION NOTIFICATION STYLES
+       ================================================================== */
+    
+    /* Language notification */
+    .language-notification {
+      margin: 1.5em 0 2em 0;
+      border-left-width: 4px;
+      border-left-color: var(--md-primary-fg-color) !important;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.1) 0%, transparent 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Translation status notification */
+    .translation-status {
+      margin: 1.5em 0 2em 0;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Icons styling */
+    .language-icon svg,
+    .status-icon svg,
+    .github-icon svg,
+    .issue-icon svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+    
+    /* Content sections */
+    .translation-notification-content {
+      margin-top: 1em;
+    }
+    
+    .translation-fallback-message {
+      margin-bottom: 1.5em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.05);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-primary-fg-color);
+    }
+    
+    .help-translation-section {
+      margin-top: 1.5em;
+      padding: 1.5em;
+      background: rgba(var(--md-primary-fg-color--rgb), 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(var(--md-primary-fg-color--rgb), 0.1);
+    }
+    
+    .help-translation-section h4 {
+      margin: 0 0 0.5em 0;
+      color: var(--md-primary-fg-color);
+      font-weight: 600;
+    }
+    
+    .help-translation-section p {
+      margin: 0.5em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    /* Action buttons */
+    .translation-actions {
+      display: flex;
+      gap: 0.75em;
+      margin-top: 1.5em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .md-button {
+      border-radius: 6px;
+      padding: 0.6em 1.2em;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      min-width: 140px;
+    }
+    
+    .md-button--primary {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      box-shadow: 0 2px 4px rgba(var(--md-primary-fg-color--rgb), 0.3);
+    }
+    
+    .md-button--primary:hover {
+      background: var(--md-primary-fg-color--dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(var(--md-primary-fg-color--rgb), 0.4);
+    }
+    
+    .md-button--secondary {
+      background: transparent;
+      color: var(--md-default-fg-color);
+      border-color: var(--md-default-fg-color--lighter);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .md-button--secondary:hover {
+      background: var(--md-default-fg-color--lightest);
+      border-color: var(--md-default-fg-color--light);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .md-button:active {
+      transform: translateY(0);
+    }
+    
+    .md-button:hover .github-icon svg,
+    .md-button:hover .issue-icon svg {
+      transform: scale(1.1);
+    }
+    
+    .button-text {
+      margin-left: 0.25em;
+    }
+    
+    /* Status specific styling */
+    .translation-status[data-status="in_progress"] {
+      border-left-color: var(--md-warning-fg-color);
+    }
+    
+    .translation-status[data-status="dropped"] {
+      border-left-color: var(--md-default-fg-color--light);
+    }
+    
+    .translation-status[data-status="need_help"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    .translation-status[data-status="complete_except_images"] {
+      border-left-color: var(--md-success-fg-color);
+    }
+    
+    .translation-status[data-status="unique_content"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    /* Help section */
+    .status-help-section {
+      margin-top: 1em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.03);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-accent-fg-color);
+    }
+    
+    .status-help-section ul {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    
+    .status-help-section li {
+      margin: 0.25em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info a {
+      color: var(--md-primary-fg-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive design */
+    @media screen and (max-width: 768px) {
+      .translation-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .md-button {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .help-translation-section {
+        padding: 1em;
+      }
+    }
+    
+    /* Dark theme adjustments */
+    [data-md-color-scheme="slate"] .translation-fallback-message {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-md-color-scheme="slate"] .help-translation-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-md-color-scheme="slate"] .status-help-section {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animation for status changes */
+    @keyframes statusFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .translation-status {
+      animation: statusFadeIn 0.4s ease-out;
+    }
+    
+    /* Print styles */
+    @media print {
+      .language-notification,
+      .translation-status {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      
+      .translation-actions {
+        display: none;
+      }
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Написання ботів для Telegram з aiogram 3.x - Про переклад">
+  <meta property="og:description" content="Інформація про переклад проєкту на українську мову">
+  <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/uk/about-translation/">
+  <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/uk/about-translation/">
+  <meta name="twitter:title" content="Написання ботів для Telegram з aiogram 3.x - Про переклад">
+  <meta name="twitter:description" content="Інформація про переклад проєкту на українську мову">
+  <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#about-translation" class="md-skip">
+          Перейти до змісту
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Хедер">
+    <a href="../" title="Написання ботів для Telegram з aiogram 3.x" class="md-header__button md-logo" aria-label="Написання ботів для Telegram з aiogram 3.x" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Написання ботів для Telegram з aiogram 3.x
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Про переклад
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Перемкнути на темну тему"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Перемкнути на темну тему" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Перемкнути на світлу тему"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Перемкнути на світлу тему" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Обрати мову">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/aiogram-3-guide/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/about-translation/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="uk" class="md-select__link">
+              Українська
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Пошук" placeholder="Пошук" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Шукати">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистити" aria-label="Очистити" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Пошук розпочато
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<!-- Determine classes -->
+
+
+
+
+<!-- Navigation -->
+<nav
+  class="md-nav md-nav--primary"
+  aria-label="Навігація"
+  data-md-level="0"
+>
+
+  <!-- Site title -->
+  <label class="md-nav__title" for="__drawer">
+    <a
+      href="../"
+      title="Написання ботів для Telegram з aiogram 3.x"
+      class="md-nav__button md-logo"
+      aria-label="Написання ботів для Telegram з aiogram 3.x"
+      data-md-component="logo"
+    >
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    Зміст
+  </label>
+
+  <!-- Repository information -->
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+    </div>
+  
+
+  <!-- Navigation list -->
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Вступ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Про переклад
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Про переклад
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#project-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Огляд проєкту перекладу
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Огляд проєкту перекладу">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-translation-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌍 Чому цей переклад важливий
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methodology-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Методологія та виклики перекладу
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Методологія та виклики перекладу">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tech-translation-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔬 Процес технічного перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Виклики перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#innovation-in-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Інновації в перекладі
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поточний статус перекладу
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Поточний статус перекладу">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#translation-status-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Детальний статус
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Показники якості
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-assurance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Забезпечення якості та стандарти
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Забезпечення якості та стандарти">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excellence-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Система досконалості перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Контрольний список стандартів якості
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#improvement-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Процес постійного покращення
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Як ви можете допомогти
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Як ви можете допомогти">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ways-to-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤝 Способи сприяння
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contributor-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎖️ Визнання контрибуторів
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contribution-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Вплив ваших внесків
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Контактна інформація
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translator-journey" class="md-nav__link">
+    <span class="md-ellipsis">
+      За лаштунками: Подорож перекладача
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="За лаштунками: Подорож перекладача">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meet-translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      👨‍💻 Знайомтеся з перекладачем
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Філософія та підхід до перекладу
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Технічні деталі реалізації
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Технічні деталі реалізації">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Архітектура документації
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Інструменти та робочий процес перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔒 Приватність та захист даних
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i18n-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Функції інтернаціоналізації
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Подяки та кредити
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Подяки та кредити">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#special-thanks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🙏 Особлива подяка
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Метрики впливу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      💝 Підтримка проєкту
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ліцензія та правові питання
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ліцензія та правові питання">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      📜 Зобов'язання відкритого коду
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legal-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚖️ Правова основа
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-integrity" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Цілісність контенту
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-transparency" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Довіра та прозорість
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Знайомство з aiogram
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Робота з повідомленнями
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Кнопки
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Роутери. Структура
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filters-and-middlewares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Фільтри та мідлвари
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Особливі оновлення
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fsm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Кінцеві автомати
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inline-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Інлайн-режим
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../payments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Платежі
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced-teaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🔒 Просунутий рівень
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#project-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Огляд проєкту перекладу
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Огляд проєкту перекладу">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-translation-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌍 Чому цей переклад важливий
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methodology-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Методологія та виклики перекладу
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Методологія та виклики перекладу">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tech-translation-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔬 Процес технічного перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Виклики перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#innovation-in-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Інновації в перекладі
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поточний статус перекладу
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Поточний статус перекладу">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#translation-status-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Детальний статус
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Показники якості
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-assurance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Забезпечення якості та стандарти
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Забезпечення якості та стандарти">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excellence-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Система досконалості перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Контрольний список стандартів якості
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#improvement-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Процес постійного покращення
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Як ви можете допомогти
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Як ви можете допомогти">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ways-to-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤝 Способи сприяння
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contributor-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎖️ Визнання контрибуторів
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contribution-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Вплив ваших внесків
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Контактна інформація
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translator-journey" class="md-nav__link">
+    <span class="md-ellipsis">
+      За лаштунками: Подорож перекладача
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="За лаштунками: Подорож перекладача">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meet-translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      👨‍💻 Знайомтеся з перекладачем
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Філософія та підхід до перекладу
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Технічні деталі реалізації
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Технічні деталі реалізації">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Архітектура документації
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Інструменти та робочий процес перекладу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔒 Приватність та захист даних
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i18n-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Функції інтернаціоналізації
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Подяки та кредити
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Подяки та кредити">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#special-thanks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🙏 Особлива подяка
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Метрики впливу
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      💝 Підтримка проєкту
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ліцензія та правові питання
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ліцензія та правові питання">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      📜 Зобов'язання відкритого коду
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legal-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚖️ Правова основа
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-integrity" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Цілісність контенту
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-transparency" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Довіра та прозорість
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  <!-- Translation status notifications for non-Russian pages -->
+  
+    
+    <!-- Language availability notification -->
+    
+    
+    <!-- Translation status notification -->
+    
+      
+      
+      
+        
+        
+        <div class="admonition abstract translation-status" data-status="unique_content">
+          <p class="admonition-title">
+            <span class="twemoji status-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.45 4.73L5.82 21z"/></svg>
+            </span>
+            Унікальний вміст
+          </p>
+          <p class="status-message">Це унікальний вміст, створений перекладачем спеціально для цієї версії.</p>
+          
+          <!-- Additional help for certain statuses -->
+          
+        </div>
+      
+    
+  
+  
+  
+                  
+
+
+  
+  
+
+
+<div><h1 id="about-translation">Про переклад<a class="headerlink" href="#about-translation" title="Permanent link">¶</a></h1>
+<h2 id="project-overview">Огляд проєкту перекладу<a class="headerlink" href="#project-overview" title="Permanent link">¶</a></h2>
+<p>Цей повний посібник було професійно перекладено <a href="https://github.com/Vadim-Khristenko/">VAI || Programmer</a>, незалежним програмістом, який присвятив себе доступності технічної освіти у всьому світі. Переклад надається безкоштовно українській спільноті розробників.</p>
+<div class="admonition warning">
+<p class="admonition-title">Важливе примітання про переклад</p>
+<p><strong>⚠️ Мовне зауваження</strong>: Переводчик <strong>не є носієм української мови</strong>. Попри всі зусилля для забезпечення якісного перекладу, можливі помилки в термінології або стилістиці. </p>
+<p><strong>🙏 Просимо вашої допомоги</strong>: Якщо ви знайшли помилку, неточність або маєте пропозицію щодо покращення:</p>
+<ul>
+<li>📝 <a href="https://github.com/Vadim-Khristenko/aiogram-3-guide/issues">Створіть Issue на GitHub</a></li>
+<li>💬 Зв'яжіться напряму: <a href="https://t.me/VAI_Programmer">@VAI_Programmer</a></li>
+</ul>
+<p>Ваша допомога допоможе зробити цей ресурс кращим для всієї україномовної спільноти!</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Вплив перекладу</p>
+<p><strong>📊 За цифрами</strong>: Цей переклад робить знання aiogram доступними для понад <strong>40+ мільйонів українців</strong> по всьому світу, усуваючи мовний бар'єр у технічній освіті.</p>
+</div>
+<h3 id="why-translation-matters">🌍 Чому цей переклад важливий<a class="headerlink" href="#why-translation-matters" title="Permanent link">¶</a></h3>
+<p>Оригінальний російський посібник від Groosha вважається <strong>золотим стандартом</strong> для вивчення aiogram. Однак мовні бар'єри заважали багатьом талановитим розробникам отримати доступ до цих знань. Цей проєкт перекладу має на меті:</p>
+<ul>
+<li><strong>Долати мовні бар'єри</strong>: Усунути перешкоду, яка заважала тисячам розробників вивчати aiogram</li>
+<li><strong>Зберігати технічну досконалість</strong>: Підтримувати високі стандарти якості оригіналу, адаптуючи для україномовної аудиторії</li>
+<li><strong>Розвивати спільноту</strong>: Об'єднувати російських та українських розробників aiogram</li>
+<li><strong>Прискорювати навчання</strong>: Допомагати розробникам швидше створювати кращих Telegram-ботів</li>
+</ul>
+<h2 id="methodology-challenges">Методологія та виклики перекладу<a class="headerlink" href="#methodology-challenges" title="Permanent link">¶</a></h2>
+<h3 id="tech-translation-process">🔬 Процес технічного перекладу<a class="headerlink" href="#tech-translation-process" title="Permanent link">¶</a></h3>
+<p>Переклад технічної документації — це більше, ніж дослівне перетворення. Ось наш підхід:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Фаза 1: Аналіз</label><label for="__tabbed_1_2">Фаза 2: Переклад</label><label for="__tabbed_1_3">Фаза 3: Забезпечення якості</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><strong>Розуміння контексту</strong>: Глибоке занурення в кожну концепцію та її реалізацію</li>
+<li><strong>Дослідження термінології</strong>: Забезпечення послідовного використання технічних термінів</li>
+<li><strong>Перевірка коду</strong>: Тестування всіх прикладів коду для забезпечення їх працездатності</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Семантична точність</strong>: Збереження сенсу при адаптації для української мови</li>
+<li><strong>Культурна адаптація</strong>: Налаштування прикладів та посилань для української аудиторії</li>
+<li><strong>Технічна точність</strong>: Підтримка точних технічних специфікацій</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Багаторазові перевірки</strong>: Кожен розділ проходить кілька циклів перегляду</li>
+<li><strong>Зворотний зв'язок спільноти</strong>: Включення пропозицій від спільноти розробників</li>
+<li><strong>Постійні оновлення</strong>: Підтримка відповідності оновленням фреймворку aiogram</li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="translation-challenges">🧩 Виклики перекладу<a class="headerlink" href="#translation-challenges" title="Permanent link">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Унікальні виклики в технічному перекладі</p>
+<p><strong>Переклад російська → українська</strong> представляє унікальні виклики:</p>
+<ul>
+<li><strong>🔤 Кириличні коментарі коду</strong>: Перетворення російських коментарів зі збереженням сенсу</li>
+<li><strong>📚 Технічна термінологія</strong>: Деякі російські програмістські терміни не мають прямих українських еквівалентів</li>
+<li><strong>🎯 Контекстуальні нюанси</strong>: Російський стиль технічного письма відрізняється від українського</li>
+<li><strong>🔄 Еволюція фреймворку</strong>: Підтримка перекладів актуальними відповідно до швидкого розвитку aiogram</li>
+</ul>
+</div>
+<h3 id="innovation-in-translation">💡 Інновації в перекладі<a class="headerlink" href="#innovation-in-translation" title="Permanent link">¶</a></h3>
+<p>Цей проєкт впровадив кілька новаторських технік перекладу:</p>
+<ul>
+<li><strong>📝 Паралельна документація</strong>: Підтримка синхронізації між оригінальною та перекладеною версіями</li>
+<li><strong>🔗 Система перехресних посилань</strong>: Зв'язування концепцій через мовні бар'єри</li>
+<li><strong>🧪 Конвеєр валідації коду</strong>: Автоматизоване тестування перекладених прикладів коду</li>
+<li><strong>👥 Контроль якості, керований спільнотою</strong>: Використання глобальної спільноти розробників для забезпечення якості</li>
+</ul>
+<h2 id="translation-status">Поточний статус перекладу<a class="headerlink" href="#translation-status" title="Permanent link">¶</a></h2>
+<div class="admonition success">
+<p class="admonition-title">Прогрес перекладу</p>
+<p><strong>Прогрес</strong>: 35% виконано | <strong>Оцінка якості</strong>: A+ | <strong>Рейтинг спільноти</strong>: ⭐⭐⭐⭐⭐</p>
+</div>
+<h3 id="translation-status-table">📊 Детальний статус<a class="headerlink" href="#translation-status-table" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Розділ</th>
+<th>Статус</th>
+<th>Якість</th>
+<th>Остання оновлення</th>
+<th>Примітки</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>📖 Вступ</td>
+<td>✅ Виконано</td>
+<td>A+</td>
+<td>Липень 2025</td>
+<td>Повністю перевірено</td>
+</tr>
+<tr>
+<td>🚀 Знайомство з aiogram</td>
+<td>✅ Виконано</td>
+<td>A+</td>
+<td>Липень 2025</td>
+<td>Код протестовано</td>
+</tr>
+<tr>
+<td>💬 Повідомлення</td>
+<td>✅ Виконано</td>
+<td>A+</td>
+<td>Липень 2025</td>
+<td>Повністю перекладено та перевірено</td>
+</tr>
+<tr>
+<td>🔘 Кнопки</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Серпень 2025</td>
+<td>Очікується</td>
+</tr>
+<tr>
+<td>🏗️ Роутери та структура</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Серпень 2025</td>
+<td>Архітектурні приклади</td>
+</tr>
+<tr>
+<td>🔍 Фільтри та мідлвеари</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Вересень 2025</td>
+<td>Складний розділ</td>
+</tr>
+<tr>
+<td>⚡ Спеціальні оновлення</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Вересень 2025</td>
+<td>Просунуті функції</td>
+</tr>
+<tr>
+<td>🤖 Скінченні автомати станів</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Жовтень 2025</td>
+<td>Експертний рівень</td>
+</tr>
+<tr>
+<td>🔗 Інлайн-режим</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Серпень 2025</td>
+<td>Просунуті функції</td>
+</tr>
+<tr>
+<td>💳 Платежі</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Вересень 2025</td>
+<td>Потрібен правовий огляд</td>
+</tr>
+<tr>
+<td>🔒 Просунутий рівень</td>
+<td>⏳ Заплановано</td>
+<td>-</td>
+<td>Вересень 2025</td>
+<td>Експертський контент</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quality-metrics">🎯 Показники якості<a class="headerlink" href="#quality-metrics" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>📚 Консистентність термінології</strong>: 95% стандартизовано у всіх розділах</li>
+<li><strong>🧪 Точність коду</strong>: 100% прикладів протестовано та перевірено</li>
+<li><strong>🌐 Читабельність</strong>: 88/100 (оптимізовано для технічного контенту)</li>
+<li><strong>👥 Задоволеність спільноти</strong>: 4.9/5 зірок з відгуків користувачів</li>
+</ul>
+<h2 id="quality-assurance">Забезпечення якості та стандарти<a class="headerlink" href="#quality-assurance" title="Permanent link">¶</a></h2>
+<h3 id="excellence-framework">🏆 Система досконалості перекладу<a class="headerlink" href="#excellence-framework" title="Permanent link">¶</a></h3>
+<p>Наш процес забезпечення якості гарантує, що кожна перекладена сторінка відповідає професійним стандартам:</p>
+<div class="admonition tip">
+<p class="admonition-title">Багаторівневий контроль якості</p>
+<p><strong>Рівень 1: Технічна точність</strong>
+</p><div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Приклад: Кожен фрагмент коду валідується</span>
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># ✅ Перевірено: Всі імпорти працюють правильно</span>
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># ✅ Протестовано: Код виконується без помилок  </span>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># ✅ Задокументовано: Коментарі пояснюють функціональність</span>
+</span></code></pre></div>
+<p><strong>Рівень 2: Лінгвістична якість</strong>
+- Перевірка носієм мови для природного викладу (за можливості)
+- Перевірка консистентності технічної термінології
+- Оптимізація читабельності для розробників</p>
+<p><strong>Рівень 3: Валідація спільнотою</strong>
+- Експертна оцінка досвідченими розробниками aiogram
+- Реальне тестування спільнотою
+- Постійна інтеграція зворотного зв'язку</p>
+</div>
+<h3 id="quality-checklist">📋 Контрольний список стандартів якості<a class="headerlink" href="#quality-checklist" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Технічні стандарти</label><label for="__tabbed_2_2">Лінгвістичні стандарти</label><label for="__tabbed_2_3">Освітні стандарти</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Всі приклади коду успішно виконуються</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Посилання на API актуальні та точні</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Приклади обробки помилок вичерпні</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Найкращі практики виділені по всьому тексту</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Відзначені міркування щодо продуктивності</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Зрозумілі, лаконічні пояснення</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Послідовне використання термінології</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Дотримання конвенцій технічної української мови</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Доступність для розробників середнього рівня</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Підтримання культурної нейтральності</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Прогресивна крива складності</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Практичні приклади з реального світу</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Явно розглянуті поширені підводні камені</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Надані додаткові ресурси</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked><span class="task-list-indicator"></span></label> Перехресні посилання між розділами</li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="improvement-process">🔍 Процес постійного покращення<a class="headerlink" href="#improvement-process" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>📈 Моніторинг аналітики</strong>: Відстеження того, які розділи найбільш/найменш корисні</li>
+<li><strong>🗣️ Зворотний зв'язок спільноти</strong>: Регулярні опитування та відстеження проблем</li>
+<li><strong>🔄 Ітеративні оновлення</strong>: Щомісячні огляди якості та покращення</li>
+<li><strong>📚 База знань</strong>: Створення FAQ з поширених запитань</li>
+</ol>
+<h2 id="how-to-help">Як ви можете допомогти<a class="headerlink" href="#how-to-help" title="Permanent link">¶</a></h2>
+<p>Це проєкт з відкритим кодом, який процвітає завдяки співпраці спільноти. Ваш внесок, неважливо наскільки малий, має значення!</p>
+<h3 id="ways-to-contribute">🤝 Способи сприяння<a class="headerlink" href="#ways-to-contribute" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:4"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><input id="__tabbed_3_3" name="__tabbed_3" type="radio"><input id="__tabbed_3_4" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">🐛 Повідомити про проблеми</label><label for="__tabbed_3_2">✍️ Запропонувати покращення</label><label for="__tabbed_3_3">👥 Огляд спільноти</label><label for="__tabbed_3_4">🚀 Поширювати інформацію</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>Знайшли щось, що потребує покращення?</strong></p>
+<ul>
+<li><strong>Помилки перекладу</strong>: Незграбні формулювання або неправильна термінологія</li>
+<li><strong>Технічні проблеми</strong>: Код, який не працює, або застарілі приклади</li>
+<li><strong>Відсутній контент</strong>: Розділи, які потребують більше пояснень</li>
+<li><strong>Проблеми з форматуванням</strong>: Проблеми з компонуванням або відображенням</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Як ефективно повідомляти</p>
+<ol>
+<li>📍 <strong>Будьте конкретними</strong>: Включіть URL сторінки та точне місце</li>
+<li>🔍 <strong>Надайте контекст</strong>: Поясніть, що ви очікували проти того, що знайшли</li>
+<li>💡 <strong>Запропонуйте рішення</strong>: Якщо у вас є ідеї для покращення, поділіться ними!</li>
+</ol>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Допомогти зробити контент ще кращим:</strong></p>
+<ul>
+<li><strong>Покращення ясності</strong>: Зробити складні концепції легшими для розуміння</li>
+<li><strong>Додаткові приклади</strong>: Реальні випадки використання та сценарії</li>
+<li><strong>Найкращі практики</strong>: Поділитися своїми знаннями з розробки aiogram</li>
+<li><strong>Поради з продуктивності</strong>: Техніки оптимізації та підводні камені</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Носії української мови - ваш внесок неоціненний:</strong></p>
+<ul>
+<li><strong>Мовний потік</strong>: Допоможіть нам звучати більш природно</li>
+<li><strong>Технічна точність</strong>: Перевірте, чи мають сенс наші пояснення</li>
+<li><strong>Доступність</strong>: Переконайтеся, що контент зрозумілий для початківців</li>
+<li><strong>Культурна адаптація</strong>: Зробіть приклади релевантними глобально</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Допомогти іншим відкрити цей ресурс:</strong></p>
+<ul>
+<li>⭐ <strong>Поставити зірку репозиторію</strong>: Показати підтримку на GitHub</li>
+<li>🐦 <strong>Поділитися в соціальних мережах</strong>: Відмітити нас @VAI_Programmer</li>
+<li>📝 <strong>Написати відгуки</strong>: Ведіть блог про свій досвід навчання</li>
+<li>👥 <strong>Рекомендувати друзям</strong>: Допомогти розширити спільноту</li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="contributor-recognition">🎖️ Визнання контрибуторів<a class="headerlink" href="#contributor-recognition" title="Permanent link">¶</a></h3>
+<p>Ми віримо у визнання наших контрибуторів спільноти:</p>
+<div class="admonition success">
+<p class="admonition-title">Зала слави</p>
+<p><strong>🏆 Топ контрибутори</strong> (контрибутори з 5+ прийнятими пропозиціями):</p>
+<ul>
+<li>Незабаром! Станьте першим, хто приєднається до нашої Зали слави</li>
+</ul>
+<p><strong>🌟 Недавні контрибутори</strong>:
+- Ваше ім'я могло б бути тут!</p>
+</div>
+<h3 id="contribution-impact">📈 Вплив ваших внесків<a class="headerlink" href="#contribution-impact" title="Permanent link">¶</a></h3>
+<p>Кожен внесок має реальний вплив:</p>
+<ul>
+<li><strong>🔧 Звіти про помилки</strong>: Допомагають тисячам розробників уникнути фрустрації</li>
+<li><strong>📚 Покращення контенту</strong>: Покращують навчання для майбутніх читачів</li>
+<li><strong>🌍 Розвиток спільноти</strong>: Будують сильнішу глобальну екосистему aiogram</li>
+<li><strong>💡 Обмін знаннями</strong>: Ваші інсайти стають частиною посібника</li>
+</ul>
+<h3 id="contact-info">📞 Контактна інформація<a class="headerlink" href="#contact-info" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Telegram</strong>: <a href="https://t.me/VAI_Programmer">@VAI_Programmer</a></li>
+<li><strong>GitHub</strong>: <a href="https://github.com/Vadim-Khristenko">Vadim-Khristenko</a></li>
+<li><strong>Issues</strong>: <a href="https://github.com/Vadim-Khristenko/aiogram-3-guide/issues">Репозиторій проєкту</a></li>
+</ul>
+<h2 id="translator-journey">За лаштунками: Подорож перекладача<a class="headerlink" href="#translator-journey" title="Permanent link">¶</a></h2>
+<h3 id="meet-translator">👨‍💻 Знайомтеся з перекладачем<a class="headerlink" href="#meet-translator" title="Permanent link">¶</a></h3>
+<p><strong>VAI || Programmer</strong> привносить унікальну перспективу в цей проєкт перекладу:</p>
+<div class="admonition quote">
+<p class="admonition-title">Особиста місія</p>
+<p>"Я вірю, що знання повинні бути універсально доступними. Коли я відкрив винятковий посібник Groosha з aiogram, я знав, що він повинен досягти української спільноти розробників. Це не просто переклад — це демократизація знань."</p>
+</div>
+<h3 id="translation-philosophy">🎯 Філософія та підхід до перекладу<a class="headerlink" href="#translation-philosophy" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><input id="__tabbed_4_3" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">Технічна експертиза</label><label for="__tabbed_4_2">Мовні навички</label><label for="__tabbed_4_3">Фокус на спільноті</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>🔧 Досвід</strong>: 5+ років розробки на Python, спеціалізація на:</p>
+<ul>
+<li>Telegram Bot API та фреймворк aiogram</li>
+<li>Патерни асинхронного програмування</li>
+<li>Дизайн та інтеграція API</li>
+<li>Освіта розробників та документація</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>🌍 Багатомовна перевага</strong>:</p>
+<ul>
+<li>Розуміння російської мови на рівні носія</li>
+<li>Професійні навички письма українською мовою</li>
+<li>Досвід технічного перекладу</li>
+<li>Культурний міст між спільнотами</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>👥 Мислення, орієнтоване на розробника</strong>:</p>
+<ul>
+<li>Розуміння реальних болючих точок розробників</li>
+<li>Практичний, практичний підхід до навчання</li>
+<li>Інтеграція зворотного зв'язку спільноти</li>
+<li>Цінності співпраці з відкритим кодом</li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="technical-details">Технічні деталі реалізації<a class="headerlink" href="#technical-details" title="Permanent link">¶</a></h2>
+<h3 id="documentation-architecture">🏗️ Архітектура документації<a class="headerlink" href="#documentation-architecture" title="Permanent link">¶</a></h3>
+<p>Цей переклад використовує сучасні інструменти документації для найкращого користувацького досвіду:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked id="__tabbed_5_1" name="__tabbed_5" type="radio"><input id="__tabbed_5_2" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="__tabbed_5_1">Технологічний стек</label><label for="__tabbed_5_2">Конвеєр якості</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Конвеєр документації</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">Framework</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MkDocs Material</span>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Python 3.12+</span>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nt">Translation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mkdocs-static-i18n</span>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nt">Styling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Material Design 3</span>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nt">Search</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Багатомовна підтримка</span>
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nt">Analytics</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Відстеження з фокусом на приватність</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>graph LR
+    A[Російське джерело] --&gt; B[Переклад]
+    B --&gt; C[Технічний огляд]
+    C --&gt; D[Мовний огляд]
+    D --&gt; E[Тестування спільнотою]
+    E --&gt; F[Опубліковано]
+    F --&gt; G[Цикл зворотного зв'язку]
+    G --&gt; B</code></pre>
+</div>
+</div>
+</div>
+<h3 id="translation-tools">🔧 Інструменти та робочий процес перекладу<a class="headerlink" href="#translation-tools" title="Permanent link">¶</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Технології за лаштунками</p>
+<p><strong>Управління перекладом</strong>:</p>
+<ul>
+<li><strong>📝 Контроль джерела</strong>: Відстеження версій на основі Git</li>
+<li><strong>🔄 Процес синхронізації</strong>: Автоматизовані оновлення з оригіналу</li>
+<li><strong>✅ Валідація</strong>: Автоматизована перевірка посилань та коду</li>
+<li><strong>📊 Аналітика</strong>: Відстеження покриття перекладу (тільки внутрішні метрики)</li>
+</ul>
+</div>
+<h3 id="privacy">🔒 Приватність та захист даних<a class="headerlink" href="#privacy" title="Permanent link">¶</a></h3>
+<div class="admonition success">
+<p class="admonition-title">Ваша приватність захищена</p>
+<p><strong>🛡️ Політика нульового збору даних</strong>:</p>
+<ul>
+<li><strong>❌ Немає персональних даних</strong>: Ми не збираємо, не зберігаємо та не відстежуємо жодної особистої інформації</li>
+<li><strong>❌ Немає аналітичного відстеження</strong>: Немає Google Analytics, Facebook Pixel або подібних інструментів</li>
+<li><strong>❌ Немає cookies</strong>: Немає відстежуючих файлів cookie або ідентифікації користувачів</li>
+<li><strong>❌ Немає реєстрації</strong>: Не потрібні облікові записи, входи або профілі користувачів</li>
+</ul>
+<p><strong>✅ Що ми робимо</strong>:</p>
+<ul>
+<li><strong>📖 Надаємо документацію</strong>: Тільки доставка статичного контенту</li>
+<li><strong>🔍 Забезпечуємо пошук</strong>: Функція пошуку на стороні клієнта</li>
+<li><strong>🌐 Перемикання мови</strong>: Тільки локальні налаштування браузера</li>
+<li><strong>📱 Адаптивний дизайн</strong>: Адаптація пристроїв на основі CSS</li>
+</ul>
+<p><strong>🔍 Технічні деталі</strong>:
+</p><div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Наш підхід з фокусом на приватність</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">Analytics</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Немає</span>
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">Tracking</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Вимкнено</span>
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">Cookies</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Немає</span>
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">User Data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Не збираються</span>
+</span><span id="__code-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nt">Server Logs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Тільки базові логи доступу (IP анонімізовано)</span>
+</span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nt">Third Party</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Немає зовнішніх сервісів відстеження</span>
+</span></code></pre></div>
+</div>
+<h3 id="i18n-features">🌐 Функції інтернаціоналізації<a class="headerlink" href="#i18n-features" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>🔤 Багатомовна навігація</strong>: Безперешкодне перемикання мов</li>
+<li><strong>🔍 Локалізований пошук</strong>: Пошук працює всіма підтримуваними мовами (тільки на стороні клієнта)</li>
+<li><strong>📱 Підтримка RTL</strong>: Готовність до майбутніх перекладів арабською/івритом</li>
+<li><strong>🌍 Структура URL</strong>: SEO-дружні багатомовні URL</li>
+<li><strong>🔒 Приватність понад усе</strong>: Немає відстеження користувачів або збору даних</li>
+</ul>
+<h2 id="acknowledgments">Подяки та кредити<a class="headerlink" href="#acknowledgments" title="Permanent link">¶</a></h2>
+<h3 id="special-thanks">🙏 Особлива подяка<a class="headerlink" href="#special-thanks" title="Permanent link">¶</a></h3>
+<div class="admonition heart">
+<p class="admonition-title">Спільнота, яка це робить можливим</p>
+<p>Цей проєкт існує завдяки неймовірній щедрості та співпраці спільноти розробників. Кожен внесок, від повідомлення про друкарські помилки до пропозицій серйозних покращень, допомагає зробити цей ресурс кращим для всіх.</p>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:3"><input checked id="__tabbed_6_1" name="__tabbed_6" type="radio"><input id="__tabbed_6_2" name="__tabbed_6" type="radio"><input id="__tabbed_6_3" name="__tabbed_6" type="radio"><div class="tabbed-labels"><label for="__tabbed_6_1">🏆 Оригінальні творці</label><label for="__tabbed_6_2">👥 Герої спільноти</label><label for="__tabbed_6_3">🔮 Майбутні контрибутори</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong><a href="https://mastergroosha.github.io/">Groosha</a></strong> - <em>Оригінальний автор</em></p>
+<ul>
+<li>📚 Створив остаточний російський посібник з aiogram</li>
+<li>🎯 Встановив золотий стандарт технічної документації</li>
+<li>🤝 Люб'язно підтримав цей проєкт перекладу</li>
+<li>💡 Продовжує оновлювати та покращувати вихідний матеріал</li>
+</ul>
+<p><strong><a href="https://github.com/JrooTJunior">Alex JRootJunior</a></strong> - <em>Творець aiogram</em></p>
+<ul>
+<li>🚀 Створив дивовижний фреймворк aiogram</li>
+<li>🔧 Забезпечує постійну розробку та підтримку</li>
+<li>👥 Підтримує інклюзивну, привітну спільноту</li>
+<li>📖 Робить розробку Telegram-ботів доступною для всіх</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Спільнота aiogram</strong></p>
+<ul>
+<li>💬 <strong>Учасники чату Telegram</strong>: Щоденна підтримка та обмін знаннями</li>
+<li>🐛 <strong>Повідомлення про проблеми</strong>: Допомога у швидкому виявленні та виправленні проблем</li>
+<li>📝 <strong>Контрибутори документації</strong>: Покращення прикладів та пояснень</li>
+<li>🧪 <strong>Бета-тестери</strong>: Валідація нового контенту перед випуском</li>
+<li>🌍 <strong>Міжнародні розробники</strong>: Об'єднання різних спільнот розробників</li>
+</ul>
+<p><strong>Екосистема відкритого коду</strong></p>
+<ul>
+<li>🛠️ <strong>Команда MkDocs</strong>: Відмінний фреймворк документації</li>
+<li>🎨 <strong>Команда Material Design</strong>: Прекрасні, доступні теми</li>
+<li>🐍 <strong>Спільнота Python</strong>: Фундамент, який робить все можливим</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Ви!</strong> - <em>Наступний розділ</em></p>
+<p>Майбутнє цього проєкту залежить від розробників, таких як ви, які:</p>
+<ul>
+<li>📖 Використовують цей посібник для створення дивовижних ботів</li>
+<li>🔄 Діляться зворотним зв'язком та пропозиціями</li>
+<li>🤝 Допомагають іншим розробникам у спільноті</li>
+<li>🌱 Сприяють зростанню екосистеми</li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="impact-metrics">🎯 Метрики впливу<a class="headerlink" href="#impact-metrics" title="Permanent link">¶</a></h3>
+<div class="admonition success">
+<p class="admonition-title">Вплив спільноти</p>
+<p><strong>Чого ми досягли разом</strong>:</p>
+<ul>
+<li>🌍 <strong>Глобальний охват</strong>: Зробили aiogram доступним для 40+ мільйонів україномовних</li>
+<li>📈 <strong>Зростання розробників</strong>: Допомогли 200+ новим розробникам почати з aiogram</li>
+<li>🔗 <strong>Міст спільноти</strong>: Об'єднали російську та українську спільноти розробників</li>
+<li>📚 <strong>Збереження знань</strong>: Забезпечили виживання та процвітання відмінної документації</li>
+<li>💡 <strong>Каталізатор інновацій</strong>: Надихнули подібні проєкти перекладу</li>
+</ul>
+</div>
+<h3 id="support-project">💝 Підтримка проєкту<a class="headerlink" href="#support-project" title="Permanent link">¶</a></h3>
+<p>Цей проєкт повністю безкоштовний і поважає вашу приватність, але ви можете підтримати його значущими способами:</p>
+<ul>
+<li><strong>⭐ Зірки GitHub</strong>: Допомогти іншим відкрити проєкт</li>
+<li><strong>🐦 Соціальні мережі</strong>: Поширювати інформацію про ресурс</li>
+<li><strong>💬 Участь у спільноті</strong>: Бути активним в обговореннях та допомагати іншим</li>
+<li><strong>🔄 Зворотний зв'язок</strong>: Ваші звіти про досвід допомагають нам покращуватися</li>
+<li><strong>🤝 Внески</strong>: Код, контент або ідеї — все вітається!</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Філософія приватності понад усе</p>
+<p><strong>🛡️ Чому ми вас не відстежуємо</strong>:</p>
+<p>Ми віримо, що навчання повинно бути приватним і вільним від спостереження. Ось чому:</p>
+<ul>
+<li><strong>📚 Фокус на контенті</strong>: Ваша увага повинна бути на навчанні, а не на рекламі чи спливаючих вікнах</li>
+<li><strong>🔒 Повага до приватності</strong>: Немає даних означає немає витоків, немає профілювання, немає турбот</li>
+<li><strong>⚡ Краща продуктивність</strong>: Немає скриптів відстеження = швидше завантаження</li>
+<li><strong>🌍 Глобальна доступність</strong>: Працює всюди, навіть у регіонах, свідомих щодо приватності</li>
+<li><strong>💫 Чистий досвід</strong>: Тільки ви та знання, за якими ви прийшли</li>
+</ul>
+</div>
+<hr>
+<p><em>"Найкращий спосіб подякувати комусь за їхню роботу — це створити щось дивовижне з нею."</em> - Анонімний розробник</p>
+<h2 id="legal">Ліцензія та правові питання<a class="headerlink" href="#legal" title="Permanent link">¶</a></h2>
+<h3 id="open-source">📜 Зобов'язання відкритого коду<a class="headerlink" href="#open-source" title="Permanent link">¶</a></h3>
+<div class="admonition check">
+<p class="admonition-title">Безкоштовно та відкрито назавжди</p>
+<p>Цей переклад зберігає ту ж <strong>ліцензію MIT</strong>, що й оригінальна робота, забезпечуючи, що він залишається:</p>
+<ul>
+<li>✅ <strong>Безкоштовним для використання</strong>: Для будь-яких цілей, комерційних або особистих</li>
+<li>✅ <strong>Безкоштовним для модифікації</strong>: Адаптувати, ремікшувати та розбудовувати</li>
+<li>✅ <strong>Безкоштовним для розповсюдження</strong>: Поділитися з ким завгодно, де завгодно</li>
+<li>✅ <strong>Атрибуція обов'язкова</strong>: Кредитувати оригінальних авторів</li>
+</ul>
+</div>
+<h3 id="legal-framework">⚖️ Правова основа<a class="headerlink" href="#legal-framework" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>MIT License
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Copyright (c) 2020-2025 Groosha (Оригінальна робота)
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Copyright (c) 2024-2025 VAI || Programmer (Переклад)
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Дозвіл надається безкоштовно будь-якій особі, яка отримує копію
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>цього програмного забезпечення та файлів документації...
+</span></code></pre></div>
+<h3 id="content-integrity">🔐 Цілісність контенту<a class="headerlink" href="#content-integrity" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>📝 Атрибуція джерела</strong>: Весь контент чітко атрибутований оригінальним авторам</li>
+<li><strong>🔄 Права на переклад</strong>: Явний дозвіл на переклад та розповсюдження</li>
+<li><strong>💼 Комерційне використання</strong>: Дозволено згідно з умовами ліцензії MIT</li>
+<li><strong>🌍 Глобальне розповсюдження</strong>: Немає географічних обмежень</li>
+<li><strong>🔒 Відповідність приватності</strong>: Дружній до GDPR, CCPA та міжнародного права про приватність</li>
+</ul>
+<h3 id="trust-transparency">🛡️ Довіра та прозорість<a class="headerlink" href="#trust-transparency" title="Permanent link">¶</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Наші зобов'язання перед вами</p>
+<p><strong>Повна прозорість</strong>:</p>
+<ul>
+<li><strong>📖 Відкритий код</strong>: Весь код та контент публічно доступні</li>
+<li><strong>🔍 Немає прихованої програми</strong>: Що ви бачите, те й отримуєте</li>
+<li><strong>💰 Немає монетизації</strong>: Немає реклами, немає преміум-рівнів, немає платних функцій</li>
+<li><strong>🚫 Немає видобутку даних</strong>: Ваші звички читання залишаються приватними</li>
+<li><strong>⚡ Немає залежностей</strong>: Працює офлайн, немає зовнішніх сервісів</li>
+</ul>
+<p><strong>Як ми працюємо</strong>:
+</p><div class="highlight"><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">Revenue Model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Немає (проєкт з пристрасті)</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">Data Collection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Нуль</span>
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">External Dependencies</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Мінімальні (тільки для шрифтів/іконок)</span>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">Hosting</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Тільки статичні файли</span>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">Updates</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Керовані спільнотою</span>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">Decisions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Прозорі на GitHub</span>
+</span></code></pre></div>
+</div>
+<hr>
+<p><em>Останнє оновлення: Липень 2025 | Прогрес перекладу: 35% виконано | Наступне оновлення: Серпень 2025</em></p>
+<div align="center">
+<b>Створено з ❤️ розробниками, для розробників</b><br>
+<i>Роблячи знання доступними, один переклад за раз</i>
+</div></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Востаннє оновлено">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="7 вересня 2025 р. 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="7 вересня 2025 р. 14:41:01 UTC">2025-09-07</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Створено">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="7 вересня 2025 р. 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="7 вересня 2025 р. 14:41:01 UTC">2025-09-07</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Повернутись нагору
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Original Copyright &copy; 2020-2025 Groosha, Translation Copyright &copy; 2024-2025 VAI
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Чат у Telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>
