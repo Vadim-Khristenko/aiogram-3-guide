@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher
 
 from config_reader import config
 from handlers import group_games, checkin, usernames
+from middlewares.slow import ChatActionMiddleware
 from middlewares.weekend import WeekendCallbackMiddleware
 
 
@@ -15,6 +16,7 @@ async def main():
     dp.include_router(checkin.router)
     dp.include_router(usernames.router)
 
+    dp.message.middleware(ChatActionMiddleware())
     dp.callback_query.outer_middleware(WeekendCallbackMiddleware())
 
     # Запускаем бота и пропускаем все накопленные входящие
