@@ -1,3 +1,5 @@
+import asyncio
+
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
@@ -10,8 +12,9 @@ router.message.filter(F.chat.type == "private")
 router.message.middleware(WeekendMessageMiddleware())
 
 
-@router.message(Command("checkin"))
+@router.message(Command("checkin"), flags={"long_operation": "upload_video_note"})
 async def cmd_checkin(message: Message):
+    await asyncio.sleep(5)
     await message.answer(
         "Пожалуйста, нажмите на кнопку ниже:",
         reply_markup=get_checkin_kb()
