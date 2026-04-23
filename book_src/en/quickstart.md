@@ -6,8 +6,8 @@ description: Getting Started with aiogram
 # Getting Started with aiogram {: id="quickstart" }
 
 !!! info ""
-    The version of aiogram used: 3.7.0  
-    Tested on aiogram version: 3.21.0 | 07.07.2025
+    The version of aiogram used: 3.27.0  
+    Tested on aiogram version: 3.27.0 | 23.04.2026
 
 !!! warning "Some details are intentionally simplified!"
     The author of this book is convinced that along with theory, there should be practice. 

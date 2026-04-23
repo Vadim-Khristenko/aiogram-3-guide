@@ -108,12 +108,13 @@
     
     <!-- Language availability notification -->
     {% if i18n_file_locale != i18n_page_locale %}
-      <div class="admonition info language-notification">
+      <div class="admonition info language-notification is-dismissible" data-notice-id="language-fallback">
         <p class="admonition-title">
           <span class="twemoji language-icon">
             {% include ".icons/material/translate.svg" %}
           </span>
           {{ config.extra.add_translations.translation_warning_title | default('Translation Information') }}
+          <button class="translation-notice-dismiss" type="button" aria-label="Dismiss notification">×</button>
         </p>
         <div class="translation-notification-content">
           <p class="translation-fallback-message">
@@ -219,12 +220,13 @@
       {% if status_config[page.meta.t_status] %}
         {% set status = status_config[page.meta.t_status] %}
         
-        <div class="admonition {{ status.type }} translation-status" data-status="{{ page.meta.t_status }}">
+        <div class="admonition {{ status.type }} translation-status is-dismissible" data-status="{{ page.meta.t_status }}" data-notice-id="status-{{ page.meta.t_status }}">
           <p class="admonition-title">
             <span class="twemoji status-icon">
               {% include ".icons/material/" ~ status.icon ~ ".svg" %}
             </span>
             {{ status.title }}
+            <button class="translation-notice-dismiss" type="button" aria-label="Dismiss notification">×</button>
           </p>
           <p class="status-message">{{ status.message }}</p>
           
@@ -251,6 +253,34 @@
   {{ super() }}
 {% endblock %}
 
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const KEY = "translation_notice_dismissed_v2";
+      const dismissed = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+      document.querySelectorAll(".is-dismissible[data-notice-id]").forEach((notice) => {
+        const noticeId = notice.dataset.noticeId;
+        if (dismissed.includes(noticeId)) {
+          notice.classList.add("is-hidden");
+        }
+
+        const closeBtn = notice.querySelector(".translation-notice-dismiss");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          notice.classList.add("is-hidden");
+          if (!dismissed.includes(noticeId)) {
+            dismissed.push(noticeId);
+            localStorage.setItem(KEY, JSON.stringify(dismissed));
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}
+
 {% block styles %}
   {{ super() }}
   <style>
@@ -273,6 +303,26 @@
       margin: 1.5em 0 2em 0;
       border-radius: 8px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .translation-notice-dismiss {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0.25rem;
+      opacity: 0.75;
+    }
+
+    .translation-notice-dismiss:hover {
+      opacity: 1;
     }
     
     /* Icons styling */
