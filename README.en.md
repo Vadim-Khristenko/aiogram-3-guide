@@ -17,3 +17,11 @@ Available interface/translation languages: **RU**, **EN**, **UK**, **ZH** (Chine
 You can also write to the Translator's [Telegram DM](https://t.me/VAI_Programmer).
 
 The book is built using [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).
+
+For local dependency setup, both `pip` and `uv` are supported:
+
+```bash
+python -m pip install -r requirements.txt
+# or
+uv pip install -r requirements.txt
+```

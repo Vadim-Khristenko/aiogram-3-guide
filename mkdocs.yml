@@ -227,14 +227,12 @@ plugins:
         - locale: en
           name: English
           build: true
-          nav_name: "Contents"
           site_name: Writing Telegram Bots with aiogram 3.x
           site_description: A tutorial on developing bots for Telegram using the aiogram 3.x framework in Python
           
           # English theme configuration
           theme:
             name: material
-            custom_dir: book_src/overrides
             language: en
             palette:
               - media: "(prefers-color-scheme: light)"
@@ -319,14 +317,12 @@ plugins:
         - locale: uk
           name: Українська
           build: true
-          nav_name: "Зміст"
           site_name: Написання ботів для Telegram з aiogram 3.x
           site_description: Посібник з розробки ботів для Telegram за допомогою фреймворку aiogram 3.x на Python
           
           # Ukrainian theme configuration
           theme:
             name: material
-            custom_dir: book_src/overrides
             language: uk
             palette:
               - media: "(prefers-color-scheme: light)"
@@ -416,7 +412,6 @@ plugins:
 
           theme:
             name: material
-            custom_dir: book_src/overrides
             language: zh
             palette:
               - media: "(prefers-color-scheme: light)"
@@ -500,4 +495,3 @@ plugins:
 # ==============================================================================
 # CUSTOM SETTINGS
 # ==============================================================================
-nav_name: "Оглавление"

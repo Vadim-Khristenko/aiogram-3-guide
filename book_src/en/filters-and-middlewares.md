@@ -213,7 +213,7 @@ if __name__ == "__main__":
 
 Let's check:
 
-![Filter working in a group](../images/en/filters-and-middlewares/group_filter.png)
+![Filter working in a group](../images/ru/filters-and-middlewares/group_filter.png)
 
 Everything seems good, but what if we have not 2 handlers, but 10? We'll have to specify our 
 filter for each one and not forget anywhere. Fortunately, filters can be attached directly to routers! In this case, the check 
@@ -324,7 +324,7 @@ a dictionary where the extracted usernames will be stored under the key `usernam
 this filter is attached, you can add an argument with exactly the same name to the handler function. Voilà! 
 Now there's no need to parse the entire message again and extract the list of usernames:
 
-![List the extracted usernames](../images/en/filters-and-middlewares/data_propagation_in_filter.png)
+![List the extracted usernames](../images/ru/filters-and-middlewares/data_propagation_in_filter.png)
 
 ### Magic filters {: id="magic-filters" }
 
@@ -538,7 +538,7 @@ Let's refer to the aiogram 3.x documentation again, but this time in
 [another section](https://docs.aiogram.dev/en/dev-3.x/dispatcher/middlewares.html#basics) and look at 
 the following image:
 
-![middleware "onion"](../images/en/filters-and-middlewares/middlewares_structure.png)
+![middleware "onion"](../images/ru/filters-and-middlewares/middlewares_structure.png)
 
 It turns out there are two types of middlewares: outer and inner (or simply "middlewares"). What's the difference? 
 Outer ones are executed before filtering begins, and inner ones after. In practice, this means that a message/callback/inline query 
@@ -757,7 +757,7 @@ async def main():
 
 Here are the results we got in November (11th month):
 
-![Someone's month is lucky, someone's not so much](../images/en/filters-and-middlewares/happymonth.png)
+![Someone's month is lucky, someone's not so much](../images/ru/filters-and-middlewares/happymonth.png)
 
 #### No callbacks on weekends! {: id="no-callbacks-on-weekend" }
 
