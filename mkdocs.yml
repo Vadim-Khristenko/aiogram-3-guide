@@ -18,7 +18,7 @@ edit_uri: blob/main/book_src/
 # ==============================================================================
 # COPYRIGHT
 # ==============================================================================
-copyright: Original Copyright &copy; 2020-2025 Groosha, Translation Copyright &copy; 2024-2025 VAI
+copyright: Original Copyright &copy; 2020-2026 Groosha, Translation Copyright &copy; 2024-2026 VAI
 
 # ==============================================================================
 # THEME CONFIGURATION
@@ -187,6 +187,7 @@ nav:
   - 'Конечные автоматы': fsm.md
   - 'Инлайн-режим': inline-mode.md
   - 'Платежи': payments.md
+  - blog/index.md
   - '🔒 Продвинутый уровень': advanced-teaser.md
 
 # ==============================================================================
@@ -210,7 +211,13 @@ plugins:
         - en
         - ru
         - uk
-  
+
+  # Blog plugin
+  - blog:
+      post_date_format: long
+      post_url_date_format: yyyy/MM
+      post_readtime: false
+   
   # Internationalization plugin
   - i18n:
       reconfigure_material: true
