@@ -1,6 +1,6 @@
 # Writing Telegram Bots with aiogram 3.x
 
-This is a book on developing Telegram bots in Python using the **[aiogram 3.x](https://github.com/aiogram/aiogram/tree/dev-3.x)** framework.
+This is a book on developing Telegram bots in Python using the **[aiogram 3.x](https://github.com/aiogram/aiogram/tree/dev-3.x)** framework (current example baseline: **3.27.0+**).
 
 You can find the book here: https://mastergroosha.github.io/aiogram-3-guide/  
 The source texts for all chapters are located [in the code folder](https://github.com/MasterGroosha/aiogram-3-guide/tree/master/code).
@@ -10,7 +10,7 @@ Previous versions:
 * pyTelegramBotAPI (2015-2019): https://mastergroosha.github.io/telegram-tutorial/
 
 ---
-Translation into other languages is still in progress!
+Available interface/translation languages: **RU**, **EN**, **UK**, **ZH** (Chinese is currently being expanded).
 ---
 ### Translated by [VAI || Programmer](https://github.com/Vadim-Khristenko)
 **The book's translation is not supported by the author personally**, but by the Translator (mentioned above), if the translation lags behind the original, you may directly complain to [VAI || Programmer](https://github.com/Vadim-Khristenko).
