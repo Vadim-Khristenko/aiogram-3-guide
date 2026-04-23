@@ -653,7 +653,7 @@ async def callbacks_num_finish_fab(callback: types.CallbackQuery):
     await callback.answer()
 ```
 
-![Callback Factory](../images/en/buttons/callback_factory.png)
+![Callback Factory](../images/ru/buttons/callback_factory.png)
 
 At first glance, what we did may seem complicated, but in reality, the callback factory allows 
 you to create advanced callback buttons and conveniently break the code into logical entities. You can see the application of the factory 
@@ -726,4 +726,3 @@ async def my_handler(callback: CallbackQuery, callback_answer: CallbackAnswer):
 ```
 
 For now, we will conclude our acquaintance with buttons.
-

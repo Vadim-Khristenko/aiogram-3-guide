@@ -17,3 +17,11 @@
 Также можете писать в [Личные сообщения Telegram Переводчика](https://t.me/VAI_Programmer).
 
 Книга собрана с помощью [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).
+
+Для локальной установки зависимостей можно использовать `pip` или `uv`:
+
+```bash
+python -m pip install -r requirements.txt
+# или
+uv pip install -r requirements.txt
+```
