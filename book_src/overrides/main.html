@@ -153,7 +153,7 @@
             {% include ".icons/material/translate.svg" %}
           </span>
           {{ config.extra.add_translations.translation_warning_title | default('Translation Information') }}
-          <button class="translation-notice-dismiss" type="button" aria-label="Dismiss notification">×</button>
+          <button class="translation-notice-dismiss" type="button" aria-label="{{ config.extra.add_translations.dismiss_notification_aria | default('Dismiss notification') }}">×</button>
         </p>
         <div class="translation-notification-content">
           <p class="translation-fallback-message">
@@ -206,7 +206,7 @@
                 <span class="button-text">{{ config.extra.edit_page_cta | default('Edit this page') }}</span>
               </a>
               
-              <a href="{{ repo_url }}/issues/new?title=Translation%20Issue:%20{{ page.title | urlencode }}&body=Page:%20{{ page.canonical_url | urlencode }}%0AFile:%20{{ actual_file_path | urlencode }}%0A%0ATranslation%20issue%20description:" 
+              <a href="{{ repo_url }}/issues/new?title={{ (config.extra.add_translations.issue_title_prefix | default('Translation Issue: ')) | urlencode }}{{ page.title | urlencode }}&body={{ (config.extra.add_translations.issue_body_page_label | default('Page: ')) | urlencode }}{{ page.canonical_url | urlencode }}%0A{{ (config.extra.add_translations.issue_body_file_label | default('File: ')) | urlencode }}{{ actual_file_path | urlencode }}%0A%0A{{ (config.extra.add_translations.issue_body_description_label | default('Translation issue description:')) | urlencode }}" 
                 class="md-button md-button--secondary translation-issue-btn" 
                 target="_blank" 
                 rel="noopener noreferrer">
@@ -265,7 +265,7 @@
               {% include ".icons/material/" ~ status.icon ~ ".svg" %}
             </span>
             {{ status.title }}
-            <button class="translation-notice-dismiss" type="button" aria-label="Dismiss notification">×</button>
+            <button class="translation-notice-dismiss" type="button" aria-label="{{ config.extra.add_translations.dismiss_notification_aria | default('Dismiss notification') }}">×</button>
           </p>
           <p class="status-message">{{ status.message }}</p>
           
