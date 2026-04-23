@@ -217,6 +217,7 @@ plugins:
       post_date_format: long
       post_url_date_format: yyyy/MM
       post_readtime: false
+      archive: false
    
   # Internationalization plugin
   - i18n:
