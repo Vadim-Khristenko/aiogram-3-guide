@@ -279,7 +279,7 @@ plugins:
               - icon: fontawesome/brands/github
                 link: https://github.com/MasterGroosha/aiogram-3-guide
                 name: GitHub
-            announcement: It seems this page has not been translated into this Language and will preliminarily be displayed in Russian.
+            announcement: It seems this page has not been translated into this language yet and will temporarily be displayed in Russian.
             
             # Translation status messages (English)
             add_translations:
@@ -406,6 +406,92 @@ plugins:
               primary: indigo
               accent: indigo-500
               gradient: linear-gradient(45deg, #3F51B5, #303F9F)
+
+        # Chinese (Simplified)
+        - locale: zh
+          name: 中文
+          build: true
+          nav_name: "目录"
+          site_name: 使用 aiogram 3.x 编写 Telegram 机器人
+          site_description: 使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程
+
+          theme:
+            name: material
+            custom_dir: book_src/overrides
+            language: zh
+            palette:
+              - media: "(prefers-color-scheme: light)"
+                scheme: default
+                primary: deep purple
+                toggle:
+                  icon: material/brightness-4
+                  name: 切换到深色模式
+              - media: "(prefers-color-scheme: dark)"
+                scheme: slate
+                primary: deep purple
+                toggle:
+                  icon: material/brightness-7
+                  name: 切换到浅色模式
+            font:
+              text: Roboto
+              code: Roboto Mono
+            icon:
+              logo: material/robot
+
+          nav:
+            - '简介': index.md
+            - '关于翻译': about-translation.md
+            - 'aiogram 入门': quickstart.md
+            - '消息处理': messages.md
+            - '按钮': buttons.md
+            - '路由器与结构': routers.md
+            - '过滤器与中间件': filters-and-middlewares.md
+            - '特殊更新': special-updates.md
+            - '有限状态机': fsm.md
+            - '内联模式': inline-mode.md
+            - '支付': payments.md
+            - '🔒 进阶内容': advanced-teaser.md
+
+          extra:
+            social:
+              - icon: fontawesome/brands/telegram
+                link: https://t.me/+DE0_2nCvbXozZjUy
+                name: "Telegram 群组"
+              - icon: fontawesome/brands/github
+                link: https://github.com/MasterGroosha/aiogram-3-guide
+                name: GitHub
+            announcement: 此页面尚未翻译为中文，当前将临时显示俄文版本。
+
+            add_translations:
+              translation_warning_title: '翻译状态 🔄'
+              in_progress_message: '此页面正在积极翻译中，内容可能不完整或存在不准确之处。'
+              stopped_message: '此页面翻译已暂停，我们正在寻找志愿者继续完成。'
+              fallback_message: '完整翻译暂时不可用，给您带来不便敬请谅解。'
+              show_full_btn: '显示完整内容'
+              hide_btn: '收起'
+
+            help_improve_title: '帮助改进翻译'
+            help_improve_description: '这是一个开源项目，我们欢迎社区贡献。'
+            edit_page_cta: '编辑此页面'
+            report_issue_cta: '报告问题'
+            how_to_help_title: '你可以这样帮助我们：'
+            help_translate_text: '翻译缺失内容'
+            help_review_text: '审核已有翻译'
+            help_improve_text: '提出改进建议'
+            contact_translator: '联系翻译者：'
+
+            translation_stopped_title: '翻译已暂停'
+            translation_help_needed_title: '需要帮助'
+            translation_help_needed_message: '我们需要社区协助完成该页面翻译。'
+            translation_mostly_complete_title: '基本完成'
+            translation_mostly_complete_message: '文本已翻译，但部分图片可能仍为俄文。'
+            unique_content_title: '独有内容'
+            unique_content_message: '这是翻译者为此语言版本专门创建的独有内容。'
+
+            add_theme:
+              primary: deep purple
+              accent: deep-purple-700
+              gradient: linear-gradient(45deg, #673AB7, #4527A0)
   
   # Git revision date plugin
   - git-revision-date-localized:
