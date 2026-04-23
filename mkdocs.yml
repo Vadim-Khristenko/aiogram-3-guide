@@ -411,7 +411,6 @@ plugins:
         - locale: zh
           name: 中文
           build: true
-          nav_name: "目录"
           site_name: 使用 aiogram 3.x 编写 Telegram 机器人
           site_description: 使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程
 
