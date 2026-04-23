@@ -1,35 +1,98 @@
 ---
-title: Payments
-description: Telegram payments and Stars
+title: Telegram Payments
+description: Telegram Payments
 ---
 
-# Payments {: id="payments" }
+# Telegram Payments {: id="payments" }
 
 !!! info ""
-    aiogram version used: 3.7.0  
-    Tested with aiogram: 3.27.0 | 24.04.2026
+    aiogram version used: 3.7.0
 
-This chapter focuses on integrating payments in Telegram bots, with emphasis on Telegram Stars.
+In this chapter, we implement purchases in Telegram bots using
+[Telegram Stars](https://telegram.org/blog/telegram-stars).
 
 ## Paying with Stars {: id="pay-with-stars" }
 
-Typical payment pipeline:
+Since June 2024, payments for **digital products and services** in Telegram must use Telegram Stars.
+The rules may evolve over time, but for bot developers this is now a practical reality,
+so it is important to understand the flow.
 
-1. Create an invoice and send it to the user.
-2. Handle pre-checkout validation.
-3. Process successful payment callbacks.
-4. Persist entitlement/subscription state.
-5. Provide reliable idempotency for repeated events.
+### Work plan {: id="plan" }
 
-Security and reliability recommendations:
+As a practical project, we build a donation bot with:
 
-- validate payloads and invoice metadata;
-- never grant premium access before successful confirmation;
-- make purchase handlers idempotent;
-- keep auditable payment logs.
+- presets (`/donate_1`, `/donate_25`, `/donate_50`),
+- custom amount (`/donate 777`),
+- `/refund` to return spent Stars.
 
-## Code and Further Reading
+Telegram also requires bots that sell digital goods/services to provide `/paysupport`
+([requirement](https://telegram.org/tos/bot-developers#6-2-1-payment-disputes-for-digital-goods-and-services)).
+In this chapter, it additionally reminds users about `/refund`.
 
-- Russian chapter source: `/payments/`
-- Example code base: `code/ru/09_payments/`
-- Telegram Bot API payments docs: https://core.telegram.org/bots/payments
+### Technologies {: id="technologies" }
+
+- aiogram 3.7.0+ (because `refundStarPayment` appeared in Bot API 7.4)
+- [structlog](https://www.structlog.org/en/stable/) for logs
+- [Project Fluent](https://projectfluent.org/) for localized text templates
+
+### Writing code. `/start` command {: id="command-start" }
+
+On `/start`, the bot sends a message describing available payment commands.
+If your bot globally uses HTML parse mode, remember that command examples with angle brackets
+may require `parse_mode=None` for this specific message.
+
+```python
+@router.message(CommandStart())
+async def cmd_start(
+    message: Message,
+    l10n: FluentLocalization,
+):
+    await message.answer(
+        l10n.format_value("cmd-start"),
+        parse_mode=None,
+    )
+```
+
+### `/donate` commands {: id="commands-donate" }
+
+You can process presets and custom amounts in one handler.
+Validate the amount range before creating an invoice.
+
+At the time of writing, practical upper bound is 2500 Stars for a smooth client experience,
+so this chapter uses range `[1;2500]`.
+
+Then send invoice via `answer_invoice`:
+
+```python
+prices = [LabeledPrice(label="XTR", amount=amount)]
+await message.answer_invoice(
+    title=l10n.format_value("invoice-title"),
+    description=l10n.format_value(
+        "invoice-description",
+        {"starsCount": amount}
+    ),
+    prices=prices,
+    provider_token="",
+    payload=f"{amount}_stars",
+    currency="XTR"
+)
+```
+
+For Telegram Stars, `prices` must contain **exactly one** element,
+`provider_token` must be empty, and currency is `XTR`.
+
+### Successful payments {: id="successful-payment" }
+
+After payment, handle successful transaction updates,
+store required metadata, and provide a clean user confirmation message.
+
+### Refunds {: id="refund" }
+
+Implement `/refund` as required by your product policy.
+For support workflows, ensure users can quickly discover refund instructions.
+
+## Additional Materials {: id="extras" }
+
+- Source chapter in Russian: `/payments/`
+- Example code: `code/ru/09_payments/`
+- Telegram payments docs: https://core.telegram.org/bots/payments
