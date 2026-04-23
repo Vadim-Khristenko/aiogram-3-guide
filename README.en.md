@@ -1,5 +1,7 @@
 # Writing Telegram Bots with aiogram 3.x
 
+**README languages:** [RU](README.md) · [EN](README.en.md) · [UK](README.uk.md) · [ZH](README.zh.md)
+
 This is a book on developing Telegram bots in Python using the **[aiogram 3.x](https://github.com/aiogram/aiogram/tree/dev-3.x)** framework (current example baseline: **3.27.0+**).
 
 You can find the book here: https://mastergroosha.github.io/aiogram-3-guide/  
@@ -18,10 +20,20 @@ You can also write to the Translator's [Telegram DM](https://t.me/VAI_Programmer
 
 The book is built using [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).
 
-For local dependency setup, both `pip` and `uv` are supported:
+For local dependency setup, both `pip` and `uv` are supported.
+
+### Quick start (pip)
 
 ```bash
 python -m pip install -r requirements.txt
-# or
+mkdocs build --strict
+```
+
+### Quick start (uv)
+
+```bash
+uv venv
+source .venv/bin/activate
 uv pip install -r requirements.txt
+mkdocs build --strict
 ```

@@ -1,5 +1,7 @@
 # Пишем Telegram-ботов c aiogram 3.x 
 
+**Языки README:** [RU](README.md) · [EN](README.en.md) · [UK](README.uk.md) · [ZH](README.zh.md)
+
 Перед вами книга по разработке Telegram-ботов на языке Python с использованием фреймворка **[aiogram 3.x](https://github.com/aiogram/aiogram/tree/dev-3.x)** (актуальная база примеров: **3.27.0+**).
 
 Ознакомиться с книгой можно здесь: https://mastergroosha.github.io/aiogram-3-guide/  
@@ -18,10 +20,20 @@
 
 Книга собрана с помощью [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).
 
-Для локальной установки зависимостей можно использовать `pip` или `uv`:
+Для локальной установки зависимостей можно использовать `pip` или `uv`.
+
+### Быстрый старт (pip)
 
 ```bash
 python -m pip install -r requirements.txt
-# или
+mkdocs build --strict
+```
+
+### Быстрый старт (uv)
+
+```bash
+uv venv
+source .venv/bin/activate
 uv pip install -r requirements.txt
+mkdocs build --strict
 ```
