@@ -7,7 +7,9 @@ docs/
 # .env-файлы
 .env
 /code/ru/09_payments/settings.toml
-
 # Vai files, etc.
 dev_data/
 vai_plugins/
+/code/09_payments/settings.toml
+/code/project_threads_llm/final_version/src/settings.toml
+/code/project_threads_llm/initial_version/src/settings.toml
