@@ -45,7 +45,7 @@
       // Handle navigation based on start_param
       const initData = webapp.initDataUnsafe;
       
-      const knownLocales = new Set(['en', 'uk', 'zh']);
+
       const normalizePath = (path) => {
         if (!path) return '/';
         const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
@@ -58,25 +58,43 @@
           return '';
         }
       };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
       const siteBasePath = normalizePath(pathFromUrl('{{ config.site_url | default("", true) }}'));
       const canonicalPath = normalizePath(pathFromUrl('{{ page.canonical_url | default("", true) }}'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
 
       const currentPath = normalizePath(window.location.pathname);
-      const relativeToBase = currentPath.startsWith(siteBasePath)
-        ? currentPath.slice(siteBasePath.length)
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
         : currentPath.slice(1);
       const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
 
       const isDocsRoot = relativeSegments.length === 0
-        || (relativeSegments.length === 1 && knownLocales.has(relativeSegments[0]));
+        || hasLocaleRoot;
 
-      // Keep locale root (/en/, /uk/, /zh/) when redirecting from Telegram start_param
-      const localePrefix = relativeSegments.length === 1 && knownLocales.has(relativeSegments[0])
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
         ? `${relativeSegments[0]}/`
         : '';
-      const redirectRoot = canonicalPath === currentPath
-        ? currentPath
-        : `${siteBasePath}${localePrefix}`;
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
 
       if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
         if (initData.start_param) {
