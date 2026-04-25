@@ -87,6 +87,11 @@ extra:
     fallback_message: 'Полный перевод временно недоступен. Приносим извинения за неудобства.'
     show_full_btn: 'Показать полный текст'
     hide_btn: 'Свернуть'
+    dismiss_notification_aria: 'Скрыть уведомление'
+    issue_title_prefix: 'Проблема перевода: '
+    issue_body_page_label: 'Страница: '
+    issue_body_file_label: 'Файл: '
+    issue_body_description_label: 'Описание проблемы перевода:'
     
   # Translation help messages (Russian)
   help_improve_title: 'Помочь с переводом'
@@ -295,6 +300,11 @@ plugins:
               fallback_message: 'Full translation is temporarily unavailable. We apologize for the inconvenience.'
               show_full_btn: 'Show full text'
               hide_btn: 'Collapse'
+              dismiss_notification_aria: 'Dismiss notification'
+              issue_title_prefix: 'Translation Issue: '
+              issue_body_page_label: 'Page: '
+              issue_body_file_label: 'File: '
+              issue_body_description_label: 'Translation issue description:'
               
             # Translation help messages (English)
             help_improve_title: 'Help with Translation'
@@ -385,6 +395,11 @@ plugins:
               fallback_message: 'Повний переклад тимчасово недоступний. Просимо вибачення за незручності.'
               show_full_btn: 'Показати повний текст'
               hide_btn: 'Згорнути'
+              dismiss_notification_aria: 'Закрити сповіщення'
+              issue_title_prefix: 'Проблема перекладу: '
+              issue_body_page_label: 'Сторінка: '
+              issue_body_file_label: 'Файл: '
+              issue_body_description_label: 'Опис проблеми перекладу:'
               
             # Translation help messages (Ukrainian)
             help_improve_title: 'Допомогти з перекладом'
@@ -471,6 +486,11 @@ plugins:
               fallback_message: '完整翻译暂时不可用，给您带来不便敬请谅解。'
               show_full_btn: '显示完整内容'
               hide_btn: '收起'
+              dismiss_notification_aria: '关闭通知'
+              issue_title_prefix: '翻译问题：'
+              issue_body_page_label: '页面：'
+              issue_body_file_label: '文件：'
+              issue_body_description_label: '翻译问题描述：'
 
             help_improve_title: '帮助改进翻译'
             help_improve_description: '这是一个开源项目，我们欢迎社区贡献。'
