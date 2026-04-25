@@ -45,7 +45,57 @@
       // Handle navigation based on start_param
       const initData = webapp.initDataUnsafe;
       
-      if (window.location.pathname === "/aiogram-3-guide/" && Object.hasOwn(initData, 'auth_date')) {
+      const normalizePath = (path) => {
+        if (!path) return '/';
+        const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+        return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+      };
+      const pathFromUrl = (urlValue) => {
+        try {
+          return new URL(urlValue, window.location.origin).pathname;
+        } catch {
+          return '';
+        }
+      };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
+      const siteBasePath = normalizePath(pathFromUrl('{{ config.site_url | default("", true) }}'));
+      const canonicalPath = normalizePath(pathFromUrl('{{ page.canonical_url | default("", true) }}'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
+
+      const currentPath = normalizePath(window.location.pathname);
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
+        : currentPath.slice(1);
+      const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
+
+      const isDocsRoot = relativeSegments.length === 0
+        || hasLocaleRoot;
+
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
+        ? `${relativeSegments[0]}/`
+        : '';
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
+
+      if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
         if (initData.start_param) {
           // Map of start parameters to their corresponding paths
           const routeMap = {
@@ -82,10 +132,16 @@
             'chat-member': 'special-updates/#chat-member'
           };
           
-          const path = routeMap[initData.start_param] || '/';
-          const targetUrl = `${window.location.origin}${window.location.pathname}${path}`;
-          
-          window.location.href = targetUrl;
+          const path = routeMap[initData.start_param];
+
+          // Safe fallback: unknown start_param should not break or reload current page
+          if (!path) {
+            return;
+          }
+
+          const targetUrl = new URL(`${redirectRoot}${path}`, window.location.origin);
+
+          window.location.href = targetUrl.toString();
         }
       }
     });
