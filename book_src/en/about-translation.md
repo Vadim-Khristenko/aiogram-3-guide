@@ -13,6 +13,13 @@ This comprehensive guide has been professionally translated by [VAI || Programme
 !!! info "Translation Impact"
     **📊 By the Numbers**: This translation makes aiogram knowledge accessible to over **1.5 billion English speakers** worldwide, bridging the gap between Russian technical expertise and the global developer community.
 
+## What's New {: id="whats-new" }
+
+!!! rocket "Recent Milestones"
+    - **June 2026**: Guest Mode chapter added (Bot API v10.0)
+    - **June 2026**: FSM, Inline Mode, Payments chapters fully translated
+    - **June 2026**: All 13 chapters now 100% text-complete
+
 ### 🌍 Why This Translation Matters {: id="wttm" }
 
 The original Russian guide by Groosha is considered the **gold standard** for aiogram learning. However, language barriers prevented many talented developers from accessing this knowledge. This translation project aims to:
@@ -66,23 +73,27 @@ This project pioneered several translation techniques:
 ## Current Translation Status {: id="translation-status" }
 
 !!! success "Translation Progress"
-    **Progress**: 60% Complete | **Quality Score**: A+ | **Community Rating**: ⭐⭐⭐⭐⭐
+    **Progress**: 100% Text Complete | **Quality Score**: A+ | **Community Rating**: ⭐⭐⭐⭐⭐
+    
+    *Note: Some screenshots still show Russian UI — visual localization in progress*
 
 ### 📊 Detailed Status {: id="translation-status-table" }
 
 | Section | Status | Quality | Last Updated | Notes |
 |---------|--------|---------|--------------|-------|
-| 📖 Introduction | ✅ Complete | A+ | July 2025 | Fully reviewed |
-| 🚀 Getting Started | ✅ Complete | A+ | July 2025 | Code tested |
-| 💬 Messages | ✅ Complete | A+ | July 2025 | Examples verified |
-| 🔘 Buttons | ✅ Complete | A | July 2025 | Minor revisions pending |
-| 🏗️ Routers & Structure | ✅ Complete | A+ | July 2025 | Architecture examples added |
-| 🔍 Filters & Middlewares | 🔄 In Progress | B+ | July 2025 | 80% complete |
-| ⚡ Special Updates | 🔄 In Progress | B | July 2025 | 60% complete |
-| 🤖 Finite State Machines | ⏳ Planned | - | August 2025 | Complex section |
-| 🔗 Inline Mode | ⏳ Planned | - | August 2025 | Advanced features |
-| 💳 Payments | ⏳ Planned | - | September 2025 | Requires legal review |
-| 🔒 Advanced Level | ⏳ Planned | - | September 2025 | Expert-level content |
+| 📖 Introduction | ✅ Complete | A+ | June 2026 | Fully reviewed |
+| 🌐 About Translation | ✅ Complete | A+ | June 2026 | Unique EN content |
+| 🚀 Getting Started with aiogram | ✅ Complete | A+ | June 2026 | aiogram 3.27.0 |
+| 💬 Working with Messages | ✅ Complete | A | June 2026 | Examples verified |
+| 🔘 Buttons | ✅ Complete | A | June 2026 | All patterns covered |
+| 🏗️ Routers & Structure | ✅ Complete | A+ | June 2026 | Architecture examples added |
+| 🔍 Filters & Middlewares | ✅ Complete | A | June 2026 | All patterns documented |
+| ⚡ Special Updates | ✅ Complete | A | June 2026 | Comprehensive coverage |
+| 🤖 Finite State Machines | ✅ Complete | A | June 2026 | Full FSM guide |
+| 🔗 Inline Mode | ✅ Complete | A | June 2026 | Advanced features covered |
+| 💳 Payments (Telegram Stars) | ✅ Complete | A | June 2026 | Complete guide |
+| 👤 Guest Mode | ✅ Complete | A | June 2026 | New! Bot API v10.0 |
+| 🔒 Advanced Level | ✅ Complete | A+ | June 2026 | Expert-level content |
 
 ### 🎯 Quality Metrics {: id="quality-metrics" }
 
@@ -222,10 +233,23 @@ Every contribution has real impact:
 
 ### 👨‍💻 Meet the Translator {: id="meet-translator" }
 
-**VAI || Programmer** brings a unique perspective to this translation project:
+**Vadim Khristenko** (known online as **VAI || Programmer**) is a developer and open-source enthusiast from the CIS region, passionate about making quality technical education accessible beyond language barriers.
+
+**About Vadim:**
+- A Python developer with expertise in Telegram bot development and the aiogram framework
+- Maintains translations for English, Ukrainian, and Chinese (Simplified)
+- Active contributor to open-source projects
+- Believes that knowledge should know no borders
+
+**Connect with Vadim:**
+- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
+- **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
 
 !!! quote "Personal Mission"
-    "I believe that knowledge should be universally accessible. When I discovered Groosha's exceptional aiogram guide, I knew it had to reach the global developer community. This isn't just translation—it's knowledge democratization."
+    "I believe that knowledge should be universally accessible. When I discovered Groosha's exceptional aiogram guide, I knew it had to reach the global developer community. This translation is my way of saying thank you to the open-source community that shaped my career—by paying it forward. This isn't just translation; it's knowledge democratization."
+
+!!! note "A Personal/Passion Project"
+    This translation is a labor of love from an independent developer. It is not officially endorsed by Groosha or the aiogram team, but created with deep respect for their work and a genuine desire to help the global community. All feedback, suggestions, and contributions are warmly welcomed.
 
 ### 🎯 Translation Philosophy & Approach {: id="translation-philosophy" }
 
@@ -466,7 +490,7 @@ of this software and documentation files...
     ```
 ---
 
-*Last updated: July 2025 | Translation Progress: 60% Complete | Next Update: August 2025*
+*Last updated: June 2026 | Translation Progress: 100% text translation complete*
 
 <div align="center">
 <b>Built with ❤️ by developers, for developers</b><br>

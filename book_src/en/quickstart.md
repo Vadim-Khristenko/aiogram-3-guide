@@ -21,6 +21,13 @@ description: Getting Started with aiogram
     **It is important to remember that my goal is to explain specifically how to work with the Telegram Bot API using 
     aiogram, not to teach all of Computer Science in its entirety.**
 
+!!! info "About this Translation"
+    This guide was translated from Russian by **[Vadim Khristenko (VAI || Programmer)](https://github.com/Vadim-Khristenko/)**. The translation covers all chapters and is kept in sync with the original.
+    
+    Found a mistake or awkward phrasing? [Open an issue](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues) or reach the translator on [Telegram](https://t.me/VAI_Programmer) — feedback is very welcome.
+    
+    → [Read more about the translation project](about-translation.md)
+
 ## Terminology {: id="glossary" }
 
 Let's introduce some terms so we can be on the same page moving forward:
