@@ -8,19 +8,66 @@
     document.addEventListener('DOMContentLoaded', () => {
       const webapp = window.Telegram.WebApp;
       
-      // Initialize Telegram WebApp
       webapp.ready();
       webapp.expand();
       webapp.disableVerticalSwipes();
-      
-      // Handle navigation based on start_param
+
       const initData = webapp.initDataUnsafe;
       
-      if (window.location.pathname === "/aiogram-3-guide/" && Object.hasOwn(initData, 'auth_date')) {
+
+      const normalizePath = (path) => {
+        if (!path) return '/';
+        const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+        return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+      };
+      const pathFromUrl = (urlValue) => {
+        try {
+          return new URL(urlValue, window.location.origin).pathname;
+        } catch {
+          return '';
+        }
+      };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
+      const siteBasePath = normalizePath(pathFromUrl('https://mastergroosha.github.io/aiogram-3-guide/'));
+      const canonicalPath = normalizePath(pathFromUrl('https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
+
+      const currentPath = normalizePath(window.location.pathname);
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
+        : currentPath.slice(1);
+      const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
+
+      const isDocsRoot = relativeSegments.length === 0
+        || hasLocaleRoot;
+
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
+        ? `${relativeSegments[0]}/`
+        : '';
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
+
+      if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
         if (initData.start_param) {
-          // Map of start parameters to their corresponding paths
           const routeMap = {
-            // Main sections
             'quickstart': 'quickstart',
             'messages': 'messages',
             'buttons': 'buttons',
@@ -29,13 +76,10 @@
             'fsm': 'fsm',
             'inline-mode': 'inline-mode',
             
-            // Filters and middlewares
             'filters': 'filters-and-middlewares/#filters',
             'middlewares': 'filters-and-middlewares/#middlewares',
             'magic-filter': 'filters-and-middlewares/#magic-filters',
             'magic': 'filters-and-middlewares/#magic-filters',
-            
-            // Message handling
             'entities': 'messages/#message-entities',
             'escaping': 'messages/#input-escaping',
             'keep-formatting': 'messages/#keep-formatting',
@@ -44,19 +88,20 @@
             'download-files': 'messages/#downloading-media',
             'download': 'messages/#downloading-media',
             'hide-image': 'messages/#bonus',
-            
-            // Buttons
             'callback-factory': 'buttons/#callback-factory',
-            
-            // Special updates
             'my-chat-member': 'special-updates/#my-chat-member',
-            'chat-member': 'special-updates/#chat-member'
+            'chat-member': 'special-updates/#chat-member',
           };
-          
-          const path = routeMap[initData.start_param] || '/';
-          const targetUrl = `${window.location.origin}${window.location.pathname}${path}`;
-          
-          window.location.href = targetUrl;
+
+          const path = routeMap[initData.start_param];
+          // Unknown start_param — do nothing, don't break or reload current page
+          if (!path) {
+            return;
+          }
+
+          const targetUrl = new URL(`${redirectRoot}${path}`, window.location.origin);
+
+          window.location.href = targetUrl.toString();
         }
       }
     });
@@ -66,7 +111,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Апдейты my_chat_member и chat_member">
+        <meta name="description" content="Оновлення my_chat_member та chat_member">
       
       
         <meta name="author" content="MasterGroosha, Translated by VAI">
@@ -81,21 +126,32 @@
         <link rel="next" href="../fsm/">
       
       
+        
+          <link rel="alternate" href="../../special-updates/" hreflang="ru">
+        
+          <link rel="alternate" href="../../en/special-updates/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="uk">
+        
+          <link rel="alternate" href="../../zh/special-updates/" hreflang="zh">
+        
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
 
     
       
-        <title>Апдейты my_chat_member и chat_member - Написання ботів для Telegram з aiogram 3.x</title>
+        <title>Оновлення my_chat_member та chat_member - Написання ботів для Telegram з aiogram 3.x</title>
       
     
     
   
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -121,6 +177,26 @@
       margin: 1.5em 0 2em 0;
       border-radius: 8px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .translation-notice-dismiss {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0.25rem;
+      opacity: 0.75;
+    }
+
+    .translation-notice-dismiss:hover {
+      opacity: 1;
     }
     
     /* Icons styling */
@@ -391,7 +467,6 @@
 
     
     
-    
   
   
     
@@ -404,8 +479,8 @@
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Написання ботів для Telegram з aiogram 3.x - Апдейты my_chat_member и chat_member">
-  <meta property="og:description" content="Апдейты my_chat_member и chat_member">
+  <meta property="og:title" content="Написання ботів для Telegram з aiogram 3.x - Оновлення my_chat_member та chat_member">
+  <meta property="og:description" content="Оновлення my_chat_member та chat_member">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
   <meta property="og:image:type" content="image/png">
@@ -415,8 +490,8 @@
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/uk/special-updates/">
-  <meta name="twitter:title" content="Написання ботів для Telegram з aiogram 3.x - Апдейты my_chat_member и chat_member">
-  <meta name="twitter:description" content="Апдейты my_chat_member и chat_member">
+  <meta name="twitter:title" content="Написання ботів для Telegram з aiogram 3.x - Оновлення my_chat_member та chat_member">
+  <meta name="twitter:description" content="Оновлення my_chat_member та chat_member">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
   </head>
@@ -444,16 +519,6 @@
       
     </div>
     <div data-md-component="announce">
-      
-        <aside class="md-banner">
-          <div class="md-banner__inner md-grid md-typeset">
-            
-            <div class="announcement__translation">
-      Здається, ця сторінка ще не перекладена на цю мову і попередньо буде відображена російською.
-    </div>
-          </div>
-          
-        </aside>
       
     </div>
     
@@ -484,7 +549,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Апдейты my_chat_member и chat_member
+              Оновлення my_chat_member та chat_member
             
           </span>
         </div>
@@ -548,6 +613,12 @@
             </a>
           </li>
         
+          <li class="md-select__item">
+            <a href="../../zh/special-updates/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
       </ul>
     </div>
   </div>
@@ -601,7 +672,7 @@
         <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     MasterGroosha/aiogram-3-guide
@@ -630,19 +701,15 @@
                   <div class="md-sidebar__inner">
                     
 
-<!-- Determine classes -->
 
 
 
 
-<!-- Navigation -->
 <nav
   class="md-nav md-nav--primary"
   aria-label="Навігація"
   data-md-level="0"
 >
-
-  <!-- Site title -->
   <label class="md-nav__title" for="__drawer">
     <a
       href="../"
@@ -656,16 +723,15 @@
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
 
     </a>
-    Зміст
+    
   </label>
 
-  <!-- Repository information -->
   
     <div class="md-nav__source">
       <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     MasterGroosha/aiogram-3-guide
@@ -674,7 +740,6 @@
     </div>
   
 
-  <!-- Navigation list -->
   <ul class="md-nav__list" data-md-scrollfix>
     
       
@@ -689,9 +754,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Вступ
+  
+
     
   </span>
+  
   
 
       </a>
@@ -711,9 +781,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Про переклад
+  
+
     
   </span>
+  
   
 
       </a>
@@ -733,9 +808,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Знайомство з aiogram
+  
+
     
   </span>
+  
   
 
       </a>
@@ -755,9 +835,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Робота з повідомленнями
+  
+
     
   </span>
+  
   
 
       </a>
@@ -777,9 +862,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Кнопки
+  
+
     
   </span>
+  
   
 
       </a>
@@ -799,9 +889,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Роутери. Структура
+  
+
     
   </span>
+  
   
 
       </a>
@@ -821,9 +916,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Фільтри та мідлвари
+  
+
     
   </span>
+  
   
 
       </a>
@@ -852,9 +952,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Особливі оновлення
+  
+
     
   </span>
+  
   
 
           <span class="md-nav__icon md-icon"></span>
@@ -865,9 +970,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Особливі оновлення
+  
+
     
   </span>
+  
   
 
       </a>
@@ -890,7 +1000,9 @@
         <li class="md-nav__item">
   <a href="#intro" class="md-nav__link">
     <span class="md-ellipsis">
-      Введение
+      
+        Вступ
+      
     </span>
   </a>
   
@@ -899,7 +1011,9 @@
         <li class="md-nav__item">
   <a href="#chatmemberupdated" class="md-nav__link">
     <span class="md-ellipsis">
-      Объект ChatMemberUpdated
+      
+        Об'єкт ChatMemberUpdated
+      
     </span>
   </a>
   
@@ -908,17 +1022,21 @@
         <li class="md-nav__item">
   <a href="#my-chat-member" class="md-nav__link">
     <span class="md-ellipsis">
-      Апдейт my_chat_member
+      
+        Оновлення my_chat_member
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Апдейт my_chat_member">
+    <nav class="md-nav" aria-label="Оновлення my_chat_member">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#ban-unban-pm" class="md-nav__link">
     <span class="md-ellipsis">
-      Баны/разбаны в ЛС
+      
+        Бани/розбани в приватному чаті
+      
     </span>
   </a>
   
@@ -927,7 +1045,9 @@
           <li class="md-nav__item">
   <a href="#bot-added-to-group" class="md-nav__link">
     <span class="md-ellipsis">
-      Добавление в группу
+      
+        Додавання в групу
+      
     </span>
   </a>
   
@@ -941,17 +1061,21 @@
         <li class="md-nav__item">
   <a href="#chat-member" class="md-nav__link">
     <span class="md-ellipsis">
-      Апдейт chat_member
+      
+        Оновлення chat_member
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Апдейт chat_member">
+    <nav class="md-nav" aria-label="Оновлення chat_member">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#actualizing-admins" class="md-nav__link">
     <span class="md-ellipsis">
-      Актуализация списка админов в группах
+      
+        Актуалізація списку адмінів у групах
+      
     </span>
   </a>
   
@@ -982,9 +1106,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Кінцеві автомати
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1004,9 +1133,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Інлайн-режим
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1026,9 +1160,41 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Платежі
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guest-bots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Гостьовий режим
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1048,9 +1214,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     🔒 Просунутий рівень
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1087,7 +1258,9 @@
         <li class="md-nav__item">
   <a href="#intro" class="md-nav__link">
     <span class="md-ellipsis">
-      Введение
+      
+        Вступ
+      
     </span>
   </a>
   
@@ -1096,7 +1269,9 @@
         <li class="md-nav__item">
   <a href="#chatmemberupdated" class="md-nav__link">
     <span class="md-ellipsis">
-      Объект ChatMemberUpdated
+      
+        Об'єкт ChatMemberUpdated
+      
     </span>
   </a>
   
@@ -1105,17 +1280,21 @@
         <li class="md-nav__item">
   <a href="#my-chat-member" class="md-nav__link">
     <span class="md-ellipsis">
-      Апдейт my_chat_member
+      
+        Оновлення my_chat_member
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Апдейт my_chat_member">
+    <nav class="md-nav" aria-label="Оновлення my_chat_member">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#ban-unban-pm" class="md-nav__link">
     <span class="md-ellipsis">
-      Баны/разбаны в ЛС
+      
+        Бани/розбани в приватному чаті
+      
     </span>
   </a>
   
@@ -1124,7 +1303,9 @@
           <li class="md-nav__item">
   <a href="#bot-added-to-group" class="md-nav__link">
     <span class="md-ellipsis">
-      Добавление в группу
+      
+        Додавання в групу
+      
     </span>
   </a>
   
@@ -1138,17 +1319,21 @@
         <li class="md-nav__item">
   <a href="#chat-member" class="md-nav__link">
     <span class="md-ellipsis">
-      Апдейт chat_member
+      
+        Оновлення chat_member
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Апдейт chat_member">
+    <nav class="md-nav" aria-label="Оновлення chat_member">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#actualizing-admins" class="md-nav__link">
     <span class="md-ellipsis">
-      Актуализация списка админов в группах
+      
+        Актуалізація списку адмінів у групах
+      
     </span>
   </a>
   
@@ -1169,73 +1354,10 @@
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
-  <!-- Translation status notifications for non-Russian pages -->
   
-    
-    <!-- Language availability notification -->
-    
-      <div class="admonition info language-notification">
-        <p class="admonition-title">
-          <span class="twemoji language-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
-          </span>
-          Статус перекладу 🔄
-        </p>
-        <div class="translation-notification-content">
-          <p class="translation-fallback-message">
-            Здається, ця сторінка ще не перекладена на цю мову і попередньо буде відображена російською.
-          </p>
-          
-          <!-- Help improve translation section -->
-          <div class="help-translation-section">
-            <h4>Допомогти з перекладом</h4>
-            <p>Це проект з відкритим вихідним кодом, і ми вітаємо внески спільноти.</p>
-            
-            <!-- Action buttons -->
-            <div class="translation-actions">
-              
-              
-              
-              
-              <!-- Calculate correct file path for GitHub link -->
-              
-              
-              <!-- Normalize file path - replace backslashes with forward slashes -->
-              
-              
-              
-                <!-- File is in Russian folder, replace with target language: ru/fsm.md -> en/fsm.md -->
-                
-              
-              
-              <!-- Fallback: if the calculated path is wrong, use a simple approach -->
-              
-              
-              <a href="https://github.com/Vadim-Khristenko/aiogram-3-guide/blob/master/book_src/uk/special-updates.md" 
-                class="md-button md-button--primary translation-edit-btn" 
-                target="_blank" 
-                rel="noopener noreferrer">
-                <span class="twemoji github-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-                </span>
-                <span class="button-text">Редагувати сторінку</span>
-              </a>
-              
-              <a href="https://github.com/Vadim-Khristenko/aiogram-3-guide/issues/new?title=Translation%20Issue:%20%D0%9E%D1%81%D0%BE%D0%B1%D0%BB%D0%B8%D0%B2%D1%96%20%D0%BE%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F&body=Page:%20https%3A//mastergroosha.github.io/aiogram-3-guide/uk/special-updates/%0AFile:%20uk/special-updates.md%0A%0ATranslation%20issue%20description:" 
-                class="md-button md-button--secondary translation-issue-btn" 
-                target="_blank" 
-                rel="noopener noreferrer">
-                <span class="twemoji issue-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 12h-4v-2h4m0 6h-4v-2h4m6-6h-2.81a6 6 0 0 0-1.82-1.96L17 4.41 15.59 3l-2.17 2.17a6 6 0 0 0-2.83 0L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20z"/></svg>
-                </span>
-                <span class="button-text">Повідомити про проблему</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     
     
     <!-- Translation status notification -->
@@ -1250,119 +1372,118 @@
   
 
 
-<div><h1 id="special-updates">Особые апдейты<a class="headerlink" href="#special-updates" title="Permanent link">¶</a></h1>
+<div><h1 id="special-updates">Особливі оновлення<a class="headerlink" href="#special-updates" title="Permanent link">¶</a></h1>
 <div class="admonition info">
-<p>Используемая версия aiogram: 3.7.0</p>
+<p>Використовувана версія aiogram: 3.7.0</p>
 </div>
-<h2 id="intro">Введение<a class="headerlink" href="#intro" title="Permanent link">¶</a></h2>
-<p>Почти все виды событий в Telegram имеют какое-то внешнее представление для юзера. Служебные сообщения, обычные, 
-колбэки, инлайн-режим... но есть два вида апдейтов, предназначенные именно для самих ботов. Речь пойдёт о 
-<code>my_chat_member</code> и <code>chat_member</code></p>
-<p>Когда-то давным-давно боты в группах существовали в «информационном вакууме»: банально на любые 
-модераторские действия, будь то баны или ограничения, необходимо было проверять права вызывающего юзера через методы 
-<a href="https://core.telegram.org/bots/api#getchatadministrators">getChatMember</a> или 
-<a href="https://core.telegram.org/bots/api#getchatadministrators">getChatAdministrators</a>, да ещё и кэшировать на небольшой 
-промежуток времени, дабы не упереться в лимиты Bot API, точные значения которых [лимитов] по-прежнему остаются 
-тайной за семью печатями. </p>
-<p>Или, например, какой-нибудь хитрый юзер добавлял бота в группу, убирал у того право писать и начинал дёргать команды, 
-ожидая, что бот не обрабатывает такую ошибку и сломается. А уж с отправкой в личку вообще весело: не зная точно, какая 
-активная аудитория бота, разработчику приходилось либо отправлять какое-нибудь сообщение по списку пользователей в 
-своей базе, либо, что чуть гуманнее, отправлять этим юзерам какой-нибудь ChatAction, типа «<em>печатает</em>…»; как выяснилось, 
-тем, кто заблокировал бота, это самое «<em>печатает</em>…» не придёт, вернув ошибку от Bot API.</p>
-<p>В марте 2021 года ситуация кардинально изменилась в лучшую сторону с релизом 
-<a href="https://core.telegram.org/bots/api-changelog#march-9-2021">обновления Bot API v5.1</a>, в котором 
-добавилось два новых типа апдейтов: <code>my_chat_member</code> и <code>chat_member</code>. Оба апдейта внутри 
-содержат объект одного и того же типа <a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a>. 
-Разница между этими двумя событиями следующая:</p>
+<h2 id="intro">Вступ<a class="headerlink" href="#intro" title="Permanent link">¶</a></h2>
+<p>Майже всі типи подій у Telegram мають якесь зовнішнє представлення для користувача. Службові повідомлення, звичайні, 
+колбеки, інлайн-режим... але існують два типи оновлень, призначені саме для самих ботів. Йдеться про 
+<code>my_chat_member</code> та <code>chat_member</code></p>
+<p>Давним-давно боти в групах існували в «інформаційному вакуумі»: просто для будь-яких 
+модераторських дій, будь то бани або обмеження, необхідно було перевіряти права користувача через методи 
+<a href="https://core.telegram.org/bots/api#getchatadministrators">getChatMember</a> або 
+<a href="https://core.telegram.org/bots/api#getchatadministrators">getChatAdministrators</a>, та ще й кешувати на невеликий 
+проміжок часу, щоб не натрапити на ліміти Bot API, точні значення яких [лімітів] досі залишаються таємницею.</p>
+<p>Або, наприклад, якийсь хитрий користувач додавав бота в групу, забирав у того право писати і починав дергати команди, 
+очікуючи, що бот не обробляє таку помилку і упаде. А вже з відправкою в приватний чат загалом весело: не знаючи точно, яка 
+активна аудиторія бота, розробнику доводилося або відправляти якесь повідомлення по списку користувачів в 
+своїй базі, або, що трохи гуманніше, відправляти цим користувачам якусь ChatAction, типу «<em>пише</em>…»; як виявилося, 
+тим, хто заблокував бота, це саме «<em>пише</em>…» не прийде, повернувши помилку від Bot API.</p>
+<p>У березні 2021 року ситуація кардинально змінилася на краще з релізом 
+<a href="https://core.telegram.org/bots/api-changelog#march-9-2021">оновлення Bot API v5.1</a>, у якому 
+додалося два нові типи оновлень: <code>my_chat_member</code> та <code>chat_member</code>. Обидва оновлення всередину 
+містять об'єкт одного і того ж типу <a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a>. 
+Різниця між цими двома подіями така:</p>
 <ul>
-<li><code>my_chat_member</code>. Здесь всё, что касается непосредственно бота, либо ЛС юзера с ботом: (раз)блокировки бота юзером 
-в ЛС, добавление бота в группу или канал, удаление оттуда, изменение прав бота и его статуса в разных чатах и т.д.</li>
-<li><code>chat_member</code>. Содержит все изменения состояния пользователей в группах и каналах, где бот состоит в качестве 
-администратора: приход/уход юзеров в группы, подписки/отписки в каналах, изменение прав и статусов пользователей, 
-назначение/снятие админов и многое другое.</li>
+<li><code>my_chat_member</code>. Тут все, що стосується безпосередньо бота, або приватного чату користувача з ботом: (розблокування) блокування бота користувачем 
+в приватному чаті, додавання бота в групу або канал, видалення звідти, зміна прав бота та його статусу в різних чатах тощо.</li>
+<li><code>chat_member</code>. Містить всі зміни стану користувачів у групах та каналах, де бот перебуває в якості 
+адміністратора: прихід/вихід користувачів у групи, підписки/відписки у каналах, зміна прав та статусів користувачів, 
+призначення/усунення адмінів та багато іншого.</li>
 </ul>
 <div class="admonition warning">
-<p class="admonition-title">Важно</p>
-<p>По умолчанию Telegram не присылает ботам апдейты <code>chat_member</code>, их приём надо включить отдельно. Подробнее — 
-в <a href="#chat-member">соответствующем разделе</a></p>
+<p class="admonition-title">Важливо</p>
+<p>За замовчуванням Telegram не надсилає ботам оновлення <code>chat_member</code>, їх отримання потрібно включити окремо. Докладніше — 
+в <a href="#chat-member">відповідному розділі</a></p>
 </div>
-<p>В данной главе мы попробуем рассмотреть эти апдейты на наиболее часто необходимых задачах, однако перед переходом 
-к следующим разделам настоятельно рекомендую ознакомиться с 
-<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">этой страницей</a> 
-из документации <strong>aiogram 3.x</strong>.</p>
-<h2 id="chatmemberupdated">Объект ChatMemberUpdated<a class="headerlink" href="#chatmemberupdated" title="Permanent link">¶</a></h2>
-<p>Сам по себе объект <a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a> заслуживает отдельного 
-внимания. Чтобы изучить его поближе, предположим, в некоторой группе администратор Алиса забанила 
-обычного участника Витю. С полями <code>chat</code> и <code>date</code> всё очевидно, их пропустим.</p>
-<p>Поле <code>from</code> (в вашем Python-коде это будет <code>from_user</code>) содержит информацию о субъекте действия. В нашем случае, субъект 
-действия — это Алиса, поэтому во <code>from</code> (<code>from_user</code>) будет объект <a href="https://core.telegram.org/bots/api#user">User</a> с 
-данными об Алисе.</p>
-<p><code>old_chat_member</code> и <code>new_chat_member</code>. Под этими полями скрываются «состояния» 
-объекта действия ДО и ПОСЛЕ события. Соответственно, в <code>old_chat_member</code> будет объект с типом 
-<a href="https://core.telegram.org/bots/api#chatmembermember">ChatMemberMember</a> (это не опечатка), и полем <code>user</code> с информацией 
-о Вите, а в <code>new_chat_member</code> — объект <a href="https://core.telegram.org/bots/api#chatmemberbanned">ChatMemberBanned</a> с полем 
-<code>user</code> всё про того же несчастного Виктора.</p>
-<p>Наконец, если в группу или канал вступила условная Маша, то в объекте ChatMemberUpdated будет непустое поле 
-<code>invite_link</code>, с типом <a href="https://core.telegram.org/bots/api#chatinvitelink">ChatInviteLink</a> и сведениями о том, 
-по какой именно пригласительной ссылке она пришла. </p>
+<p>У цьому розділі ми спробуємо розглянути ці оновлення на найбільш часто необхідних завданнях, однак перед переходом 
+до наступних розділів наполегливо рекомендую ознайомитися з 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">цією сторінкою</a> 
+з документації <strong>aiogram 3.x</strong>.</p>
+<h2 id="chatmemberupdated">Об'єкт ChatMemberUpdated<a class="headerlink" href="#chatmemberupdated" title="Permanent link">¶</a></h2>
+<p>Сам по собі об'єкт <a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a> заслуговує окремої 
+уваги. Щоб вивчити його детальніше, припустимо, в якійсь групі адміністратор Аліса забанила 
+звичайного учасника Вітю. З полями <code>chat</code> та <code>date</code> все очевидно, їх пропустимо.</p>
+<p>Поле <code>from</code> (у вашому Python-коді це буде <code>from_user</code>) містить інформацію про суб'єкт дії. У нашому випадку суб'єкт 
+дії — це Аліса, тому в <code>from</code> (<code>from_user</code>) буде об'єкт <a href="https://core.telegram.org/bots/api#user">User</a> з 
+даними про Алісу.</p>
+<p><code>old_chat_member</code> та <code>new_chat_member</code>. Під цими полями приховані «стани» 
+об'єкта дії ДО та ПІСЛЯ події. Відповідно, в <code>old_chat_member</code> буде об'єкт з типом 
+<a href="https://core.telegram.org/bots/api#chatmembermember">ChatMemberMember</a> (це не опечатка), та полем <code>user</code> з інформацією 
+про Вітю, а в <code>new_chat_member</code> — об'єкт <a href="https://core.telegram.org/bots/api#chatmemberbanned">ChatMemberBanned</a> з полем 
+<code>user</code> все про того ж нещасного Виктора.</p>
+<p>Нарешті, якщо в групу або канал вступила умовна Маша, то в об'єкті ChatMemberUpdated буде непусте поле 
+<code>invite_link</code>, з типом <a href="https://core.telegram.org/bots/api#chatinvitelink">ChatInviteLink</a> та відомостями про те, 
+по якій саме запрошувальній посиланню вона прийшла.</p>
 <div class="admonition warning">
-<p class="admonition-title">О пригласительных ссылках</p>
-<p>Здесь стоит сделать важную ремарку: каждый администратор 
-группы/канала (включая ботов) может создать множество пригласительных ссылок с разными параметрами. Если бот 
-«поймал» вступление участника по созданной им [ботом] же ссылке, то в поле <code>invite_link</code> объекта ChatInviteLink 
-будет видна ссылка целиком (без <code>https://t.me</code>, разумеется). Но если участник пришёл по ссылке другого 
-администратора, то бот увидит только первую часть, вторая будет заменена на многоточие. </p>
-<p>Вероятнее всего, это сделано для того, чтобы боты не могли отправлять кому попало пригласительные ссылки, 
-созданные другими администраторами чата.</p>
-<p>Кстати, по какой-то странной телеграмной логике, если вступить в публичную группу по пригласительной ссылке 
-(даже не по юзернейму), то бот не увидит ссылку (получит <code>None</code>). Телега 🤷‍♂️</p>
+<p class="admonition-title">Про запрошувальні посилання</p>
+<p>Тут варто зробити важливу зауваження: кожен адміністратор 
+групи/каналу (включаючи ботів) може створити безліч запрошувальних посилань з різними параметрами. Якщо бот 
+«впіймав» вступлення учасника по створеному ним [ботом] ж посиланню, то в полі <code>invite_link</code> об'єкта ChatInviteLink 
+буде видна посилання цілком (без <code>https://t.me</code>, звісно). Але якщо учасник прийшов по посиланню іншого 
+адміністратора, то бот побачить лише першу частину, друга буде замінена на розділовець.</p>
+<p>Ймовірніше за все, це зроблено для того, щоб боти не могли відправляти кому попало запрошувальні посилання, 
+створені іншими адміністраторами чату.</p>
+<p>До речі, за якоюсь дивною телеграмною логікою, якщо вступити в публічну групу по запрошувальній посиланню 
+(навіть не по юзернейму), то бот не побачить посилання (отримає <code>None</code>). Телега 🤷‍♂️</p>
 </div>
-<h2 id="my-chat-member">Апдейт my_chat_member<a class="headerlink" href="#my-chat-member" title="Permanent link">¶</a></h2>
-<h3 id="ban-unban-pm">Баны/разбаны в ЛС<a class="headerlink" href="#ban-unban-pm" title="Permanent link">¶</a></h3>
-<p>В профильных чатах периодически возникает вопрос: «как сделать рассылку пользователям бота, 
-если кто-то мог его заблокировать?». Разумеется, первым и главным советом будет: 
-«создай <a href="https://telegram.org/faq_channels">канал</a>», потому что каналы — это лучший способ информировать пользователей 
-о чём-либо.</p>
-<p>Но если вы всё же твёрдо решили, что будете делать рассылку пользователям прямо через бота, то существует три основных 
-способа актуализации действующих пользователей бота:</p>
+<h2 id="my-chat-member">Оновлення my_chat_member<a class="headerlink" href="#my-chat-member" title="Permanent link">¶</a></h2>
+<h3 id="ban-unban-pm">Бани/розбани в приватному чаті<a class="headerlink" href="#ban-unban-pm" title="Permanent link">¶</a></h3>
+<p>У профільних чатах періодично виникає запитання: «як зробити розсилку користувачам бота, 
+якщо хтось міг його заблокувати?». Розумієно, першою та головною порадою буде: 
+«створи <a href="https://telegram.org/faq_channels">канал</a>», тому що канали — це найкращий способ інформувати користувачів 
+про що-либудь.</p>
+<p>Але якщо ви все ж твердо вирішили, що будете робити розсилку користувачам прямо через бота, то існує три основні 
+способи актуалізації активних користувачів бота:</p>
 <ol>
-<li>Непосредственно во время совершения рассылки путём отлова ошибок отправки и внесения изменений в базу данных 
-пользователей.</li>
-<li>Через периодическую <a href="https://core.telegram.org/bots/api#sendchataction">отправку какого-либо ChatAction</a>, 
-например, «печатает» по списку пользователей.</li>
-<li>Прослушиванием апдейта my_chat_member.</li>
+<li>Безпосередньо під час здійснення розсилки шляхом виловлювання помилок відправки та внесення змін в базу даних 
+користувачів.</li>
+<li>Через періодичну <a href="https://core.telegram.org/bots/api#sendchataction">відправку якоїсь ChatAction</a>, 
+наприклад, «пише» по списку користувачів.</li>
+<li>Прослуховуванням оновлення my_chat_member.</li>
 </ol>
-<p>Сейчас нас интересует только п.3. Научимся с помощью <code>my_chat_member</code> определять, что пользователь 
-заблокировал или разблокировал бота. Но прежде, чем попробуем «магию» aiogram, разберёмся, как упомянутые ситуации 
-выглядят в самом Bot API. Для этого остановим процесс с ботом, откроем диалог с ним в Telegram и последовательно 
-заблокируем и разблокируем, используя опции в UI мессенджера. Далее откроем веб-браузер или какой-нибудь 
-Insomnia/Postman и перейдём по ссылке <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getupdates</code>, чтобы увидеть ещё не 
-обработанные сообщения в формате JSON.</p>
-<p>Итак, вот что приходит боту, когда кто-то его блокирует:</p>
-<p><img alt="Пользователь заблокировал бота" src="../../images/ru/special-updates/my_chat_member-blocked.png"></p>
-<p>На что надо обратить внимание:</p>
+<p>Зараз нас цікавить лише п.3. Навчимося за допомогою <code>my_chat_member</code> визначати, що користувач 
+заблокував або розблокував бота. Але перш, ніж спробуємо «магію» aiogram, розберімося, як зазначені ситуації 
+виглядають у самому Bot API. Для цього зупинимо процес з ботом, відкриємо діалог з ним у Telegram та послідовно 
+заблокуємо та розблокуємо, використовуючи опції в UI месенджера. Далі відкриємо веб-браузер або якийсь 
+Insomnia/Postman та перейдемо по посиланню <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getupdates</code>, щоб побачити ще не 
+оброблені повідомлення у форматі JSON.</p>
+<p>Отже, ось що приходить боту, коли хтось його блокує:</p>
+<p><img alt="Користувач заблокував бота" src="../../images/ru/special-updates/my_chat_member-blocked.png"></p>
+<p>На що варто звернути увагу:</p>
 <ul>
-<li>Событие <code>my_chat_member</code> произошло в ЛС с пользователем Groosha (chat_id равен моему Telegram ID).</li>
-<li>Инициатор (субъект) события — тоже Groosha.</li>
-<li>В поле <code>old_chat_member</code> видно, над кем произведено действие (над ботом) и какой статус бота в ЛС был ДО: "member", 
-т.е. бот НЕ был заблокирован ранее.</li>
-<li>В поле <code>new_chat_member</code> содержимое <code>user</code> то же самое, а вот статус уже "kicked", т.е. ПОСЛЕ события бот был 
-заблокирован пользователем.</li>
+<li>Подія <code>my_chat_member</code> сталася в приватному чаті з користувачем Groosha (chat_id дорівнює моєму Telegram ID).</li>
+<li>Ініціатор (суб'єкт) події — теж Groosha.</li>
+<li>У полі <code>old_chat_member</code> видно, над кім здійснено дію (над ботом) та який статус бота в приватному чаті був ДО: "member", 
+тобто бот НЕ був заблокований раніше.</li>
+<li>У полі <code>new_chat_member</code> вміст <code>user</code> той же самий, а ось статус уже "kicked", тобто ПІСЛЯ події бот був 
+заблокований користувачем.</li>
 </ul>
-<p>То есть, бот в ЛС с Groosha совершил переход своего состояния из "member" в "kicked". Теперь посмотрим, что пришло от 
-Telegram после разблокировки:</p>
-<p><img alt="Пользователь разблокировал бота" src="../../images/ru/special-updates/my_chat_member-unblocked.png"></p>
-<p>Этот скриншот похож на предыдущий, но если присмотреться, то можно заметить разницу: другой <code>update_id</code> 
-(увеличился на единицу), а также статусы ДО и ПОСЛЕ поменялись местами. Бот в ЛС с Groosha совершил переход 
-из "kicked" в "member".<br>
-Кроме того, обычно рядом будет ещё один апдейт уже с типом <code>message</code> и с командой <code>/start</code> 
-в содержимом. Официальные клиенты при разблокировке бота сразу отправляют команду <code>/start</code>, но не стоит на это 
-полагаться: подобные действия остаются на откуп клиентам, которые могут вести себя по-разному.</p>
-<p>Теперь научимся реагировать на такие события через aiogram на простом примере: пусть у нас есть список из двух активных 
-пользователей бота с айди 111 и 222. По команде <code>/start</code> добавим юзера в список рассылки, а по команде <code>/users</code> будем 
-выводить айди тех, кто не заблокировал бота (другими словами, при блокировке бота будем убирать айди из списка, а 
-при разблокировке снова добавим).</p>
-<p>Вот готовый роутер под вышеописанные условия:</p>
+<p>Тобто бот в приватному чаті з Groosha здійснив перехід свого стану з "member" в "kicked". Тепер подивимося, що прийшло від 
+Telegram після розблокування:</p>
+<p><img alt="Користувач розблокував бота" src="../../images/ru/special-updates/my_chat_member-unblocked.png"></p>
+<p>Цей снімок екрана схожий на попередній, але якщо придивитися, то можна помітити різницю: інший <code>update_id</code> 
+(збільшився на одиницю), а також статуси ДО та ПІСЛЯ поміняліся місцями. Бот в приватному чаті з Groosha здійснив перехід 
+з "kicked" в "member".<br>
+Крім того, зазвичай поруч буде ще одне оновлення вже з типом <code>message</code> та з командою <code>/start</code> 
+у вмісті. Офіційні клієнти при розблокуванні бота одразу відправляють команду <code>/start</code>, але не варто на це 
+розраховувати: подібні дії залишаються на збір клієнтам, які можуть поводитися по-різному.</p>
+<p>Тепер навчимося реагувати на такі події через aiogram на простому прикладі: припустимо, у нас є список з двох активних 
+користувачів бота з ідентифікаторами 111 та 222. За командою <code>/start</code> додамо користувача в список розсилки, а за командою <code>/users</code> будемо 
+виводити ідентифікатори тих, хто не заблокував бота (іншими словами, при блокуванні бота будемо видаляти ідентифікатор зі списку, а 
+при розблокуванні знову додамо).</p>
+<p>Ось готовий роутер під вищеописані умови:</p>
 <div class="highlight"><span class="filename">handlers/in_pm.py</span><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
 </span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
 </span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> <span class="n">KICKED</span>
@@ -1374,9 +1495,9 @@ Telegram после разблокировки:</p>
 </span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"private"</span><span class="p">)</span>
 </span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"private"</span><span class="p">)</span>
 </span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-</span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Исключительно для примера!</span>
-</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># В реальной жизни используйте более надёжные</span>
-</span><span id="__code-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># источники айди юзеров</span>
+</span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Виключно для прикладу!</span>
+</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># У реальному житті користуйтесь більш надійними</span>
+</span><span id="__code-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># джерелами ідентифікаторів користувачів</span>
 </span><span id="__code-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">users</span> <span class="o">=</span> <span class="p">{</span><span class="mi">111</span><span class="p">,</span> <span class="mi">222</span><span class="p">}</span>
 </span><span id="__code-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
 </span><span id="__code-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
@@ -1404,36 +1525,36 @@ Telegram после разблокировки:</p>
 </span><span id="__code-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_users</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="n">users</span><span class="p">))</span>
 </span></code></pre></div>
-<p>Обратите внимание: для хэндлеров на апдейт <code>my_chat_member</code> мы используем фильтр <code>ChatMemberUpdatedFilter</code> с 
-указанием отлавливаемого результата ПОСЛЕ (т.е. атрибут <code>new_chat_member</code> у апдейта). Т.е. в данном случае нас 
-не интересует, в каком состоянии был юзер ДО.</p>
-<p>И вот как это выглядит на практике:</p>
+<p>Зверніть увагу: для хендлерів на оновлення <code>my_chat_member</code> ми використовуємо фільтр <code>ChatMemberUpdatedFilter</code> з 
+указанням виловленого результату ПІСЛЯ (тобто атрибут <code>new_chat_member</code> у оновленні). Тобто в даному випадку нас 
+цікавить лише кінцевий стан користувача.</p>
+<p>І ось як це виглядає на практиці:</p>
 <p><div class="video-container"><video style="width:100%;max-width:800px;height:auto;margin:0 auto" controls alt="type:video"><source src="../../images/ru/special-updates/my_chat_member_video.mp4" type="video/mp4"></source></video></div></p>
-<h3 id="bot-added-to-group">Добавление в группу<a class="headerlink" href="#bot-added-to-group" title="Permanent link">¶</a></h3>
-<p>Ещё частый вопрос от начинающих разработчиков: «как поймать событие добавления бота в группу?». Что ж, 
-давайте разбираться. Но перед этим посмотрим, какие вообще могут быть 
-«<a href="https://core.telegram.org/bots/api#chatmember">статусы</a>» пользователя:</p>
+<h3 id="bot-added-to-group">Додавання в групу<a class="headerlink" href="#bot-added-to-group" title="Permanent link">¶</a></h3>
+<p>Ще часте запитання від початківців розробників: «як впіймати подію додавання бота в групу?». Ну що ж, 
+давайте розбиратися. Але перед цим подивимося, які взагалі можуть бути 
+«<a href="https://core.telegram.org/bots/api#chatmember">статуси</a>» користувача:</p>
 <ul>
-<li>creator (он же owner) — владелец чата. Судя по всему, бот не может иметь такой статус. Владелец безальтернативно имеет 
-все возможные права в чате, кроме «анонимности», она переключается туда-сюда свободно.</li>
-<li>administrator — любой другой администратор. В интерфейсе приложений можно убрать ему вообще все права, 
-но он всё равно останется администратором и сможет, например, читать Recent Actions и игнорировать slow mode.</li>
-<li>member — участник чата с правами по умолчанию. Узнать эти «права по умолчанию» в случае с группами можно, вызвав 
-API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> и посмотрев поле <code>permissions</code>.</li>
-<li>restricted — пользователь, ограниченный в каких-то правах. Например, находящийся в т.н. "read-only". 
-<strong>ВАЖНО</strong>: в состоянии <code>restricted</code> юзер может как находиться в группе, так и не находиться, поэтому 
-у <a href="https://youtu.be/ndTTmWiOS-M">ChatMemberRestricted</a> надо дополнительно проверять флаг <code>is_member</code>.</li>
-<li>left — «<a href="https://youtu.be/ndTTmWiOS-M">он улетел, но обещал вернуться</a>», т.е. пользователь вышел из группы, 
-но при желании может снова зайти. И на момент выхода он не был в состоянии <code>restricted</code>.</li>
-<li>banned — пользователь забанен и не может вернуться самостоятельно, пока его 
-не <a href="https://core.telegram.org/bots/api#unbanchatmember">разбанят</a>.</li>
+<li>creator (він же owner) — власник чату. Судячи з усього, бот не може мати такий статус. Власник безальтернативно має 
+всі можливі права в чаті, крім «анонімності», вона перемикається туди-сюди вільно.</li>
+<li>administrator — будь-який інший адміністратор. В інтерфейсі додатків можна забрати йому взагалі всі права, 
+але він все одно залишиться адміністратором та зможе, наприклад, читати Recent Actions та ігнорувати slow mode.</li>
+<li>member — учасник чату з правами за замовчуванням. Дізнатися ці «права за замовчуванням» у випадку з групами можна, викликавши 
+API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> та подивившись поле <code>permissions</code>.</li>
+<li>restricted — користувач, обмежений у якихось правах. Наприклад, що знаходиться в т.з. "read-only". 
+<strong>ВАЖЛИВО</strong>: у стані <code>restricted</code> користувач може як знаходитися в групі, так і не знаходитися, тому 
+у <a href="https://youtu.be/ndTTmWiOS-M">ChatMemberRestricted</a> потрібно додатково перевіряти прапор <code>is_member</code>.</li>
+<li>left — «<a href="https://youtu.be/ndTTmWiOS-M">він улетів, але обіцяв повернутися</a>», тобто користувач вийшов з групи, 
+але при бажанні може снова зайти. І на момент виходу він не був у стані <code>restricted</code>.</li>
+<li>banned — користувач забанений та не може повернутися самостійно, поки його 
+не <a href="https://core.telegram.org/bots/api#unbanchatmember">розбанять</a>.</li>
 </ul>
-<p>Имея под рукой вышеизложенную информацию, нетрудно догадаться, что событие «бота добавили в группу» — это переход из 
-набора состояний <code>{banned, left, restricted(is_member=False)}</code> 
-в набор <code>{restricted(is_member=True), member, administrator}</code>. Такой переход по-английски называется transition, и 
-в <strong>aiogram 3.x</strong> уже есть заготовки. </p>
-<p>Вариант №1: тупо перечислим все состояния ДО и ПОСЛЕ:</p>
-<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Не забываем импорты:</span>
+<p>Маючи під рукою вищевикладену інформацію, нетрудно здогадатися, що подія «бота додали в групу» — це перехід з 
+набору станів <code>{banned, left, restricted(is_member=False)}</code> 
+в набір <code>{restricted(is_member=True), member, administrator}</code>. Такий перехід англійською називається transition, та 
+в <strong>aiogram 3.x</strong> уже є заготовки.</p>
+<p>Варіант №1: тупо перелічимо всі стани ДО та ПІСЛЯ:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Не забуваємо імпорти:</span>
 </span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
 </span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">KICKED</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> \
 </span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">RESTRICTED</span><span class="p">,</span> <span class="n">ADMINISTRATOR</span><span class="p">,</span> <span class="n">CREATOR</span>
@@ -1447,11 +1568,11 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="p">)</span>
 </span><span id="__code-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">)</span>
 </span></code></pre></div>
-<p>Вертикальная черта означает "или", битовый оператор "&gt;&gt;" показывает направление перехода, 
-а символы «плюс» и «минус» около RESTRICTED относятся к флагу <code>is_member</code> (плюс - True, минус - False).</p>
-<p>Но разработчик aiogram пошёл дальше и обернул эти два набора в отдельные состояния <code>IS_NOT_MEMBER</code> и <code>IS_MEMBER</code> 
-соответственно. Упростим наш код в виде варианта №2:</p>
-<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Немного другие импорты</span>
+<p>Вертикальна риска означає "або", бітовий оператор "&gt;&gt;" показує напрямок переходу, 
+а символи «плюс» та «мінус» біля RESTRICTED відносяться до прапора <code>is_member</code> (плюс - True, мінус - False).</p>
+<p>Але розробник aiogram пішов далі та обгорнув ці два набори в окремі стани <code>IS_NOT_MEMBER</code> та <code>IS_MEMBER</code> 
+відповідно. Спростимо наш код у виді варіанту №2:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Трохи інші імпорти</span>
 </span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
 </span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">IS_NOT_MEMBER</span><span class="p">,</span> <span class="n">IS_MEMBER</span>
 </span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
@@ -1462,9 +1583,9 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="p">)</span>
 </span><span id="__code-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">)</span>
 </span></code></pre></div>
-<p>Но поскольку, повторюсь, такой переход довольно часто используется в ботах, то разработчик пошёл <em>ещё дальше</em> и 
-обернул такой переход в виде переменной <code>JOIN_TRANSITION</code>, получив вариант №3:</p>
-<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># И ещё меньше импортов</span>
+<p>Але оскільки, повторюсь, такий перехід досить часто використовується в ботах, то розробник пішов <em>ще далі</em> та 
+обгорнув такий перехід у виді змінної <code>JOIN_TRANSITION</code>, отримавши варіант №3:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># І ще менше імпортів</span>
 </span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
 </span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">JOIN_TRANSITION</span>
 </span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
@@ -1474,12 +1595,12 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="p">)</span>
 </span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
 </span></code></pre></div>
-<p>Настоятельно рекомендую ознакомиться со всеми наборами состояний и переходов 
-<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">в документации</a>, чтобы сделать 
-свой код чище.</p>
-<p>Теперь создадим ещё один роутер, под которым будут два хэндлера, реагирующие на добавление бота 
-в группу или супергруппу в роли администратора и обычного участника. 
-При добавлении будем отправлять в чат сводную информацию о том, куда добавили бота:</p>
+<p>Наполегливо рекомендую ознайомитися з усіма наборами станів та переходів 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">в документації</a>, щоб зробити 
+свій код чищим.</p>
+<p>Тепер створимо ще один роутер, під яким будуть два хендлери, що реагують на додавання бота 
+в групу або супергрупу в ролі адміністратора та звичайного учасника. 
+При додаванні будемо відправляти в чат зведену інформацію про те, куди додали бота:</p>
 <div class="highlight"><span class="filename">handlers/bot_in_group.py</span><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
 </span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
 </span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">IS_NOT_MEMBER</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> <span class="n">ADMINISTRATOR</span>
@@ -1489,13 +1610,13 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">in_</span><span class="p">({</span><span class="s2">"group"</span><span class="p">,</span> <span class="s2">"supergroup"</span><span class="p">}))</span>
 </span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
 </span><span id="__code-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">chats_variants</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__code-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="s2">"group"</span><span class="p">:</span> <span class="s2">"группу"</span><span class="p">,</span>
-</span><span id="__code-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="s2">"supergroup"</span><span class="p">:</span> <span class="s2">"супергруппу"</span>
+</span><span id="__code-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="s2">"group"</span><span class="p">:</span> <span class="s2">"групу"</span><span class="p">,</span>
+</span><span id="__code-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="s2">"supergroup"</span><span class="p">:</span> <span class="s2">"супергрупу"</span>
 </span><span id="__code-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">}</span>
 </span><span id="__code-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
 </span><span id="__code-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-</span><span id="__code-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># Не удалось воспроизвести случай добавления бота как Restricted,</span>
-</span><span id="__code-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># поэтому примера с ним не будет</span>
+</span><span id="__code-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># Не вдалося відтворити випадок додавання бота як Restricted,</span>
+</span><span id="__code-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># тому прикладу з ним не буде</span>
 </span><span id="__code-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
 </span><span id="__code-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
 </span><span id="__code-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
@@ -1504,12 +1625,12 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="p">)</span>
 </span><span id="__code-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="p">)</span>
 </span><span id="__code-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bot_added_as_admin</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">):</span>
-</span><span id="__code-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="c1"># Самый простой случай: бот добавлен как админ.</span>
-</span><span id="__code-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="c1"># Легко можем отправить сообщение</span>
+</span><span id="__code-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="c1"># Найпростіший випадок: бот доданий як адмін.</span>
+</span><span id="__code-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="c1"># Легко можемо відправити повідомлення</span>
 </span><span id="__code-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Привет! Спасибо, что добавили меня в "</span>
+</span><span id="__code-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Привіт! Спасибі, що додали мене в "</span>
 </span><span id="__code-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>             <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">chats_variants</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span><span class="p">]</span><span class="si">}</span><span class="s1"> "</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">" '</span>
-</span><span id="__code-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>             <span class="sa">f</span><span class="s2">"как администратора. ID чата: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>             <span class="sa">f</span><span class="s2">"як адміністратора. ID чату: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__code-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="p">)</span>
 </span><span id="__code-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
 </span><span id="__code-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
@@ -1519,49 +1640,49 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>    <span class="p">)</span>
 </span><span id="__code-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="p">)</span>
 </span><span id="__code-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bot_added_as_member</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
-</span><span id="__code-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>    <span class="c1"># Вариант посложнее: бота добавили как обычного участника.</span>
-</span><span id="__code-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>    <span class="c1"># Но может отсутствовать право написания сообщений, поэтому заранее проверим.</span>
+</span><span id="__code-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>    <span class="c1"># Варіант посилніший: бота додали як звичайного учасника.</span>
+</span><span id="__code-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>    <span class="c1"># Але може бути відсутнє право написання повідомлень, тому заздалегідь перевіримо.</span>
 </span><span id="__code-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>    <span class="n">chat_info</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_chat</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </span><span id="__code-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>    <span class="k">if</span> <span class="n">chat_info</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">can_send_messages</span><span class="p">:</span>
 </span><span id="__code-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>        <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Привет! Спасибо, что добавили меня в "</span>
+</span><span id="__code-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Привіт! Спасибі, що додали мене в "</span>
 </span><span id="__code-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>                 <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">chats_variants</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span><span class="p">]</span><span class="si">}</span><span class="s1"> "</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">" '</span>
-</span><span id="__code-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>                 <span class="sa">f</span><span class="s2">"как обычного участника. ID чата: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>                 <span class="sa">f</span><span class="s2">"як звичайного учасника. ID чату: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__code-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>        <span class="p">)</span>
 </span><span id="__code-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__code-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Как-нибудь логируем эту ситуацию"</span><span class="p">)</span>
+</span><span id="__code-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Якось логуємо цю ситуацію"</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Но, как и всегда, есть нюанс, и чтобы его увидеть, надо добавить бота в группу, 
-а затем сконвертировать её в супергруппу. Для наглядности, я создал группу 
-со своим ботом <a href="https://t.me/my_id_bot">@my_id_bot</a>, а затем добавил туда тестового бота с кодом, описанным выше. 
-Внимание на картинку:</p>
-<p><img alt="конвертация группы в супергруппу" src="../../images/ru/special-updates/group_supergroup.png"></p>
-<p>Ой, почему-то бот отреагировал так, как будто его только что добавили, хотя вроде как ничего не изменилось. 
-На деле, конвертация группы в супергруппу для бота выглядит как добавление в новый чат. К счастью, в 
-этом случае боту также приходит Message с непустыми полями 
-<code>migrate_from_chat_id</code> и <code>migrate_to_chat_id</code>. А дальше дело за малым: при срабатывании события <code>my_chat_member</code> 
-на добавление в супергруппу проверять, что за последнее время (скажем, за пару секунд) не было сообщений 
-с непустым полем <code>migrate_to_chat_id</code>.</p>
-<p>Решение практически полностью повторяет описанные выше примеры и более того, реализовано в моём <a href="https://t.me/my_id_bot">@my_id_bot</a>: 
-<a href="https://github.com/MasterGroosha/my-id-bot/blob/17fa99945dd4eb186a7f2a200567829641edbe74/bot/handlers/add_or_migrate.py">вот так</a>
-(звёздочки на гитхабе всячески приветствуются)</p>
+<p>Але, як завжди, є нюанс, і щоб його побачити, потрібно додати бота в групу, 
+а потім конвертувати її в супергрупу. Для наочності я створив групу 
+зі своїм ботом <a href="https://t.me/my_id_bot">@my_id_bot</a>, а потім додав туди тестового бота з кодом, описаним вище. 
+Увага на картинку:</p>
+<p><img alt="конвертація групи в супергрупу" src="../../images/ru/special-updates/group_supergroup.png"></p>
+<p>Ой, чомусь бот відреагував так, ніби його щойно додали, хоча начебто нічого не змінилося. 
+Насправді конвертація групи в супергрупу для бота виглядає як додавання в новий чат. На щастя, в 
+цьому випадку боту також приходить Message з непустими полями 
+<code>migrate_from_chat_id</code> та <code>migrate_to_chat_id</code>. А далі справа за малим: при спрацюванні події <code>my_chat_member</code> 
+на додавання в супергрупу перевіряти, що за останній час (скажімо, за пару секунд) не було повідомлень 
+з непустим полем <code>migrate_to_chat_id</code>.</p>
+<p>Рішення практично повністю повторює описані вище приклади та більше того, реалізовано в моєму <a href="https://t.me/my_id_bot">@my_id_bot</a>: 
+<a href="https://github.com/MasterGroosha/my-id-bot/blob/17fa99945dd4eb186a7f2a200567829641edbe74/bot/handlers/add_or_migrate.py">ось так</a>
+(зірочки на гітхабі всіляко вітаються)</p>
 <div class="admonition info">
-<p class="admonition-title">Группы и супергруппы</p>
-<p>Вопреки частому заблуждению, обычные группы по-прежнему существуют и никуда исчезать не собираются. Официальные 
-клиенты Telegram исходно создают именно обычную группу, которая неявно при наступлении некоторого события 
-конвертируется в супергруппу. И есть серьёзные подозрения, что такое поведение в ближайшие годы не изменится, 
-особенно в свете того, что на обычные (не-премиум) учётки действует лимит на участие в 500 супергруппах и каналах 
-суммарно.</p>
-<p>При конвертации, помимо смены ID чата, присутствуют также некоторые побочные эффекты, поэтому зачастую проще всего 
-после создания группы сразу её сделать супергруппой, получить окончательный айди и не париться. 
-Полный список действий, приводящий к конвертации группы в супергруппу, можно увидеть здесь: 
+<p class="admonition-title">Групи та супергрупи</p>
+<p>Всупереч частому помиленню, звичайні групи по-прежнему існують і ніде не збираються зникати. Офіційні 
+клієнти Telegram спочатку створюють саме звичайну групу, яка неявно при настанні якоїсь події 
+конвертується в супергрупу. І є серйозні підозри, що таке поведення у найближчі роки не зміниться, 
+особливо в світлі того, що на звичайні (не-преміум) облікові записи діє ліміт на участь у 500 супергрупах та каналах 
+сумарно.</p>
+<p>При конвертації, крім зміни ID чату, присутні також деякі побічні ефекти, тому часто всього простіше 
+після створення групи одразу зробити її супергрупою, отримати остаточний ідентифікатор та не турбуватися. 
+Повний список дій, що приводять до конвертації групи в супергрупу, можна побачити тут: 
 <a href="https://t.me/tgbeta/3424">https://t.me/tgbeta/3424</a>.</p>
 </div>
-<h2 id="chat-member">Апдейт chat_member<a class="headerlink" href="#chat-member" title="Permanent link">¶</a></h2>
-<p>Следующий особый тип апдейтов <code>chat_member</code> — хитрый. Дело в том, что он по умолчанию не отправляется Телеграмом, 
-и чтобы Bot API его присылал, необходимо при вызове <strong>getUpdates</strong> или <strong>setWebhook</strong> 
-передать список нужных типов событий. Например:</p>
-<div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># тут импорты</span>
+<h2 id="chat-member">Оновлення chat_member<a class="headerlink" href="#chat-member" title="Permanent link">¶</a></h2>
+<p>Наступний спеціальний тип оновлень <code>chat_member</code> — хитрий. Справа в тому, що він за замовчуванням не відправляється Телеграмом, 
+і щоб Bot API його надсилав, необхідно при виклику <strong>getUpdates</strong> або <strong>setWebhook</strong> 
+передати список потрібних типів подій. Наприклад:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># тут імпорти</span>
 </span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 </span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># тут код</span>
@@ -1572,33 +1693,33 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">allowed_updates</span><span class="o">=</span><span class="p">[</span><span class="s2">"message"</span><span class="p">,</span> <span class="s2">"inline_query"</span><span class="p">,</span> <span class="s2">"chat_member"</span><span class="p">]</span>
 </span><span id="__code-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="p">)</span>
 </span></code></pre></div>
-<p>Тогда после запуска бота телега начнёт присылать три указанных типа событий, но без всех остальных.</p>
-<p>Разработчики aiogram подошли к теме изящно: если явным образом не указывать <code>allowed_updates</code>, то 
-фреймворк рекурсивно пройдёт по всем роутерам, начиная с диспетчера, просмотрит хэндлеры и самостоятельно 
-соберёт список желаемых для получения апдейтов. Хотите переопределить это поведение? Передавайте <code>allowed_updates</code> явно.</p>
+<p>Тоді після запуску бота телега почне надсилати три указані типи подій, але без усіх інших.</p>
+<p>Розробники aiogram підійшли до теми елегантно: якщо явним чином не указувати <code>allowed_updates</code>, то 
+фреймворк рекурсивно пройде по всіх роутерах, починаючи з диспетчера, переглянеться хендлери та самостійно 
+зберуть список бажаних для отримання оновлень. Хочете перевизначити цю поведінку? Передавайте <code>allowed_updates</code> явно.</p>
 <div class="admonition tip">
-<p class="admonition-title">Почему мне не приходит апдейт &lt;XXX&gt; ???</p>
-<p>В профильных чатах регулярно спрашивают: «Мой код не работает, не реагирует на событие, почему?»</p>
-<p>Первое, что стоит сделать — убедиться, что нужный апдейт вообще приходит боту. Иными словами, проверить, 
-с каким <code>allowed_updates</code> был вызван поллинг/вебхуки в последний раз. Проще всего это сделать прямо в браузере:</p>
+<p class="admonition-title">Чому мені не приходить оновлення &lt;XXX&gt; ???</p>
+<p>У профільних чатах регулярно запитують: «Мій код не працює, не реагує на подію, чому?»</p>
+<p>Перше, що варто зробити — упевнитися, що потрібне оновлення взагалі приходить боту. Іншими словами, перевірити, 
+з яким <code>allowed_updates</code> було викликано полінг/вебхуки в останній раз. Найпростіше це зробити прямо в браузері:</p>
 <ol>
-<li>Взять токен бота, назовём его AAAAA</li>
-<li>Сформировать ссылку вида <code>https://api.telegram.org/botAAAAA/getWebhookInfo</code></li>
-<li>Перейти по ней</li>
+<li>Взяти токен бота, назвемо його AAAAA</li>
+<li>Сформувати посилання виду <code>https://api.telegram.org/botAAAAA/getWebhookInfo</code></li>
+<li>Перейти по ній</li>
 </ol>
-<p>Далее внимательно изучить JSON в ответе. Если ключ <code>allowed_updates</code> присутствует, то убедиться, что желаемый 
-тип апдейтов есть в списке. Если ключа нет, это равнозначно «приходит всё, кроме <code>chat_member</code>»</p>
+<p>Далі уважно вивчити JSON у відповіді. Якщо ключ <code>allowed_updates</code> присутний, то упевнитися, що бажаний 
+тип оновлень є в списку. Якщо ключа немає, це дорівнює «приходить все, крім <code>chat_member</code>»</p>
 </div>
-<h3 id="actualizing-admins">Актуализация списка админов в группах<a class="headerlink" href="#actualizing-admins" title="Permanent link">¶</a></h3>
-<p>Частая проблема ботов-модераторов: как на вызываемые команды наложить проверку прав доступа. 
-К примеру, как сделать так, чтобы банить участников по команде /ban могли только администраторы группы. </p>
-<p>Первая и наивная мысль — каждый раз вызывать getChatMember, чтобы определить статус вызывающего юзера в группе. 
-Вторая мысль — закэшировать это знание на короткое время. 
-Третья и более правильная идея — при старте бота получить список админов, 
-а дальше слушать апдейты chat_member об изменении их состава и редактировать список самостоятельно. 
-Бот перезапустился? Не беда, снова получили актуальный список и работаем с ним.</p>
-<p>Напишем роутер, в котором будем следить за изменением состава админов и обновлять переданный извне список 
-(точнее, в терминах python это будет множество, оно же Set):</p>
+<h3 id="actualizing-admins">Актуалізація списку адмінів у групах<a class="headerlink" href="#actualizing-admins" title="Permanent link">¶</a></h3>
+<p>Часта проблема ботів-модераторів: як на викликувані команди накласти перевірку прав доступу. 
+До прикладу, як зробити так, щоб банити учасників за командою /ban могли лише адміністратори групи.</p>
+<p>Перша та наївна думка — щоразу викликати getChatMember, щоб визначити статус того, хто викликує команду в групі. 
+Друга думка — закешувати цю інформацію на короткий час. 
+Третя та більш правильна ідея — при старті бота отримати список адмінів, 
+а далі слухати оновлення chat_member про зміну їхнього складу та редагувати список самостійно. 
+Бот перезавантажився? Не біда, знову отримали актуальний список та працюємо з ним.</p>
+<p>Напишемо роутер, у якому будемо стежити за зміною складу адмінів та оновлювати переданий ззовні список 
+(точніше, у термінах python це буде множина, вона ж Set):</p>
 <div class="highlight"><span class="filename">handlers/admin_changes_in_group.py</span><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
 </span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
 </span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">KICKED</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> \
@@ -1623,14 +1744,14 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>    <span class="n">admins</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </span><span id="__code-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
 </span><span id="__code-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> "</span>
-</span><span id="__code-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>        <span class="sa">f</span><span class="s2">"был(а) повышен(а) до Администратора!"</span>
+</span><span id="__code-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>        <span class="sa">f</span><span class="s2">"був(а) підвищен(а) до Адміністратора!"</span>
 </span><span id="__code-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    <span class="p">)</span>
 </span><span id="__code-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>
 </span><span id="__code-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>
 </span><span id="__code-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="nd">@router</span><span class="o">.</span><span class="n">chat_member</span><span class="p">(</span>
 </span><span id="__code-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
-</span><span id="__code-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>        <span class="c1"># Обратите внимание на направление стрелок</span>
-</span><span id="__code-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>        <span class="c1"># Или можно было поменять местами объекты в скобках</span>
+</span><span id="__code-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>        <span class="c1"># Зверніть увагу на напрямок стрілок</span>
+</span><span id="__code-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>        <span class="c1"># Або можна було поміняти місцями об'єкти в дужках</span>
 </span><span id="__code-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>        <span class="n">member_status_changed</span><span class="o">=</span>
 </span><span id="__code-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>        <span class="p">(</span><span class="n">KICKED</span> <span class="o">|</span> <span class="n">LEFT</span> <span class="o">|</span> <span class="n">RESTRICTED</span> <span class="o">|</span> <span class="n">MEMBER</span><span class="p">)</span>
 </span><span id="__code-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>        <span class="o">&lt;&lt;</span>
@@ -1641,38 +1762,38 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>    <span class="n">admins</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </span><span id="__code-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
 </span><span id="__code-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> "</span>
-</span><span id="__code-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>        <span class="sa">f</span><span class="s2">"был(а) понижен(а) до обычного юзера!"</span>
+</span><span id="__code-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>        <span class="sa">f</span><span class="s2">"був(а) понижен(а) до звичайного користувача!"</span>
 </span><span id="__code-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>    <span class="p">)</span>
 </span></code></pre></div>
-<p>Теперь напишем другой роутер с хэндлером на команду <code>/ban</code>. В самом хэндлере будем проверять наличие айди 
-вызывающего во множестве <code>admins</code> и исходя из этого разрешать или запрещать бан:</p>
+<p>Тепер напишемо інший роутер з хендлером на команду <code>/ban</code>. У самому хендлері будемо перевіряти наявність ідентифікатора 
+того, хто викликує, у множині <code>admins</code> та виходячи з цього дозволяти або забороняти бан:</p>
 <div class="highlight"><span class="filename">handlers/events_in_group.py</span><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span><span class="p">,</span> <span class="n">F</span>
 </span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
 </span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
 </span><span id="__code-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
 </span><span id="__code-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
 </span><span id="__code-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-</span><span id="__code-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Вообще говоря, можно на роутер навесить кастомный фильтр</span>
-</span><span id="__code-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># с проверкой, лежит ли айди вызывающего во множестве admins.</span>
-</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Тогда все хэндлеры в роутере автоматически будут вызываться</span>
-</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># только для людей из admins, это сократит код и избавит от лишнего if</span>
-</span><span id="__code-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Но для примера сделаем через if-else, чтобы было нагляднее</span>
+</span><span id="__code-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Власне кажучи, можна на роутер вивісити кастомний фільтр</span>
+</span><span id="__code-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># з перевіркою, лежить ли ідентифікатор того, хто викликує, у множині admins.</span>
+</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Тоді всі хендлери в роутері автоматично будуть викликатися</span>
+</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># лише для людей з admins, це скоротить код та позбавить від зайвого if</span>
+</span><span id="__code-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Але для прикладу зробимо через if-else, щоб було наочніше</span>
 </span><span id="__code-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
 </span><span id="__code-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
 </span><span id="__code-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"ban"</span><span class="p">),</span> <span class="n">F</span><span class="o">.</span><span class="n">reply_to_message</span><span class="p">)</span>
 </span><span id="__code-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_ban</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">admins</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
 </span><span id="__code-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">:</span>
 </span><span id="__code-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>            <span class="s2">"У вас недостаточно прав для совершения этого действия"</span>
+</span><span id="__code-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>            <span class="s2">"У вас недостатньо прав для здійснення цієї дії"</span>
 </span><span id="__code-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="p">)</span>
 </span><span id="__code-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="k">else</span><span class="p">:</span>
 </span><span id="__code-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">ban</span><span class="p">(</span>
 </span><span id="__code-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>            <span class="n">user_id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">reply_to_message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span>
 </span><span id="__code-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>        <span class="p">)</span>
-</span><span id="__code-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Нарушитель заблокирован"</span><span class="p">)</span>
+</span><span id="__code-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Порушник заблокований"</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Осталось зарегистрировать роутеры в основном файле и подгрузить список админов при старте. Собственно, вот полное 
-содержимое, вместе со всеми предыдущими правками.</p>
+<p>Залишилося зареєструвати роутери в основному файлі та підгрузити список адмінів при старті. Власне, ось повне 
+вміст, разом з усіма попередніми правками.</p>
 <div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 </span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
@@ -1702,7 +1823,7 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>        <span class="n">bot_in_group</span><span class="o">.</span><span class="n">router</span><span class="p">,</span> <span class="n">admin_changes_in_group</span><span class="o">.</span><span class="n">router</span>
 </span><span id="__code-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    <span class="p">)</span>
 </span><span id="__code-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>
-</span><span id="__code-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="c1"># Подгрузка списка админов</span>
+</span><span id="__code-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="c1"># Підгрузка списку адмінів</span>
 </span><span id="__code-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>    <span class="n">admins</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_chat_administrators</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">main_chat_id</span><span class="p">)</span>
 </span><span id="__code-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="n">admin_ids</span> <span class="o">=</span> <span class="p">{</span><span class="n">admin</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">}</span>
 </span><span id="__code-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>
@@ -1712,15 +1833,15 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
 </span><span id="__code-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
 </span><span id="__code-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </span></code></pre></div>
-<p>Теперь посмотрим, что в итоге получилось. Пробуем вызвать команду <code>/ban</code> не-админом:</p>
-<p><img alt="У пользователя не хватает прав" src="../../images/ru/special-updates/ban_insufficient_rights.png"></p>
-<p>Идём в настройки группы и назначаем Артура администратором (бот увидит изменение и сообщит об этом в чате):</p>
-<p><img alt="Теперь прав достаточно" src="../../images/ru/special-updates/ban_ok.png"></p>
-<p>Отзовём права админа у подопытного пациента и попросим его ещё раз вызвать команду <code>/ban</code>:</p>
-<p><img alt="Прав снова не хватает" src="../../images/ru/special-updates/ban_insufficient_again.png"></p>
-<p>Теперь вы знаете, как работать с этими «невидимыми» апдейтами, ура! Напоследок, порекомендую ознакомиться 
-с <a href="https://github.com/MasterGroosha/telegram-report-bot">ещё одним демонстрационным ботом</a>, в котором 
-используются некоторые вышеописанные фишки.</p></div>
+<p>Тепер подивимося, що в результаті вийшло. Пробуємо викликати команду <code>/ban</code> не-адміном:</p>
+<p><img alt="У користувача недостатньо прав" src="../../images/ru/special-updates/ban_insufficient_rights.png"></p>
+<p>Йдемо в параметри групи та призначаємо Артура адміністратором (бот побачить зміну та повідомить про це в чаті):</p>
+<p><img alt="Тепер прав достатньо" src="../../images/ru/special-updates/ban_ok.png"></p>
+<p>Візьмемо права адміна у підопічного пацієнта та попросимо його ще раз викликати команду <code>/ban</code>:</p>
+<p><img alt="Прав знову недостатньо" src="../../images/ru/special-updates/ban_insufficient_again.png"></p>
+<p>Тепер ви знаєте, як працювати з цими «невидимими» оновленнями, ура! На закінчення рекомендую ознайомитися 
+з <a href="https://github.com/MasterGroosha/telegram-report-bot">ще одним демонстраційним ботом</a>, у якому 
+використовуються деякі з вищеописаних можливостей.</p></div>
 
 
 
@@ -1743,7 +1864,7 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
     <span class="md-icon" title="Востаннє оновлено">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="7 сентября 2025 г. 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="ru"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="7 сентября 2025 г. 14:41:01 UTC">2025-09-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="20 червня 2026 р. 16:11:16 UTC"><span class="timeago" datetime="2026-06-20T16:11:16+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="20 червня 2026 р. 16:11:16 UTC">2026-06-20</span>
   </span>
 
     
@@ -1753,7 +1874,7 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
     <span class="md-icon" title="Створено">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="7 сентября 2025 г. 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="ru"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="7 сентября 2025 г. 14:41:01 UTC">2025-09-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="20 червня 2026 р. 16:11:16 UTC"><span class="timeago" datetime="2026-06-20T16:11:16+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="20 червня 2026 р. 16:11:16 UTC">2026-06-20</span>
   </span>
 
     
@@ -1791,7 +1912,7 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Original Copyright &copy; 2020-2025 Groosha, Translation Copyright &copy; 2024-2025 VAI
+      Original Copyright &copy; 2020-2026 Groosha, Translation Copyright &copy; 2024-2026 VAI
     </div>
   
   
@@ -1802,14 +1923,15 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
   
 </div>
       
-        <div class="md-social">
+        
+<div class="md-social">
   
     
     
     
     
     <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Чат у Telegram" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m115 168.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7.2-.7.3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2.5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3.6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6.5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7.5 3.2.6 6.5.4 9.8z"/></svg>
     </a>
   
     
@@ -1817,7 +1939,7 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
     
     
     <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>
@@ -1834,10 +1956,12 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+  
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../../js/timeago.min.js"></script>
       
@@ -1852,5 +1976,30 @@ API-метод <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 
         <script src="../../js/timeago_mkdocs_material.js"></script>
       
     
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const KEY = "translation_notice_dismissed_v2";
+      const dismissed = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+      document.querySelectorAll(".is-dismissible[data-notice-id]").forEach((notice) => {
+        const noticeId = notice.dataset.noticeId;
+        if (dismissed.includes(noticeId)) {
+          notice.classList.add("is-hidden");
+        }
+
+        const closeBtn = notice.querySelector(".translation-notice-dismiss");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          notice.classList.add("is-hidden");
+          if (!dismissed.includes(noticeId)) {
+            dismissed.push(noticeId);
+            localStorage.setItem(KEY, JSON.stringify(dismissed));
+          }
+        });
+      });
+    });
+  </script>
+
   </body>
 </html>
