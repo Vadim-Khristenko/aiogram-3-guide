@@ -111,7 +111,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="使用 FSM 构建对话流程">
+        <meta name="description" content="有限状态机（FSM）">
       
       
         <meta name="author" content="MasterGroosha, Translated by VAI">
@@ -143,7 +143,7 @@
 
     
       
-        <title>有限状态机 - 使用 aiogram 3.x 编写 Telegram 机器人</title>
+        <title>有限状态机（FSM） - 使用 aiogram 3.x 编写 Telegram 机器人</title>
       
     
     
@@ -481,8 +481,8 @@
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 有限状态机">
-  <meta property="og:description" content="使用 FSM 构建对话流程">
+  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 有限状态机（FSM）">
+  <meta property="og:description" content="有限状态机（FSM）">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/fsm/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
   <meta property="og:image:type" content="image/png">
@@ -492,8 +492,8 @@
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/fsm/">
-  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 有限状态机">
-  <meta name="twitter:description" content="使用 FSM 构建对话流程">
+  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 有限状态机（FSM）">
+  <meta name="twitter:description" content="有限状态机（FSM）">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
   </head>
@@ -515,7 +515,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#fsm" class="md-skip">
+        <a href="#fsm-start" class="md-skip">
           跳转至
         </a>
       
@@ -551,7 +551,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              有限状态机
+              有限状态机（FSM）
             
           </span>
         </div>
@@ -1046,16 +1046,77 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extras" class="md-nav__link">
+    <nav class="md-nav" aria-label="实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#define-states" class="md-nav__link">
     <span class="md-ellipsis">
       
-        参考资料
+        创建步骤
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理第 1 步
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理第 2 步
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        通用命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrypoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bot.py 文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不同的 FSM 策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1221,16 +1282,77 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extras" class="md-nav__link">
+    <nav class="md-nav" aria-label="实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#define-states" class="md-nav__link">
     <span class="md-ellipsis">
       
-        参考资料
+        创建步骤
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理第 1 步
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理第 2 步
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        通用命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrypoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bot.py 文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不同的 FSM 策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1262,41 +1384,367 @@
   
 
 
-<div><h1 id="fsm">有限状态机<a class="headerlink" href="#fsm" title="Permanent link">¶</a></h1>
+<div><h1 id="fsm-start">有限状态机（FSM）<a class="headerlink" href="#fsm-start" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p>使用的 aiogram 版本：3.7.0</p>
 </div>
 <h2 id="theory">理论<a class="headerlink" href="#theory" title="Permanent link">¶</a></h2>
-<p>这一章讨论机器人里非常关键的能力：<strong>对话流程</strong>。
-很多任务无法通过“一条消息”完成，比如注册时依次填写姓名、年龄并上传头像。</p>
-<p>如果把所有信息都塞进一条消息，校验与纠错会非常困难。
-更实用的方式是：</p>
-<ol>
-<li>机器人进入某个“等待状态”；</li>
-<li>每一步都校验输入；</li>
-<li>输入不合法就留在当前状态重试；</li>
-<li>用户输入 <code>/cancel</code> 时随时中断流程。</li>
-</ol>
-<p>这种“按状态迁移”的模型就是 FSM（Finite State Machine，有限状态机）。</p>
+<p>在本章中，我们将讨论机器人的另一个重要功能：<strong>对话系统</strong>。不幸的是，并非所有操作
+都可以通过一条消息或命令完成。假设有一个交友机器人，在注册时需要指定名字、年龄并发送带脸部的照片。
+当然可以要求用户在照片的标题中提供所有数据，但这对处理和重新输入请求不方便。</p>
+<p>现在假设逐步输入数据，其中开始时机器人"启用"特定用户的等待特定信息的模式，
+然后在每个步骤检查输入的数据，而通过 <code>/cancel</code> 命令停止等待下一步并
+返回主模式。看一下下面的图表：</p>
+<p><img alt="由三个步骤组成的过程" src="../../images/ru/fsm/l04_1.svg"></p>
+<p><strong>绿色**箭头表示无错误地进行步骤的过程，**蓝色**箭头表示保持当前状态并
+等待重新输入（例如，如果用户说他们 250 岁，应该重新请求年龄），**红色</strong>
+箭头显示由于 <code>/cancel</code> 命令或任何其他表示取消的命令而退出整个过程。</p>
+<p>上面图表中的过程在算法理论中称为**有限状态机**（或 FSM — Finite State Machine）。更多信息可以在
+<a href="https://tproger.ru/translations/finite-state-machines-theory-and-implementation/">这里</a>阅读。</p>
+<div class="admonition info">
+<p class="admonition-title">对话构造器</p>
+<p>在本章中练习 FSM 后，你肯定会感到为了获得复杂的分支操作链需要做很多事情。幸运的是，存在
+<a href="https://github.com/Tishka17/aiogram_dialog"><strong>aiogram-dialog</strong></a> 库
+来自 <strong>Tishka17</strong>，简化了与状态机的工作。</p>
+</div>
 <h2 id="practice">实践<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
-<p>aiogram 的 FSM 支持多种状态存储后端。
-除了状态本身，还可以保存任意中间数据（例如用户在点餐流程中的菜品和分量）。</p>
-<p>本章示例使用 <code>MemoryStorage</code>：
-它非常适合教学和本地调试，但不建议用于生产环境，
-因为数据只保存在内存中，进程重启后会丢失。</p>
-<p>下面的实战思路与俄文原章一致：</p>
+<p>aiogram 中的有限状态机机制已经内置支持各种后端来存储
+对话阶段之间的状态（虽然没有什么阻止你写自己的），而且除了状态本身之外，
+你还可以存储任意数据，例如上面描述的名字和年龄供以后使用。
+现有 FSM 存储列表可以在
+<a href="https://github.com/aiogram/aiogram/tree/dev-3.x/aiogram/fsm/storage">aiogram 仓库中找到</a>，
+而在本章中我们将使用最简单的后端
+<a href="https://github.com/aiogram/aiogram/blob/dev-3.x/aiogram/fsm/storage/memory.py">MemoryStorage</a>，它
+在 RAM 中存储所有数据。它非常适合示例，但**不建议**在实际项目中使用，因为 MemoryStorage
+在没有保存到磁盘的情况下在 RAM 中存储所有数据。还值得注意的是，有限状态机不仅可以
+与消息处理器（<code>message_handler</code>、<code>edited_message_handler</code>）一起使用，还可以
+与回调和内联模式一起使用。</p>
+<p>作为一个例子，我们将写一个在咖啡馆里模拟订购食物和饮料的程序。</p>
+<h3 id="define-states">创建步骤<a class="headerlink" href="#define-states" title="Permanent link">¶</a></h3>
+<p>在我们直接进行 FSM 之前，让我们快速描述一个简单的函数，它将生成
+一个普通键盘，按钮排成一行，这在以后会很有用：</p>
+<div class="highlight"><span class="filename">keyboards/simple_row.py</span><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">,</span> <span class="n">KeyboardButton</span>
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">make_row_keyboard</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">:</span>
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="sd">    创建一个带有一行按钮的回复键盘</span>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="sd">    :param items: 按钮文本列表</span>
+</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="sd">    :return: 回复键盘对象</span>
+</span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">    """</span>
+</span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">KeyboardButton</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+</span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="k">return</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">(</span><span class="n">keyboard</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">],</span> <span class="n">resize_keyboard</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<p>让我们考虑"订购"食物的步骤描述。创建文件 <code>handlers/ordering_food.py</code>，其中我们描述
+食物列表及其大小（在现实生活中，这些信息可能从某个数据库动态加载）：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 这些值稍后将被替换到最终文本中，因此</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># 形容词这看起来形式有点奇怪</span>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">available_food_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Суши"</span><span class="p">,</span> <span class="s2">"Спагетти"</span><span class="p">,</span> <span class="s2">"Хачапури"</span><span class="p">]</span>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">available_food_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Маленькую"</span><span class="p">,</span> <span class="s2">"Среднюю"</span><span class="p">,</span> <span class="s2">"Большую"</span><span class="p">]</span>
+</span></code></pre></div>
+<p>现在让我们描述特定过程的所有可能"状态"（食物选择）。用语言可以这样描述：用户调用
+命令 <code>/food</code>，机器人用请求选择菜品的消息回复并为该特定用户进入*等待菜品选择*状态。一旦
+用户做出选择，机器人在这个状态中检查输入的正确性，然后决定要求重新输入（不改变状态）
+或进入下一步*等待选择份量*。当用户在这里也输入正确的数据时，机器人显示
+最终结果（订单内容）并重置状态。稍后在本章中，我们将学会如何在任何阶段使用
+<code>/cancel</code> 命令强制重置状态。</p>
+<h3 id="step-1">处理第 1 步<a class="headerlink" href="#step-1" title="Permanent link">¶</a></h3>
+<p>好的，让我们直接进行状态描述。要存储状态，需要创建一个继承自 <code>StatesGroup</code> 的类，
+在其中需要创建变量，给它们分配 <code>State</code> 类的实例：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderFood</span><span class="p">(</span><span class="n">StatesGroup</span><span class="p">):</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">choosing_food_name</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">choosing_food_size</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span></code></pre></div>
+<p>让我们编写第一步的处理器，在用户没有设置任何状态时对命令 <code>/food</code> 做出反应：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">StateFilter</span>
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSMContext</span>
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="hll"><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">StateFilter</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">Command</span><span class="p">(</span><span class="s2">"food"</span><span class="p">))</span>
+</span></span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_food</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Выберите блюдо:"</span><span class="p">,</span>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_names</span><span class="p">)</span>
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="p">)</span>
+</span><span id="__code-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="hll">    <span class="c1"># 为用户设置"选择名称"状态</span>
+</span></span><span id="__code-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_name</span><span class="p">)</span>
+</span></code></pre></div>
+<p>要使用 FSM 机制，需要将名为 <code>state</code> 的参数注入处理器中，其类型为 <code>FSMContext</code>。
+在最后一行中，我们明确告诉机器人进入 <code>OrderFood</code> 组中的 <code>choosing_food_name</code> 状态。</p>
+<div class="admonition warning">
+<p class="admonition-title">与 aiogram 2.x 的区别</p>
+<p>在 aiogram 2.x 中，缺少 state 过滤器意味着"仅在没有明确设置状态时"
+（换句话说，<code>state=None</code>）。在 aiogram 3.x 中，缺少过滤器意味着"在任何状态下"。
+提醒一下，"3"中使用了类似的方法来处理消息的内容类型。</p>
+</div>
+<p>接下来，让我们编写一个捕获我们列表中的菜品选项之一的处理器：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>    <span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_name</span><span class="p">,</span> 
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>    <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">available_food_names</span><span class="p">)</span>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="p">)</span>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_chosen</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">chosen_food</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Спасибо. Теперь, пожалуйста, выберите размер порции:"</span><span class="p">,</span>
+</span><span id="__code-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_sizes</span><span class="p">)</span>
+</span><span id="__code-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>    <span class="p">)</span>
+</span><span id="__code-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_size</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<p>让我们更详细地查看处理器的某些元素。过滤器（第 2-3 行）说明，当且仅当用户处于
+<code>OrderFood.choosing_food_name</code> 状态且消息文本与 <code>available_food_names</code> 列表中的其中一个元素匹配时，
+下面的函数才会起作用。在第 6 行中，我们将数据（消息文本）写入 FSM 存储，这些数据对对
+<code>(chat_id, user_id)</code> 对是唯一的（有一个注意事项，稍后再说）。最后，
+在第 11 行中我们将用户转移到 <code>OrderFood.choosing_food_size</code> 状态。</p>
+<p>如果用户决定自己输入东西，不使用键盘呢？在这种情况下，您需要告知用户有错误并再给他们一个机会。
+非常经常，初学者 bot 开发者会在这一点上提出一个问题：
+"如何让用户保持在同一状态中？"答案很简单：要让用户保持在当前状态中，
+足够是不改变它，也就是说，按字面意思_什么都不做_。</p>
+<p>让我们编写一个额外的处理器，它只在 <code>OrderFood.choosing_food_name</code> 状态上有过滤器，
+但在文本上没有过滤器。如果将其放在 <code>food_chosen()</code> 函数下方，
+那么你会得到"在 choosing_food_name 状态中响应，对所有文本，除了那些之前处理器捕获的文本"
+（换句话说，"捕获所有不正确的选项"）。</p>
+<div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_name</span><span class="p">)</span>
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_chosen_incorrectly</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Я не знаю такого блюда.</span><span class="se">\n\n</span><span class="s2">"</span>
+</span><span id="__code-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>             <span class="s2">"Пожалуйста, выберите одно из названий из списка ниже:"</span><span class="p">,</span>
+</span><span id="__code-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_names</span><span class="p">)</span>
+</span><span id="__code-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<h3 id="step-2">处理第 2 步<a class="headerlink" href="#step-2" title="Permanent link">¶</a></h3>
+<p>第二个也是最后一个阶段是处理用户输入的份量。类似于前一个阶段，我们将制作两个处理器
+（对于正确和不正确的答案），但在第一个中添加选择订单摘要信息：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_size</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">available_food_sizes</span><span class="p">))</span>
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_size_chosen</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="hll">    <span class="n">user_data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+</span></span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Вы выбрали </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> порцию </span><span class="si">{</span><span class="n">user_data</span><span class="p">[</span><span class="s1">'chosen_food'</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>             <span class="sa">f</span><span class="s2">"Попробуйте теперь заказать напитки: /drinks"</span><span class="p">,</span>
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">ReplyKeyboardRemove</span><span class="p">()</span>
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="p">)</span>
+</span><span id="__code-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="hll">    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span></span><span id="__code-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__code-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__code-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_size</span><span class="p">)</span>
+</span><span id="__code-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_size_chosen_incorrectly</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Я не знаю такого размера порции.</span><span class="se">\n\n</span><span class="s2">"</span>
+</span><span id="__code-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>             <span class="s2">"Пожалуйста, выберите один из вариантов из списка ниже:"</span><span class="p">,</span>
+</span><span id="__code-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_sizes</span><span class="p">)</span>
+</span><span id="__code-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>在第 3 行中调用 <code>get_data()</code> 返回特定用户在特定聊天中的存储对象。从它
+[存储]中我们提取保存的菜品名称值并将其替换到消息中。<code>clear()</code> 方法的作用是
+将用户返回到"空"状态并删除所有保存的数据。如果你只需要清除状态或只清除数据怎么办？
+为此，让我们进入 aiogram 3.x 源代码中 <code>clear()</code> 函数的定义：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">FSMContext</span><span class="p">:</span>
+</span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="c1"># 部分代码被跳过</span>
+</span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__code-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span id="__code-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">({})</span>
+</span></code></pre></div>
+<p>现在你知道如何清除某个特定的东西了：）</p>
+<p>选择饮料的步骤以完全相同的方式进行。尝试自己做或查看本章的源代码。</p>
+<p>完整的食物订购处理器文件文本：</p>
+<div class="highlight"><span class="filename">handlers/ordering_food.py</span><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span><span class="p">,</span> <span class="n">F</span>
+</span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">StateFilter</span>
+</span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSMContext</span>
+</span><span id="__code-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatesGroup</span><span class="p">,</span> <span class="n">State</span>
+</span><span id="__code-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">ReplyKeyboardRemove</span>
+</span><span id="__code-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__code-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">keyboards.simple_row</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_row_keyboard</span>
+</span><span id="__code-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__code-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__code-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># 这些值稍后将被替换到最终文本中，因此</span>
+</span><span id="__code-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="c1"># 形容词这看起来形式有点奇怪</span>
+</span><span id="__code-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">available_food_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Суши"</span><span class="p">,</span> <span class="s2">"Спагетти"</span><span class="p">,</span> <span class="s2">"Хачапури"</span><span class="p">]</span>
+</span><span id="__code-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="n">available_food_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Маленькую"</span><span class="p">,</span> <span class="s2">"Среднюю"</span><span class="p">,</span> <span class="s2">"Большую"</span><span class="p">]</span>
+</span><span id="__code-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+</span><span id="__code-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+</span><span id="__code-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderFood</span><span class="p">(</span><span class="n">StatesGroup</span><span class="p">):</span>
+</span><span id="__code-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    <span class="n">choosing_food_name</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span><span id="__code-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    <span class="n">choosing_food_size</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span><span id="__code-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>
+</span><span id="__code-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+</span><span id="__code-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"food"</span><span class="p">))</span>
+</span><span id="__code-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_food</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Выберите блюдо:"</span><span class="p">,</span>
+</span><span id="__code-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_names</span><span class="p">)</span>
+</span><span id="__code-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>    <span class="p">)</span>
+</span><span id="__code-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    <span class="c1"># 为用户设置"选择名称"状态</span>
+</span><span id="__code-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_name</span><span class="p">)</span>
+</span><span id="__code-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>
+</span><span id="__code-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="c1"># 菜品选择阶段 #</span>
+</span><span id="__code-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>
+</span><span id="__code-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>
+</span><span id="__code-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_name</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">available_food_names</span><span class="p">))</span>
+</span><span id="__code-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_chosen</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">chosen_food</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+</span><span id="__code-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Спасибо. Теперь, пожалуйста, выберите размер порции:"</span><span class="p">,</span>
+</span><span id="__code-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_sizes</span><span class="p">)</span>
+</span><span id="__code-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>    <span class="p">)</span>
+</span><span id="__code-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_size</span><span class="p">)</span>
+</span><span id="__code-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>
+</span><span id="__code-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>
+</span><span id="__code-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a><span class="c1"># 总的来说，没什么阻止我们完全用字符串指定状态</span>
+</span><span id="__code-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a><span class="c1"># 如果出于某种原因你的状态名称在运行时生成，这可能会很有用（但为什么呢？）</span>
+</span><span id="__code-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">StateFilter</span><span class="p">(</span><span class="s2">"OrderFood:choosing_food_name"</span><span class="p">))</span>
+</span><span id="__code-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_chosen_incorrectly</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Я не знаю такого блюда.</span><span class="se">\n\n</span><span class="s2">"</span>
+</span><span id="__code-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>             <span class="s2">"Пожалуйста, выберите одно из названий из списка ниже:"</span><span class="p">,</span>
+</span><span id="__code-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_names</span><span class="p">)</span>
+</span><span id="__code-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a>    <span class="p">)</span>
+</span><span id="__code-8-53"><a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a>
+</span><span id="__code-8-54"><a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a><span class="c1"># 选择份量阶段与显示订单摘要信息 #</span>
+</span><span id="__code-8-55"><a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a>
+</span><span id="__code-8-56"><a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a>
+</span><span id="__code-8-57"><a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_size</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">available_food_sizes</span><span class="p">))</span>
+</span><span id="__code-8-58"><a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_size_chosen</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-8-59"><a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a>    <span class="n">user_data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+</span><span id="__code-8-60"><a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-8-61"><a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Вы выбрали </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> порцию </span><span class="si">{</span><span class="n">user_data</span><span class="p">[</span><span class="s1">'chosen_food'</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-8-62"><a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a>             <span class="sa">f</span><span class="s2">"Попробуйте теперь заказать напитки: /drinks"</span><span class="p">,</span>
+</span><span id="__code-8-63"><a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">ReplyKeyboardRemove</span><span class="p">()</span>
+</span><span id="__code-8-64"><a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a>    <span class="p">)</span>
+</span><span id="__code-8-65"><a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a>    <span class="c1"># 重置用户的状态和保存的数据</span>
+</span><span id="__code-8-66"><a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__code-8-67"><a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a>
+</span><span id="__code-8-68"><a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a>
+</span><span id="__code-8-69"><a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">OrderFood</span><span class="o">.</span><span class="n">choosing_food_size</span><span class="p">)</span>
+</span><span id="__code-8-70"><a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">food_size_chosen_incorrectly</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-8-71"><a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-8-72"><a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Я не знаю такого размера порции.</span><span class="se">\n\n</span><span class="s2">"</span>
+</span><span id="__code-8-73"><a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a>             <span class="s2">"Пожалуйста, выберите один из вариантов из списка ниже:"</span><span class="p">,</span>
+</span><span id="__code-8-74"><a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">make_row_keyboard</span><span class="p">(</span><span class="n">available_food_sizes</span><span class="p">)</span>
+</span><span id="__code-8-75"><a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<h3 id="common-commands">通用命令<a class="headerlink" href="#common-commands" title="Permanent link">¶</a></h3>
+<p>既然我们谈到了重置状态，让我们在文件 <code>handlers/common.py</code> 中实现 <code>/start</code> 命令的处理器和
+"取消"操作。在前一种情况下，应该显示某种欢迎/参考文本，对于取消我们将编写
+两个处理器：当用户不处于任何状态时，以及当用户处于某个状态时。</p>
+<p>所有函数保证不存在状态和数据，如果有的话移除普通键盘：</p>
+<div class="highlight"><span class="filename">handlers/common.py</span><pre><span></span><code><span id="__code-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateFilter</span>
+</span><span id="__code-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSMContext</span>
+</span><span id="__code-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_state</span>
+</span><span id="__code-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">ReplyKeyboardRemove</span>
+</span><span id="__code-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__code-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__code-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__code-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s2">"start"</span><span class="p">]))</span>
+</span><span id="__code-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__code-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Выберите, что хотите заказать: "</span>
+</span><span id="__code-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>             <span class="s2">"блюда (/food) или напитки (/drinks)."</span><span class="p">,</span>
+</span><span id="__code-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">ReplyKeyboardRemove</span><span class="p">()</span>
+</span><span id="__code-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="p">)</span>
+</span><span id="__code-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+</span><span id="__code-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>
+</span><span id="__code-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="c1"># 不难看出，下面两个处理器可以轻松合并为一个，但为了完整性我们保留这样</span>
+</span><span id="__code-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+</span><span id="__code-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="c1"># default_state 与 StateFilter(None) 相同</span>
+</span><span id="__code-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">StateFilter</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">Command</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s2">"cancel"</span><span class="p">]))</span>
+</span><span id="__code-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">default_state</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"отмена"</span><span class="p">)</span>
+</span><span id="__code-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_cancel_no_state</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    <span class="c1"># 不需要重置状态，只删除数据</span>
+</span><span id="__code-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_data</span><span class="p">({})</span>
+</span><span id="__code-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Нечего отменять"</span><span class="p">,</span>
+</span><span id="__code-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">ReplyKeyboardRemove</span><span class="p">()</span>
+</span><span id="__code-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>    <span class="p">)</span>
+</span><span id="__code-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>
+</span><span id="__code-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>
+</span><span id="__code-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s2">"cancel"</span><span class="p">]))</span>
+</span><span id="__code-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"отмена"</span><span class="p">)</span>
+</span><span id="__code-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_cancel</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__code-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Действие отменено"</span><span class="p">,</span>
+</span><span id="__code-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">ReplyKeyboardRemove</span><span class="p">()</span>
+</span><span id="__code-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<h3 id="entrypoint">bot.py 文件<a class="headerlink" href="#entrypoint" title="Permanent link">¶</a></h3>
+<p>最后，让我们考虑入口点 — <code>bot.py</code> 文件，具有所有导入和连接的路由器：</p>
+<div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__code-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span id="__code-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__code-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>
+</span><span id="__code-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.storage.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryStorage</span>
+</span><span id="__code-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__code-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># 可以从仓库中获取 config_reader.py 文件</span>
+</span><span id="__code-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># 示例 — 在第一章中</span>
+</span><span id="__code-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">config_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+</span><span id="__code-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="kn">from</span><span class="w"> </span><span class="nn">handlers</span><span class="w"> </span><span class="kn">import</span> <span class="n">common</span><span class="p">,</span> <span class="n">ordering_food</span>
+</span><span id="__code-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__code-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+</span><span id="__code-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__code-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+</span><span id="__code-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+</span><span id="__code-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>        <span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="p">)</span>
+</span><span id="__code-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+</span><span id="__code-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    <span class="c1"># 如果不指定 storage，默认仍然是 MemoryStorage</span>
+</span><span id="__code-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    <span class="c1"># 但显式优于隐式 =]</span>
+</span><span id="__code-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">MemoryStorage</span><span class="p">())</span>
+</span><span id="__code-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">bot_token</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">())</span>
+</span><span id="__code-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>
+</span><span id="__code-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>    <span class="n">dp</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">router</span><span class="p">)</span>
+</span><span id="__code-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>    <span class="n">dp</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">ordering_food</span><span class="o">.</span><span class="n">router</span><span class="p">)</span>
+</span><span id="__code-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>    <span class="c1"># 在这里导入你自己的饮料路由器</span>
+</span><span id="__code-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>
+</span><span id="__code-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
+</span><span id="__code-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a>
+</span><span id="__code-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a>
+</span><span id="__code-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+</span><span id="__code-10-32"><a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<h3 id="strategies">不同的 FSM 策略<a class="headerlink" href="#strategies" title="Permanent link">¶</a></h3>
+<p>Aiogram 3.x 在有限状态机机制中带来了一个不寻常但有趣的创新 — FSM 策略。它们允许
+重新定义状态和数据对的形成逻辑。总共有五个策略，这些是：</p>
 <ul>
-<li>先定义状态组（例如 <code>choosing_food_name</code>、<code>choosing_food_size</code>）；</li>
-<li>再实现每一步对应的 handler；</li>
-<li>正确输入时迁移到下一状态；</li>
-<li>错误输入时提示并保持当前状态；</li>
-<li>完成后 <code>clear()</code> 清理状态与缓存数据。</li>
+<li><strong>USER_IN_CHAT</strong> — 默认策略。每个用户在每个聊天中的状态和数据都不同。也就是说，一个用户
+在不同的群组中会有不同的状态和数据，以及与机器人的私聊中的状态和数据。</li>
+<li><strong>CHAT</strong> — 状态和数据对整个聊天都是通用的。在私聊中差异不明显，但在群组中所有参与者都会
+有一个状态和通用数据。</li>
+<li><strong>GLOBAL_USER</strong> — 在所有聊天中，同一用户会有相同的状态和数据。</li>
+<li><strong>USER_IN_TOPIC</strong> — 用户可以根据
+<a href="https://telegram.org/blog/topics-in-groups-collectible-usernames#topics-in-groups">超级群组论坛</a>中的主题
+有不同的状态。</li>
+<li><strong>CHAT_TOPIC</strong> — 每个主题都有自己的状态，不分用户。</li>
 </ul>
-<h2 id="extras">参考资料<a class="headerlink" href="#extras" title="Permanent link">¶</a></h2>
-<ul>
-<li>俄文原文：<code>/fsm/</code></li>
-<li>英文页面：<code>/en/fsm/</code></li>
-</ul></div>
+<p>老实说，我想不到 <strong>GLOBAL_USER</strong> 的好用例，但是 <strong>CHAT</strong> 对于实现各种群组游戏的机器人可能很有用。
+如果你知道有趣的应用，请在我们的聊天中告诉我们！</p>
+<p>作为一个例子，让我们考虑食物订购机器人出于某种原因最终进入了一个群组并具有 <strong>CHAT</strong> 策略的情况。
+而为了让这发生，需要在 <code>bot.py</code> 文件中做一点小改动：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 新的导入</span>
+</span><span id="__code-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSMStrategy</span>
+</span><span id="__code-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__code-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__code-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="c1"># 这里是代码</span>
+</span><span id="__code-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">MemoryStorage</span><span class="p">(),</span> <span class="n">fsm_strategy</span><span class="o">=</span><span class="n">FSMStrategy</span><span class="o">.</span><span class="n">CHAT</span><span class="p">)</span>
+</span><span id="__code-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="c1"># 这里也是代码</span>
+</span></code></pre></div>
+<p>启动机器人后，让我们要求群组中的人与其互动：</p>
+<p><img alt="对于机器人来说，所有用户都是一样的" src="../../images/ru/fsm/fsm_chat_strategy.png"></p>
+<p>看起来很奇怪，不是吗？</p>
+<p>现在，凭借关于有限状态机的知识，你可以毫无恐惧地写出带有对话系统的机器人。</p></div>
 
 
 
@@ -1319,7 +1767,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年4月23日 23:07:30 UTC"><span class="timeago" datetime="2026-04-23T23:07:30+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年4月23日 23:07:30 UTC">2026-04-23</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年6月20日 23:36:49 UTC"><span class="timeago" datetime="2026-06-20T23:36:49+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年6月20日 23:36:49 UTC">2026-06-20</span>
   </span>
 
     

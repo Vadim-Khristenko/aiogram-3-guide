@@ -111,7 +111,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="my_chat_member 与 chat_member">
+        <meta name="description" content="特殊更新 my_chat_member 和 chat_member">
       
       
         <meta name="author" content="MasterGroosha, Translated by VAI">
@@ -143,7 +143,7 @@
 
     
       
-        <title>特殊更新 - 使用 aiogram 3.x 编写 Telegram 机器人</title>
+        <title>特殊更新 my_chat_member 和 chat_member - 使用 aiogram 3.x 编写 Telegram 机器人</title>
       
     
     
@@ -481,8 +481,8 @@
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 特殊更新">
-  <meta property="og:description" content="my_chat_member 与 chat_member">
+  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 特殊更新 my_chat_member 和 chat_member">
+  <meta property="og:description" content="特殊更新 my_chat_member 和 chat_member">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/special-updates/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
   <meta property="og:image:type" content="image/png">
@@ -492,8 +492,8 @@
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/special-updates/">
-  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 特殊更新">
-  <meta name="twitter:description" content="my_chat_member 与 chat_member">
+  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 特殊更新 my_chat_member 和 chat_member">
+  <meta name="twitter:description" content="特殊更新 my_chat_member 和 chat_member">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
   </head>
@@ -551,7 +551,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              特殊更新
+              特殊更新 my_chat_member 和 chat_member
             
           </span>
         </div>
@@ -1030,6 +1030,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="my_chat_member 更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ban-unban-pm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        私人对话中的屏蔽/取消屏蔽
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bot-added-to-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        添加到群组
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1041,16 +1069,22 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extras" class="md-nav__link">
+    <nav class="md-nav" aria-label="chat_member 更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actualizing-admins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        参考资料
+        在群组中更新管理员列表
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1254,6 +1288,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="my_chat_member 更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ban-unban-pm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        私人对话中的屏蔽/取消屏蔽
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bot-added-to-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        添加到群组
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1265,16 +1327,22 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extras" class="md-nav__link">
+    <nav class="md-nav" aria-label="chat_member 更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actualizing-admins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        参考资料
+        在群组中更新管理员列表
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1311,55 +1379,447 @@
 <p>使用的 aiogram 版本：3.7.0</p>
 </div>
 <h2 id="intro">介绍<a class="headerlink" href="#intro" title="Permanent link">¶</a></h2>
-<p>在 Telegram 中，大多数事件都能被用户直接“看见”：普通消息、服务消息、回调、内联模式等。
-但还有两类更新，主要是给机器人本身使用的：<code>my_chat_member</code> 和 <code>chat_member</code>。</p>
-<p>过去，群组机器人经常处于“信息真空”状态：
-开发者不得不频繁调用 <code>getChatMember</code> / <code>getChatAdministrators</code> 来确认权限变化，
-还要做短时缓存以避免触发 Bot API 限制。</p>
-<p>从 2021 年 3 月 Bot API v5.1 开始，情况明显改善：
-Telegram 增加了 <code>my_chat_member</code> 与 <code>chat_member</code> 两种更新，
-它们都包含同一种对象：
-<a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a>。</p>
-<p>两者区别可以概括为：</p>
+<p>Telegram 中几乎所有类型的事件都为用户提供了某种外部表示。服务消息、普通消息、
+回调、内联模式...但是有两种特殊的更新事件，它们专门为机器人本身设计。我们将讨论
+<code>my_chat_member</code> 和 <code>chat_member</code></p>
+<p>很久以前，群组中的机器人存在于"信息真空"中：对于任何审核操作（如禁言或限制），
+都需要通过 <a href="https://core.telegram.org/bots/api#getchatadministrators">getChatMember</a> 
+或 <a href="https://core.telegram.org/bots/api#getchatadministrators">getChatAdministrators</a> 
+方法检查调用者的权限，甚至还要缓存一段时间以避免触及 Bot API 的限制——这些限制的确切值仍然是神秘的。</p>
+<p>或者，比如某个狡猾的用户将机器人添加到群组，然后撤销其写入权限，并开始调用命令，
+希望机器人不处理这种错误而崩溃。对于私人消息的发送更是如此：不知道机器人的活跃用户具体是谁，
+开发者要么必须向数据库中的用户列表发送消息，要么更人性的做法是发送某个 ChatAction，
+比如"<em>正在输入</em>..."；但事实证明，屏蔽了机器人的用户根本不会收到这个"<em>正在输入</em>..."，
+Bot API 会返回一个错误。</p>
+<p>2021年3月，<a href="https://core.telegram.org/bots/api-changelog#march-9-2021">Bot API v5.1 更新</a> 
+的发布从根本上改善了这种情况，其中添加了两种新的更新事件类型：<code>my_chat_member</code> 和 <code>chat_member</code>。
+两个更新都包含同一类型的对象：<a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a>。
+这两个事件之间的区别如下：</p>
 <ul>
-<li><code>my_chat_member</code>：与机器人自身相关的状态变化（私聊中被拉黑/解除拉黑、被加入群组、被移除、权限变化等）；</li>
-<li><code>chat_member</code>：机器人所在群组/频道中，普通用户状态的变化（进群/退群、权限变化、管理员变更等）。</li>
+<li><code>my_chat_member</code>。这里包含的是直接关于机器人的所有事情，或者机器人与用户的私人对话：
+  用户在私人对话中屏蔽/取消屏蔽机器人、将机器人添加到群组或频道、从中移除机器人、
+  更改机器人权限和在不同聊天中的状态等。</li>
+<li><code>chat_member</code>。包含机器人作为管理员所在群组和频道中用户状态的所有更改：
+  用户进入/离开群组、频道订阅/取消订阅、更改用户权限和状态、
+  任命/撤销管理员以及许多其他操作。</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">重要</p>
-<p>默认情况下，Telegram 可能不会主动推送 <code>chat_member</code> 更新，
-需要在你的接收配置中显式启用。</p>
+<p>默认情况下，Telegram 不会向机器人发送 <code>chat_member</code> 更新事件，接收必须单独启用。
+详见 <a href="#chat-member">相应部分</a></p>
 </div>
+<p>在本章中，我们将尝试在最常需要的任务中查看这些更新，但在转到下一部分之前，
+我强烈建议您查看 <strong>aiogram 3.x</strong> 文档中的 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">这个页面</a>。</p>
 <h2 id="chatmemberupdated">ChatMemberUpdated 对象<a class="headerlink" href="#chatmemberupdated" title="Permanent link">¶</a></h2>
-<p><code>ChatMemberUpdated</code> 最关键的是“前后状态对比”：</p>
-<ul>
-<li><code>from_user</code>：谁触发了这次变更；</li>
-<li><code>old_chat_member</code>：变更前状态；</li>
-<li><code>new_chat_member</code>：变更后状态；</li>
-<li><code>invite_link</code>：可选，用户通过邀请链接加入时会出现。</li>
-</ul>
-<p>例如，管理员把某个成员封禁：
-<code>old_chat_member</code> 可能是 <code>member</code>，而 <code>new_chat_member</code> 变成 <code>kicked/banned</code>。</p>
+<p><a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a> 对象本身值得特别关注。
+为了更仔细地研究它，假设在某个群组中，管理员 Alice 禁言了普通成员 Victor。
+<code>chat</code> 和 <code>date</code> 字段很直观，我们就跳过它们。</p>
+<p><code>from</code> 字段（在您的 Python 代码中是 <code>from_user</code>）包含操作主体的信息。在我们的例子中，
+操作主体是 Alice，因此 <code>from</code>（<code>from_user</code>）将包含带有 Alice 信息的 <a href="https://core.telegram.org/bots/api#user">User</a> 对象。</p>
+<p><code>old_chat_member</code> 和 <code>new_chat_member</code>。这些字段隐藏了操作对象**事件前后**的"状态"。
+相应地，<code>old_chat_member</code> 将包含 <a href="https://core.telegram.org/bots/api#chatmembermember">ChatMemberMember</a> 类型的对象
+（这不是打字错误），以及包含 Victor 信息的 <code>user</code> 字段，而 <code>new_chat_member</code> 将包含
+<a href="https://core.telegram.org/bots/api#chatmemberbanned">ChatMemberBanned</a> 对象，同样包含那个不幸的 Victor 的 <code>user</code> 字段。</p>
+<p>最后，如果某个用户（比如 Mary）加入群组或频道，那么在 ChatMemberUpdated 对象中会有一个非空的
+<code>invite_link</code> 字段，类型为 <a href="https://core.telegram.org/bots/api#chatinvitelink">ChatInviteLink</a>，
+包含有关她通过哪个邀请链接加入的信息。</p>
+<div class="admonition warning">
+<p class="admonition-title">关于邀请链接</p>
+<p>这里需要做一个重要的说明：群组/频道的每个管理员（包括机器人）可以创建多个具有不同参数的邀请链接。
+如果机器人"捕获"了通过其[机器人]创建的链接进行的加入，那么 ChatInviteLink 对象中的 <code>invite_link</code> 字段
+将显示完整的链接（当然不包括 <code>https://t.me</code>）。但如果参与者通过另一个管理员的链接进入，
+机器人将只看到第一部分，第二部分将被替换为省略号。</p>
+<p>这很可能是为了防止机器人向某人发送由其他聊天管理员创建的邀请链接。</p>
+<p>顺便说一句，由于某种奇怪的 Telegram 逻辑，如果通过邀请链接加入公开群组
+（即使不是通过用户名），机器人将看不到链接（获取 <code>None</code>）。Telegram 🤷‍♂️</p>
+</div>
 <h2 id="my-chat-member">my_chat_member 更新<a class="headerlink" href="#my-chat-member" title="Permanent link">¶</a></h2>
-<p>这类更新常用于：</p>
+<h3 id="ban-unban-pm">私人对话中的屏蔽/取消屏蔽<a class="headerlink" href="#ban-unban-pm" title="Permanent link">¶</a></h3>
+<p>在专业聊天中，经常出现一个问题："如果有人屏蔽了机器人，如何向机器人的用户进行群发？"
+当然，第一个也是主要的建议是："创建<a href="https://telegram.org/faq_channels">频道</a>"，
+因为频道是告知用户信息的最佳方式。</p>
+<p>但如果你仍然决定直接通过机器人向用户进行群发，那么有三种主要方法来更新机器人的活跃用户列表：</p>
+<ol>
+<li>在群发过程中直接通过捕获发送错误并更新用户数据库。</li>
+<li>通过定期<a href="https://core.telegram.org/bots/api#sendchataction">发送某个 ChatAction</a>，
+   例如"正在输入"给用户列表。</li>
+<li>监听 my_chat_member 更新。</li>
+</ol>
+<p>现在我们只对第3点感兴趣。我们将学习如何使用 <code>my_chat_member</code> 来确定用户是否屏蔽或取消屏蔽了机器人。
+但在尝试 aiogram 的"魔法"之前，让我们了解这些情况在 Bot API 中的样子。
+为此，我们停止机器人进程，在 Telegram 中打开与机器人的对话，并依次屏蔽和取消屏蔽，
+使用信使 UI 中的选项。然后打开网络浏览器或某个 Insomnia/Postman 工具，
+并转到 <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getupdates</code> 链接，以查看尚未处理的消息（JSON 格式）。</p>
+<p>所以，当某人屏蔽机器人时会发生什么：</p>
+<p><img alt="用户屏蔽了机器人" src="../../images/ru/special-updates/my_chat_member-blocked.png"></p>
+<p>需要注意的几点：</p>
 <ul>
-<li>判断用户是否在私聊中屏蔽/解除屏蔽机器人；</li>
-<li>判断机器人是否被加入或移出群组/频道；</li>
-<li>监听机器人权限变化并动态调整功能。</li>
+<li><code>my_chat_member</code> 事件发生在用户 Groosha 的私人对话中（chat_id 等于我的 Telegram ID）。</li>
+<li>事件的启动者（主体）也是 Groosha。</li>
+<li>在 <code>old_chat_member</code> 字段中，可以看到操作的对象（机器人）以及机器人在私人对话中的旧状态："member"，
+  即机器人**未被**用户屏蔽。</li>
+<li><code>new_chat_member</code> 中的 <code>user</code> 内容相同，但状态已经是"kicked"，即在事件**之后**机器人被用户屏蔽。</li>
 </ul>
+<p>也就是说，机器人在与 Groosha 的私人对话中的状态从"member"转变为"kicked"。现在让我们看看取消屏蔽后 Telegram 发来的内容：</p>
+<p><img alt="用户取消屏蔽了机器人" src="../../images/ru/special-updates/my_chat_member-unblocked.png"></p>
+<p>这个截图与前一个类似，但如果仔细看，可以看到区别：另一个 <code>update_id</code>（增加了1），
+而且前后状态互换。机器人在与 Groosha 的私人对话中从"kicked"转变为"member"。
+此外，通常还会有另一个类型为 <code>message</code> 的更新，内容是命令 <code>/start</code>。
+官方客户端在取消屏蔽机器人时会立即发送 <code>/start</code> 命令，但不应该依赖于此：
+此类操作取决于客户端，其行为可能有所不同。</p>
+<p>现在让我们学习通过 aiogram 对这些事件做出反应的简单示例：假设我们有一个包含两个活跃机器人用户的列表，
+ID 分别为 111 和 222。按 <code>/start</code> 命令将用户添加到群发列表，按 <code>/users</code> 命令输出那些未屏蔽机器人的用户 ID
+（换句话说，屏蔽机器人时从列表中删除 ID，取消屏蔽时再次添加）。</p>
+<p>这是适合上述条件的现成路由：</p>
+<div class="highlight"><span class="filename">handlers/in_pm.py</span><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> <span class="n">KICKED</span>
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.command</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">CommandStart</span><span class="p">,</span> <span class="n">Command</span>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMemberUpdated</span><span class="p">,</span> <span class="n">Message</span>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"private"</span><span class="p">)</span>
+</span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"private"</span><span class="p">)</span>
+</span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># 仅用于示例！</span>
+</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># 在实际应用中使用更可靠的</span>
+</span><span id="__code-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># 用户 ID 源</span>
+</span><span id="__code-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">users</span> <span class="o">=</span> <span class="p">{</span><span class="mi">111</span><span class="p">,</span> <span class="mi">222</span><span class="p">}</span>
+</span><span id="__code-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__code-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+</span><span id="__code-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span><span class="n">member_status_changed</span><span class="o">=</span><span class="n">KICKED</span><span class="p">)</span>
+</span><span id="__code-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">)</span>
+</span><span id="__code-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">user_blocked_bot</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">):</span>
+</span><span id="__code-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    <span class="n">users</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__code-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+</span><span id="__code-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+</span><span id="__code-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span><span class="n">member_status_changed</span><span class="o">=</span><span class="n">MEMBER</span><span class="p">)</span>
+</span><span id="__code-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="p">)</span>
+</span><span id="__code-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">user_unblocked_bot</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">):</span>
+</span><span id="__code-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    <span class="n">users</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__code-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
+</span><span id="__code-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
+</span><span id="__code-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">CommandStart</span><span class="p">())</span>
+</span><span id="__code-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">)</span>
+</span><span id="__code-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    <span class="n">users</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__code-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+</span><span id="__code-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>
+</span><span id="__code-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"users"</span><span class="p">))</span>
+</span><span id="__code-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_users</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="n">users</span><span class="p">))</span>
+</span></code></pre></div>
+<p>注意：对于 <code>my_chat_member</code> 更新的处理程序，我们使用 <code>ChatMemberUpdatedFilter</code> 过滤器，
+指定要捕获的结果**之后**（即更新的 <code>new_chat_member</code> 属性）。
+也就是说，在这种情况下，我们不关心用户**之前**处于什么状态。</p>
+<p>这是实际效果：</p>
+<p><div class="video-container"><video style="width:100%;max-width:800px;height:auto;margin:0 auto" controls alt="type:video"><source src="../../images/ru/special-updates/my_chat_member_video.mp4" type="video/mp4"></source></video></div></p>
+<h3 id="bot-added-to-group">添加到群组<a class="headerlink" href="#bot-added-to-group" title="Permanent link">¶</a></h3>
+<p>初学者开发者的另一个常见问题是："如何捕获机器人被添加到群组的事件？"好吧，
+让我们来理解。但首先让我们看看用户可能有的"<a href="https://core.telegram.org/bots/api#chatmember">状态</a>"：</p>
+<ul>
+<li>creator（又称 owner）——聊天的所有者。显然，机器人不能拥有这样的状态。
+  所有者无条件地拥有聊天中的所有可能权限，除了"匿名"，它可以自由切换。</li>
+<li>administrator——任何其他管理员。在应用程序界面中可以移除他的所有权限，
+  但他仍然会保持管理员身份，例如可以读取最近的操作并忽略慢速模式。</li>
+<li>member——具有默认权限的聊天参与者。了解这些"默认权限"可以调用 API 方法 
+  <a href="https://core.telegram.org/bots/api#getchat">getChat</a> 并查看 <code>permissions</code> 字段。</li>
+<li>restricted——某些权限受限的用户。例如，处于所谓"只读"状态。
+  <strong>重要</strong>：用户在 <code>restricted</code> 状态可能在群组中，也可能不在，因此需要检查
+  <a href="https://youtu.be/ndTTmWiOS-M">ChatMemberRestricted</a> 的 <code>is_member</code> 标志。</li>
+<li>left——"<a href="https://youtu.be/ndTTmWiOS-M">他飞了，但答应会回来</a>"，
+  即用户已离开群组，但可以再次进入。退出时，他不处于 <code>restricted</code> 状态。</li>
+<li>banned——用户被禁言，在<a href="https://core.telegram.org/bots/api#unbanchatmember">取消禁言</a>之前无法自己返回。</li>
+</ul>
+<p>有了以上信息，不难猜测"机器人已被添加到群组"事件是从状态集 <code>{banned, left, restricted(is_member=False)}</code> 
+转变为 <code>{restricted(is_member=True), member, administrator}</code>。这种转变在英文中称为 transition，
+<strong>aiogram 3.x</strong> 中已经有了相应的设置。</p>
+<p>选项 №1：简单地列举所有之前和之后的状态：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 不要忘记导入：</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">KICKED</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> \
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">RESTRICTED</span><span class="p">,</span> <span class="n">ADMINISTRATOR</span><span class="p">,</span> <span class="n">CREATOR</span>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="n">member_status_changed</span><span class="o">=</span>
+</span><span id="__code-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="p">(</span><span class="n">KICKED</span> <span class="o">|</span> <span class="n">LEFT</span> <span class="o">|</span> <span class="o">-</span><span class="n">RESTRICTED</span><span class="p">)</span>
+</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="o">&gt;&gt;</span>
+</span><span id="__code-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="p">(</span><span class="o">+</span><span class="n">RESTRICTED</span> <span class="o">|</span> <span class="n">MEMBER</span> <span class="o">|</span> <span class="n">ADMINISTRATOR</span> <span class="o">|</span> <span class="n">CREATOR</span><span class="p">)</span>
+</span><span id="__code-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="p">)</span>
+</span><span id="__code-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>竖线表示"或"，位运算符"&gt;&gt;"显示转变方向，而"加"和"减"符号围绕 RESTRICTED 表示 <code>is_member</code> 标志
+（加表示 True，减表示 False）。</p>
+<p>但 aiogram 的开发者进一步包装了这两个集合为单独的状态 <code>IS_NOT_MEMBER</code> 和 <code>IS_MEMBER</code>。
+简化我们的代码为选项 №2：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 稍有不同的导入</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">IS_NOT_MEMBER</span><span class="p">,</span> <span class="n">IS_MEMBER</span>
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="n">member_status_changed</span><span class="o">=</span>
+</span><span id="__code-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">IS_NOT_MEMBER</span> <span class="o">&gt;&gt;</span> <span class="n">IS_MEMBER</span>
+</span><span id="__code-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="p">)</span>
+</span><span id="__code-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>但由于这种转变在机器人中使用很频繁，开发者进一步包装了这样的转变为变量 <code>JOIN_TRANSITION</code>，
+得到选项 №3：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 导入更少了</span>
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">JOIN_TRANSITION</span>
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="n">member_status_changed</span><span class="o">=</span><span class="n">JOIN_TRANSITION</span>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="p">)</span>
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>我强烈建议您查阅<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">文档</a>
+中的所有状态和转变集，以使您的代码更加整洁。</p>
+<p>现在让我们创建另一个路由，它有两个处理程序，分别响应机器人以管理员身份和普通成员身份添加到群组或超级群组。
+添加时，我们将向聊天发送有关机器人添加位置的摘要信息：</p>
+<div class="highlight"><span class="filename">handlers/bot_in_group.py</span><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">IS_NOT_MEMBER</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> <span class="n">ADMINISTRATOR</span>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMemberUpdated</span>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">in_</span><span class="p">({</span><span class="s2">"group"</span><span class="p">,</span> <span class="s2">"supergroup"</span><span class="p">}))</span>
+</span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__code-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">chats_variants</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__code-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="s2">"group"</span><span class="p">:</span> <span class="s2">"群组"</span><span class="p">,</span>
+</span><span id="__code-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="s2">"supergroup"</span><span class="p">:</span> <span class="s2">"超级群组"</span>
+</span><span id="__code-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">}</span>
+</span><span id="__code-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__code-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__code-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># 无法重现机器人作为 Restricted 添加的情况，</span>
+</span><span id="__code-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># 所以没有该示例</span>
+</span><span id="__code-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__code-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__code-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="n">member_status_changed</span><span class="o">=</span><span class="n">IS_NOT_MEMBER</span> <span class="o">&gt;&gt;</span> <span class="n">ADMINISTRATOR</span>
+</span><span id="__code-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="p">)</span>
+</span><span id="__code-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="p">)</span>
+</span><span id="__code-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bot_added_as_admin</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">):</span>
+</span><span id="__code-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="c1"># 最简单的情况：机器人作为管理员被添加。</span>
+</span><span id="__code-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="c1"># 我们可以轻松发送消息</span>
+</span><span id="__code-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"你好！感谢将我添加到 "</span>
+</span><span id="__code-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>             <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">chats_variants</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span><span class="p">]</span><span class="si">}</span><span class="s1"> "</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">" '</span>
+</span><span id="__code-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>             <span class="sa">f</span><span class="s2">"作为管理员。聊天 ID：</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="p">)</span>
+</span><span id="__code-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
+</span><span id="__code-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
+</span><span id="__code-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        <span class="n">member_status_changed</span><span class="o">=</span><span class="n">IS_NOT_MEMBER</span> <span class="o">&gt;&gt;</span> <span class="n">MEMBER</span>
+</span><span id="__code-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>    <span class="p">)</span>
+</span><span id="__code-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="p">)</span>
+</span><span id="__code-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bot_added_as_member</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
+</span><span id="__code-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>    <span class="c1"># 更复杂的情况：机器人作为普通成员被添加。</span>
+</span><span id="__code-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>    <span class="c1"># 但可能没有写消息的权限，所以我们先检查。</span>
+</span><span id="__code-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>    <span class="n">chat_info</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_chat</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__code-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>    <span class="k">if</span> <span class="n">chat_info</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">can_send_messages</span><span class="p">:</span>
+</span><span id="__code-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>        <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"你好！感谢将我添加到 "</span>
+</span><span id="__code-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>                 <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">chats_variants</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span><span class="p">]</span><span class="si">}</span><span class="s1"> "</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">" '</span>
+</span><span id="__code-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>                 <span class="sa">f</span><span class="s2">"作为普通成员。聊天 ID：</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>        <span class="p">)</span>
+</span><span id="__code-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__code-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"以某种方式记录这个情况"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>但像往常一样，还有一个细节，为了看到它，需要将机器人添加到群组，
+然后将其转换为超级群组。为了清晰起见，我创建了一个包含 <a href="https://t.me/my_id_bot">@my_id_bot</a> 的群组，
+然后添加了带有上述代码的测试机器人。注意图片：</p>
+<p><img alt="群组转换为超级群组" src="../../images/ru/special-updates/group_supergroup.png"></p>
+<p>哦，为什么机器人看起来像刚被添加，尽管似乎没有任何变化。事实上，对机器人来说，
+群组到超级群组的转换看起来像添加到新聊天。幸运的是，在这种情况下，机器人也会收到一条带有
+非空 <code>migrate_from_chat_id</code> 和 <code>migrate_to_chat_id</code> 字段的 Message。剩下的就很简单了：
+当 <code>my_chat_member</code> 事件在添加到超级群组时触发时，检查最近（比如几秒钟）是否有带有非空 <code>migrate_to_chat_id</code> 字段的消息。</p>
+<p>解决方案几乎完全重复了上面描述的示例，甚至在我的 <a href="https://t.me/my_id_bot">@my_id_bot</a> 中实现：
+<a href="https://github.com/MasterGroosha/my-id-bot/blob/17fa99945dd4eb186a7f2a200567829641edbe74/bot/handlers/add_or_migrate.py">就像这样</a>
+（GitHub 上的星星总是受欢迎的）</p>
+<div class="admonition info">
+<p class="admonition-title">群组和超级群组</p>
+<p>与普遍的误解相反，普通群组仍然存在，不会消失。Telegram 官方客户端最初创建的是普通群组，
+它在发生特定事件时隐式转换为超级群组。有充分的理由相信这种行为在未来几年不会改变，
+特别是考虑到普通（非高级）账户在参加超级群组和频道方面有 500 个的限制。</p>
+<p>转换时，除了聊天 ID 的更改外，还会产生一些副作用，所以通常最简单的做法是
+在创建群组后立即将其转换为超级群组，获取最终 ID 并继续前进。
+导致群组到超级群组转换的所有操作的完整列表可在此处查看：
+<a href="https://t.me/tgbeta/3424">https://t.me/tgbeta/3424</a>。</p>
+</div>
 <h2 id="chat-member">chat_member 更新<a class="headerlink" href="#chat-member" title="Permanent link">¶</a></h2>
-<p>这类更新常用于：</p>
-<ul>
-<li>处理成员加入/离开；</li>
-<li>跟踪管理员升降级；</li>
-<li>维护本地权限模型；</li>
-<li>触发自动化审核与欢迎流程。</li>
-</ul>
-<h2 id="extras">参考资料<a class="headerlink" href="#extras" title="Permanent link">¶</a></h2>
-<ul>
-<li>俄文原文：<code>/special-updates/</code></li>
-<li>英文页面：<code>/en/special-updates/</code></li>
-</ul></div>
+<p>下一个特殊更新类型 <code>chat_member</code> 很狡猾。问题是它默认不会被 Telegram 发送，
+为了让 Bot API 发送它，需要在调用 <strong>getUpdates</strong> 或 <strong>setWebhook</strong> 时传递所需事件类型的列表。
+例如：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 这里是导入</span>
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># 这里是代码</span>
+</span><span id="__code-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
+</span><span id="__code-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+</span><span id="__code-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span>
+</span><span id="__code-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">bot</span><span class="p">,</span> 
+</span><span id="__code-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">allowed_updates</span><span class="o">=</span><span class="p">[</span><span class="s2">"message"</span><span class="p">,</span> <span class="s2">"inline_query"</span><span class="p">,</span> <span class="s2">"chat_member"</span><span class="p">]</span>
+</span><span id="__code-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>那么在启动机器人后，Telegram 将开始发送三种指定的事件类型，但不包括所有其他类型。</p>
+<p>aiogram 开发者优雅地处理了这个问题：如果没有明确指定 <code>allowed_updates</code>，
+框架将递归遍历所有路由（从调度器开始），查看处理程序，并自动收集所需更新类型的列表。
+想重写这种行为？显式传递 <code>allowed_updates</code>。</p>
+<div class="admonition tip">
+<p class="admonition-title">为什么我没有收到 <xxx> 更新？？？</xxx></p>
+<p>在专业聊天中，人们经常问："我的代码不起作用，不响应事件，为什么？"</p>
+<p>首先应该做的是确保所需的更新确实到达机器人。换句话说，检查上次轮询/Webhook 时使用了什么 <code>allowed_updates</code>。
+最简单的方法是直接在浏览器中：</p>
+<ol>
+<li>获取机器人令牌，称其为 AAAAA</li>
+<li>形成一个像 <code>https://api.telegram.org/botAAAAA/getWebhookInfo</code> 这样的链接</li>
+<li>打开它</li>
+</ol>
+<p>然后仔细研究响应中的 JSON。如果 <code>allowed_updates</code> 键存在，确保所需的更新类型在列表中。
+如果键不存在，这等同于"发送所有内容，除了 <code>chat_member</code>"</p>
+</div>
+<h3 id="actualizing-admins">在群组中更新管理员列表<a class="headerlink" href="#actualizing-admins" title="Permanent link">¶</a></h3>
+<p>机器人审核者的一个常见问题：如何对调用的命令施加访问权限检查。例如，
+如何使只有群组管理员才能通过 /ban 命令禁言参与者。</p>
+<p>第一个和天真的想法是每次调用 getChatMember 来确定调用者在群组中的状态。
+第二个想法是在短时间内缓存这个知识。
+第三个和更正确的想法是在机器人启动时获取管理员列表，
+然后监听 chat_member 更新以更改其组成，并自己编辑列表。
+机器人重启？没关系，再次获取最新列表并使用它。</p>
+<p>让我们编写一个路由器，其中将监视管理员组成的更改并更新外部传递的列表
+（更准确地说，在 Python 术语中这将是一个集合）：</p>
+<div class="highlight"><span class="filename">handlers/admin_changes_in_group.py</span><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">KICKED</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> \
+</span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">RESTRICTED</span><span class="p">,</span> <span class="n">MEMBER</span><span class="p">,</span> <span class="n">ADMINISTRATOR</span><span class="p">,</span> <span class="n">CREATOR</span>
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMemberUpdated</span>
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">config_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__code-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">router</span><span class="o">.</span><span class="n">chat_member</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">main_chat_id</span><span class="p">)</span>
+</span><span id="__code-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__code-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__code-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nd">@router</span><span class="o">.</span><span class="n">chat_member</span><span class="p">(</span>
+</span><span id="__code-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="n">member_status_changed</span><span class="o">=</span>
+</span><span id="__code-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="p">(</span><span class="n">KICKED</span> <span class="o">|</span> <span class="n">LEFT</span> <span class="o">|</span> <span class="n">RESTRICTED</span> <span class="o">|</span> <span class="n">MEMBER</span><span class="p">)</span>
+</span><span id="__code-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>        <span class="o">&gt;&gt;</span>
+</span><span id="__code-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>        <span class="p">(</span><span class="n">ADMINISTRATOR</span> <span class="o">|</span> <span class="n">CREATOR</span><span class="p">)</span>
+</span><span id="__code-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    <span class="p">)</span>
+</span><span id="__code-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">)</span>
+</span><span id="__code-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">admin_promoted</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">,</span> <span class="n">admins</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+</span><span id="__code-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>    <span class="n">admins</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__code-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> "</span>
+</span><span id="__code-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>        <span class="sa">f</span><span class="s2">"已被提升为管理员！"</span>
+</span><span id="__code-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    <span class="p">)</span>
+</span><span id="__code-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>
+</span><span id="__code-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>
+</span><span id="__code-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="nd">@router</span><span class="o">.</span><span class="n">chat_member</span><span class="p">(</span>
+</span><span id="__code-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>        <span class="c1"># 注意箭头的方向</span>
+</span><span id="__code-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>        <span class="c1"># 或者可以交换括号中对象的位置</span>
+</span><span id="__code-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>        <span class="n">member_status_changed</span><span class="o">=</span>
+</span><span id="__code-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>        <span class="p">(</span><span class="n">KICKED</span> <span class="o">|</span> <span class="n">LEFT</span> <span class="o">|</span> <span class="n">RESTRICTED</span> <span class="o">|</span> <span class="n">MEMBER</span><span class="p">)</span>
+</span><span id="__code-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>        <span class="o">&lt;&lt;</span>
+</span><span id="__code-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>        <span class="p">(</span><span class="n">ADMINISTRATOR</span> <span class="o">|</span> <span class="n">CREATOR</span><span class="p">)</span>
+</span><span id="__code-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>    <span class="p">)</span>
+</span><span id="__code-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="p">)</span>
+</span><span id="__code-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">admin_demoted</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ChatMemberUpdated</span><span class="p">,</span> <span class="n">admins</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+</span><span id="__code-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>    <span class="n">admins</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__code-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">new_chat_member</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> "</span>
+</span><span id="__code-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>        <span class="sa">f</span><span class="s2">"已被降级为普通用户！"</span>
+</span><span id="__code-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>现在让我们写另一个路由器，带有 <code>/ban</code> 命令的处理程序。在处理程序中，
+我们将检查调用者的 ID 是否在 <code>admins</code> 集合中，并根据此允许或禁止禁言：</p>
+<div class="highlight"><span class="filename">handlers/events_in_group.py</span><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span><span class="p">,</span> <span class="n">F</span>
+</span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__code-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__code-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 实际上，你可以在路由器上挂一个自定义过滤器</span>
+</span><span id="__code-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># 检查调用者的 ID 是否在 admins 集合中。</span>
+</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># 那么路由器中的所有处理程序将自动被调用</span>
+</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># 仅对 admins 中的人员，这将减少代码并避免不必要的 if</span>
+</span><span id="__code-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># 但为了示例，我们通过 if-else 来使其更清晰</span>
+</span><span id="__code-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__code-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__code-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"ban"</span><span class="p">),</span> <span class="n">F</span><span class="o">.</span><span class="n">reply_to_message</span><span class="p">)</span>
+</span><span id="__code-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_ban</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">admins</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+</span><span id="__code-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">:</span>
+</span><span id="__code-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>            <span class="s2">"您没有足够的权限来执行此操作"</span>
+</span><span id="__code-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="p">)</span>
+</span><span id="__code-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__code-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">ban</span><span class="p">(</span>
+</span><span id="__code-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>            <span class="n">user_id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">reply_to_message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span>
+</span><span id="__code-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>        <span class="p">)</span>
+</span><span id="__code-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"违规者已被禁言"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>剩下的就是在主文件中注册路由器并在启动时加载管理员列表。
+实际上，这是完整的内容，包括所有之前的更改。</p>
+<div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__code-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>
+</span><span id="__code-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.client.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultBotProperties</span>
+</span><span id="__code-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParseMode</span>
+</span><span id="__code-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__code-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">config_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+</span><span id="__code-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">handlers</span><span class="w"> </span><span class="kn">import</span> <span class="n">in_pm</span><span class="p">,</span> <span class="n">bot_in_group</span><span class="p">,</span> <span class="n">admin_changes_in_group</span><span class="p">,</span> <span class="n">events_in_group</span>
+</span><span id="__code-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__code-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__code-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__code-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+</span><span id="__code-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+</span><span id="__code-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        <span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="p">)</span>
+</span><span id="__code-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__code-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
+</span><span id="__code-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span>
+</span><span id="__code-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        <span class="n">config</span><span class="o">.</span><span class="n">bot_token</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">(),</span>
+</span><span id="__code-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>        <span class="n">default</span><span class="o">=</span><span class="n">DefaultBotProperties</span><span class="p">(</span>
+</span><span id="__code-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>            <span class="n">parse_mode</span><span class="o">=</span><span class="n">ParseMode</span><span class="o">.</span><span class="n">HTML</span>
+</span><span id="__code-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>        <span class="p">)</span>
+</span><span id="__code-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    <span class="p">)</span>
+</span><span id="__code-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>    <span class="n">dp</span><span class="o">.</span><span class="n">include_routers</span><span class="p">(</span>
+</span><span id="__code-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>        <span class="n">in_pm</span><span class="o">.</span><span class="n">router</span><span class="p">,</span> <span class="n">events_in_group</span><span class="o">.</span><span class="n">router</span><span class="p">,</span>
+</span><span id="__code-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>        <span class="n">bot_in_group</span><span class="o">.</span><span class="n">router</span><span class="p">,</span> <span class="n">admin_changes_in_group</span><span class="o">.</span><span class="n">router</span>
+</span><span id="__code-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    <span class="p">)</span>
+</span><span id="__code-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>
+</span><span id="__code-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="c1"># 加载管理员列表</span>
+</span><span id="__code-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>    <span class="n">admins</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_chat_administrators</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">main_chat_id</span><span class="p">)</span>
+</span><span id="__code-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="n">admin_ids</span> <span class="o">=</span> <span class="p">{</span><span class="n">admin</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">}</span>
+</span><span id="__code-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>
+</span><span id="__code-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">,</span> <span class="n">admins</span><span class="o">=</span><span class="n">admin_ids</span><span class="p">)</span>
+</span><span id="__code-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>
+</span><span id="__code-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>
+</span><span id="__code-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+</span><span id="__code-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<p>现在让我们看看最终的结果。尝试以非管理员身份调用 <code>/ban</code> 命令：</p>
+<p><img alt="用户权限不足" src="../../images/ru/special-updates/ban_insufficient_rights.png"></p>
+<p>进入群组设置并将 Arthur 指定为管理员（机器人将看到更改并在聊天中报告）：</p>
+<p><img alt="现在权限足够了" src="../../images/ru/special-updates/ban_ok.png"></p>
+<p>撤销测试对象的管理员权限，并要求其再次调用 <code>/ban</code> 命令：</p>
+<p><img alt="权限再次不足" src="../../images/ru/special-updates/ban_insufficient_again.png"></p>
+<p>现在你知道如何处理这些"无形"的更新，万岁！最后，我建议查看
+<a href="https://github.com/MasterGroosha/telegram-report-bot">另一个演示机器人</a>，
+其中使用了一些上述功能。</p></div>
 
 
 
@@ -1382,7 +1842,7 @@ Telegram 增加了 <code>my_chat_member</code> 与 <code>chat_member</code> 两�
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年4月23日 23:07:30 UTC"><span class="timeago" datetime="2026-04-23T23:07:30+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年4月23日 23:07:30 UTC">2026-04-23</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年6月20日 23:36:49 UTC"><span class="timeago" datetime="2026-06-20T23:36:49+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年6月20日 23:36:49 UTC">2026-06-20</span>
   </span>
 
     

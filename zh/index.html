@@ -141,7 +141,7 @@
 
     
       
-        <title>简介 - 使用 aiogram 3.x 编写 Telegram 机器人</title>
+        <title>介绍 - 使用 aiogram 3.x 编写 Telegram 机器人</title>
       
     
     
@@ -477,7 +477,7 @@
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 简介">
+  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 介绍">
   <meta property="og:description" content="使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
@@ -488,7 +488,7 @@
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/">
-  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 简介">
+  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 介绍">
   <meta name="twitter:description" content="使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
@@ -511,7 +511,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#使用-aiogram-3x-编写-telegram-机器人" class="md-skip">
+        <a href="#welcome" class="md-skip">
           跳转至
         </a>
       
@@ -547,7 +547,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              简介
+              介绍
             
           </span>
         </div>
@@ -1147,15 +1147,17 @@
   
 
 
-<div><h1 id="使用-aiogram-3x-编写-telegram-机器人">使用 aiogram 3.x 编写 Telegram 机器人<a class="headerlink" href="#%E4%BD%BF%E7%94%A8-aiogram-3x-%E7%BC%96%E5%86%99-telegram-%E6%9C%BA%E5%99%A8%E4%BA%BA" title="Permanent link">¶</a></h1>
-<p>欢迎来到本教程！这是一本关于如何使用 <strong>Python</strong> 和 <strong>aiogram 3.x</strong> 开发 Telegram 机器人的实践指南。</p>
-<p>目前中文翻译仍在持续完善中：</p>
-<ul>
-<li>已翻译章节会持续同步更新；</li>
-<li>未翻译页面会临时回退到俄文版本；</li>
-<li>欢迎通过 GitHub 提交 issue 或 PR 参与改进。</li>
-</ul>
-<p>如果你是第一次接触本项目，建议从 <a href="quickstart/">aiogram 入门</a> 开始。</p></div>
+<div><h1 id="welcome"><strong>欢迎！</strong><a class="headerlink" href="#welcome" title="Permanent link">¶</a></h1>
+<p>您现在看到的是我，<a href="https://mastergroosha.github.io/">Groosha</a>，称之为关于使用 <a href="https://github.com/aiogram/aiogram">aiogram</a> 框架用 Python 创建 Telegram 机器人的书。这本书可以视为学习材料，根据需要参考各个章节，但第一次阅读时，我建议按照章节在此文本左侧列出的顺序进行。</p>
+<p>这是本指南的第三个版本。<a href="https://mastergroosha.github.io/telegram-tutorial/">第一个</a>版本于 2015-2017 年编写，适用于 <a href="https://github.com/eternnoir/pyTelegramBotAPI">pyTelegramBotAPI</a> 库，<a href="https://mastergroosha.github.io/aiogram-2-guide/">第二个</a>版本于 2019 年发布，适用于 aiogram 2.x。在这个更新的书版本中，我们将使用 aiogram 版本 3，它于 2023 年 9 月 1 日正式发布。</p>
+<p><strong>这本书是为谁写的？</strong><br>
+假设您熟悉一般编程和 Python 语言，知道什么是 "venv" 和 "pip"，并且能够理解和修复 <em>SyntaxError</em> 和 <em>IndentationError</em> 这样的"初级"错误。在互联网上找几个 Python 课程，学完它们，然后再开始写机器人，这样可以节省时间和精力。</p>
+<p>在所有章节中，我们将使用 GNU/Linux 系列的操作系统，例如 <a href="https://ubuntu.com/">Ubuntu</a>、Python 3.11（在虚拟环境中）和开发环境 <a href="https://www.jetbrains.com/ru-ru/pycharm/download/">PyCharm</a>，当然 <a href="https://code.visualstudio.com/">Visual Studio Code</a> 也可以。与此同时，Windows 用户不会被遗漏：所有与代码相关的内容都能在您的计算机上正常工作，对于特定的东西，比如 systemd，您可以在 <a href="https://www.virtualbox.org">VirtualBox</a> 中使用 Ubuntu。</p>
+<p>本书的文本和 <a href="https://github.com/MasterGroosha/aiogram-3-guide">相应仓库</a> 中的源代码完全免费，在 MIT 许可证下发布，任何人都可以下载、修改和使用于任何目的。</p>
+<p><strong>捐赠</strong><br>
+我花了很多时间和精力来撰写和更新这本书。如果您来自俄罗斯并想在经济上感谢作者，您可以通过 <a href="https://yoomoney.ru/to/41001515922197">Ю.Money</a> 进行操作（请在评论中指明这是哪本书）。您也可以通过 <a href="https://t.me/grooshadonatebot">@GrooshaDonateBot</a> 发送"星星"。需要澄清的是，任何捐赠都是**自愿的，不提供任何好处**，除了增加因果报应。</p>
+<p><strong>致谢</strong><br>
+感谢 aiogram 的创建者 <a href="https://github.com/JrooTJunior">Alex JRootJunior</a>、<a href="https://github.com/aiogram/aiogram">aiogram</a> 和 <a href="https://github.com/MasterGroosha/aiogram-3-guide">本书仓库</a> 的贡献者，以及你们，亲爱的读者，使这本书以现在的形式存在并继续发展！</p></div>
 
 
 
@@ -1178,7 +1180,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年4月23日 22:23:05 UTC"><span class="timeago" datetime="2026-04-23T22:23:05+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年4月23日 22:23:05 UTC">2026-04-23</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年6月20日 23:36:49 UTC"><span class="timeago" datetime="2026-06-20T23:36:49+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年6月20日 23:36:49 UTC">2026-06-20</span>
   </span>
 
     
