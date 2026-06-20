@@ -111,7 +111,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程">
+        <meta name="description" content="aiogram 入门">
       
       
         <meta name="author" content="MasterGroosha, Translated by VAI">
@@ -476,11 +476,13 @@
 
   
   
+    
+  
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - aiogram 入门">
-  <meta property="og:description" content="使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程">
+  <meta property="og:description" content="aiogram 入门">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/quickstart/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
   <meta property="og:image:type" content="image/png">
@@ -491,7 +493,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/quickstart/">
   <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - aiogram 入门">
-  <meta name="twitter:description" content="使用 Python 与 aiogram 3.x 框架开发 Telegram 机器人的教程">
+  <meta name="twitter:description" content="aiogram 入门">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
   </head>
@@ -513,7 +515,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aiogram-入门" class="md-skip">
+        <a href="#start" class="md-skip">
           跳转至
         </a>
       
@@ -863,10 +865,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#依赖版本" class="md-nav__link">
+  <a href="#glossary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        依赖版本
+        术语
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装
       
     </span>
   </a>
@@ -877,7 +890,7 @@
   <a href="#hello-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hello, world!
+        第一个机器人
       
     </span>
   </a>
@@ -885,10 +898,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pass-extras" class="md-nav__link">
+  <a href="#file-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        传递附加参数
+        机器人框架
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二个机器人
       
     </span>
   </a>
@@ -1200,10 +1224,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#依赖版本" class="md-nav__link">
+  <a href="#glossary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        依赖版本
+        术语
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装
       
     </span>
   </a>
@@ -1214,7 +1249,7 @@
   <a href="#hello-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hello, world!
+        第一个机器人
       
     </span>
   </a>
@@ -1222,10 +1257,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pass-extras" class="md-nav__link">
+  <a href="#file-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        传递附加参数
+        机器人框架
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二个机器人
       
     </span>
   </a>
@@ -1260,20 +1306,432 @@
   
 
 
-<div><h1 id="aiogram-入门">aiogram 入门<a class="headerlink" href="#aiogram-%E5%85%A5%E9%97%A8" title="Permanent link">¶</a></h1>
-<p>本页为中文入门占位版本，用于确保多语言切换与导航在中文环境下可用。</p>
-<p>在完整译文完成前，请优先参考以下内容：</p>
+<div><h1 id="start">aiogram 入门<a class="headerlink" href="#start" title="Permanent link">¶</a></h1>
+<div class="admonition info">
+<p>使用的 aiogram 版本: 3.27.0</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">一些细节被有意简化了!</p>
+<p>我相信除了理论之外，还应该有实践。为了让读者更容易重复后面描述的示例，
+我不得不采用只适合本地开发和学习的方法。</p>
+<p>或者有时数据存储会使用仅位于内存中的数据结构（字典、列表等）。
+实际上不建议使用这样的对象，因为停止机器人会导致数据永久丢失。</p>
+<p>此外，获取来自 Telegram 的更新的机制被选为轮询（polling），
+因为它保证在绝大多数环境中都能工作，并且适用于几乎所有开发人员。</p>
+<p><strong>重要的是要记住，我的目标是解释如何使用 aiogram 与 Telegram Bot API 交互，
+而不是解释计算机科学的全部内容。</strong></p>
+</div>
+<h2 id="glossary">术语<a class="headerlink" href="#glossary" title="Permanent link">¶</a></h2>
+<p>让我们引入一些术语，以便以后不会混淆：</p>
 <ul>
-<li>英文版快速开始：<code>/en/quickstart/</code></li>
-<li>乌克兰语快速开始：<code>/uk/quickstart/</code></li>
-<li>俄文原版快速开始：<code>/quickstart/</code></li>
+<li>LS（私聊）— 私人消息，在机器人的背景下是与用户的一对一对话，而不是群组/频道。</li>
+<li>聊天 — 私聊、群组、超级群组和频道的通用名称。</li>
+<li>更新 — <a href="https://core.telegram.org/bots/api#update">此列表</a>中的任何事件：
+消息、消息编辑、回调、内联查询、支付、将机器人添加到群组等。</li>
+<li>处理程序 — 异步函数，从调度程序/路由器接收下一个更新并处理它。</li>
+<li>调度程序 — 负责从 Telegram 获取更新，然后为收到的更新选择处理程序的对象。</li>
+<li>路由器 — 类似于调度程序，但负责处理程序子集。</li>
+<li>过滤器 — 通常返回 True 或 False 的表达式，影响处理程序是否被调用。</li>
+<li>中间件 — 插入更新处理中的中间层。</li>
 </ul>
-<h2 id="依赖版本">依赖版本<a class="headerlink" href="#%E4%BE%9D%E8%B5%96%E7%89%88%E6%9C%AC" title="Permanent link">¶</a></h2>
-<p>示例项目当前以 <code>aiogram==3.27.0</code> 为基线进行维护。</p>
-<h2 id="hello-world">Hello, world!<a class="headerlink" href="#hello-world" title="Permanent link">¶</a></h2>
-<p>该部分将在完整中文翻译中补充。当前可先参考英文或俄文对应章节。</p>
-<h2 id="pass-extras">传递附加参数<a class="headerlink" href="#pass-extras" title="Permanent link">¶</a></h2>
-<p>该部分将在完整中文翻译中补充。当前可先参考英文或俄文对应章节。</p></div>
+<h2 id="installation">安装<a class="headerlink" href="#installation" title="Permanent link">¶</a></h2>
+<p>在本章编写时（2026 年），流行的 Python 应用程序包管理器是 <a href="https://docs.astral.sh/uv/">uv</a>。
+GitHub 上的演示项目将逐步迁移到它。</p>
+<p>如果您已下载使用 <code>uv</code> 的现有项目，所需要做的就是执行 <code>uv sync</code>，
+包管理器将自动下载所需的 Python 版本（如果需要）并从 <code>pyproject.toml</code> 安装所有包。
+但是，如果您从头开始创建项目，请依次执行以下命令：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>init<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.14
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>uv<span class="w"> </span>add<span class="w"> </span>aiogram
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import aiogram"</span>
+</span></code></pre></div>
+<p>您可以指定任何最新的并获得至少一两个补丁修复的 Python 版本
+（例如，<code>3.14.2</code> 或 <code>3.15.1</code>）。如果在执行 <code>uv run python -c "import aiogram"</code> 后终端中没有错误，
+则表示您安装正确。</p>
+<h2 id="hello-world">第一个机器人<a class="headerlink" href="#hello-world" title="Permanent link">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Python 中的异步编程</p>
+<p>aiogram 是一个异步库，所以在没有 asyncio 经验的情况下会很困难。
+有一个很好的异步教程可在 <a href="https://docs.python.org/3/library/asyncio-task.html">Python 网站</a> 上获得。</p>
+</div>
+<p>出于教学目的，我们将编写最简单的单文件机器人，以了解 aiogram 是什么以及用户与机器人如何交互。
+我会提前警告：将所有代码保存在一个文件中很快就会成为一个坏主意，但适合两种情况：
+演示代码和一次性机器人，例如，快速检查某些内容。
+无论如何，在本章稍后，我们将编写一个更高级的机器人，具有正常的文件结构。</p>
+<p>在我们的第一个机器人中，只有一个处理程序：它将对任何消息回复传奇的 "Hello world!"。
+那么处理程序（处理函数）到底是什么？
+这是一个**异步函数**，它接收来自 Telegram 的某种事件对象（消息、回调等）并对该事件执行某些操作。
+为了让 aiogram 知道这样的函数声称自己是事件处理程序，必须注册它，
+即以某种方式将其绑定到 aiogram。但这种绑定不是针对框架本身，
+而是针对其中的一个单独对象 — <strong>调度程序</strong>。</p>
+<p>在项目目录中创建一个包含以下内容的 <code>single_file_bot.py</code> 文件：</p>
+<div class="highlight"><span class="filename">single_file_bot.py</span><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>                           <span class="c1"># [1]</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">getenv</span>                    <span class="c1"># [1]</span>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>      <span class="c1"># [1]</span>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>        <span class="c1"># [1]</span>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>                        <span class="c1"># [2]</span>
+</span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__code-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">()</span>                            <span class="c1"># [3]</span>
+</span><span id="__code-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_message</span><span class="p">(</span>                   <span class="c1"># [4]</span>
+</span><span id="__code-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>                <span class="c1"># [5]</span>
+</span><span id="__code-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">):</span>
+</span><span id="__code-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span> <span class="c1"># [6]</span>
+</span><span id="__code-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__code-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__code-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__code-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="n">token</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">"BOT_TOKEN"</span><span class="p">)</span>          <span class="c1"># [7]</span>
+</span><span id="__code-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>                        <span class="c1"># [7]</span>
+</span><span id="__code-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        <span class="n">error</span> <span class="o">=</span> <span class="s2">"No token provided"</span>      <span class="c1"># [7]</span>
+</span><span id="__code-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>          <span class="c1"># [7]</span>
+</span><span id="__code-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>               <span class="c1"># [8]</span>
+</span><span id="__code-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+</span><span id="__code-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Starting bot..."</span><span class="p">)</span>
+</span><span id="__code-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__code-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>        <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>      <span class="c1"># [9]</span>
+</span><span id="__code-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    <span class="k">finally</span><span class="p">:</span>
+</span><span id="__code-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Bot stopped"</span><span class="p">)</span>
+</span><span id="__code-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+</span><span id="__code-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+</span><span id="__code-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+</span><span id="__code-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<p>这是非常紧凑的代码，几乎每一行都有意义。注释中的数字表示：</p>
+<ol>
+<li>导入。<code>asyncio</code> 对于运行是必需的，<code>getenv</code> 允许从环境变量读取令牌。
+从 aiogram 的导入：前两个（<code>Bot</code>、<code>Dispatcher</code>）是必需的，最后一个（<code>Message</code>）仅用于类型注解和 IDE 提示。
+我强烈建议不要忽视类型注解，这简化了代码的编写、阅读和维护。</li>
+<li>创建调度程序对象。在此示例中，它是在模块级别创建的，因为处理程序将在以后注册到它。</li>
+<li>装饰器，读作"此装饰器下的函数在 <code>router</code> 路由器中注册，以处理 <code>Message</code> 类型的更新
+（更新位于来自 Telegram 的更新类的 <code>Update</code> 类的 <code>message</code> 字段中）"。</li>
+<li>声明将处理 <code>Message</code> 类型更新的函数。</li>
+<li>参数，在函数调用时将包含更新主体（在本例中为 <code>Message</code> 类型）。
+处理程序**始终**至少有一个参数（可以有更多），该参数值的类型取决于函数注册的更新类型。</li>
+<li>处理程序的业务逻辑。在这个例子中，消息被发送到接收原始事件的同一聊天。我们将在下一章详细讨论消息发送。</li>
+<li>从 <code>BOT_TOKEN</code> 环境变量读取令牌。如果变量未设置或为空，则抛出错误。</li>
+<li>创建具有先前获得的令牌的机器人对象。</li>
+<li>在轮询模式下启动机器人。</li>
+</ol>
+<p>通过将从 <code>@BotFather</code> 获得的实际令牌作为环境变量传递来运行机器人。您应该看到启动消息，
+机器人将对任何消息回复文本 "Hello world!"：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$ BOT_TOKEN=1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo uv run single_file_bot.py
+</span></code></pre></div>
+<p><img alt="机器人工作中" src="../../images/ru/quickstart/l01_1_new_dark.png#only-dark">
+<img alt="机器人工作中" src="../../images/ru/quickstart/l01_1_new_light.png#only-light"></p>
+<p>恭喜：您的第一个机器人已准备好！但是，如前所述，将所有代码保存在一个文件中不是一个好主意。
+因此，让我们为 hello world 鼓掌，然后正确地做事。</p>
+<h2 id="file-structure">机器人框架<a class="headerlink" href="#file-structure" title="Permanent link">¶</a></h2>
+<p>多年来与 Telegram Bot API 的合作让我养成了某种编写代码的风格，特别是 Telegram 机器人，
+所以这些章节中的代码将基于它。这里需要注意的是，完美不存在，您可以自由地格式化您的源代码，
+特别是如果您不打算向其他人展示这些代码。</p>
+<p>例如，这是我的典型机器人的简化文件结构的样子：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── README.md
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── alembic
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   └── &lt;迁移文件&gt;
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── alembic.ini
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>├── bot
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   ├── __init__.py
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   ├── __main__.py
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│   ├── config.py
+</span><span id="__code-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   ├── db
+</span><span id="__code-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│   │   └── &lt;各种文件&gt;
+</span><span id="__code-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│   ├── handlers
+</span><span id="__code-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│   │   ├── __init__.py
+</span><span id="__code-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│   │   └── &lt;各种文件&gt;
+</span><span id="__code-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>│   ├── i18n
+</span><span id="__code-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>│   │   └── &lt;各种文件&gt;
+</span><span id="__code-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>│   ├── logging_config.py
+</span><span id="__code-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>│   └── middlewares
+</span><span id="__code-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>│       ├── __init__.py
+</span><span id="__code-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>│       └── &lt;各种文件&gt;
+</span><span id="__code-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>├── settings.example.toml
+</span><span id="__code-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>├── settings.toml
+</span><span id="__code-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>├── pyproject.toml
+</span><span id="__code-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>└── uv.lock
+</span></code></pre></div>
+<p>上面我省略了各种辅助文件和目录，例如 <code>Makefile</code>、用于在服务器上部署应用程序的脚本的 <code>deploy</code> 目录、
+测试等。让我们讨论一下结构中留下的内容：</p>
+<p><code>config.py</code>：这里描述了机器人的配置：令牌、数据库连接的 DSN、日志参数、
+各种外部 API 密钥等。近年来，我更喜欢 TOML 格式来存储设置，
+它没有 YAML 固有的"缩进病"，数据很容易按部分分组，
+格式本身在 Python 3.12+ 中被认为是"本地的"。但由于在我的开源项目中经常有评论者问如何运行我的机器人，
+只有环境变量作为可配置参数，我现在在我的代码中添加了环回支持来支持环境变量。
+例如，如果在 <code>settings.toml</code> 中写入：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[bot]</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo"</span>
+</span></code></pre></div>
+<p>那么您可以通过环境变量指定相同的值而不使用 TOML 文件：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># 双下划线作为分隔符在 config.py 中设置
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>BOT__TOKEN=1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo
+</span></code></pre></div>
+<p><code>logging_config.py</code>：我已经使用 <a href="https://www.structlog.org/en/stable/">structlog</a> 进行日志记录很长时间了，
+因为 JSON 日志非常方便，允许通过自动化工具解析值。
+在我的机器人中，我收集日志和各种指标以及异常，然后将其发送到单独的系统，
+但现在不是讨论它的时候。我不直接使用 OpenTelemetry，因为在我的范例中，应用程序不应该知道谁在监视它以及如何监视，
+它应该只是"吐出"日志和指标，至于谁会收集它们，那不那么重要。</p>
+<p><code>handlers</code>：包含处理程序的目录，即来自 Telegram 的事件处理程序。某些处理程序分组到一个文件中，
+某些处理程序非常复杂，以至于为它们分配一个单独的 <code>py</code> 文件。在 <code>__init__.py</code> 中，
+我通常导入所有相邻的处理程序文件，并放置一个 <code>get_routers()</code> 函数，该函数收集路由器的层次结构。
+来自我的一个项目的示例：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">start</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">admin</span>
+</span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_routers</span><span class="p">(</span>
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="n">admins_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Router</span><span class="p">]:</span>
+</span><span id="__code-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__code-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">admin</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">admins_list</span><span class="p">))</span>
+</span><span id="__code-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__code-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="k">return</span> <span class="p">[</span>
+</span><span id="__code-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="n">start</span><span class="o">.</span><span class="n">router</span><span class="p">,</span>
+</span><span id="__code-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="n">errors</span><span class="o">.</span><span class="n">router</span><span class="p">,</span>
+</span><span id="__code-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="n">admin</span><span class="o">.</span><span class="n">router</span><span class="p">,</span>
+</span><span id="__code-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="p">]</span>
+</span></code></pre></div>
+<p><code>filters</code> 和 <code>middlewares</code> 目录的结构类似，如果项目需要过滤器和中间件的话。</p>
+<p><code>i18n</code>：用于不同地区的目录（i18n 是国际化的缩写）。这里包含机器人各种字符串的翻译
+各种语言和通过 <a href="https://projectfluent.org/python-fluent/">Mozilla Fluent</a> 使用字符串的包装器。</p>
+<p><code>settings.toml</code> 和 <code>settings.example.toml</code>：实际（"生产"）设置文件和带有占位符的文件。
+第一个始终在 <code>.gitignore</code> 中，永远不会离开创建它的计算机，第二个必须提交到 git。
+来自我的一个项目的示例模板文件：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[bot]</span>
+</span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1234567890:AaBbCcDdEeFfGrOoShALlMmNnOoPpQqRrSs"</span>
+</span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">max_quote_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000</span>
+</span><span id="__code-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">admins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1234567</span><span class="p">]</span>
+</span><span id="__code-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__code-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">[logs]</span>
+</span><span id="__code-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"some_bot"</span>
+</span><span id="__code-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">show_datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">datetime_format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%Y-%m-%d %H:%M:%S"</span>
+</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">show_debug_logs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__code-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">time_in_utc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__code-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">use_colors_in_console</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__code-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">renderer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"json"</span>
+</span><span id="__code-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">allow_third_party_logs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span></code></pre></div>
+<p><code>__main__.py</code>：入口点。这是读取所有配置数据的地方，机器人已设置，
+连接到数据库，初始化其他连接器以及通过轮询启动数据接收或设置 webhook。
+而且机器人很容易以 <code>uv run -m bot</code> 的方式运行（没有 <code>uv</code> 的话在激活的 Venv 中是 <code>python -m bot</code>）。</p>
+<p>不要害怕这样复杂的描述，实际上一切看起来相当简单，某些代码段可以安全地以不变的方式从一个项目复制到另一个项目。
+现在让我们为您的第一个机器人准备框架。</p>
+<p>在您之前初始化 <code>uv</code> 项目的目录中，创建以下结构和空文件（不要触及 <code>pyproject.toml</code> 和 <code>uv.lock</code>）：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>bot
+</span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>├── __init__.py
+</span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>├── __main__.py
+</span><span id="__code-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>├── config.py
+</span><span id="__code-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>├── handlers
+</span><span id="__code-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>│   ├── __init__.py
+</span><span id="__code-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>│   └── start.py
+</span><span id="__code-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>└──logging_config.py
+</span><span id="__code-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>settings.example.toml
+</span><span id="__code-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>settings.toml
+</span><span id="__code-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>pyproject.toml
+</span><span id="__code-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>uv.lock
+</span></code></pre></div>
+<p>另外安装几个有用的库来处理配置和日志：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uv<span class="w"> </span>add<span class="w"> </span>pydantic-settings<span class="w"> </span>structlog
+</span></code></pre></div>
+<p>如果目录是 git 存储库的一部分，请确保将 <code>settings.toml</code> 添加到 <code>.gitignore</code>。
+<code>config.py</code> 和 <code>logging_config.py</code> 文件的内容来自本书 git 存储库的 
+<a href="https://github.com/MasterGroosha/aiogram-3-guide/tree/master/code/01_quickstart">01_quickstart</a> 目录。
+接下来我们将直接讨论业务逻辑。</p>
+<h2 id="second-bot">第二个机器人<a class="headerlink" href="#second-bot" title="Permanent link">¶</a></h2>
+<p>让我们为本章设定目标：编写一个机器人，对 <code>/start</code> 命令回复"你好！"，
+对任何其他输入回复"我不理解你"。让我们从更广泛的开始，即"任何消息"处理程序。</p>
+<p>当调度程序从 Telegram 接收事件时，它面临的任务是选择哪个已注册的处理程序来处理它。
+为此，调度程序按顺序检查每个处理程序是否符合某个特定标志 — <strong>过滤器</strong>。
+如果过滤器中的条件返回 True，则调度程序将事件（更新）传递给处理程序，就这样。
+如果过滤器返回 False，调度程序将尝试下一个处理程序，依此类推，直到处理程序用完。
+我们得出以下重要结论：</p>
+<div class="admonition info">
+<p>• 处理程序提供对来自 Telegram 的事件的处理。
+• 处理程序必须在调度程序中注册。
+• 调度程序按顺序选择处理程序，检查每个处理程序的过滤器。
+• 调度程序将更新传递给其过滤器返回 True 的第一个处理程序。如果没有，则更新不会传递给任何人。</p>
+</div>
+<p>由于调度程序以单个实例形式存在，将其从文件拖到文件以注册处理程序可能很困难，
+并且容易导致循环依赖：<code>file_1</code> 导入 <code>file_2</code> 中的代码以注册处理程序，
+在 <code>file_2</code> 中从 <code>file_1</code> 导入调度程序 -&gt; 循环导入，错误。
+为了解决这个问题，存在**路由器**。路由器是一个对象，处理程序在其中注册，
+然后路由器在调度程序中注册。而且，您可以在路由器上设置过滤器，而不仅仅在处理程序上，
+这样，如果更新没有通过路由器过滤器，则不会检查路由器的任何处理程序。从此我们可以得出几个更多的结论：</p>
+<div class="admonition info">
+<p>• 处理程序明确（直接）或隐式（通过路由器）绑定到调度程序。
+• 路由器将一个或多个处理程序组合在一起。
+• <strong>调度程序是根路由器</strong>。
+• 过滤器可以放在处理程序和整个路由器上。</p>
+</div>
+<p>过滤器及其他未在上面描述的实体 — 中间件 — 将在后续章节中更详细地讨论。</p>
+<p>因此，在设计业务逻辑时，程序员的任务是正确组织处理程序的层次结构，
+以便为更新选择所需的处理程序，而不是其他。</p>
+<p>将以下代码复制到 <code>bot/handlers/start.py</code> 文件中：</p>
+<div class="highlight"><span class="filename">bot/handlers/start.py</span><pre><span></span><code><span id="__code-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>                       <span class="c1"># [1]</span>
+</span><span id="__code-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>                <span class="c1"># [1]</span>
+</span><span id="__code-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__code-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"start"</span><span class="p">)</span>                    <span class="c1"># [2]</span>
+</span><span id="__code-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__code-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__code-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">()</span>                                <span class="c1"># [3]</span>
+</span><span id="__code-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_message</span><span class="p">(</span>
+</span><span id="__code-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я тебя не понимаю"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>在您面前是一个非常简单的路由器，只有一个处理程序。上面的数字表示：</p>
+<ol>
+<li>导入。第一个（<code>Router</code>）是必需的，第二个（<code>Message</code>）仅用于类型注解和 IDE 提示。</li>
+<li>创建路由器实例。可选参数 <code>name</code> 设置路由器的名称，但这不会影响任何内容。</li>
+<li>装饰器现在应用于路由器，而不是调度程序。</li>
+</ol>
+<p>根据技术规范，我们应该有两个处理程序，现在让我们添加第二个。
+这一次，我们可以将所有内容放在一个路由器中，因为代码不大，两个处理程序大致相似。
+但处理程序应该放在哪里 — 在 <code>any_message</code> 函数的上方还是下方？
+现在现有的处理程序没有任何过滤器，除了处理程序对 <code>Message</code> 类型的更新起作用这一事实。
+由于我们未来的 <code>/start</code> 命令处理程序更专业化，有意义的是在代码中添加它前面，
+以便它首先注册。在这种情况下，调度程序/路由器将首先检查处理程序与"这是 <code>/start</code> 命令"过滤器的对应关系，
+如果不是，则检查下一个过滤器"任何消息"，这总是返回 True。</p>
+<p>将 <code>start.py</code> 文件的全部内容替换为以下内容：</p>
+<div class="highlight"><span class="filename">bot/handlers/start.py</span><pre><span></span><code><span id="__code-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+</span><span id="__code-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">CommandStart</span>    <span class="c1"># [1]</span>
+</span><span id="__code-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__code-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"start"</span><span class="p">)</span>
+</span><span id="__code-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__code-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__code-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">CommandStart</span><span class="p">())</span>             <span class="c1"># [2]</span>
+</span><span id="__code-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span>
+</span><span id="__code-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Привет!"</span><span class="p">)</span>
+</span><span id="__code-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+</span><span id="__code-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+</span><span id="__code-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">()</span>                           <span class="c1"># [3]</span>
+</span><span id="__code-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_message</span><span class="p">(</span>
+</span><span id="__code-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я тебя не понимаю"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>注意以下几点：</p>
+<ol>
+<li>添加了 <code>CommandStart</code> 过滤器的导入。正如其名称所示，如果消息是 <code>/start</code> 命令，它将返回 True。
+对于任何其他命令，有一个通用的 <code>Command</code> 过滤器，您将在后面的章节中看到它。</li>
+<li>上述过滤器应用于 <code>cmd_start()</code> 处理程序。</li>
+<li>旧处理程序保持不变：不需要为 <code>any_message()</code> 创建单独的过滤器"不是 <code>/start</code> 命令的所有内容"，
+因为当 <code>cmd_start()</code> 处理程序触发时，其他处理程序不会被检查。</li>
+</ol>
+<p>一个小插曲：有时候过滤器是动态的，即它的具体参数在机器人启动之前是未知的。
+在这种情况下，不应该通过装饰器注册处理程序，而应该通过路由器或调度程序的 <code>register()</code> 方法。
+然后 <code>start.py</code> 文件看起来会有点不同：</p>
+<div class="highlight"><span class="filename">bot/handlers/start.py</span><pre><span></span><code><span id="__code-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+</span><span id="__code-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">CommandStart</span>
+</span><span id="__code-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__code-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"start"</span><span class="p">)</span>
+</span><span id="__code-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__code-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__code-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span>
+</span><span id="__code-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Привет!"</span><span class="p">)</span>
+</span><span id="__code-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+</span><span id="__code-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+</span><span id="__code-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_message</span><span class="p">(</span>
+</span><span id="__code-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я тебя не понимаю"</span><span class="p">)</span>
+</span><span id="__code-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>
+</span><span id="__code-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__code-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="c1"># 在这个文件的某个地方下面，可能在某个函数内部:</span>
+</span><span id="__code-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="n">router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">cmd_start</span><span class="p">,</span> <span class="n">CommandStart</span><span class="p">())</span>
+</span><span id="__code-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="n">router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">any_message</span><span class="p">)</span>
+</span></code></pre></div>
+<p>路由器已创建，处理程序也已创建。处理程序已绑定到路由器，但路由器本身尚未绑定到任何内容。
+让我们首先收集路由器的层次结构（我们只有一个，但仍然需要）。为此，在 <code>bot/handlers/__init__.py</code> 中写入以下代码：</p>
+<div class="highlight"><span class="filename">bot/handlers/__init__.py</span><pre><span></span><code><span id="__code-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+</span><span id="__code-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__code-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__code-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">start</span><span class="p">,</span>
+</span><span id="__code-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">)</span>
+</span><span id="__code-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__code-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__code-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_routers</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Router</span><span class="p">]:</span>
+</span><span id="__code-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="k">return</span> <span class="p">[</span>
+</span><span id="__code-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>        <span class="n">start</span><span class="o">.</span><span class="n">router</span><span class="p">,</span>
+</span><span id="__code-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="p">]</span>
+</span></code></pre></div>
+<p>这里很简单：导入 <code>bot/handlers</code> 中所有带有处理程序的文件，并按所需顺序返回路由器列表，
+调度程序将按照这个顺序检查它们。那么调度程序本身呢？我们将在 <code>bot/__main__.py</code> 中与所有其他对象和机器人启动一起创建它：</p>
+<div class="highlight"><span class="filename">bot/__main__.py</span><pre><span></span><code><span id="__code-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__code-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__code-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">structlog</span>
+</span><span id="__code-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">structlog.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilteringBoundLogger</span>
+</span><span id="__code-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+</span><span id="__code-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>
+</span><span id="__code-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bot.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Settings</span>
+</span><span id="__code-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bot.handlers</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_routers</span>
+</span><span id="__code-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bot.logging_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_structlog_config</span>
+</span><span id="__code-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+</span><span id="__code-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">logger</span><span class="p">:</span> <span class="n">FilteringBoundLogger</span> <span class="o">=</span> <span class="n">structlog</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span>
+</span><span id="__code-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+</span><span id="__code-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>    <span class="c1"># 读取配置（toml 文件或 env vars 无所谓）</span>
+</span><span id="__code-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>    <span class="n">settings</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>
+</span><span id="__code-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>    <span class="c1"># 配置日志记录器</span>
+</span><span id="__code-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>    <span class="n">structlog</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="o">**</span><span class="n">get_structlog_config</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">logs</span><span class="p">))</span>
+</span><span id="__code-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+</span><span id="__code-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>    <span class="c1"># 创建机器人对象。必需参数 token 从配置中读取。</span>
+</span><span id="__code-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>    <span class="c1"># 由于 token 被标记为 SecretStr，需要额外调用 get_secret_value()。</span>
+</span><span id="__code-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span>
+</span><span id="__code-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>        <span class="n">token</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">token</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">(),</span>
+</span><span id="__code-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="p">)</span>
+</span><span id="__code-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>
+</span><span id="__code-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>    <span class="c1"># 创建调度程序对象并绑定路由器</span>
+</span><span id="__code-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
+</span><span id="__code-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="c1"># 一个小技巧：include_routers() 接受任意数量的参数</span>
+</span><span id="__code-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>    <span class="c1"># get_routers() 返回列表：[A, B, C,...]</span>
+</span><span id="__code-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>    <span class="c1"># 这个列表将作为参数集传递：</span>
+</span><span id="__code-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>    <span class="c1"># include_routers(A, B, C,...)</span>
+</span><span id="__code-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>    <span class="n">dp</span><span class="o">.</span><span class="n">include_routers</span><span class="p">(</span><span class="o">*</span><span class="n">get_routers</span><span class="p">())</span>
+</span><span id="__code-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>
+</span><span id="__code-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>    <span class="c1"># 在轮询模式下启动机器人</span>
+</span><span id="__code-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>    <span class="k">await</span> <span class="n">logger</span><span class="o">.</span><span class="n">ainfo</span><span class="p">(</span><span class="s2">"Starting polling..."</span><span class="p">)</span>
+</span><span id="__code-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__code-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>        <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
+</span><span id="__code-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>    <span class="k">finally</span><span class="p">:</span>
+</span><span id="__code-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>        <span class="k">await</span> <span class="n">logger</span><span class="o">.</span><span class="n">ainfo</span><span class="p">(</span><span class="s2">"Bot stopped"</span><span class="p">)</span>
+</span><span id="__code-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>
+</span><span id="__code-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>
+</span><span id="__code-14-41"><a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<p>上面直接在代码中放置了注释，现在我们不会单独对其进行处理。更新 <code>settings.example.toml</code> 文件：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">[bot]</span>
+</span><span id="__code-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo"</span>
+</span><span id="__code-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__code-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__code-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">[logs]</span>
+</span><span id="__code-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hello_world"</span>
+</span><span id="__code-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">show_datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__code-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">datetime_format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%Y-%m-%d %H:%M:%S"</span>
+</span><span id="__code-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">show_debug_logs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__code-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="n">time_in_utc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__code-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">use_colors_in_console</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__code-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="n">renderer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"console"</span><span class="w">  </span><span class="c1"># "console" or "json"</span>
+</span><span id="__code-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="n">allow_third_party_logs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span></code></pre></div>
+<p>在 <code>settings.toml</code> 中复制上面的代码，但将令牌替换为您从 <code>@BotFather</code> 获得的真实令牌。现在可以安全地启动机器人：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$ uv run -m bot              
+</span><span id="__code-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>2026-05-07 14:38:49 [info] Starting polling...            project_name=hello_world
+</span><span id="__code-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>2026-05-07 14:38:49 [info] Start polling                  project_name=hello_world
+</span><span id="__code-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>2026-05-07 14:38:49 [info] Run polling for bot @bot id=1234567890 - 'test_bot' project_name=hello_world
+</span></code></pre></div>
+<p>给机器人写点东西来确保它工作正常：</p>
+<p><img alt="机器人工作中" src="../../images/ru/quickstart/l01_2_new_dark.png#only-dark">
+<img alt="机器人工作中" src="../../images/ru/quickstart/l01_2_new_light.png#only-light"></p>
+<p>再次祝贺！您已经用 aiogram 编写了第二个机器人，并奠定了在后续章节中考虑框架的其他功能和 Telegram Bot API 的基础。</p></div>
 
 
 
@@ -1296,7 +1754,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年4月23日 22:45:30 UTC"><span class="timeago" datetime="2026-04-23T22:45:30+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年4月23日 22:45:30 UTC">2026-04-23</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年6月20日 23:36:49 UTC"><span class="timeago" datetime="2026-06-20T23:36:49+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年6月20日 23:36:49 UTC">2026-06-20</span>
   </span>
 
     

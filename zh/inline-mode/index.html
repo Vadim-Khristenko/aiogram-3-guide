@@ -111,7 +111,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Inline Query 与结果返回">
+        <meta name="description" content="内联模式">
       
       
         <meta name="author" content="MasterGroosha, Translated by VAI">
@@ -482,7 +482,7 @@
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 内联模式">
-  <meta property="og:description" content="Inline Query 与结果返回">
+  <meta property="og:description" content="内联模式">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/inline-mode/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
   <meta property="og:image:type" content="image/png">
@@ -493,7 +493,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/zh/inline-mode/">
   <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 内联模式">
-  <meta name="twitter:description" content="Inline Query 与结果返回">
+  <meta name="twitter:description" content="内联模式">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
   </head>
@@ -515,7 +515,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#inline-mode" class="md-skip">
+        <a href="#内联模式" class="md-skip">
           跳转至
         </a>
       
@@ -1062,6 +1062,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="理论">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-inline-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要内联模式？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incoming-update-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传入请求的格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outgoing-answer-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传出答复的格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1073,16 +1112,172 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        机器人中的命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-saving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="保存数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图像
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        显示数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="显示数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#show-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图像
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        删除数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switch-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch 往返
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#extras" class="md-nav__link">
     <span class="md-ellipsis">
       
-        补充资料
+        补充材料
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="补充材料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lazy-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        延迟加载结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        收集统计信息
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1210,6 +1405,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="理论">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-inline-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要内联模式？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incoming-update-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传入请求的格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outgoing-answer-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传出答复的格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1221,16 +1455,172 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        机器人中的命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-saving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="保存数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图像
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        显示数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="显示数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#show-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图像
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        删除数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switch-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch 往返
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#extras" class="md-nav__link">
     <span class="md-ellipsis">
       
-        补充资料
+        补充材料
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="补充材料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lazy-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        延迟加载结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        收集统计信息
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1262,16 +1652,744 @@
   
 
 
-<div><h1 id="inline-mode">内联模式<a class="headerlink" href="#inline-mode" title="Permanent link">¶</a></h1>
+<div><h1 id="内联模式">内联模式<a class="headerlink" href="#%E5%86%85%E8%81%94%E6%A8%A1%E5%BC%8F" title="Permanent link">¶</a></h1>
+<div class="admonition info">
+<p>使用的 aiogram 版本：3.7.0</p>
+</div>
 <h2 id="theory">理论<a class="headerlink" href="#theory" title="Permanent link">¶</a></h2>
-<p>本章中文译文正在完善中，当前先保证章节结构与导航完整。</p>
-<h2 id="practice">实践<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
-<p>详见英文/俄文章节。</p>
-<h2 id="extras">补充资料<a class="headerlink" href="#extras" title="Permanent link">¶</a></h2>
+<h3 id="why-inline-mode">为什么需要内联模式？<a class="headerlink" href="#why-inline-mode" title="Permanent link">¶</a></h3>
+<p>在前面的章节中，机器人和人各自独立地进行交互，但是 Telegram 中存在一种特殊的模式，
+允许用户以自己的名义发送信息，但由机器人帮助。这被称为**内联模式**（Inline mode），
+现实中它看起来像这样：</p>
+<p><img alt="bot @imdb 内联模式工作示例" src="../../images/ru/inline_mode/inline_demo.png"></p>
+<p>但实际上如何应用这样的功能呢？我提议查看一些拥有内联模式的半官方 Telegram 机器人的名称：</p>
 <ul>
-<li>英文版：<code>/en/inline-mode/</code></li>
-<li>俄文原版：<code>/inline-mode/</code></li>
-</ul></div>
+<li><a href="https://t.me/gif">@gif</a> </li>
+<li><a href="https://t.me/wiki">@wiki</a></li>
+<li><a href="https://t.me/imdb">@imdb</a></li>
+<li><a href="https://t.me/youtube">@youtube</a></li>
+<li><a href="https://t.me/foursquare">@foursquare</a></li>
+<li><a href="https://t.me/music">@music</a></li>
+<li><a href="https://t.me/gamee">@gamee</a></li>
+<li><a href="https://t.me/like">@like</a></li>
+</ul>
+<p>列表可以继续很长时间，但要点希望很清楚：内联模式非常适合搜索内容以插入当前聊天。
+其中一些此类机器人的功能（like、poll、gif）Telegram 内置到了官方应用程序中，
+但其他的至今被很好地使用。</p>
+<div class="admonition warning">
+<p class="admonition-title">重要</p>
+<p>提醒一下，如果在内联模式发送的消息上附加了带有回调按钮的键盘，
+按下它时机器人会收到 <code>CallbackQuery</code> 对象**不包含** <code>Message</code> 对象。
+代之以一个意义不大的 <code>inline_message_id</code>。</p>
+</div>
+<h3 id="incoming-update-format">传入请求的格式<a class="headerlink" href="#incoming-update-format" title="Permanent link">¶</a></h3>
+<p>当用户在聊天中写下机器人的用户名后输入文本时，会创建一个类型为
+<a href="https://core.telegram.org/bots/api#inlinequery">InlineQuery</a> 的更新。
+如果仔细研究该对象的字段，可以注意到一些奇怪的地方。</p>
+<p>首先，没有调用机器人的聊天 ID，而是一个可选的 <code>chat_type</code> 字段，
+显示（如果非空）聊天**类型**（私聊、群组、超级群组、频道）。原因很简单：
+由于使用机器人的内联模式不需要将其添加到任何地方，添加 Chat 对象
+可能会让机器人无声地跟踪和收集 Telegram 中的聊天。</p>
+<p>其次，有一个 <code>offset</code> 字段，而且它不是一个数字，而是一个字符串。
+这是因为默认情况下，机器人最多只能向用户发送 50 个结果以响应内联查询。
+为了显示更多，需要在回复时传递 <code>next_offset</code> 参数，该参数将在下一个 <code>InlineQuery</code> 中复制到 <code>offset</code> 字段。
+这样机器人就能理解需要从 <code>offset</code> 开始加载新数据。而它是字符串是因为除了数字之外，
+还可以使用某种标识符，比如 UUID。</p>
+<h3 id="outgoing-answer-format">传出答复的格式<a class="headerlink" href="#outgoing-answer-format" title="Permanent link">¶</a></h3>
+<p>对用户请求的回复只有一种方法：
+<a href="https://core.telegram.org/bots/api#answerinlinequery">answerInlineQuery</a>。
+但<a href="https://core.telegram.org/bots/api#inlinequeryresult">可发送的类型</a>多达 20 种。
+准确地说，实际上有 11 种，因为其余的只是使用不同输入数据的相同类型，
+例如 <code>file_id</code> 而不是指向媒体文件的链接。不同的类型最好不要混合在一起，
+尤其是 Article 与其他类型。让我们分别考虑其中的一些。</p>
+<p><img alt="InlineQueryResultArticle 类型" src="../../images/ru/inline_mode/inline_articles.jpg"></p>
+<p>可能最常用的类型是 <a href="https://core.telegram.org/bots/api#inlinequeryresultarticle">InlineQueryResultArticle</a>
+（在上面的图像中）。在所有主要客户端中，它看起来像一堆矩形块，
+总是有标题，有时会有描述，左边显示预览图片或只是占位符。
+如果开发者设置了 <code>url</code> 属性，某些客户端会在描述行下方显示指定的链接，
+预览变成可点击的并直接在浏览器中打开链接。
+单击该行时，会发送 <code>input_message_content</code> 参数中指定的内容（它是必需的），
+它可以有 5 种不同的类型：</p>
+<ul>
+<li>文本</li>
+<li>地理位置</li>
+<li>地标（venue）</li>
+<li>联系人</li>
+<li>发票（invoice）</li>
+</ul>
+<p><img alt="InlineQueryResultPhoto 类型" src="../../images/ru/inline_mode/inline_pictures.png"></p>
+<p>其他类型属于所谓的"媒体文件"，我们将通过图像示例来考虑这些。
+当以一组图像进行回复时，数据要么排列成垂直瓦片（如上面的屏幕截图所示），
+要么是可滚动的水平条（例如在 iOS 版本中）。</p>
+<p>如果你再次打开 <a href="https://core.telegram.org/bots/api#inlinequeryresult">InlineQueryResult</a> 部分，
+你会看到 Photo（如同其他一些类型）以两种变体呈现：
+<code>InlineQueryResultPhoto</code> 和 <code>InlineQueryResultCachedPhoto</code>。
+区别在于第一个变体接受来自互联网的图像链接，
+第二个接受来自已在 Telegram 中上传的媒体的 <code>file_id</code>。</p>
+<div class="admonition warning">
+<p class="admonition-title">重要</p>
+<p>在内联模式中，无法直接从文件上传图像。要么是互联网链接，要么是 <code>file_id</code>。
+没有第三个选项。</p>
+</div>
+<p>默认情况下，单击结果列表中的媒体文件会导致将该媒体发送到被调用的聊天。
+但是如果设置 <code>input_message_content</code> 参数（对于媒体，它已经是可选的），
+则单击时将发送此参数中指定的内容。例如，单击电影封面会发送其文本描述
+以及在线电影院中查看的链接。或者单击员工照片时会发送其作为联系人的电话号码 👀。
+顺便说一下，尽管媒体有 <code>title</code> 和 <code>description</code> 参数，
+但客户端不显示它们，Bot API 本身也<a href="https://t.me/tdlibchat/16432">忽略</a>它们。</p>
+<p>answerInlineQuery 方法有几个需要注意的参数。首先是 <code>cache_time</code>。
+它定义查询结果可以在 Telegram 服务器上缓存多长时间以避免发送到机器人。
+如果您的数据是静态的或很少更改，请放心地增加此值。
+其次，是 <code>is_personal</code> 标志，影响结果是只为一个用户缓存还是为所有人缓存。
+如果您的机器人根据用户 ID 显示个性化值，请设置为 True。</p>
+<div class="admonition info">
+<p>本文作者曾经忘记在他的机器人 <a href="https://t.me/my_id_bot">@my_id_bot</a> 中指定 <code>is_personal</code> 标志，
+将缓存设置为 86400 秒（1 天），然后听到了很多用户的不满，
+他们试图发送自己的 ID 而不是他们的。向别人的错误学习，而不是自己的。</p>
+</div>
+<p>第三，是字符串参数 <code>next_offset</code>，允许实现随着滚动而加载结果，
+因为在一个 InlineQuery 响应中最多只能返回 50 个值。
+我们将在单独的示例中考虑 <code>next_offset</code> 的用法。</p>
+<p>第四，<code>switch_pm_text</code> 和 <code>switch_pm_parameter</code>。
+除了查询结果外，机器人可以在它们上方显示一个小按钮，
+按钮文本来自 <code>switch_pm_text</code> 参数，单击它类似于深链接，
+即用户将转到与机器人的私聊，输入字段处将出现"开始"按钮，
+单击时机器人会收到一条文本为 <code>/start TEXT</code> 的消息，
+其中 TEXT 是 <code>switch_pm_parameter</code> 参数的值。</p>
+<p><img alt="switch_pm 按钮" src="../../images/ru/inline_mode/switch_pm_button.png"></p>
+<p>如果对特定查询没有结果或想给用户一个快速添加某些内容的机会，
+使用这种功能非常方便。还有另一个功能，但我们将在机器人开发过程中稍后考虑它。
+说到这个...</p>
+<h2 id="practice">实践<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<p>为了让机器人知道在内联模式调用时显示什么，它需要一些数据：
+要么是预先保存的，要么是从用户本身获得的。作为示例，
+我们将编写一个机器人，它将接受用户的链接和图像，
+然后在查询时在内联模式中显示所有这些内容。</p>
+<div class="admonition info">
+<p>别忘了通过 <a href="https://t.me/botfather">@BotFather</a> 为机器人启用内联模式：
+Bot Settings -&gt; Inline Mode -&gt; Turn on</p>
+</div>
+<h3 id="storage">存储系统<a class="headerlink" href="#storage" title="Permanent link">¶</a></h3>
+<p>为了不深入细节（考虑到这一章已经相当长了），
+我们同意我们的测试机器人将使用普通的内存字典作为数据库的模拟。
+这将允许在调试时不用担心状态重置，
+如果您想用现成的链接或图像启动机器人，也将简化存储填充。
+对于两种数据类型中的每一种都将有三个函数：添加数据、获取数据、删除数据。
+实际上，这是整个文件的代码：</p>
+<div class="highlight"><span class="filename">storage.py</span><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># 在现实生活中，这里应该是正常的数据库。</span>
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 但对于示例，我们将在普通字典上演示。</span>
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 注意，它在机器人重启时会重置。</span>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_link</span><span class="p">(</span>
+</span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">telegram_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="__code-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">):</span>
+</span><span id="__code-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="sd">    保存链接到字典</span>
+</span><span id="__code-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+</span><span id="__code-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="sd">    :param telegram_id: Telegram 中用户的 ID</span>
+</span><span id="__code-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="sd">    :param link: 链接文本</span>
+</span><span id="__code-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">    :param title: 链接标题</span>
+</span><span id="__code-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="sd">    :param description: (可选) 链接描述</span>
+</span><span id="__code-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="sd">    """</span>
+</span><span id="__code-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="n">data</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">telegram_id</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+</span><span id="__code-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"links"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+</span><span id="__code-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"links"</span><span class="p">][</span><span class="n">link</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__code-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+</span><span id="__code-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>        <span class="s2">"description"</span><span class="p">:</span> <span class="n">description</span>
+</span><span id="__code-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    <span class="p">}</span>
+</span><span id="__code-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+</span><span id="__code-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_photo</span><span class="p">(</span>
+</span><span id="__code-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="n">telegram_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__code-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>        <span class="n">photo_file_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__code-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>        <span class="n">photo_unique_id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__code-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">):</span>
+</span><span id="__code-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="sd">    保存图像到字典</span>
+</span><span id="__code-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>
+</span><span id="__code-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="sd">    :param telegram_id: Telegram 中用户的 ID</span>
+</span><span id="__code-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="sd">    :param photo_file_id: 图像的 file_id</span>
+</span><span id="__code-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="sd">    :param photo_unique_id: 图像的 file_unique_id</span>
+</span><span id="__code-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="sd">    """</span>
+</span><span id="__code-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    <span class="n">data</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">telegram_id</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+</span><span id="__code-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"images"</span><span class="p">,</span> <span class="p">[])</span>
+</span><span id="__code-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    <span class="k">if</span> <span class="n">photo_file_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"images"</span><span class="p">]:</span>
+</span><span id="__code-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>        <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"images"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">photo_file_id</span><span class="p">,</span> <span class="n">photo_unique_id</span><span class="p">))</span>
+</span><span id="__code-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>
+</span><span id="__code-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_links_by_id</span><span class="p">(</span><span class="n">telegram_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__code-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="sd">    获取用户保存的链接</span>
+</span><span id="__code-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>
+</span><span id="__code-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="sd">    :param telegram_id: Telegram 中用户的 ID</span>
+</span><span id="__code-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="sd">    :return: 如果用户有数据，则返回带有链接的字典</span>
+</span><span id="__code-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="sd">    """</span>
+</span><span id="__code-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>    <span class="k">if</span> <span class="n">telegram_id</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s2">"links"</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">]:</span>
+</span><span id="__code-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"links"</span><span class="p">]</span>
+</span><span id="__code-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</span><span id="__code-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>
+</span><span id="__code-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_images_by_id</span><span class="p">(</span><span class="n">telegram_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="__code-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a><span class="sd">    获取用户保存的图像</span>
+</span><span id="__code-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>
+</span><span id="__code-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a><span class="sd">    :param telegram_id: Telegram 中用户的 ID</span>
+</span><span id="__code-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a><span class="sd">    :return:</span>
+</span><span id="__code-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a><span class="sd">    """</span>
+</span><span id="__code-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>    <span class="k">if</span> <span class="n">telegram_id</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s2">"images"</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">]:</span>
+</span><span id="__code-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"images"</span><span class="p">]]</span>
+</span><span id="__code-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>    <span class="k">return</span> <span class="p">[]</span>
+</span><span id="__code-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>
+</span><span id="__code-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a><span class="k">def</span><span class="w"> </span><span class="nf">delete_link</span><span class="p">(</span><span class="n">telegram_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__code-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a><span class="sd">    删除链接</span>
+</span><span id="__code-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>
+</span><span id="__code-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a><span class="sd">    :param telegram_id: Telegram 中用户的 ID</span>
+</span><span id="__code-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a><span class="sd">    :param link: 链接</span>
+</span><span id="__code-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a><span class="sd">    """</span>
+</span><span id="__code-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>    <span class="k">if</span> <span class="n">telegram_id</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+</span><span id="__code-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>        <span class="k">if</span> <span class="s2">"links"</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">]:</span>
+</span><span id="__code-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>            <span class="k">if</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"links"</span><span class="p">]:</span>
+</span><span id="__code-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"links"</span><span class="p">][</span><span class="n">link</span><span class="p">]</span>
+</span><span id="__code-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>
+</span><span id="__code-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a><span class="k">def</span><span class="w"> </span><span class="nf">delete_image</span><span class="p">(</span><span class="n">telegram_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">photo_file_unique_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__code-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a><span class="sd">    删除图像</span>
+</span><span id="__code-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>
+</span><span id="__code-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a><span class="sd">    :param telegram_id: Telegram 中用户的 ID</span>
+</span><span id="__code-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a><span class="sd">    :param photo_file_unique_id: 要删除的图像的 file_unique_id</span>
+</span><span id="__code-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a><span class="sd">    """</span>
+</span><span id="__code-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>    <span class="k">if</span> <span class="n">telegram_id</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s2">"images"</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">]:</span>
+</span><span id="__code-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"images"</span><span class="p">]):</span>
+</span><span id="__code-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>            <span class="k">if</span> <span class="n">unique_id</span> <span class="o">==</span> <span class="n">photo_file_unique_id</span><span class="p">:</span>
+</span><span id="__code-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>                <span class="n">data</span><span class="p">[</span><span class="n">telegram_id</span><span class="p">][</span><span class="s2">"images"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="common-commands">机器人中的命令<a class="headerlink" href="#common-commands" title="Permanent link">¶</a></h3>
+<p>机器人将有几个常见命令：<code>/start</code>、<code>/help</code>、<code>/save</code>、<code>/delete</code> 和 <code>/cancel</code>。
+前两个是信息性的，<code>/save</code> 开始数据保存过程，<code>/delete</code> 开始数据删除过程，
+<code>/cancel</code> 相应地中断其中一个正在运行的过程。让我们从 <code>/save</code> 命令开始。</p>
+<h3 id="data-saving">保存数据<a class="headerlink" href="#data-saving" title="Permanent link">¶</a></h3>
+<p>这次我们将在单独的文件中描述状态，以便更方便地导入。
+为此，我们创建一个 <code>states.py</code> 文件并实现 <code>SaveCommon</code> 类，
+其中将有一个"等待输入"状态：</p>
+<div class="highlight"><span class="filename">states.py</span><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatesGroup</span><span class="p">,</span> <span class="n">State</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">SaveCommon</span><span class="p">(</span><span class="n">StatesGroup</span><span class="p">):</span>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">waiting_for_save_start</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span></code></pre></div>
+<p>现在让我们处理保存各种类型的消息</p>
+<h4 id="save-text">文本<a class="headerlink" href="#save-text" title="Permanent link">¶</a></h4>
+<p>从文本消息开始。想法很简单：用户发送消息。如果其中有至少一个链接，
+则将其提取，然后要求输入链接名称（必需）和描述。最后一步可以用 <code>/skip</code> 命令跳过。
+如果有多个链接，则只取第一个。</p>
+<p>除了上面描述的"等待输入"状态外，还会有两个特定于文本的状态：
+"等待输入标题"和"等待输入描述"。在 <code>states.py</code> 中添加这些状态：</p>
+<div class="highlight"><span class="filename">states.py</span><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 这里是之前的代码</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">TextSave</span><span class="p">(</span><span class="n">StatesGroup</span><span class="p">):</span>
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">waiting_for_title</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">waiting_for_description</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span></code></pre></div>
+<p>让我们从两个处理程序开始，处理状态 <code>SaveCommon</code> -&gt; <code>waiting_for_save_start</code> 中的文本。
+需要捕获带链接的消息。在<a href="../filters-and-middlewares/#filters-as-classes">关于过滤器和中间件</a>的章节中，
+我们已经做过类似的过滤器，但用于用户名。现在是时候从那里复制它并根据链接进行调整了：</p>
+<div class="highlight"><span class="filename">filters/text_has_link.py</span><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseFilter</span>
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">HasLinkFilter</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="c1"># 如果根本没有 entities，将返回 None，</span>
+</span><span id="__code-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="c1"># 在这种情况下，我们认为这是一个空列表</span>
+</span><span id="__code-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="n">entities</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">entities</span> <span class="ow">or</span> <span class="p">[]</span>
+</span><span id="__code-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__code-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="c1"># 如果至少有一个链接，返回它</span>
+</span><span id="__code-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+</span><span id="__code-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>            <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"url"</span><span class="p">:</span>
+</span><span id="__code-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>                <span class="k">return</span> <span class="p">{</span><span class="s2">"link"</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">extract_from</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)}</span>
+</span><span id="__code-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__code-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="c1"># 如果没有找到任何东西，返回 None</span>
+</span><span id="__code-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="k">return</span> <span class="kc">False</span>
+</span></code></pre></div>
+<p>为了缩短导入，编辑 <code>filters/__init__.py</code> 文件：</p>
+<div class="highlight"><span class="filename">filters/__init__.py</span><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.text_has_link</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasLinkFilter</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 这样做是为了然后简单地导入</span>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># from filters import HasLinkFilter</span>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="s2">"HasLinkFilter"</span>
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>为什么需要两个文本处理程序？第一个将捕获带链接的消息，第二个将捕获没有链接的消息。我们来写：</p>
+<div class="highlight"><span class="filename">handlers/save_text.py</span><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># &lt;导入&gt;</span>
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">SaveCommon</span><span class="o">.</span><span class="n">waiting_for_save_start</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">HasLinkFilter</span><span class="p">())</span>
+</span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_text_has_link</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="n">link</span><span class="p">)</span>
+</span><span id="__code-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">)</span>
+</span><span id="__code-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"好的，我在消息中找到了链接 </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s2">。"</span>
+</span><span id="__code-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>             <span class="sa">f</span><span class="s2">"现在发送我标题（最多 30 个字符）"</span>
+</span><span id="__code-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="p">)</span>
+</span><span id="__code-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__code-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">SaveCommon</span><span class="o">.</span><span class="n">waiting_for_save_start</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_text_no_link</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"嗯...我在你的消息中没有找到链接。"</span>
+</span><span id="__code-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>             <span class="s2">"再试一次或点击 /cancel 取消。"</span>
+</span><span id="__code-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>接下来我们期望用户输入记录的标题。这里也可以将逻辑分为两个处理程序：成功和失败的情况：</p>
+<div class="highlight"><span class="filename">handlers/save_text.py</span><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 导入和之前的步骤</span>
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="hll"><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">)</span>
+</span></span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">title_entered_ok</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">)</span>
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"好吧，我看到了标题。现在输入描述"</span>
+</span><span id="__code-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>             <span class="s2">"（也最多 30 个字符）"</span>
+</span><span id="__code-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>             <span class="s2">"或单击 /skip 跳过此步骤"</span>
+</span><span id="__code-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="p">)</span>
+</span><span id="__code-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__code-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">too_long_title</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"标题太长了。再试一次"</span><span class="p">)</span>
+</span><span id="__code-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="k">return</span>
+</span></code></pre></div>
+<p>注意代码 <code>F.text.func(len) &lt;= 30</code>。Magic filter 允许您将某个函数传递给输入，
+该函数将在指定的内容上执行。即 <code>F.text.func(len)</code> -&gt; <code>len(F.text)</code>，
+并且仅当属性 <code>.text</code> 不是 None 时（换句话说，这里还检查了内容类型）。
+但实际上对于 <code>len()</code> 有直接的支持在 
+<a href="https://github.com/aiogram/magic-filter/blob/3c5e38fd5cd359fd961e26bab17e65201b02c1c6/magic_filter/magic.py#L227-L228">magic-filter</a> 中：
+<code>F.text.len() &lt;= 30</code></p>
+<p>接下来是描述处理程序。这里又可以分为两个处理程序...等等，但函数 <code>too_long_title()</code> 
+实际上同样适用于描述步骤，因为我们的文本限制相同！让我们重命名它并添加另一个状态的过滤器：</p>
+<div class="highlight"><span class="filename">handlers/save_text.py</span><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">text_too_long</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>  <span class="c1"># 前身为 too_long_title()</span>
+</span><span id="__code-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"标题太长了。再试一次"</span><span class="p">)</span>
+</span><span id="__code-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="k">return</span>
+</span></code></pre></div>
+<p>现在我们来处理最后一个处理程序，它在输入短描述或命令 <code>/skip</code> 时触发。
+由于需要捕获两个输入，我们挂上两个装饰器，在参数中接收可选的 <code>CommandObject</code>，
+在内部查看：如果没有命令，这意味着输入了描述：</p>
+<div class="highlight"><span class="filename">handlers/save_text.py</span><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 此函数应该在 text_too_long() 之前！</span>
+</span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">Command</span><span class="p">(</span><span class="s2">"skip"</span><span class="p">))</span>
+</span><span id="__code-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">last_step</span><span class="p">(</span>
+</span><span id="__code-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">,</span>
+</span><span id="__code-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        <span class="n">command</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CommandObject</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__code-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">):</span>
+</span><span id="__code-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span><span class="p">:</span>
+</span><span id="__code-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="c1"># 将数据保存到我们的假数据库</span>
+</span><span id="__code-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+</span><span id="__code-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="n">add_link</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">"link"</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">"description"</span><span class="p">])</span>
+</span><span id="__code-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__code-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"链接已保存！"</span><span class="p">)</span>
+</span><span id="__code-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span></code></pre></div>
+<p>所以，我们制作了一组处理程序来将链接保存到我们的内存数据库。这是完整文件的代码：</p>
+<div class="highlight"><span class="filename">handlers/save_text.py</span><pre><span></span><code><span id="__code-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="__code-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__code-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span><span class="p">,</span> <span class="n">F</span>
+</span><span id="__code-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">CommandObject</span>
+</span><span id="__code-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSMContext</span>
+</span><span id="__code-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">InlineKeyboardButton</span>
+</span><span id="__code-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__code-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasLinkFilter</span>
+</span><span id="__code-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">states</span><span class="w"> </span><span class="kn">import</span> <span class="n">SaveCommon</span><span class="p">,</span> <span class="n">TextSave</span>
+</span><span id="__code-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="kn">from</span><span class="w"> </span><span class="nn">storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_link</span>
+</span><span id="__code-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__code-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__code-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">SaveCommon</span><span class="o">.</span><span class="n">waiting_for_save_start</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">HasLinkFilter</span><span class="p">())</span>
+</span><span id="__code-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_text_has_link</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="n">link</span><span class="p">)</span>
+</span><span id="__code-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">)</span>
+</span><span id="__code-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>        <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"好的，我在消息中找到了链接 </span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s2">。"</span>
+</span><span id="__code-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>             <span class="sa">f</span><span class="s2">"现在发送我描述（最多 30 个字符）"</span>
+</span><span id="__code-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    <span class="p">)</span>
+</span><span id="__code-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+</span><span id="__code-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">SaveCommon</span><span class="o">.</span><span class="n">waiting_for_save_start</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_text_no_link</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"嗯...我在你的消息中没有找到链接。"</span>
+</span><span id="__code-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>             <span class="s2">"再试一次或点击 /cancel 取消。"</span>
+</span><span id="__code-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>    <span class="p">)</span>
+</span><span id="__code-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
+</span><span id="__code-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__code-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">title_entered_ok</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span id="__code-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">)</span>
+</span><span id="__code-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"好吧，我看到了标题。现在输入描述"</span>
+</span><span id="__code-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a>             <span class="s2">"（也最多 30 个字符）"</span>
+</span><span id="__code-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>             <span class="s2">"或单击 /skip 跳过此步骤"</span>
+</span><span id="__code-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>    <span class="p">)</span>
+</span><span id="__code-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>
+</span><span id="__code-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__code-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">Command</span><span class="p">(</span><span class="s2">"skip"</span><span class="p">))</span>
+</span><span id="__code-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">last_step</span><span class="p">(</span>
+</span><span id="__code-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a>        <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">,</span>
+</span><span id="__code-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a>        <span class="n">command</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CommandObject</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__code-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="p">):</span>
+</span><span id="__code-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span><span class="p">:</span>
+</span><span id="__code-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>        <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a>    <span class="c1"># 将数据保存到我们的假数据库</span>
+</span><span id="__code-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+</span><span id="__code-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a>    <span class="n">add_link</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">"link"</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">"description"</span><span class="p">])</span>
+</span><span id="__code-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__code-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>    <span class="n">kb</span> <span class="o">=</span> <span class="p">[[</span><span class="n">InlineKeyboardButton</span><span class="p">(</span>
+</span><span id="__code-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"尝试"</span><span class="p">,</span>
+</span><span id="__code-9-55"><a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>        <span class="n">switch_inline_query</span><span class="o">=</span><span class="s2">"links"</span>
+</span><span id="__code-9-56"><a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a>    <span class="p">)]]</span>
+</span><span id="__code-9-57"><a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-58"><a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"链接已保存！"</span><span class="p">,</span>
+</span><span id="__code-9-59"><a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">InlineKeyboardMarkup</span><span class="p">(</span><span class="n">inline_keyboard</span><span class="o">=</span><span class="n">kb</span><span class="p">)</span>
+</span><span id="__code-9-60"><a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a>    <span class="p">)</span>
+</span><span id="__code-9-61"><a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a>
+</span><span id="__code-9-62"><a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_title</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-9-63"><a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-9-64"><a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">text_too_long</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-9-65"><a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"标题太长了。再试一次"</span><span class="p">)</span>
+</span><span id="__code-9-66"><a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a>    <span class="k">return</span>
+</span></code></pre></div>
+<h4 id="save-images">图像<a class="headerlink" href="#save-images" title="Permanent link">¶</a></h4>
+<p>图像简单得多；它们在一个步骤中添加。但有一个细节：
+除了后续显示的 <code>file_id</code> 之外，我们还需要保存 <code>file_unique_id</code>，
+因为当我们允许用户删除保存的图像时它会派上用场：</p>
+<div class="highlight"><span class="filename">handlers/save_images.py</span><pre><span></span><code><span id="__code-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span><span class="p">,</span> <span class="n">F</span>
+</span><span id="__code-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.fsm.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSMContext</span>
+</span><span id="__code-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">PhotoSize</span>
+</span><span id="__code-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">states</span><span class="w"> </span><span class="kn">import</span> <span class="n">SaveCommon</span>
+</span><span id="__code-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_photo</span>
+</span><span id="__code-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__code-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__code-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">SaveCommon</span><span class="o">.</span><span class="n">waiting_for_save_start</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"photo"</span><span class="p">))</span>
+</span><span id="__code-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_image</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">photo</span><span class="p">:</span> <span class="n">PhotoSize</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="n">add_photo</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">photo</span><span class="o">.</span><span class="n">file_id</span><span class="p">,</span> <span class="n">photo</span><span class="o">.</span><span class="n">file_unique_id</span><span class="p">)</span>
+</span><span id="__code-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"图像已保存！"</span><span class="p">)</span>
+</span><span id="__code-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span></code></pre></div>
+<h3 id="show-data">显示数据<a class="headerlink" href="#show-data" title="Permanent link">¶</a></h3>
+<p>好的，我们学会了如何保存数据，现在需要以某种方式显示它。为此，
+机器人应该捕获 <code>inline_query</code> 类型的更新，处理程序将收到 
+<a href="https://core.telegram.org/bots/api#inlinequery">InlineQuery</a> 类型的对象。
+我们同意，对于空查询（现在）我们不显示任何内容，对于查询 <code>@bot links</code> 
+我们显示链接列表，对于查询 <code>@bot images</code> 我们显示图像。
+当然，<code>@bot</code> 将被机器人的用户名替换。</p>
+<h4 id="show-text">文本<a class="headerlink" href="#show-text" title="Permanent link">¶</a></h4>
+<p>要用文本消息回复，我们需要收集一个 
+<a href="https://core.telegram.org/bots/api#inlinequeryresultarticle">InlineQueryResultArticle</a> 
+类型对象的列表。我们已经拥有所有必需的（甚至额外的）数据：</p>
+<p><img alt="InlineQueryResultArticle 对象内容" src="../../images/ru/inline_mode/article_content.png" title="InlineQueryResultArticle 对象内容"></p>
+<p>对于 <code>input_message_content</code> 参数，我们将编写一个简单的嵌套函数，
+它将根据是否存在描述返回文本：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_message_text</span><span class="p">(</span>
+</span><span id="__code-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>        <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__code-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__code-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>        <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="__code-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__code-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">text_parts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">bold</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span>
+</span><span id="__code-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+</span><span id="__code-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="n">text_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">description</span><span class="p">))</span>
+</span><span id="__code-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">text_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>  <span class="c1"># 添加空行</span>
+</span><span id="__code-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="n">text_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+</span><span id="__code-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_parts</span><span class="p">)</span>
+</span></code></pre></div>
+<p>现在让我们描述处理程序本身：</p>
+<div class="highlight"><span class="filename">handlers/inline_mode.py</span><pre><span></span><code><span id="__code-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">inline_query</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">query</span> <span class="o">==</span> <span class="s2">"links"</span><span class="p">)</span>
+</span><span id="__code-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">show_user_links</span><span class="p">(</span><span class="n">inline_query</span><span class="p">:</span> <span class="n">InlineQuery</span><span class="p">):</span>
+</span><span id="__code-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__code-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="c1"># 这个函数只是收集将发送的文本</span>
+</span><span id="__code-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="c1"># 当在内联模式中单击选项时</span>
+</span><span id="__code-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_message_text</span><span class="p">():</span>
+</span><span id="__code-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>        <span class="c1"># 这个嵌套函数在上面描述了 ↑</span>
+</span><span id="__code-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__code-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__code-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="k">for</span> <span class="n">link</span><span class="p">,</span> <span class="n">link_data</span> <span class="ow">in</span> <span class="n">get_links_by_id</span><span class="p">(</span><span class="n">inline_query</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="__code-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>        <span class="c1"># 将每条记录添加到最终数组</span>
+</span><span id="__code-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">InlineQueryResultArticle</span><span class="p">(</span>
+</span><span id="__code-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>            <span class="nb">id</span><span class="o">=</span><span class="n">link</span><span class="p">,</span>  <span class="c1"># 链接对我们来说是唯一的，所以不会有问题</span>
+</span><span id="__code-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>            <span class="n">title</span><span class="o">=</span><span class="n">link_data</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+</span><span id="__code-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>            <span class="n">description</span><span class="o">=</span><span class="n">link_data</span><span class="p">[</span><span class="s2">"description"</span><span class="p">],</span>
+</span><span id="__code-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>            <span class="n">input_message_content</span><span class="o">=</span><span class="n">InputTextMessageContent</span><span class="p">(</span>
+</span><span id="__code-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>                <span class="n">message_text</span><span class="o">=</span><span class="n">get_message_text</span><span class="p">(</span>
+</span><span id="__code-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>                    <span class="n">link</span><span class="o">=</span><span class="n">link</span><span class="p">,</span>
+</span><span id="__code-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>                    <span class="n">title</span><span class="o">=</span><span class="n">link_data</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+</span><span id="__code-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>                    <span class="n">description</span><span class="o">=</span><span class="n">link_data</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span>
+</span><span id="__code-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>                <span class="p">),</span>
+</span><span id="__code-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>                <span class="n">parse_mode</span><span class="o">=</span><span class="s2">"HTML"</span>
+</span><span id="__code-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>            <span class="p">)</span>
+</span><span id="__code-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>        <span class="p">))</span>
+</span><span id="__code-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>    <span class="c1"># 重要的是指定 is_personal=True！</span>
+</span><span id="__code-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>    <span class="k">await</span> <span class="n">inline_query</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">is_personal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<p>最终得到（第二条记录的描述步骤被跳过了）：</p>
+<p><img alt="查看链接" src="../../images/ru/inline_mode/our_links_result.png" title="查看链接"></p>
+<p>单击时，您会得到这样一个漂亮的消息：</p>
+<p><img alt="聊天中的结果" src="../../images/ru/inline_mode/our_links_result_in_chat.png" title="聊天中的结果"></p>
+<h4 id="show-images">图像<a class="headerlink" href="#show-images" title="Permanent link">¶</a></h4>
+<p>图像稍微简单一点，但有一个细节：我们不能使用图像的 <code>file_id</code> 
+作为特定选项的 ID，因为它超过 64 字节（Bot API 限制）。
+因此，我们将使用数组中元素的序号，转换为字符串。
+其他方面，代码与前面的非常相似：</p>
+<div class="highlight"><span class="filename">handlers/inline_mode.py</span><pre><span></span><code><span id="__code-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">inline_query</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">query</span> <span class="o">==</span> <span class="s2">"images"</span><span class="p">)</span>
+</span><span id="__code-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">show_user_images</span><span class="p">(</span><span class="n">inline_query</span><span class="p">:</span> <span class="n">InlineQuery</span><span class="p">):</span>
+</span><span id="__code-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__code-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">file_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">get_images_by_id</span><span class="p">(</span><span class="n">inline_query</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">)):</span>
+</span><span id="__code-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>        <span class="c1"># 将每条记录添加到最终数组</span>
+</span><span id="__code-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">InlineQueryResultCachedPhoto</span><span class="p">(</span>
+</span><span id="__code-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>            <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>  <span class="c1"># 列表中元素的索引</span>
+</span><span id="__code-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>            <span class="n">photo_file_id</span><span class="o">=</span><span class="n">file_id</span>
+</span><span id="__code-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>        <span class="p">))</span>
+</span><span id="__code-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="c1"># 重要的是指定 is_personal=True！</span>
+</span><span id="__code-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="k">await</span> <span class="n">inline_query</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">is_personal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<p>以及结果：</p>
+<p><img alt="在内联模式中显示图像" src="../../images/ru/inline_mode/our_images_result.png" title="在内联模式中显示图像"></p>
+<h3 id="delete-data">删除数据<a class="headerlink" href="#delete-data" title="Permanent link">¶</a></h3>
+<p>保存的内容需要不时清理。我们也想给用户删除累积的链接和/或图像的机会。
+为此，我们将处理 <code>/delete</code> 命令。但我们不想强迫用户输入机器人的用户名
+并写入 <code>links</code> 或 <code>images</code>。为此，我们在命令的回复下放置两个按钮。
+一个将打开链接查看的内联模式，另一个将打开图像查看。</p>
+<p>向 <code>states.py</code> 添加新类：</p>
+<div class="highlight"><span class="filename">states.py</span><pre><span></span><code><span id="__code-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">DeleteCommon</span><span class="p">(</span><span class="n">StatesGroup</span><span class="p">):</span>
+</span><span id="__code-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    <span class="n">waiting_for_delete_start</span> <span class="o">=</span> <span class="n">State</span><span class="p">()</span>
+</span></code></pre></div>
+<p>现在让我们为 <code>/delete</code> 命令编写处理程序：</p>
+<div class="highlight"><span class="filename">handlers/common.py</span><pre><span></span><code><span id="__code-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 新导入</span>
+</span><span id="__code-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateFilter</span>
+</span><span id="__code-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__code-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"delete"</span><span class="p">),</span> <span class="n">StateFilter</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+</span><span id="__code-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_delete</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">kb</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__code-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="hll">    <span class="n">kb</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+</span></span><span id="__code-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>        <span class="n">InlineKeyboardButton</span><span class="p">(</span>
+</span><span id="__code-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>            <span class="n">text</span><span class="o">=</span><span class="s2">"选择链接"</span><span class="p">,</span>
+</span><span id="__code-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>            <span class="n">switch_inline_query_current_chat</span><span class="o">=</span><span class="s2">"links"</span>
+</span><span id="__code-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>        <span class="p">)</span>
+</span><span id="__code-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="p">])</span>
+</span><span id="__code-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="hll">    <span class="n">kb</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+</span></span><span id="__code-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>        <span class="n">InlineKeyboardButton</span><span class="p">(</span>
+</span><span id="__code-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>            <span class="n">text</span><span class="o">=</span><span class="s2">"选择图像"</span><span class="p">,</span>
+</span><span id="__code-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>            <span class="n">switch_inline_query_current_chat</span><span class="o">=</span><span class="s2">"images"</span>
+</span><span id="__code-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>        <span class="p">)</span>
+</span><span id="__code-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>    <span class="p">])</span>
+</span><span id="__code-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">DeleteCommon</span><span class="o">.</span><span class="n">waiting_for_delete_start</span><span class="p">)</span>
+</span><span id="__code-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"选择您要删除的内容："</span><span class="p">,</span>
+</span><span id="__code-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">InlineKeyboardMarkup</span><span class="p">(</span><span class="n">inline_keyboard</span><span class="o">=</span><span class="n">kb</span><span class="p">)</span>
+</span><span id="__code-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>单击这样的按钮时，所需的值被替换到内联模式中，
+这将立即打开链接或图像列表（为了演示，我暂时移除了弹出菜单，
+以便看到按钮）：</p>
+<p><img alt="switch_inline_query_current_chat 按钮" src="../../images/ru/inline_mode/cmd_delete.png" title="switch_inline_query_current_chat 按钮"></p>
+<p>如果我们使用 <code>switch_inline_query</code> 而不是 <code>switch_inline_query_current_chat</code>，
+Telegram 会提议用户选择他可以写入的聊天，然后在其中替换指定的文本。</p>
+<p>剩下的是编写一个路由，它将捕获删除请求并编辑存储内容：</p>
+<div class="highlight"><span class="filename">handlers/delete_data.py</span><pre><span></span><code><span id="__code-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 导入</span>
+</span><span id="__code-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__code-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span>
+</span><span id="__code-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="n">DeleteCommon</span><span class="o">.</span><span class="n">waiting_for_delete_start</span><span class="p">,</span>
+</span><span id="__code-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+</span><span id="__code-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="n">ViaBotFilter</span><span class="p">(),</span>
+</span><span id="__code-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="n">HasLinkFilter</span><span class="p">()</span>
+</span><span id="__code-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="p">)</span>
+</span><span id="__code-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">link_deletion_handler</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    <span class="n">delete_link</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">link</span><span class="p">)</span>
+</span><span id="__code-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__code-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"链接已删除！"</span>
+</span><span id="__code-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>             <span class="s2">"内联模式输出将在几分钟内更新。"</span><span class="p">)</span>
+</span><span id="__code-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
+</span><span id="__code-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span>
+</span><span id="__code-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>    <span class="n">DeleteCommon</span><span class="o">.</span><span class="n">waiting_for_delete_start</span><span class="p">,</span>
+</span><span id="__code-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="n">F</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">file_unique_id</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"file_unique_id"</span><span class="p">),</span>
+</span><span id="__code-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>    <span class="n">ViaBotFilter</span><span class="p">()</span>
+</span><span id="__code-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="p">)</span>
+</span><span id="__code-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">image_deletion_handler</span><span class="p">(</span>
+</span><span id="__code-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>        <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">,</span>
+</span><span id="__code-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>        <span class="n">file_unique_id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__code-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="p">):</span>
+</span><span id="__code-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>    <span class="n">delete_image</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">file_unique_id</span><span class="p">)</span>
+</span><span id="__code-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a>    <span class="k">await</span> <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__code-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"图像已删除！"</span>
+</span><span id="__code-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>             <span class="s2">"内联模式输出将在几分钟内更新。"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>注意：我们按 <code>file_unique_id</code> 删除图像，因为每次发送图像时 <code>file_id</code> 
+都会不同（简而言之：完整的 <code>file_id</code> 中内置了时间戳和其他非永久性数据）。</p>
+<h3 id="switch-parameter">Switch 往返<a class="headerlink" href="#switch-parameter" title="Permanent link">¶</a></h3>
+<p>当我们之前讨论<a href="#outgoing-answer-format">传出答复的格式</a>时，
+我们看到了带有 <code>switch_pm</code> 前缀的参数。让我们使用它们，
+以便用户可以从任何聊天立即转到添加数据，而不仅仅是与机器人的私聊。</p>
+<p>将上述参数添加到内联查询处理程序。为此，重写 <code>handlers/inline_mode.py</code> 
+文件中的 <code>answer_inline_query()</code> 方法调用：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">await</span> <span class="n">inline_query</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>        <span class="n">results</span><span class="p">,</span> <span class="n">is_personal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__code-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>        <span class="n">switch_pm_text</span><span class="o">=</span><span class="s2">"添加更多 »»"</span><span class="p">,</span>
+</span><span id="__code-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>        <span class="n">switch_pm_parameter</span><span class="o">=</span><span class="s2">"add"</span>
+</span><span id="__code-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>在 <code>handlers/common.py</code> 文件中，向 <code>/save</code> 命令处理程序添加另一个入口点，
+通过 <code>CommandStart</code> 过滤器和深链接 <code>add</code>：</p>
+<div class="highlight"><span class="filename">handlers/common.py</span><pre><span></span><code><span id="__code-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 新导入：</span>
+</span><span id="__code-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">CommandStart</span>
+</span><span id="__code-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__code-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="hll"><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">CommandStart</span><span class="p">(</span><span class="n">magic</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">args</span> <span class="o">==</span> <span class="s2">"add"</span><span class="p">))</span>
+</span></span><span id="__code-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"save"</span><span class="p">),</span> <span class="n">StateFilter</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+</span><span id="__code-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_save</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="o">...</span>
+</span><span id="__code-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+</span><span id="__code-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="c1"># 注意，简单 /start 的处理程序应该在之后出现</span>
+</span><span id="__code-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s2">"start"</span><span class="p">]))</span>
+</span><span id="__code-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">FSMContext</span><span class="p">):</span>
+</span><span id="__code-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p>同时，在添加文本和图像的最后阶段，添加 <code>switch_inline_query</code> 
+按钮，提议在另一个聊天中尝试发送某些内容：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># 文件 handlers/save_text.py</span>
+</span><span id="__code-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__code-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">TextSave</span><span class="o">.</span><span class="n">waiting_for_description</span><span class="p">,</span> <span class="n">Command</span><span class="p">(</span><span class="s2">"skip"</span><span class="p">))</span>
+</span><span id="__code-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">last_step</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+</span><span id="__code-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="c1"># 这里是函数的其余代码</span>
+</span><span id="__code-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="n">kb</span> <span class="o">=</span> <span class="p">[[</span><span class="n">InlineKeyboardButton</span><span class="p">(</span>
+</span><span id="__code-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"尝试"</span><span class="p">,</span>
+</span><span id="__code-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>        <span class="n">switch_inline_query</span><span class="o">=</span><span class="s2">"links"</span>
+</span><span id="__code-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>    <span class="p">)]]</span>
+</span><span id="__code-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"链接已保存！"</span><span class="p">,</span>
+</span><span id="__code-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">InlineKeyboardMarkup</span><span class="p">(</span><span class="n">inline_keyboard</span><span class="o">=</span><span class="n">kb</span><span class="p">)</span>
+</span><span id="__code-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="p">)</span>
+</span><span id="__code-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>
+</span><span id="__code-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="c1"># 文件 handlers/save_images.py</span>
+</span><span id="__code-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">SaveCommon</span><span class="o">.</span><span class="n">waiting_for_save_start</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"photo"</span><span class="p">))</span>
+</span><span id="__code-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_image</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+</span><span id="__code-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>    <span class="c1"># 这里是函数的其余代码</span>
+</span><span id="__code-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>    <span class="n">kb</span> <span class="o">=</span> <span class="p">[[</span><span class="n">InlineKeyboardButton</span><span class="p">(</span>
+</span><span id="__code-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"尝试"</span><span class="p">,</span>
+</span><span id="__code-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>        <span class="n">switch_inline_query</span><span class="o">=</span><span class="s2">"images"</span>
+</span><span id="__code-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>    <span class="p">)]]</span>
+</span><span id="__code-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"图像已保存！"</span><span class="p">,</span>
+</span><span id="__code-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">InlineKeyboardMarkup</span><span class="p">(</span><span class="n">inline_keyboard</span><span class="o">=</span><span class="n">kb</span><span class="p">)</span>
+</span><span id="__code-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>这里有一个内联模式的另一个不错的功能：如果您不在与机器人的私聊中调用机器人，
+转到"添加更多 »»"按钮，并到达最后一步，那么当机器人发送带有 <code>switch_inline_query</code> 
+按钮的消息时，Telegram 客户端将自动将用户返回到原始聊天，
+并立即打开具有所需文本的内联模式！</p>
+<h2 id="extras">补充材料<a class="headerlink" href="#extras" title="Permanent link">¶</a></h2>
+<h3 id="lazy-loading">延迟加载结果<a class="headerlink" href="#lazy-loading" title="Permanent link">¶</a></h3>
+<p>根据 Bot API 文档，在一个 
+<a href="https://core.telegram.org/bots/api#answerinlinequery">answerInlineQuery</a> 
+调用中最多可以发送 50 个元素。如果需要更多呢？
+<code>next_offset</code> 参数就派上用场了。机器人指定它，
+当用户滚动完当前批次时，它将出现在下一个内联查询中。
+作为示例，让我们编写一个简单的数字生成器，以 50 个元素的批次返回，
+最大值为 195：</p>
+<div class="highlight"><span class="filename">handlers/inline_pagination_demo.py</span><pre><span></span><code><span id="__code-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_fake_results</span><span class="p">(</span><span class="n">start_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="__code-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__code-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="sd">    生成连续数字列表</span>
+</span><span id="__code-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__code-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="sd">    :param start_num: 生成器的起始数字</span>
+</span><span id="__code-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="sd">    :param size: 批次大小（默认 50）</span>
+</span><span id="__code-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="sd">    :return: 连续数字列表</span>
+</span><span id="__code-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="sd">    """</span>
+</span><span id="__code-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    <span class="n">overall_items</span> <span class="o">=</span> <span class="mi">195</span>
+</span><span id="__code-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>    <span class="c1"># 如果没有更多结果，发送空列表</span>
+</span><span id="__code-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    <span class="k">if</span> <span class="n">start_num</span> <span class="o">&gt;=</span> <span class="n">overall_items</span><span class="p">:</span>
+</span><span id="__code-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>        <span class="k">return</span> <span class="p">[]</span>
+</span><span id="__code-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>    <span class="c1"># 发送不完整的批次（最后一个）</span>
+</span><span id="__code-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>    <span class="k">elif</span> <span class="n">start_num</span> <span class="o">+</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="n">overall_items</span><span class="p">:</span>
+</span><span id="__code-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start_num</span><span class="p">,</span> <span class="n">overall_items</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</span><span id="__code-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__code-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start_num</span><span class="p">,</span> <span class="n">start_num</span><span class="o">+</span><span class="n">size</span><span class="p">))</span>
+</span></code></pre></div>
+<p>现在让我们写一个内联处理程序，使得当接近当前列表的末尾时，
+Telegram 会请求继续。为此，在开始时检查 <code>offset</code> 字段，
+如果为空，将其设置为 1。接下来生成一个虚拟结果列表。
+如果输出恰好是 50 个对象，那么在响应中指定 <code>next_offset</code> 
+等于当前值加 50。如果少于 50 个对象，什么都不指定，
+这样 Telegram 就不会尝试加载新行了：</p>
+<div class="highlight"><span class="filename">handlers/inline_pagination_demo.py</span><pre><span></span><code><span id="__code-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">inline_query</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">query</span> <span class="o">==</span> <span class="s2">"long"</span><span class="p">)</span>
+</span><span id="__code-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">pagination_demo</span><span class="p">(</span>
+</span><span id="__code-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>        <span class="n">inline_query</span><span class="p">:</span> <span class="n">InlineQuery</span><span class="p">,</span>
+</span><span id="__code-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="p">):</span>
+</span><span id="__code-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="c1"># 将偏移量计算为数字</span>
+</span><span id="__code-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="n">offset</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inline_query</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span> <span class="k">if</span> <span class="n">inline_query</span><span class="o">.</span><span class="n">offset</span> <span class="k">else</span> <span class="mi">1</span>
+</span><span id="__code-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">InlineQueryResultArticle</span><span class="p">(</span>
+</span><span id="__code-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>        <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">item_num</span><span class="p">),</span>
+</span><span id="__code-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"对象 №</span><span class="si">{</span><span class="n">item_num</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>        <span class="n">input_message_content</span><span class="o">=</span><span class="n">InputTextMessageContent</span><span class="p">(</span>
+</span><span id="__code-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>            <span class="n">message_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"对象 №</span><span class="si">{</span><span class="n">item_num</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>        <span class="p">)</span>
+</span><span id="__code-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>    <span class="p">)</span> <span class="k">for</span> <span class="n">item_num</span> <span class="ow">in</span> <span class="n">get_fake_results</span><span class="p">(</span><span class="n">offset</span><span class="p">)]</span>
+</span><span id="__code-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+</span><span id="__code-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>        <span class="k">await</span> <span class="n">inline_query</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>            <span class="n">results</span><span class="p">,</span> <span class="n">is_personal</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__code-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>        <span class="p">)</span>
+</span><span id="__code-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__code-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>        <span class="k">await</span> <span class="n">inline_query</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>            <span class="n">results</span><span class="p">,</span> <span class="n">is_personal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+</span><span id="__code-21-21"><a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="hll">            <span class="n">next_offset</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">offset</span><span class="o">+</span><span class="mi">50</span><span class="p">)</span>
+</span></span><span id="__code-21-22"><a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<p>当用户滚动内联结果时，机器人会收到请求并返回越来越多的结果，
+直到达到第 195 个元素，之后请求将停止。</p>
+<h3 id="inline-feedback">收集统计信息<a class="headerlink" href="#inline-feedback" title="Permanent link">¶</a></h3>
+<p>很少有人知道，但 Telegram 允许收集机器人在内联模式中使用情况的简单统计信息。
+首先，需要在 @BotFather 中启用相应的设置：<code>/mybots</code> - (选择机器人) - Bot Settings - Inline Feedback：</p>
+<p><img alt="bot @imdb 内联模式工作示例" src="../../images/ru/inline_mode/botfather_inline_feedback.png" title="bot @imdb 内联模式工作示例"></p>
+<p>按钮上的数字表示用户在内联模式中选择对象时接收 
+<a href="https://core.telegram.org/bots/api#choseninlineresult">ChosenInlineResult</a> 
+事件的**概率**。因此，例如，如果设置值为 <strong>10%</strong>，
+那么每次选择对象时都有 10% 的概率在机器人中接收 ChosenInlineResult 事件。
+Telegram 不建议设置 100% 的值，因为这会加倍加载机器人。
+因此，这个功能不适合任何有点严肃的分析，
+但在灵巧的手中，在较长时间内可能会提供有关最有用的内联结果的概况。
+以下是此类事件的处理程序示例：</p>
+<div class="highlight"><span class="filename">handlers/inline_chosen_result_demo.py</span><pre><span></span><code><span id="__code-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+</span><span id="__code-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChosenInlineResult</span>
+</span><span id="__code-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__code-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
+</span><span id="__code-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+</span><span id="__code-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="nd">@router</span><span class="o">.</span><span class="n">chosen_inline_result</span><span class="p">()</span>
+</span><span id="__code-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">pagination_demo</span><span class="p">(</span>
+</span><span id="__code-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>        <span class="n">chosen_result</span><span class="p">:</span> <span class="n">ChosenInlineResult</span><span class="p">,</span>
+</span><span id="__code-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="p">):</span>
+</span><span id="__code-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    <span class="c1"># 直接写到屏幕。但您可能想保存到某处</span>
+</span><span id="__code-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>    <span class="nb">print</span><span class="p">(</span>
+</span><span id="__code-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>        <span class="sa">f</span><span class="s2">"在 '</span><span class="si">{</span><span class="n">chosen_result</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s2">' 查询后，"</span>
+</span><span id="__code-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>        <span class="sa">f</span><span class="s2">"用户选择了 ID 为 '</span><span class="si">{</span><span class="n">chosen_result</span><span class="o">.</span><span class="n">result_id</span><span class="si">}</span><span class="s2">' 的选项"</span>
+</span><span id="__code-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>尽管电报不建议为内联反馈设置高值，但这个东西至少有一个实际应用：
+某些音乐机器人试图按请求加载完整版本的乐曲，而无需预先保存。
+如果在调用机器人的内联模式时执行此操作，您可能无法在 10-15 秒内完成，
+在此之后 Bot API 会返回有关"过期"更新的错误。</p>
+<p>所以开发者是这样做的：在机器人搜索曲目时，
+在预览中提供一个短样本（5-10 秒）。当用户单击某一行时，
+会发送带有附加内联按钮的音频消息（否则无法编辑消息），
+机器人捕获发送事件，从 <code>ChosenInlineResult</code> 类型的更新中提取消息的跨度 <code>inline_message_id</code>，
+加载完整版本的音频，并使用此 <code>inline_message_id</code> 将样本编辑为完整轨道。
+Telegram 教会了许多变通办法，是的。</p></div>
 
 
 
@@ -1294,7 +2412,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年4月23日 22:59:21 UTC"><span class="timeago" datetime="2026-04-23T22:59:21+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年4月23日 22:59:21 UTC">2026-04-23</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年6月20日 23:36:49 UTC"><span class="timeago" datetime="2026-06-20T23:36:49+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年6月20日 23:36:49 UTC">2026-06-20</span>
   </span>
 
     
