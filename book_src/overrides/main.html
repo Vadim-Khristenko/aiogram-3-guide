@@ -37,12 +37,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       const webapp = window.Telegram.WebApp;
       
-      // Initialize Telegram WebApp
       webapp.ready();
       webapp.expand();
       webapp.disableVerticalSwipes();
-      
-      // Handle navigation based on start_param
+
       const initData = webapp.initDataUnsafe;
       
 
@@ -98,9 +96,7 @@
 
       if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
         if (initData.start_param) {
-          // Map of start parameters to their corresponding paths
           const routeMap = {
-            // Main sections
             'quickstart': 'quickstart',
             'messages': 'messages',
             'buttons': 'buttons',
@@ -109,13 +105,10 @@
             'fsm': 'fsm',
             'inline-mode': 'inline-mode',
             
-            // Filters and middlewares
             'filters': 'filters-and-middlewares/#filters',
             'middlewares': 'filters-and-middlewares/#middlewares',
             'magic-filter': 'filters-and-middlewares/#magic-filters',
             'magic': 'filters-and-middlewares/#magic-filters',
-            
-            // Message handling
             'entities': 'messages/#message-entities',
             'escaping': 'messages/#input-escaping',
             'keep-formatting': 'messages/#keep-formatting',
@@ -124,18 +117,13 @@
             'download-files': 'messages/#downloading-media',
             'download': 'messages/#downloading-media',
             'hide-image': 'messages/#bonus',
-            
-            // Buttons
             'callback-factory': 'buttons/#callback-factory',
-            
-            // Special updates
             'my-chat-member': 'special-updates/#my-chat-member',
-            'chat-member': 'special-updates/#chat-member'
+            'chat-member': 'special-updates/#chat-member',
           };
-          
-          const path = routeMap[initData.start_param];
 
-          // Safe fallback: unknown start_param should not break or reload current page
+          const path = routeMap[initData.start_param];
+          // Unknown start_param — do nothing, don't break or reload current page
           if (!path) {
             return;
           }
@@ -160,10 +148,7 @@
 {% endblock %}
 
 {% block content %}
-  <!-- Translation status notifications for non-Russian pages -->
   {% if page.meta and i18n_page_locale != "ru" %}
-    
-    <!-- Language availability notification -->
     {% if i18n_file_locale != i18n_page_locale %}
       <div class="admonition info language-notification is-dismissible" data-notice-id="language-fallback">
         <p class="admonition-title">
@@ -183,33 +168,21 @@
             <h4>{{ config.extra.help_improve_title | default('Help Improve Translation') }}</h4>
             <p>{{ config.extra.help_improve_description | default('This is an open-source project and we welcome contributions from the community.') }}</p>
             
-            <!-- Action buttons -->
             <div class="translation-actions">
               {% set repo_url = config.extra.translations_url | default(config.repo_url | default("https://github.com/MasterGroosha/aiogram-3-guide")) %}
               {% set file_path = page.file.src_path %}
               {% set lang = i18n_page_locale | default("en") %}
-              
-              <!-- Calculate correct file path for GitHub link -->
               {% set actual_file_path = "" %}
-              
-              <!-- Normalize file path - replace backslashes with forward slashes -->
+              {# Normalize backslashes (Windows paths) and resolve target language folder #}
               {% set normalized_file_path = file_path.replace("\\", "/") %}
-              
               {% if normalized_file_path.startswith(lang + "/") %}
-                <!-- File is already in correct language folder: en/index.md -> en/index.md -->
                 {% set actual_file_path = normalized_file_path %}
               {% elif normalized_file_path.startswith("ru/") %}
-                <!-- File is in Russian folder, replace with target language: ru/fsm.md -> en/fsm.md -->
                 {% set actual_file_path = lang + "/" + normalized_file_path[3:] %}
-              {% elif "/" in normalized_file_path %}
-                <!-- File has subfolder but not language folder: images/test.png -> en/images/test.png -->
-                {% set actual_file_path = lang + "/" + normalized_file_path %}
               {% else %}
-                <!-- File is in root: index.md -> en/index.md -->
                 {% set actual_file_path = lang + "/" + normalized_file_path %}
               {% endif %}
-              
-              <!-- Fallback: if the calculated path is wrong, use a simple approach -->
+              {# Fallback if path resolution produced empty string #}
               {% if actual_file_path == "" %}
                 {% set actual_file_path = lang + "/" + normalized_file_path %}
               {% endif %}
@@ -287,7 +260,6 @@
           </p>
           <p class="status-message">{{ status.message }}</p>
           
-          <!-- Additional help for certain statuses -->
           {% if page.meta.t_status in ["need_help", "dropped"] %}
             <div class="status-help-section">
               <p><strong>{{ config.extra.how_to_help_title | default('How you can help:') }}</strong></p>
