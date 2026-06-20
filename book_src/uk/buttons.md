@@ -37,7 +37,7 @@ async def cmd_start(message: types.Message):
 !!! info ""
     Незважаючи на те, що Telegram Bot API [дозволяє](https://core.telegram.org/bots/api#keyboardbutton) вказувати 
     просто рядки замість об'єктів `KeyboardButton`, при спробі використати рядок aiogram 3.x викине помилку 
-    валідації і це не баг, а [фіча](https://t.me/aiogram_pcr/1/920453).  
+    валідації і це не баг, а особливість aiogram.  
     Живіть тепер з цим 🤷‍♂️
 
 Що ж, запустимо бота і здивуємося від величезних кнопок:
@@ -236,7 +236,7 @@ async def on_user_shared(message: types.Message):
 
 
 @dp.message(F.chat_shared)
-async def on_user_shared(message: types.Message):
+async def on_chat_shared(message: types.Message):
     print(
         f"Request {message.chat_shared.request_id}. "
         f"User ID: {message.chat_shared.chat_id}"
@@ -423,7 +423,7 @@ async def callbacks_num(callback: types.CallbackQuery):
 ![Все працює?](../images/ru/buttons/l03_7.png)
 
 Але тепер уявімо, що хітрий користувач зробив наступне: викликав команду `/numbers` (значення 0), збільшив значення 
-до 1, знову викликав `/numbers` (значення скинулося до 0) і редагував і натиснув кнопку "+1" на першому повідомленні. 
+до 1, знову викликав `/numbers` (значення скинулося до 0) і натиснув кнопку "+1" на першому повідомленні. 
 Що станеться? Бот по-чесному відправить запит на редагування тексту зі значенням 1, але т.к. на тому повідомленні 
 вже стоїть цифра 1, то Bot API поверне помилку, що старий і новий тексти збігаються, а бот словить виключення: 
 `Bad Request: message is not modified: specified new message content and reply markup are exactly the same 

@@ -192,6 +192,7 @@ nav:
   - 'Конечные автоматы': fsm.md
   - 'Инлайн-режим': inline-mode.md
   - 'Платежи': payments.md
+  - 'Гостевой режим': guest-bots.md
   - blog/index.md
   - '🔒 Продвинутый уровень': advanced-teaser.md
 
@@ -279,6 +280,7 @@ plugins:
             - 'Finite State Machines': fsm.md
             - 'Inline Mode': inline-mode.md
             - 'Payments': payments.md
+            - 'Guest Mode': guest-bots.md
             - '🔒 Advanced Level': advanced-teaser.md
           
           # English extra configuration
@@ -374,6 +376,7 @@ plugins:
             - 'Кінцеві автомати': fsm.md
             - 'Інлайн-режим': inline-mode.md
             - 'Платежі': payments.md
+            - 'Гостьовий режим': guest-bots.md
             - '🔒 Просунутий рівень': advanced-teaser.md
           
           # Ukrainian extra configuration
@@ -467,6 +470,7 @@ plugins:
             - '有限状态机': fsm.md
             - '内联模式': inline-mode.md
             - '支付': payments.md
+            - '访客模式': guest-bots.md
             - '🔒 进阶内容': advanced-teaser.md
 
           extra:
