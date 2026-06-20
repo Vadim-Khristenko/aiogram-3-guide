@@ -1,0 +1,25 @@
+[bot]
+# Токен бота
+token = "1234567890:AaBbCcDdEeFfGrOoShALlMmNnOoPpQqRrSs"
+
+[logs]
+# true, якщо в логі повинні показуватися дата й час подій
+show_datetime = true
+
+# Формат дати й часу в логах
+datetime_format = "%Y-%m-%d %H:%M:%S"
+
+# true, якщо надо показувати логи всіх рівнів, включаючи debug
+# false, якщо все, КРІМ debug
+show_debug_logs = true
+
+# true, якщо надо вказувати дату й час в UTC
+time_in_utc = false
+
+# Формат логу: console або json
+renderer = "console"
+
+# true, якщо у форматі "console" повинен бути кольоровий вивід
+# (може бути доступно не на всіх ОС)
+# див. https://www.structlog.org/en/stable/getting-started.html#your-first-log-entry
+use_colors_in_console = true
