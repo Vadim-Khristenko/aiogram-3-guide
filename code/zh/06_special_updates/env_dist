@@ -1,0 +1,8 @@
+# 别忘记把这个文件复制为 .env
+
+BOT_TOKEN = 0000000000:AaBbCcDdEeFfGgHhIiJjKkLlMmNn
+
+# 你的机器人将在其中工作的群组。
+# 在本章的框架内，
+# 机器人旨在用于一个群组
+MAIN_CHAT_ID = -1001234567890
