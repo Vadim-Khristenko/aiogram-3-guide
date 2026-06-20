@@ -8,19 +8,66 @@
     document.addEventListener('DOMContentLoaded', () => {
       const webapp = window.Telegram.WebApp;
       
-      // Initialize Telegram WebApp
       webapp.ready();
       webapp.expand();
       webapp.disableVerticalSwipes();
-      
-      // Handle navigation based on start_param
+
       const initData = webapp.initDataUnsafe;
       
-      if (window.location.pathname === "/aiogram-3-guide/" && Object.hasOwn(initData, 'auth_date')) {
+
+      const normalizePath = (path) => {
+        if (!path) return '/';
+        const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+        return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+      };
+      const pathFromUrl = (urlValue) => {
+        try {
+          return new URL(urlValue, window.location.origin).pathname;
+        } catch {
+          return '';
+        }
+      };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
+      const siteBasePath = normalizePath(pathFromUrl('https://mastergroosha.github.io/aiogram-3-guide/'));
+      const canonicalPath = normalizePath(pathFromUrl('https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
+
+      const currentPath = normalizePath(window.location.pathname);
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
+        : currentPath.slice(1);
+      const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
+
+      const isDocsRoot = relativeSegments.length === 0
+        || hasLocaleRoot;
+
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
+        ? `${relativeSegments[0]}/`
+        : '';
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
+
+      if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
         if (initData.start_param) {
-          // Map of start parameters to their corresponding paths
           const routeMap = {
-            // Main sections
             'quickstart': 'quickstart',
             'messages': 'messages',
             'buttons': 'buttons',
@@ -29,13 +76,10 @@
             'fsm': 'fsm',
             'inline-mode': 'inline-mode',
             
-            // Filters and middlewares
             'filters': 'filters-and-middlewares/#filters',
             'middlewares': 'filters-and-middlewares/#middlewares',
             'magic-filter': 'filters-and-middlewares/#magic-filters',
             'magic': 'filters-and-middlewares/#magic-filters',
-            
-            // Message handling
             'entities': 'messages/#message-entities',
             'escaping': 'messages/#input-escaping',
             'keep-formatting': 'messages/#keep-formatting',
@@ -44,19 +88,20 @@
             'download-files': 'messages/#downloading-media',
             'download': 'messages/#downloading-media',
             'hide-image': 'messages/#bonus',
-            
-            // Buttons
             'callback-factory': 'buttons/#callback-factory',
-            
-            // Special updates
             'my-chat-member': 'special-updates/#my-chat-member',
-            'chat-member': 'special-updates/#chat-member'
+            'chat-member': 'special-updates/#chat-member',
           };
-          
-          const path = routeMap[initData.start_param] || '/';
-          const targetUrl = `${window.location.origin}${window.location.pathname}${path}`;
-          
-          window.location.href = targetUrl;
+
+          const path = routeMap[initData.start_param];
+          // Unknown start_param — do nothing, don't break or reload current page
+          if (!path) {
+            return;
+          }
+
+          const targetUrl = new URL(`${redirectRoot}${path}`, window.location.origin);
+
+          window.location.href = targetUrl.toString();
         }
       }
     });
@@ -66,7 +111,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Фильтры и мидлвари">
+        <meta name="description" content="Фільтри та мідлвари">
       
       
         <meta name="author" content="MasterGroosha, Translated by VAI">
@@ -81,21 +126,32 @@
         <link rel="next" href="../special-updates/">
       
       
+        
+          <link rel="alternate" href="../../filters-and-middlewares/" hreflang="ru">
+        
+          <link rel="alternate" href="../../en/filters-and-middlewares/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="uk">
+        
+          <link rel="alternate" href="../../zh/filters-and-middlewares/" hreflang="zh">
+        
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
 
     
       
-        <title>Фильтры и мидлвари - Написання ботів для Telegram з aiogram 3.x</title>
+        <title>Фільтри та мідлвари - Написання ботів для Telegram з aiogram 3.x</title>
       
     
     
   
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -121,6 +177,26 @@
       margin: 1.5em 0 2em 0;
       border-radius: 8px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .translation-notice-dismiss {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0.25rem;
+      opacity: 0.75;
+    }
+
+    .translation-notice-dismiss:hover {
+      opacity: 1;
     }
     
     /* Icons styling */
@@ -391,7 +467,6 @@
 
     
     
-    
   
   
     
@@ -404,8 +479,8 @@
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Написання ботів для Telegram з aiogram 3.x - Фильтры и мидлвари">
-  <meta property="og:description" content="Фильтры и мидлвари">
+  <meta property="og:title" content="Написання ботів для Telegram з aiogram 3.x - Фільтри та мідлвари">
+  <meta property="og:description" content="Фільтри та мідлвари">
   <meta property="og:url" content="https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/">
   <meta property="og:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
   <meta property="og:image:type" content="image/png">
@@ -415,8 +490,8 @@
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/">
-  <meta name="twitter:title" content="Написання ботів для Telegram з aiogram 3.x - Фильтры и мидлвари">
-  <meta name="twitter:description" content="Фильтры и мидлвари">
+  <meta name="twitter:title" content="Написання ботів для Telegram з aiogram 3.x - Фільтри та мідлвари">
+  <meta name="twitter:description" content="Фільтри та мідлвари">
   <meta name="twitter:image" content="https://mastergroosha.github.io/aiogram-3-guide/images/social.png">
 
   </head>
@@ -438,22 +513,12 @@
     <div data-md-component="skip">
       
         
-        <a href="#фильтры-и-мидлвари" class="md-skip">
+        <a href="#фільтри-та-мідлвари" class="md-skip">
           Перейти до змісту
         </a>
       
     </div>
     <div data-md-component="announce">
-      
-        <aside class="md-banner">
-          <div class="md-banner__inner md-grid md-typeset">
-            
-            <div class="announcement__translation">
-      Здається, ця сторінка ще не перекладена на цю мову і попередньо буде відображена російською.
-    </div>
-          </div>
-          
-        </aside>
       
     </div>
     
@@ -484,7 +549,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Фильтры и мидлвари
+              Фільтри та мідлвари
             
           </span>
         </div>
@@ -548,6 +613,12 @@
             </a>
           </li>
         
+          <li class="md-select__item">
+            <a href="../../zh/filters-and-middlewares/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
       </ul>
     </div>
   </div>
@@ -601,7 +672,7 @@
         <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     MasterGroosha/aiogram-3-guide
@@ -630,19 +701,15 @@
                   <div class="md-sidebar__inner">
                     
 
-<!-- Determine classes -->
 
 
 
 
-<!-- Navigation -->
 <nav
   class="md-nav md-nav--primary"
   aria-label="Навігація"
   data-md-level="0"
 >
-
-  <!-- Site title -->
   <label class="md-nav__title" for="__drawer">
     <a
       href="../"
@@ -656,16 +723,15 @@
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
 
     </a>
-    Зміст
+    
   </label>
 
-  <!-- Repository information -->
   
     <div class="md-nav__source">
       <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     MasterGroosha/aiogram-3-guide
@@ -674,7 +740,6 @@
     </div>
   
 
-  <!-- Navigation list -->
   <ul class="md-nav__list" data-md-scrollfix>
     
       
@@ -689,9 +754,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Вступ
+  
+
     
   </span>
+  
   
 
       </a>
@@ -711,9 +781,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Про переклад
+  
+
     
   </span>
+  
   
 
       </a>
@@ -733,9 +808,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Знайомство з aiogram
+  
+
     
   </span>
+  
   
 
       </a>
@@ -755,9 +835,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Робота з повідомленнями
+  
+
     
   </span>
+  
   
 
       </a>
@@ -777,9 +862,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Кнопки
+  
+
     
   </span>
+  
   
 
       </a>
@@ -799,9 +889,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Роутери. Структура
+  
+
     
   </span>
+  
   
 
       </a>
@@ -830,9 +925,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Фільтри та мідлвари
+  
+
     
   </span>
+  
   
 
           <span class="md-nav__icon md-icon"></span>
@@ -843,9 +943,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Фільтри та мідлвари
+  
+
     
   </span>
+  
   
 
       </a>
@@ -868,17 +973,21 @@
         <li class="md-nav__item">
   <a href="#filters" class="md-nav__link">
     <span class="md-ellipsis">
-      Фильтры
+      
+        Фільтри
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Фильтры">
+    <nav class="md-nav" aria-label="Фільтри">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#why-filters" class="md-nav__link">
     <span class="md-ellipsis">
-      Зачем нужны фильтры?
+      
+        Для чого потрібні фільтри?
+      
     </span>
   </a>
   
@@ -887,7 +996,9 @@
           <li class="md-nav__item">
   <a href="#filters-as-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Фильтры как классы
+      
+        Фільтри як класи
+      
     </span>
   </a>
   
@@ -896,7 +1007,9 @@
           <li class="md-nav__item">
   <a href="#magic-filters" class="md-nav__link">
     <span class="md-ellipsis">
-      Магические фильтры
+      
+        Магічні фільтри
+      
     </span>
   </a>
   
@@ -905,7 +1018,9 @@
           <li class="md-nav__item">
   <a href="#magic-data" class="md-nav__link">
     <span class="md-ellipsis">
-      MagicData
+      
+        MagicData
+      
     </span>
   </a>
   
@@ -919,17 +1034,21 @@
         <li class="md-nav__item">
   <a href="#middlewares" class="md-nav__link">
     <span class="md-ellipsis">
-      Мидлвари
+      
+        Мідлвари
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Мидлвари">
+    <nav class="md-nav" aria-label="Мідлвари">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#why-middlewares" class="md-nav__link">
     <span class="md-ellipsis">
-      Зачем нужны мидлвари?
+      
+        Для чого потрібні мідлвари?
+      
     </span>
   </a>
   
@@ -938,7 +1057,9 @@
           <li class="md-nav__item">
   <a href="#middlewares-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Виды и структура мидлварей
+      
+        Види й структура мідлварів
+      
     </span>
   </a>
   
@@ -947,17 +1068,21 @@
           <li class="md-nav__item">
   <a href="#middlewares-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Примеры мидлварей
+      
+        Приклади мідлварів
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Примеры мидлварей">
+    <nav class="md-nav" aria-label="Приклади мідлварів">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#middleware-pass-arguments" class="md-nav__link">
     <span class="md-ellipsis">
-      Передача аргументов в мидлварь
+      
+        Передача аргументів у мідлварь
+      
     </span>
   </a>
   
@@ -966,7 +1091,9 @@
           <li class="md-nav__item">
   <a href="#middleware-store-data" class="md-nav__link">
     <span class="md-ellipsis">
-      Передача данных из мидлвари
+      
+        Передача даних з мідлвари
+      
     </span>
   </a>
   
@@ -975,7 +1102,9 @@
           <li class="md-nav__item">
   <a href="#no-callbacks-on-weekend" class="md-nav__link">
     <span class="md-ellipsis">
-      Никаких колбэков по выходным!
+      
+        Ніяких колбеків у вихідні!
+      
     </span>
   </a>
   
@@ -989,7 +1118,9 @@
           <li class="md-nav__item">
   <a href="#flags" class="md-nav__link">
     <span class="md-ellipsis">
-      Флаги
+      
+        Прапори
+      
     </span>
   </a>
   
@@ -1020,9 +1151,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Особливі оновлення
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1042,9 +1178,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Кінцеві автомати
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1064,9 +1205,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Інлайн-режим
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1086,9 +1232,41 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Платежі
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guest-bots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Гостьовий режим
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1108,9 +1286,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     🔒 Просунутий рівень
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1147,17 +1330,21 @@
         <li class="md-nav__item">
   <a href="#filters" class="md-nav__link">
     <span class="md-ellipsis">
-      Фильтры
+      
+        Фільтри
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Фильтры">
+    <nav class="md-nav" aria-label="Фільтри">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#why-filters" class="md-nav__link">
     <span class="md-ellipsis">
-      Зачем нужны фильтры?
+      
+        Для чого потрібні фільтри?
+      
     </span>
   </a>
   
@@ -1166,7 +1353,9 @@
           <li class="md-nav__item">
   <a href="#filters-as-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Фильтры как классы
+      
+        Фільтри як класи
+      
     </span>
   </a>
   
@@ -1175,7 +1364,9 @@
           <li class="md-nav__item">
   <a href="#magic-filters" class="md-nav__link">
     <span class="md-ellipsis">
-      Магические фильтры
+      
+        Магічні фільтри
+      
     </span>
   </a>
   
@@ -1184,7 +1375,9 @@
           <li class="md-nav__item">
   <a href="#magic-data" class="md-nav__link">
     <span class="md-ellipsis">
-      MagicData
+      
+        MagicData
+      
     </span>
   </a>
   
@@ -1198,17 +1391,21 @@
         <li class="md-nav__item">
   <a href="#middlewares" class="md-nav__link">
     <span class="md-ellipsis">
-      Мидлвари
+      
+        Мідлвари
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Мидлвари">
+    <nav class="md-nav" aria-label="Мідлвари">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#why-middlewares" class="md-nav__link">
     <span class="md-ellipsis">
-      Зачем нужны мидлвари?
+      
+        Для чого потрібні мідлвари?
+      
     </span>
   </a>
   
@@ -1217,7 +1414,9 @@
           <li class="md-nav__item">
   <a href="#middlewares-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Виды и структура мидлварей
+      
+        Види й структура мідлварів
+      
     </span>
   </a>
   
@@ -1226,17 +1425,21 @@
           <li class="md-nav__item">
   <a href="#middlewares-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Примеры мидлварей
+      
+        Приклади мідлварів
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Примеры мидлварей">
+    <nav class="md-nav" aria-label="Приклади мідлварів">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#middleware-pass-arguments" class="md-nav__link">
     <span class="md-ellipsis">
-      Передача аргументов в мидлварь
+      
+        Передача аргументів у мідлварь
+      
     </span>
   </a>
   
@@ -1245,7 +1448,9 @@
           <li class="md-nav__item">
   <a href="#middleware-store-data" class="md-nav__link">
     <span class="md-ellipsis">
-      Передача данных из мидлвари
+      
+        Передача даних з мідлвари
+      
     </span>
   </a>
   
@@ -1254,7 +1459,9 @@
           <li class="md-nav__item">
   <a href="#no-callbacks-on-weekend" class="md-nav__link">
     <span class="md-ellipsis">
-      Никаких колбэков по выходным!
+      
+        Ніяких колбеків у вихідні!
+      
     </span>
   </a>
   
@@ -1268,7 +1475,9 @@
           <li class="md-nav__item">
   <a href="#flags" class="md-nav__link">
     <span class="md-ellipsis">
-      Флаги
+      
+        Прапори
+      
     </span>
   </a>
   
@@ -1289,73 +1498,10 @@
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
-  <!-- Translation status notifications for non-Russian pages -->
   
-    
-    <!-- Language availability notification -->
-    
-      <div class="admonition info language-notification">
-        <p class="admonition-title">
-          <span class="twemoji language-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
-          </span>
-          Статус перекладу 🔄
-        </p>
-        <div class="translation-notification-content">
-          <p class="translation-fallback-message">
-            Здається, ця сторінка ще не перекладена на цю мову і попередньо буде відображена російською.
-          </p>
-          
-          <!-- Help improve translation section -->
-          <div class="help-translation-section">
-            <h4>Допомогти з перекладом</h4>
-            <p>Це проект з відкритим вихідним кодом, і ми вітаємо внески спільноти.</p>
-            
-            <!-- Action buttons -->
-            <div class="translation-actions">
-              
-              
-              
-              
-              <!-- Calculate correct file path for GitHub link -->
-              
-              
-              <!-- Normalize file path - replace backslashes with forward slashes -->
-              
-              
-              
-                <!-- File is in Russian folder, replace with target language: ru/fsm.md -> en/fsm.md -->
-                
-              
-              
-              <!-- Fallback: if the calculated path is wrong, use a simple approach -->
-              
-              
-              <a href="https://github.com/Vadim-Khristenko/aiogram-3-guide/blob/master/book_src/uk/filters-and-middlewares.md" 
-                class="md-button md-button--primary translation-edit-btn" 
-                target="_blank" 
-                rel="noopener noreferrer">
-                <span class="twemoji github-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-                </span>
-                <span class="button-text">Редагувати сторінку</span>
-              </a>
-              
-              <a href="https://github.com/Vadim-Khristenko/aiogram-3-guide/issues/new?title=Translation%20Issue:%20%D0%A4%D1%96%D0%BB%D1%8C%D1%82%D1%80%D0%B8%20%D1%82%D0%B0%20%D0%BC%D1%96%D0%B4%D0%BB%D0%B2%D0%B0%D1%80%D0%B8&body=Page:%20https%3A//mastergroosha.github.io/aiogram-3-guide/uk/filters-and-middlewares/%0AFile:%20uk/filters-and-middlewares.md%0A%0ATranslation%20issue%20description:" 
-                class="md-button md-button--secondary translation-issue-btn" 
-                target="_blank" 
-                rel="noopener noreferrer">
-                <span class="twemoji issue-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 12h-4v-2h4m0 6h-4v-2h4m6-6h-2.81a6 6 0 0 0-1.82-1.96L17 4.41 15.59 3l-2.17 2.17a6 6 0 0 0-2.83 0L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20z"/></svg>
-                </span>
-                <span class="button-text">Повідомити про проблему</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     
     
     <!-- Translation status notification -->
@@ -1370,53 +1516,53 @@
   
 
 
-<div><h1 id="фильтры-и-мидлвари">Фильтры и мидлвари<a class="headerlink" href="#%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B-%D0%B8-%D0%BC%D0%B8%D0%B4%D0%BB%D0%B2%D0%B0%D1%80%D0%B8" title="Permanent link">¶</a></h1>
+<div><h1 id="фільтри-та-мідлвари">Фільтри та мідлвари<a class="headerlink" href="#%D1%84%D1%96%D0%BB%D1%8C%D1%82%D1%80%D0%B8-%D1%82%D0%B0-%D0%BC%D1%96%D0%B4%D0%BB%D0%B2%D0%B0%D1%80%D0%B8" title="Permanent link">¶</a></h1>
 <div class="admonition info">
-<p>Используемая версия aiogram: 3.14.0</p>
+<p>Використовувана версія aiogram: 3.14.0</p>
 </div>
-<p>Настало время разобраться, как устроены фильтры и мидлвари в aiogram 3.x, а также познакомиться с 
-«убийцей лямбда-выражений» фреймворка — <em>магическими фильтрами</em>.</p>
-<h2 id="filters">Фильтры<a class="headerlink" href="#filters" title="Permanent link">¶</a></h2>
-<h3 id="why-filters">Зачем нужны фильтры?<a class="headerlink" href="#why-filters" title="Permanent link">¶</a></h3>
-<p>Если вы написали своего <a href="../quickstart/#hello-world">первого бота</a>, то могу поздравить: вы уже пользовались фильтрами, 
-просто встроенными, а не собственными. Да-да, то самое <code>Command("start")</code> и есть фильтр. Они нужны для того, 
-чтобы очередной апдейт от телеги попал в нужный обработчик, т.е. туда, где его [апдейт] ждут. </p>
-<p>Рассмотрим самый простой пример, чтобы понять важность фильтров. Пусть у нас есть пользователи Алиса с ID 111 
-и Боб с ID 777. И есть бот, который на любое текстовое сообщение радует наших двух ребят какой-нибудь 
-мотивирующей фразой, а всех остальных отшивает:</p>
+<p>Настав час розібратися, як улаштовані фільтри та мідлвари в aiogram 3.x, а також познайомитися з 
+«вбивцею лямбда-виразів» фреймворку — <em>магічними фільтрами</em>.</p>
+<h2 id="filters">Фільтри<a class="headerlink" href="#filters" title="Permanent link">¶</a></h2>
+<h3 id="why-filters">Для чого потрібні фільтри?<a class="headerlink" href="#why-filters" title="Permanent link">¶</a></h3>
+<p>Якщо ви написали свого <a href="../quickstart/#hello-world">першого бота</a>, то можу вас привітати: ви вже користувалися фільтрами, 
+просто вбудованими, а не власними. Так, саме <code>Command("start")</code> і є фільтр. Вони потрібні для того, 
+щоб чергове оновлення від телеги потрапило в правильний обробник, тобто туди, де його [оновлення] чекають. </p>
+<p>Розглянемо найпростіший приклад, щоб зрозуміти важливість фільтрів. Припустимо, у нас є користувачі Аліса з ID 111 
+та Боб з ID 777. І є бот, який на будь-яке текстове повідомлення радує наших двох хлопців якоюсь 
+мотивуючою фразою, а всіх інших відсилає:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">choice</span>
 </span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">my_text_handler</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">phrases</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="s2">"Привет! Отлично выглядишь :)"</span><span class="p">,</span>
-</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="s2">"Хэллоу, сегодня будет отличный день!"</span><span class="p">,</span>
-</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="s2">"Здравствуй)) улыбнись :)"</span>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="s2">"Привіт! Відлично виглядаєш :)"</span><span class="p">,</span>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="s2">"Хеллоу, сьогодні буде чудовий день!"</span><span class="p">,</span>
+</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="s2">"Привіт)) усміхнись :)"</span>
 </span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="p">]</span>
 </span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="mi">777</span><span class="p">):</span>
 </span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">phrases</span><span class="p">))</span>
 </span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я с тобой не разговариваю!"</span><span class="p">)</span>
+</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я з тобою не розмовляю!"</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Затем в какой-то момент мы решаем, что надо каждому из ребят сделать более персонализированное приветствие, 
-а для этого разбиваем наш хэндлер на три: для Алисы, для Боба и для всех остальных:</p>
+<p>Потім у якийсь момент ми вирішуємо, що треба кожному з хлопців зробити більш персоналізоване привітання, 
+а для цього розбиваємо наш хендлер на три: для Аліси, для Боба та для всіх інших:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">greet_alice</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
-</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="c1"># print("Хэндлер для Алисы")</span>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="c1"># print("Хендлер для Аліси")</span>
 </span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">phrases</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="s2">"Привет, </span><span class="si">{name}</span><span class="s2">. Ты сегодня красотка!"</span><span class="p">,</span>
-</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="s2">"Ты самая умная, </span><span class="si">{name}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="s2">"Привіт, </span><span class="si">{name}</span><span class="s2">. Ти сьогодні красуня!"</span><span class="p">,</span>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="s2">"Ти найрозумніша, </span><span class="si">{name}</span><span class="s2">"</span><span class="p">,</span>
 </span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="p">]</span>
 </span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">111</span><span class="p">:</span>
 </span><span id="__code-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>            <span class="n">choice</span><span class="p">(</span><span class="n">phrases</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Алиса"</span><span class="p">)</span>
+</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>            <span class="n">choice</span><span class="p">(</span><span class="n">phrases</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Аліса"</span><span class="p">)</span>
 </span><span id="__code-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="p">)</span>
 </span><span id="__code-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
 </span><span id="__code-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </span><span id="__code-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">greet_bob</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">phrases</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__code-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="s2">"Привет, </span><span class="si">{name}</span><span class="s2">. Ты самый сильный!"</span><span class="p">,</span>
-</span><span id="__code-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="s2">"Ты крут, </span><span class="si">{name}</span><span class="s2">!"</span><span class="p">,</span>
+</span><span id="__code-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="s2">"Привіт, </span><span class="si">{name}</span><span class="s2">. Ти найсильніший!"</span><span class="p">,</span>
+</span><span id="__code-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="s2">"Ти крутий, </span><span class="si">{name}</span><span class="s2">!"</span><span class="p">,</span>
 </span><span id="__code-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="p">]</span>
 </span><span id="__code-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">777</span><span class="p">:</span>
 </span><span id="__code-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
@@ -1426,25 +1572,25 @@
 </span><span id="__code-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </span><span id="__code-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">stranger_go_away</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="mi">777</span><span class="p">):</span>
-</span><span id="__code-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я с тобой не разговариваю!"</span><span class="p">)</span>
+</span><span id="__code-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Я з тобою не розмовляю!"</span><span class="p">)</span>
 </span></code></pre></div>
-<p>При таком раскладе Алиса будет получать сообщения и радоваться. А вот все остальные не получат ничего, поскольку 
-код будет всегда попадать в функцию <code>greet_alice()</code>, и не проходить по условию <code>if message.from_user.id == 111</code>. 
-В этом легко убедиться, раскомментировав вызов <code>print()</code>. </p>
-<p>Но почему так? Ответ прост: любое текстовое сообщение сначала попадёт в проверку <code>F.text</code> над функцией 
-<code>greet_alice()</code>, эта проверка вернёт <code>True</code> и апдейт попадёт именно в эту функцию, откуда, не пройдя по внутреннему 
-условию <code>if</code>, выйдет и канет в Лету. </p>
-<p>Чтобы избежать подобных казусов, существуют фильтры. В действительности правильной проверкой будет 
-«текстовое сообщение И айди юзера 111». Тогда в случае, когда боту напишет Боб с айди 777, совокупность фильтров 
-вернёт False, и роутер пойдёт проверять следующий хэндлер, где оба фильтра вернут True и апдейт упадёт в хэндлер. 
-Возможно, на первый взгляд вышеописанное звучит очень сложно, но к концу этой главы вы поймёте, как правильно организовать 
-подобную проверку.</p>
-<h3 id="filters-as-classes">Фильтры как классы<a class="headerlink" href="#filters-as-classes" title="Permanent link">¶</a></h3>
-<p>В отличие от aiogram 2.x, в «тройке» больше нет фильтра-класса <strong>ChatTypeFilter</strong> на конкретный тип чата 
-(личка, группа, супергруппа или канал). Напишем его самостоятельно. Пусть у юзера будет возможность указать нужный тип 
-либо строкой, либо списком (list). Последнее может пригодиться, когда нас интересуют одновременно несколько типов, 
-например, группы и супергруппы.</p>
-<p>Наша точка входа в приложение, а именно файл <code>bot.py</code>, выглядит знакомо:</p>
+<p>У такому разі Аліса буде отримувати повідомлення й радіти. А ось усі інші не отримають нічого, оскільки 
+код завжди потраплятиме в функцію <code>greet_alice()</code> й не пройде за умовою <code>if message.from_user.id == 111</code>. 
+В цьому легко переконатися, розкоментувавши виклик <code>print()</code>. </p>
+<p>Але чому так? Відповідь проста: будь-яке текстове повідомлення спочатку потраплятиме в перевірку <code>F.text</code> над функцією 
+<code>greet_alice()</code>, ця перевірка повернеться <code>True</code> й оновлення потраплятиме саме в цю функцію, звідки, не пройшовши за внутрішньою 
+умовою <code>if</code>, вийде й зникне в забутті. </p>
+<p>Щоб уникнути подібних казусів, існують фільтри. Насправді правильною перевіркою буде 
+«текстове повідомлення І айді користувача 111». Тоді в разі, коли боту напише Боб з айді 777, сукупність фільтрів 
+повернеться False, і роутер піде перевіряти наступний хендлер, де обидва фільтри повернуть True й оновлення впаде в хендлер. 
+Можливо, на перший погляд вищеописане звучить дуже складно, але до кінця цього розділу ви зрозумієте, як правильно організувати 
+подібну перевірку.</p>
+<h3 id="filters-as-classes">Фільтри як класи<a class="headerlink" href="#filters-as-classes" title="Permanent link">¶</a></h3>
+<p>На відміну від aiogram 2.x, в «тройці» більше немає фільтра-класу <strong>ChatTypeFilter</strong> на конкретний тип чату 
+(особиста бесіда, група, супергрупа чи канал). Напишемо його самостійно. Нехай у користувача буде можливість указати потрібний тип 
+або рядком, або списком (list). Останнє може знадобитися, коли нас цікавлять одночасно кілька типів, 
+наприклад, групи й супергрупи.</p>
+<p>Наша точка входу в застосунок, а саме файл <code>bot.py</code>, виглядає знайомо:</p>
 <div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>
@@ -1454,8 +1600,8 @@
 </span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="s2">"TOKEN"</span><span class="p">)</span>
 </span><span id="__code-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
 </span><span id="__code-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-</span><span id="__code-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="c1"># Запускаем бота и пропускаем все накопленные входящие</span>
-</span><span id="__code-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="c1"># Да, этот метод можно вызвать даже если у вас поллинг</span>
+</span><span id="__code-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="c1"># Запускаємо бота й пропускаємо всі накопичені вхідні</span>
+</span><span id="__code-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="c1"># Так, цей метод можна викликати навіть якщо у вас поллінг</span>
 </span><span id="__code-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">delete_webhook</span><span class="p">(</span><span class="n">drop_pending_updates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__code-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
 </span><span id="__code-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
@@ -1463,7 +1609,7 @@
 </span><span id="__code-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 </span><span id="__code-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </span></code></pre></div>
-<p>Рядом с ним создадим каталог <code>filters</code>, а в нём файл <code>chat_type.py</code>:</p>
+<p>Поруч з ним створимо каталог <code>filters</code>, а в ньому файл <code>chat_type.py</code>:</p>
 <div class="highlight"><span class="filename">filters/chat_type.py</span><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 </span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseFilter</span>
@@ -1480,19 +1626,19 @@
 </span><span id="__code-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="__code-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chat_type</span>
 </span></code></pre></div>
-<p>Обратим внимание на помеченные строки:</p>
+<p>Звернімо увагу на позначені рядки:</p>
 <ol>
-<li>Наши фильтры наследуются от базового класса <code>BaseFilter</code></li>
-<li>В конструкторе класса можно задать будущие аргументы фильтра. В данном случае мы заявляем о наличии одного
-аргумента <code>chat_type</code>, который может быть как строкой (<code>str</code>), так и списком (<code>list</code>).</li>
-<li>Всё действо происходит в методе <code>__call__()</code>, который срабатывает, когда экземпляр класса 
-<code>ChatTypeFilter()</code> вызывают <a href="https://docs.python.org/3/reference/datamodel.html?highlight=__call__#object.__call__">как функцию</a>. 
-Внутри ничего особенного: проверяем тип переданного объекта и вызываем соответствующую проверку. 
-Мы стремимся к тому, чтобы фильтр вернул булево значение, поскольку далее выполнится только тот хэндлер, 
-все фильтры которого вернули <code>True</code>.</li>
+<li>Наші фільтри успадковуються від базового класу <code>BaseFilter</code></li>
+<li>У конструкторі класу можна задати майбутні аргументи фільтра. У цьому разі ми заявляємо про наявність одного
+аргументу <code>chat_type</code>, який може бути як рядком (<code>str</code>), так і списком (<code>list</code>).</li>
+<li>Уся дія відбувається в методі <code>__call__()</code>, який спрацьовує, коли екземпляр класу 
+<code>ChatTypeFilter()</code> викликають <a href="https://docs.python.org/3/reference/datamodel.html?highlight=__call__#object.__call__">як функцію</a>. 
+Всередину нічого особливого: перевіряємо тип переданого об'єкту й викликаємо відповідну перевірку. 
+Ми прагнемо до того, щоб фільтр повернув булеве значення, оскільки далі виконуватиметься тільки той хендлер, 
+усі фільтри якого повернули <code>True</code>.</li>
 </ol>
-<p>Теперь напишем пару хэндлеров, в которых по командам <code>/dice</code> и <code>/basketball</code> будем отправлять дайс 
-соответствующего типа, но только в группу. Создаём файл <code>handlers/group_games.py</code> и пишем элементарный код:</p>
+<p>Тепер напишемо пару хендлерів, у яких за командами <code>/dice</code> й <code>/basketball</code> будемо відправляти кіст 
+відповідного типу, але тільки в групу. Створюємо файл <code>handlers/group_games.py</code> й пишемо елементарний код:</p>
 <div class="highlight"><span class="filename">handlers/group_games.py</span><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
 </span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.enums.dice_emoji</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiceEmoji</span>
 </span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
@@ -1518,15 +1664,15 @@
 </span><span id="__code-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_basketball_in_group</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_dice</span><span class="p">(</span><span class="n">emoji</span><span class="o">=</span><span class="n">DiceEmoji</span><span class="o">.</span><span class="n">BASKETBALL</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Что ж, давайте разбираться.<br>
-Во-первых, мы импортировали встроенный фильтр <code>Command</code> и наш свеженаписанный 
+<p>Що ж, давайте розбиратися.<br>
+По-перше, ми імпортували вбудований фільтр <code>Command</code> й наш свіженаписаний 
 <code>ChatTypeFilter</code>.<br>
-Во-вторых, мы передали наш фильтр как позиционный аргумент в декоратор, указав 
-в качестве аргументов желаемые тип(ы) чатов.<br>
-В-третьих, в aiogram 2.x вы привыкли фильтровать команды как <code>commands=...</code>, однако в <strong>aiogram 3</strong> этого больше нет, 
-и правильно будет использовать встроенные фильтры так же, как и свои, через импорт и вызов соответствующих классов. 
-Ровно это мы видим во втором декораторе с вызовом <code>Command(commands="somecommand")</code> или кратко: <code>Command("somecommand")</code></p>
-<p>Осталось импортировать файл с хэндлерами в точку входа и подключить новый роутер к диспетчеру (выделены новые строки):</p>
+По-друге, ми передали наш фільтр як позиційний аргумент у декоратор, указавши 
+в якості аргументів бажаний тип(и) чатів.<br>
+По-третє, в aiogram 2.x ви звикли фільтрувати команди як <code>commands=...</code>, однак в <strong>aiogram 3</strong> цього більше немає, 
+і правильно буде використовувати вбудовані фільтри так само, як і свої, через імпорт й виклик відповідних класів. 
+Ровесно це ми бачимо у другому декораторі з викликом <code>Command(commands="somecommand")</code> або коротко: <code>Command("somecommand")</code></p>
+<p>Залишилось імпортувати файл з хендлерами в точку входу й підключити новий роутер до диспетчера (виділені нові рядки):</p>
 <div class="highlight"><span class="filename">bot.py</span><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Dispatcher</span>
@@ -1540,8 +1686,8 @@
 </span><span id="__code-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
 </span><span id="__code-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="hll">    <span class="n">dp</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">group_games</span><span class="o">.</span><span class="n">router</span><span class="p">)</span>
 </span></span><span id="__code-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
-</span><span id="__code-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="c1"># Запускаем бота и пропускаем все накопленные входящие</span>
-</span><span id="__code-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="c1"># Да, этот метод можно вызвать даже если у вас поллинг</span>
+</span><span id="__code-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="c1"># Запускаємо бота й пропускаємо всі накопичені вхідні</span>
+</span><span id="__code-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="c1"># Так, цей метод можна викликати навіть якщо у вас поллінг</span>
 </span><span id="__code-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">delete_webhook</span><span class="p">(</span><span class="n">drop_pending_updates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__code-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
 </span><span id="__code-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
@@ -1549,14 +1695,14 @@
 </span><span id="__code-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 </span><span id="__code-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </span></code></pre></div>
-<p>Проверяем:</p>
-<p><img alt="Работа фильтра в группе" src="../../images/ru/filters-and-middlewares/group_filter.png"></p>
-<p>Вроде всё хорошо, но что, если у нас будет не 2 хэндлера, а 10? Придётся каждому указывать наш 
-фильтр и нигде не забыть. К счастью, фильтры можно цеплять прямо на роутеры! В этом случае проверка 
-будет выполнена ровно один раз, когда апдейт долетит до этого роутера. Это может быть полезно, 
-если в фильтре вы делаете разные «тяжелые» задачи, типа обращения к Bot API; иначе можно 
-легко словить флудвейт.</p>
-<p>Так выглядит наш файл с хэндлерами для дайсов в окончательном виде:</p>
+<p>Перевіряємо:</p>
+<p><img alt="Робота фільтра в групі" src="../../images/ru/filters-and-middlewares/group_filter.png"></p>
+<p>Вроді всього добре, але що, якщо у нас буде не 2 хендлери, а 10? Доведеться кожному указувати наш 
+фільтр і ніде не забути. На щастя, фільтри можна чіплятися прямо на роутери! У цьому разі перевірка 
+буде виконана рівно один раз, коли оновлення долетить до цього роутера. Це може бути корисно, 
+якщо у фільтрі ви робите різні «важкі» завдання, типу звертання до Bot API; інакше можна 
+легко словити флудвейт.</p>
+<p>Так виглядає наш файл з хендлерами для кістів у остаточному вигляді:</p>
 <div class="highlight"><span class="filename">handlers/group_games.py</span><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
 </span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.enums.dice_emoji</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiceEmoji</span>
 </span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
@@ -1580,18 +1726,18 @@
 </span><span id="__code-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_dice</span><span class="p">(</span><span class="n">emoji</span><span class="o">=</span><span class="n">DiceEmoji</span><span class="o">.</span><span class="n">BASKETBALL</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="admonition info">
-<p>Вообще говоря, такой фильтр на тип чата можно сделать чуть иначе. Несмотря на то, 
-что типов чатов у нас четыре (ЛС, группа, супергруппа, канал), апдейт типа <code>message</code> 
-не может прилетать из каналов, т.к. у них свой апдейт <code>channel_post</code>. А когда мы 
-фильтруем группы, обычно всё равно, обычная группа или супергруппа, лишь бы не личка.</p>
-<p>Таким образом, сам фильтр можно свести к условному <code>ChatTypeFilter(is_group=True/False)</code>
-и просто проверять, ЛС или не ЛС. Конкретная реализация остаётся на усмотрение читателя.</p>
+<p>Власне кажучи, такий фільтр на тип чату можна зробити чуть інакше. Незважаючи на те, 
+що типів чатів у нас чотири (ЛС, група, супергрупа, канал), оновлення типу <code>message</code> 
+не може прилітати з каналів, т.к. у них своє оновлення <code>channel_post</code>. А коли ми 
+фільтруємо групи, звичайно все рівно, звичайна група чи супергрупа, лиш би не особиста бесіда.</p>
+<p>Таким чином, сам фільтр можна звести до умовного <code>ChatTypeFilter(is_group=True/False)</code>
+і просто перевіряти, ЛС або не ЛС. Конкретна реалізація залишається на розсуд читача.</p>
 </div>
-<p>Помимо True/False, фильтры могут что-то передавать в хэндлеры, прошедшие фильтр. Это может пригодиться, 
-когда мы не хотим в хэндлере обрабатывать сообщение, поскольку уже это сделали в фильтре. Чтобы 
-стало понятнее, напишем фильтр, который пропустит сообщение, если в нём есть юзернеймы, а заодно 
-«протолкнёт» в хэндлеры найденные значения.</p>
-<p>В каталоге filters создаём новый файл <code>find_usernames.py</code>:</p>
+<p>Крім True/False, фільтри можуть щось передавати в хендлери, які пройшли фільтр. Це може знадобитися, 
+коли ми не хочемо в хендлері обробляти повідомлення, оскільки вже це зробили у фільтрі. Щоб 
+стало зрозуміліше, напишемо фільтр, який пропустить повідомлення, якщо в ньому є юзернейми, а заразом 
+«протовхне» в хендлери знайдені значення.</p>
+<p>У каталозі filters створюємо новий файл <code>find_usernames.py</code>:</p>
 <div class="highlight"><span class="filename">filters/find_usernames.py</span><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
 </span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 </span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseFilter</span>
@@ -1600,26 +1746,26 @@
 </span><span id="__code-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 </span><span id="__code-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">HasUsernamesFilter</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
 </span><span id="__code-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="c1"># Если entities вообще нет, вернётся None,</span>
-</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="c1"># в этом случае считаем, что это пустой список</span>
+</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="c1"># Якщо entities взагалі немає, повернеться None,</span>
+</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="c1"># у цьому разі вважаємо, що це порожній список</span>
 </span><span id="__code-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>        <span class="n">entities</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">entities</span> <span class="ow">or</span> <span class="p">[]</span>
 </span><span id="__code-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
-</span><span id="__code-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="c1"># Проверяем любые юзернеймы и извлекаем их из текста</span>
-</span><span id="__code-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="c1"># методом extract_from(). Подробнее см. главу</span>
-</span><span id="__code-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        <span class="c1"># про работу с сообщениями</span>
+</span><span id="__code-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="c1"># Перевіряємо будь-які юзернейми й витягуємо їх з тексту</span>
+</span><span id="__code-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="c1"># методом extract_from(). Докладніше див. розділ</span>
+</span><span id="__code-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        <span class="c1"># про роботу з повідомленнями</span>
 </span><span id="__code-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>        <span class="n">found_usernames</span> <span class="o">=</span> <span class="p">[</span>
 </span><span id="__code-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>            <span class="n">item</span><span class="o">.</span><span class="n">extract_from</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">entities</span>
 </span><span id="__code-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"mention"</span>
 </span><span id="__code-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="p">]</span>
 </span><span id="__code-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
-</span><span id="__code-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="c1"># Если юзернеймы есть, то "проталкиваем" их в хэндлер</span>
-</span><span id="__code-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>        <span class="c1"># по имени "usernames"</span>
+</span><span id="__code-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="c1"># Якщо юзернейми є, то «протовхуємо» їх в хендлер</span>
+</span><span id="__code-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>        <span class="c1"># за ім'ям "usernames"</span>
 </span><span id="__code-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_usernames</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="__code-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="hll">            <span class="k">return</span> <span class="p">{</span><span class="s2">"usernames"</span><span class="p">:</span> <span class="n">found_usernames</span><span class="p">}</span>
-</span></span><span id="__code-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>        <span class="c1"># Если не нашли ни одного юзернейма, вернём False</span>
+</span></span><span id="__code-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>        <span class="c1"># Якщо не знайшли жодного юзернейма, повернемо False</span>
 </span><span id="__code-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="hll">        <span class="k">return</span> <span class="kc">False</span>
 </span></span></code></pre></div>
-<p>И создаём новый файл с хэндлером:</p>
+<p>І створюємо новий файл з хендлером:</p>
 <div class="highlight"><span class="filename">handlers/usernames.py</span><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 </span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 </span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span><span class="p">,</span> <span class="n">F</span>
@@ -1639,76 +1785,76 @@
 </span><span id="__code-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="hll">        <span class="n">usernames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 </span></span><span id="__code-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="p">):</span>
 </span><span id="__code-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span>
-</span><span id="__code-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        <span class="sa">f</span><span class="s1">'Спасибо! Обязательно подпишусь на '</span>
+</span><span id="__code-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        <span class="sa">f</span><span class="s1">'Спасибо! Обов</span><span class="se">\'</span><span class="s1">язково підпишусь на '</span>
 </span><span id="__code-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="hll">        <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">usernames</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span>
 </span></span><span id="__code-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    <span class="p">)</span>
 </span></code></pre></div>
-<p>В случае нахождения хотя бы одного юзернейма фильтр <code>HasUsernamesFilter</code> вернёт не просто <code>True</code>, а 
-словарь, где извлечённые юзернеймы будут лежать под ключом <code>usernames</code>. Соответственно, в хэндлере, на 
-который навешан этот фильтр, можно добавить аргумент с точно таким же названием в функцию-обработчик. Вуаля! 
-Теперь нет нужды ещё раз парсить всё сообщение и снова вытаскивать список юзернеймов: </p>
-<p><img alt="Перечисляем вытащенные юзернеймы" src="../../images/ru/filters-and-middlewares/data_propagation_in_filter.png"></p>
-<h3 id="magic-filters">Магические фильтры<a class="headerlink" href="#magic-filters" title="Permanent link">¶</a></h3>
-<p>После знакомства с <code>ChatTypeFilter</code> из предыдущего раздела, кто-то может воскликнуть: 
-«а зачем вообще так сложно, если можно просто лямбдой: 
-<code>lambda m: m.chat.type in ("group", "supergroup")</code>»? И вы правы! Действительно, для некоторых 
-простых случаев, когда нужно просто проверить значение поля объекта, создавать отдельный 
-файл с фильтром, потом его импортировать, смысла мало. </p>
-<p>Алекс, основатель и главный разработчик aiogram, написал библиотеку 
-<a href="https://github.com/aiogram/magic-filter/">magic-filter</a>, реализующую динамическое получение 
-значений атрибутов объектов (эдакий <code>getattr</code> на максималках). Более того, она уже поставляется вместе с <strong>aiogram 3.x</strong>. 
-Если вы установили себе «тройку», значит, у вас уже установлен <strong>magic-filter</strong>.</p>
+<p>У разі знаходження хоча б одного юзернейма фільтр <code>HasUsernamesFilter</code> повернеться не просто <code>True</code>, а 
+словник, де витягнені юзернейми будуть лежати під ключем <code>usernames</code>. Відповідно, у хендлері, на 
+який навішаний цей фільтр, можна додати аргумент з точно таким самим названием у функцію-обробник. Готово! 
+Тепер немає потреби ще раз парсити все повідомлення й знову витягувати список юзернеймів: </p>
+<p><img alt="Перерахуємо витягнені юзернейми" src="../../images/ru/filters-and-middlewares/data_propagation_in_filter.png"></p>
+<h3 id="magic-filters">Магічні фільтри<a class="headerlink" href="#magic-filters" title="Permanent link">¶</a></h3>
+<p>Після знайомства з <code>ChatTypeFilter</code> з попереднього розділу, хтось може вигукнути: 
+«а навіщо взагалі так складно, якщо можна просто лямбдою: 
+<code>lambda m: m.chat.type in ("group", "supergroup")</code>»? І ви праві! Справді, для деяких 
+простих випадків, коли потрібно просто перевірити значення поля об'єкту, створювати окремий 
+файл з фільтром, потім його імпортувати, сенсу мало. </p>
+<p>Алекс, засновник й головний розробник aiogram, написав бібліотеку 
+<a href="https://github.com/aiogram/magic-filter/">magic-filter</a>, яка реалізує динамічне отримання 
+значень атрибутів об'єктів (этакий <code>getattr</code> на максималах). Більше того, вона вже поставляється разом з <strong>aiogram 3.x</strong>. 
+Якщо ви встановили собі «тройку», значить, у вас уже встановлена <strong>magic-filter</strong>.</p>
 <div class="admonition info">
-<p>Библиотека magic-filter также доступна в <a href="https://pypi.org/project/magic-filter/">PyPi</a> 
-и может использоваться отдельно от aiogram в других ваших проектах. При использовании 
-библиотеки в aiogram вам будет доступна одна дополнительная фича, о которой речь пойдёт 
-далее в этой главе</p>
+<p>Бібліотека magic-filter також доступна на <a href="https://pypi.org/project/magic-filter/">PyPi</a> 
+і може використовуватися окремо від aiogram у ваших інших проектах. При використанні 
+бібліотеки в aiogram вам буде доступна одна додаткова фіча, про яку мова піде 
+далі в цьому розділі</p>
 </div>
-<p>Довольно подробно возможности «магического фильтра» описаны в
-<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/magic_filters.html">документации aiogram</a>, здесь же 
-мы остановимся на основных моментах.</p>
-<p>Давайте вспомним, что такое «контент-тайп» сообщения. Такого понятия не существует в Bot API, но оно 
-есть и в pyTelegramBotAPI, и в aiogram. Идея простая: если в объекте 
-<a href="https://core.telegram.org/bots/api#message">Message</a> поле <code>photo</code> непустое (т.е. не равно <code>None</code> 
-в Python), значит, это сообщение содержит изображение, следовательно, считаем, что его 
-контент-тайп равен <code>photo</code>. И тамошний фильтр <code>content_types="photo"</code> будет ловить только такие сообщения, 
-избавляя разработчика от необходимости проверять этот атрибут внутри хэндлера.</p>
-<p>Теперь нетрудно представить, что лямбда-выражение, которое на русском языке звучит как 
-«атрибут 'photo' у переданной переменной 'm' не должен быть равен None», на Python выглядит как 
-<code>lambda m: m.photo is not None</code>, или, чуть упростив, <code>lambda m: m.photo</code>. А сам <code>m</code> становится 
-тем объектом, кого мы фильтруем. Например, объект типа <code>Message</code></p>
-<p>Magic-filter предлагает аналогичную вещь. Для этого надо импортировать класс <code>MagicFilter</code> из aiogram, 
-но мы его импортируем не по полному имени, а по однобуквенному алиасу <code>F</code>:</p>
+<p>Доволі докладно можливості «магічного фільтра» описані в
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/magic_filters.html">документації aiogram</a>, тут же 
+ми зупинимося на основних моментах.</p>
+<p>Давайте згадаємо, що таке «контент-тайп» повідомлення. Такого поняття не існує в Bot API, але воно 
+є й в pyTelegramBotAPI, й в aiogram. Ідея проста: якщо в об'єкті 
+<a href="https://core.telegram.org/bots/api#message">Message</a> поле <code>photo</code> непусте (тобто не дорівнює <code>None</code> 
+в Python), значить, це повідомлення містить зображення, отже, вважаємо, що його 
+контент-тайп дорівнює <code>photo</code>. І тамтешній фільтр <code>content_types="photo"</code> ловитиме тільки такі повідомлення, 
+позбавляючи розробника від необхідності перевіряти цей атрибут всередину хендлера.</p>
+<p>Тепер нетрудно представити, що лямбда-вираз, який на українській мові звучить як 
+«атрибут 'photo' у переданої змінної 'm' не повинен дорівнювати None», на Python виглядає як 
+<code>lambda m: m.photo is not None</code>, або, чуть спростивши, <code>lambda m: m.photo</code>. А сам <code>m</code> стає 
+тим об'єктом, якого ми фільтруємо. Наприклад, об'єкт типу <code>Message</code></p>
+<p>Magic-filter пропонує аналогічну річ. Для цього треба імпортувати клас <code>MagicFilter</code> з aiogram, 
+але ми його імпортуємо не за повним ім'ям, а за однолітерним алісом <code>F</code>:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span>
 </span><span id="__code-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__code-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Здесь F - это message</span>
+</span><span id="__code-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Тут F - це message</span>
 </span><span id="__code-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">photo</span><span class="p">)</span>
 </span><span id="__code-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">photo_msg</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
-</span><span id="__code-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Это точно какое-то изображение!"</span><span class="p">)</span>
+</span><span id="__code-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Це точно якесь зображення!"</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Вместо старого варианта <code>ContentTypesFilter(content_types="photo")</code> новый <code>F.photo</code>. Удобно! И теперь, 
-обладая таким сакральным знанием, мы легко можем заменить фильтр <code>ChatTypeFilter</code> на магию:<br>
+<p>Замість старого варіанту <code>ContentTypesFilter(content_types="photo")</code> новий <code>F.photo</code>. Зручно! І тепер, 
+володіючи таким сакральним знанням, ми легко можемо замінити фільтр <code>ChatTypeFilter</code> на магію:<br>
 <code>router.message.filter(F.chat.type.in_({"group", "supergroup"}))</code>.<br>
-Более того, даже проверку на контент-тайпы можно представить в виде магического фильтра:<br>
-<code>F.content_type.in_({'text', 'sticker', 'photo'})</code> или <code>F.photo | F.text | F.sticker</code>.</p>
-<p>Также стоит помнить, что фильтры можно вешать не только на обработку <strong>Message</strong>, но и на любые другие 
-типы апдейтов: колбэки, инлайн-запросы, (my_)chat_member и другие.</p>
-<p>Посмотрим на ту самую «эксклюзивную» фичу magic-filter в составе <strong>aiogram 3.x</strong>. Речь про 
-метод <code>as_(&lt;some text&gt;)</code>, позволяющий получить результат фильтра в качестве аргумента хэндлера. Короткий 
-пример, чтобы стало понятно: у сообщений с фото эти изображения прилетают массивом, который обычно 
-отсортирован в порядке увеличения качества. Соответственно, можно сразу в хэндлер получить объект фотки 
-с максимальным размером:</p>
+Більше того, навіть перевірку на контент-тайпи можна представити у вигляді магічного фільтра:<br>
+<code>F.content_type.in_({'text', 'sticker', 'photo'})</code> або <code>F.photo | F.text | F.sticker</code>.</p>
+<p>Також варто пам'ятати, що фільтри можна вішати не тільки на обробку <strong>Message</strong>, але й на будь-які інші 
+типи оновлень: колбеки, інлайн-запити, (my_)chat_member та інші.</p>
+<p>Подивимося на ту саму «екскльозивну» фічу magic-filter у складі <strong>aiogram 3.x</strong>. Мова про 
+метод <code>as_(&lt;some text&gt;)</code>, який дозволяє отримати результат фільтра як аргумент хендлера. Короткий 
+приклад, щоб стало зрозуміліше: у повідомленнях з фото ці зображення прилітають масивом, який звичайно 
+відсортований у порядку збільшення якості. Відповідно, можна відразу в хендлер отримати об'єкт фотки 
+з максимальним розміром:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">PhotoSize</span>
 </span><span id="__code-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
 </span><span id="__code-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"largest_photo"</span><span class="p">))</span>
 </span><span id="__code-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward_from_channel_handler</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">largest_photo</span><span class="p">:</span> <span class="n">PhotoSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__code-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">largest_photo</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">largest_photo</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Пример посложнее. Если сообщение переслано от анонимных администраторов группы 
-или из какого-либо канала, то в объекте <code>Message</code> будет непустым поле <code>forward_from_chat</code> с объектом 
-типа <code>Chat</code> внутри. Вот как будет выглядеть пример, который сработает только если поле <code>forward_from_chat</code> 
-непустое, а в объекте <code>Chat</code> поле <code>type</code> будет равно <code>channel</code> (другими словами, отсекаем форварды от анонимных 
-админов, реагируя только на форварды из каналов):</p>
+<p>Приклад посклднніший. Якщо повідомлення переслано від анонімних адміністраторів групи 
+або з якогось каналу, то в об'єкті <code>Message</code> буде непустим поле <code>forward_from_chat</code> з об'єктом 
+типу <code>Chat</code> всередину. Ось як виглядатиме приклад, який спрацює тільки якщо поле <code>forward_from_chat</code> 
+непусте, а в об'єкті <code>Chat</code> поле <code>type</code> дорівнюватиме <code>channel</code> (іншими словами, відсікаємо форварди від анонімних 
+админів, реагуючи тільки на форварди з каналів):</p>
 <div class="highlight"><pre><span></span><code><span id="__code-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span>
 </span><span id="__code-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Chat</span>
 </span><span id="__code-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
@@ -1716,7 +1862,7 @@
 </span><span id="__code-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">forwarded_from_channel</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">Chat</span><span class="p">):</span>
 </span><span id="__code-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="sa">f</span><span class="s2">"This channel's ID is </span><span class="si">{</span><span class="n">channel</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Ещё более сложный пример. При помощи magic-filter можно проверить элементы списка на соответствие какому-нибудь признаку:</p>
+<p>Ще більш складний приклад. За допомогою magic-filter можна перевірити елементи списку на відповідність якомусь признаку:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageEntityType</span>
 </span><span id="__code-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
 </span><span id="__code-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">entities</span><span class="p">[:]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">MessageEntityType</span><span class="o">.</span><span class="n">EMAIL</span><span class="p">)</span>
@@ -1729,14 +1875,14 @@
 </span><span id="__code-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"At least one email!"</span><span class="p">)</span>
 </span></code></pre></div>
 <h3 id="magic-data">MagicData<a class="headerlink" href="#magic-data" title="Permanent link">¶</a></h3>
-<p>Наконец, слегка затронем <a href="https://docs.aiogram.dev/en/latest/dispatcher/filters/magic_data.html">MagicData</a>. Этот фильтр 
-позволяет подняться на уровень выше в плане фильтров, и оперировать значениями, которые передаются через мидлвари или 
-в <a href="../quickstart/#pass-extras">диспетчер/поллинг/вебхук</a>. Предположим, у вас есть популярный бот. И вот настало время 
-провести тех.обслуживание: забэкапить базу данных, почистить логи и т.д. Но при этом не хочется затыкать бота, 
-чтобы не терять новую аудиторию: пусть он отвечает пользователям, мол, подождите немного. </p>
-<p>Одно из возможных решений — сделать специальный роутер, который будет перехватывать сообщения, колбэки и др., если 
-каким-либо образом в бота передано булево значение maintenance_mode, равное <code>True</code>. Простенький однофайловый пример для 
-понимания этой логики доступен ниже: </p>
+<p>Нарешті, слегка торкнемося <a href="https://docs.aiogram.dev/en/latest/dispatcher/filters/magic_data.html">MagicData</a>. Цей фільтр 
+дозволяє піднятися на рівень вище в плані фільтрів, і оперувати значеннями, які передаються через мідлвари або 
+у <a href="../quickstart/#pass-extras">диспетчер/поллінг/вебхук</a>. Припустимо, у вас є популярний бот. І ось настав час 
+провести тех.обслуговування: забекапити базу даних, почистити логи й т.д. Але при цьому не хочеться затикати бота, 
+щоб не втратити нову аудиторію: нехай він відповідає користувачам, мол, почекайте трошечко. </p>
+<p>Одне з можливих рішень — зробити спеціальний роутер, який буде перехоплювати повідомлення, колбеки й ін., якщо 
+якимось чином у бота передано булеве значення maintenance_mode, яке дорівнює <code>True</code>. Простенька однофайлова приклад для 
+розуміння цієї логіки доступна нижче: </p>
 <div class="highlight"><pre><span></span><code><span id="__code-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span id="__code-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 </span><span id="__code-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -1746,35 +1892,35 @@
 </span><span id="__code-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">CallbackQuery</span>
 </span><span id="__code-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.utils.keyboard</span><span class="w"> </span><span class="kn">import</span> <span class="n">InlineKeyboardBuilder</span>
 </span><span id="__code-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-</span><span id="__code-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Создаём роутер для режима обслуживания и ставим ему фильтры на типы</span>
+</span><span id="__code-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Створюємо роутер для режиму обслуговування й ставимо йому фільтри на типи</span>
 </span><span id="__code-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="n">maintenance_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
 </span><span id="__code-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="n">maintenance_router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">MagicData</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">maintenance_mode</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">True</span><span class="p">)))</span>
 </span><span id="__code-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">maintenance_router</span><span class="o">.</span><span class="n">callback_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">MagicData</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">maintenance_mode</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">True</span><span class="p">)))</span>
 </span><span id="__code-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>
 </span><span id="__code-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="n">regular_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
 </span><span id="__code-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
-</span><span id="__code-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1"># Хэндлеры этого роутера перехватят все сообщения и колбэки, </span>
-</span><span id="__code-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="c1"># если maintenance_mode равен True</span>
+</span><span id="__code-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1"># Хендлери цього роутера перехопитимуть усі повідомлення й колбеки, </span>
+</span><span id="__code-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="c1"># якщо maintenance_mode дорівнює True</span>
 </span><span id="__code-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="nd">@maintenance_router</span><span class="o">.</span><span class="n">message</span><span class="p">()</span>
 </span><span id="__code-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_message</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
-</span><span id="__code-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Бот в режиме обслуживания. Пожалуйста, подождите."</span><span class="p">)</span>
+</span><span id="__code-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Бот у режимі обслуговування. Будь ласка, почекайте."</span><span class="p">)</span>
 </span><span id="__code-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>
 </span><span id="__code-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>
 </span><span id="__code-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="nd">@maintenance_router</span><span class="o">.</span><span class="n">callback_query</span><span class="p">()</span>
 </span><span id="__code-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_callback</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">CallbackQuery</span><span class="p">):</span>
 </span><span id="__code-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>    <span class="k">await</span> <span class="n">callback</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Бот в режиме обслуживания. Пожалуйста, подождите"</span><span class="p">,</span>
+</span><span id="__code-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Бот у режимі обслуговування. Будь ласка, почекайте"</span><span class="p">,</span>
 </span><span id="__code-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>        <span class="n">show_alert</span><span class="o">=</span><span class="kc">True</span>
 </span><span id="__code-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>    <span class="p">)</span>
 </span><span id="__code-13-30"><a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>
-</span><span id="__code-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="c1"># Хэндлеры этого роутера используются ВНЕ режима обслуживания,</span>
-</span><span id="__code-13-32"><a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a><span class="c1"># т.е. когда maintenance_mode равен False или не указан вообще</span>
+</span><span id="__code-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="c1"># Хендлери цього роутера використовуються ПОЗА режимом обслуговування,</span>
+</span><span id="__code-13-32"><a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a><span class="c1"># тобто коли maintenance_mode дорівнює False або взагалі не указаний</span>
 </span><span id="__code-13-33"><a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a><span class="nd">@regular_router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">CommandStart</span><span class="p">())</span>
 </span><span id="__code-13-34"><a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-13-35"><a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>    <span class="n">builder</span> <span class="o">=</span> <span class="n">InlineKeyboardBuilder</span><span class="p">()</span>
-</span><span id="__code-13-36"><a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>    <span class="n">builder</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"Нажми меня"</span><span class="p">,</span> <span class="n">callback_data</span><span class="o">=</span><span class="s2">"anything"</span><span class="p">)</span>
+</span><span id="__code-13-36"><a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>    <span class="n">builder</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"Натисни мене"</span><span class="p">,</span> <span class="n">callback_data</span><span class="o">=</span><span class="s2">"anything"</span><span class="p">)</span>
 </span><span id="__code-13-37"><a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-13-38"><a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Какой-то текст с кнопкой"</span><span class="p">,</span>
+</span><span id="__code-13-38"><a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Якийсь текст з кнопкою"</span><span class="p">,</span>
 </span><span id="__code-13-39"><a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">as_markup</span><span class="p">()</span>
 </span><span id="__code-13-40"><a id="__codelineno-13-40" name="__codelineno-13-40" href="#__codelineno-13-40"></a>    <span class="p">)</span>
 </span><span id="__code-13-41"><a id="__codelineno-13-41" name="__codelineno-13-41" href="#__codelineno-13-41"></a>
@@ -1782,19 +1928,19 @@
 </span><span id="__code-13-43"><a id="__codelineno-13-43" name="__codelineno-13-43" href="#__codelineno-13-43"></a><span class="nd">@regular_router</span><span class="o">.</span><span class="n">callback_query</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">"anything"</span><span class="p">)</span>
 </span><span id="__code-13-44"><a id="__codelineno-13-44" name="__codelineno-13-44" href="#__codelineno-13-44"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">callback_anything</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">CallbackQuery</span><span class="p">):</span>
 </span><span id="__code-13-45"><a id="__codelineno-13-45" name="__codelineno-13-45" href="#__codelineno-13-45"></a>    <span class="k">await</span> <span class="n">callback</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-13-46"><a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Это какое-то обычное действие"</span><span class="p">,</span>
+</span><span id="__code-13-46"><a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Це якесь звичайне дійство"</span><span class="p">,</span>
 </span><span id="__code-13-47"><a id="__codelineno-13-47" name="__codelineno-13-47" href="#__codelineno-13-47"></a>        <span class="n">show_alert</span><span class="o">=</span><span class="kc">True</span>
 </span><span id="__code-13-48"><a id="__codelineno-13-48" name="__codelineno-13-48" href="#__codelineno-13-48"></a>    <span class="p">)</span>
 </span><span id="__code-13-49"><a id="__codelineno-13-49" name="__codelineno-13-49" href="#__codelineno-13-49"></a>
 </span><span id="__code-13-50"><a id="__codelineno-13-50" name="__codelineno-13-50" href="#__codelineno-13-50"></a>
 </span><span id="__code-13-51"><a id="__codelineno-13-51" name="__codelineno-13-51" href="#__codelineno-13-51"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__code-13-52"><a id="__codelineno-13-52" name="__codelineno-13-52" href="#__codelineno-13-52"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="s1">'1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo'</span><span class="p">)</span>
-</span><span id="__code-13-53"><a id="__codelineno-13-53" name="__codelineno-13-53" href="#__codelineno-13-53"></a>    <span class="c1"># В реальной жизни значение maintenance_mode</span>
-</span><span id="__code-13-54"><a id="__codelineno-13-54" name="__codelineno-13-54" href="#__codelineno-13-54"></a>    <span class="c1"># будет взято из стороннего источника (например, конфиг или через API)</span>
-</span><span id="__code-13-55"><a id="__codelineno-13-55" name="__codelineno-13-55" href="#__codelineno-13-55"></a>    <span class="c1"># Помните, что т.к. bool тип является иммутабельным,</span>
-</span><span id="__code-13-56"><a id="__codelineno-13-56" name="__codelineno-13-56" href="#__codelineno-13-56"></a>    <span class="c1"># его смена в рантайме ни на что не повлияет</span>
+</span><span id="__code-13-53"><a id="__codelineno-13-53" name="__codelineno-13-53" href="#__codelineno-13-53"></a>    <span class="c1"># У реальному житті значення maintenance_mode</span>
+</span><span id="__code-13-54"><a id="__codelineno-13-54" name="__codelineno-13-54" href="#__codelineno-13-54"></a>    <span class="c1"># буде взято з побічного джерела (наприклад, конфіг або через API)</span>
+</span><span id="__code-13-55"><a id="__codelineno-13-55" name="__codelineno-13-55" href="#__codelineno-13-55"></a>    <span class="c1"># Пам'ятайте, що т.к. bool тип є іммутабельним,</span>
+</span><span id="__code-13-56"><a id="__codelineno-13-56" name="__codelineno-13-56" href="#__codelineno-13-56"></a>    <span class="c1"># його зміна в рантаймі ні на що не повплине</span>
 </span><span id="__code-13-57"><a id="__codelineno-13-57" name="__codelineno-13-57" href="#__codelineno-13-57"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">(</span><span class="n">maintenance_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__code-13-58"><a id="__codelineno-13-58" name="__codelineno-13-58" href="#__codelineno-13-58"></a>    <span class="c1"># Maintenance-роутер должен быть первый</span>
+</span><span id="__code-13-58"><a id="__codelineno-13-58" name="__codelineno-13-58" href="#__codelineno-13-58"></a>    <span class="c1"># Maintenance-роутер має бути першим</span>
 </span><span id="__code-13-59"><a id="__codelineno-13-59" name="__codelineno-13-59" href="#__codelineno-13-59"></a>    <span class="n">dp</span><span class="o">.</span><span class="n">include_routers</span><span class="p">(</span><span class="n">maintenance_router</span><span class="p">,</span> <span class="n">regular_router</span><span class="p">)</span>
 </span><span id="__code-13-60"><a id="__codelineno-13-60" name="__codelineno-13-60" href="#__codelineno-13-60"></a>    <span class="k">await</span> <span class="n">dp</span><span class="o">.</span><span class="n">start_polling</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
 </span><span id="__code-13-61"><a id="__codelineno-13-61" name="__codelineno-13-61" href="#__codelineno-13-61"></a>
@@ -1804,45 +1950,45 @@
 </span><span id="__code-13-65"><a id="__codelineno-13-65" name="__codelineno-13-65" href="#__codelineno-13-65"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </span></code></pre></div>
 <div class="admonition tip">
-<p class="admonition-title">Всего должно быть в меру</p>
-<p>Magic-filter предоставляет довольно мощный инструмент для фильтрации и порой позволяет компактно описать сложную логику, 
-но это не панацея и не универсальное средство. Если вы не можете сходу написать красивый магический фильтр, 
-не нужно переживать; просто сделайте <a href="./#filters-as-classes">класс-фильтр</a>. 
-Никто вас за это не осудит.</p>
+<p class="admonition-title">Всього має бути в міру</p>
+<p>Magic-filter надає доволі потужний інструмент для фільтрування й часто дозволяє компактно описати складну логіку, 
+але це не панацея й не універсальне засіб. Якщо ви не можете на льоту написати красивий магічний фільтр, 
+не потрібно переживати; просто зробіть <a href="./#filters-as-classes">клас-фільтр</a>. 
+Ніхто вас за це не засудить.</p>
 </div>
-<h2 id="middlewares">Мидлвари<a class="headerlink" href="#middlewares" title="Permanent link">¶</a></h2>
-<h3 id="why-middlewares">Зачем нужны мидлвари?<a class="headerlink" href="#why-middlewares" title="Permanent link">¶</a></h3>
-<p>Представьте, что вы пришли в ночной клуб с какой-то целью (послушать музыку, выпить коктейль, 
-познакомиться с новыми людьми). А на входе стоит охранник. Он может вас просто пропустить, 
-может проверить паспорт и принять решение, зайдёте вы или нет, может выдать бумажный браслет, чтобы 
-потом отличать настоящих гостей от случайно заблудших, а может вообще не пустить, отправив домой.</p>
-<p>В терминологии aiogram вы — это апдейт, ночной клуб — набор хэндлеров, а охранник на входе — мидлварь. Задача последнего 
-вклиниваться в процесс обработки апдейтов для реализации какой-либо логики. Возвращаясь к примеру выше, что можно 
-делать внутри мидлварей? </p>
+<h2 id="middlewares">Мідлвари<a class="headerlink" href="#middlewares" title="Permanent link">¶</a></h2>
+<h3 id="why-middlewares">Для чого потрібні мідлвари?<a class="headerlink" href="#why-middlewares" title="Permanent link">¶</a></h3>
+<p>Представте, що ви прийшли в нічний клуб з якоюсь метою (послухати музику, випити коктейль, 
+познайомитися з новими людьми). А на вході стоїть охоронець. Він може вас просто пропустити, 
+може перевірити паспорт і прийняти рішення, зайдете ви чи ні, може видати паперовий браслет, щоб 
+потім розрізняти справжніх гостей від випадково заблудлих, а може взагалі не пустити, відправивши додому.</p>
+<p>У термінології aiogram ви — це оновлення, нічний клуб — набір хендлерів, а охоронець на вході — мідлварь. Завдання останнього 
+вклинитися в процес обробки оновлень для реалізації якоїсь логіки. Повертаючись до прикладу вище, що можна 
+робити всередину мідлварів? </p>
 <ul>
-<li>логировать события;</li>
-<li>передавать в хэндлеры какие-то объекты (например, сессию базы данных из пула сессий);</li>
-<li>подменять обработку апдейтов, не доводя до хэндлеров;</li>
-<li>по-тихому пропускать апдейты, как будто их и не было;</li>
-<li>... что угодно ещё!</li>
+<li>логувати події;</li>
+<li>передавати в хендлери якісь об'єкти (наприклад, сеанс бази даних з пула сеансів);</li>
+<li>підмінювати обробку оновлень, не доводячи до хендлерів;</li>
+<li>по-тихому пропускати оновлення, як будто їх й не було;</li>
+<li>... що угодно ще!</li>
 </ul>
-<h3 id="middlewares-structure">Виды и структура мидлварей<a class="headerlink" href="#middlewares-structure" title="Permanent link">¶</a></h3>
-<p>Давайте снова обратимся к документации aiogram 3.x, но уже в 
-<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/middlewares.html#basics">другом разделе</a> и посмотрим на 
-следующее изображение:</p>
-<p><img alt="«луковица» из мидлварей" src="../../images/ru/filters-and-middlewares/middlewares_structure.png"></p>
-<p>Оказывается, мидлварей два вида: внешние (outer) и внутренние (inner или просто «мидлвари»). В чём разница? 
-Outer выполняются до начала проверки фильтрами, а inner — после. На практике это значит, что сообщение/колбэк/инлайн-запрос, 
-проходящий через outer-мидлварь, может так ни в один хэндлер и не попасть, но если он попал в inner, то дальше 
-100% будет какой-то хэндлер.</p>
+<h3 id="middlewares-structure">Види й структура мідлварів<a class="headerlink" href="#middlewares-structure" title="Permanent link">¶</a></h3>
+<p>Давайте знову звернемося до документації aiogram 3.x, але вже в 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/middlewares.html#basics">іншому розділі</a> і подивимося на 
+наступне зображення:</p>
+<p><img alt="«цибулька» з мідлварів" src="../../images/ru/filters-and-middlewares/middlewares_structure.png"></p>
+<p>Виявляється, мідлварів два види: зовнішні (outer) й внутрішні (inner або просто «мідлвари»). Яка різниця? 
+Outer виконуються до початку перевірки фільтрами, а inner — після. На практиці це означає, що повідомлення/колбек/інлайн-запит, 
+який проходить через outer-мідлварь, може так ні в один хендлер й не потрапити, але якщо він потрапив в inner, то далі 
+100% буде якийсь хендлер.</p>
 <div class="admonition info">
-<p class="admonition-title">Мидлвари на тип Update</p>
-<p>Стоит напомнить, что Update — это общий тип для всех видов событий в Telegram. И с ним связаны две важных особенности в 
-плане их обработки aiogram-ом:<br>
-• Inner-мидлварь на Update вызывается <strong>всегда</strong> (т.е. в этом случае нет разницы между Outer и Inner).<br>
-• Мидлвари на Update можно вешать только на диспетчер (корневой роутер).</p>
+<p class="admonition-title">Мідлвари на тип Update</p>
+<p>Варто нагадати, що Update — це загальний тип для всіх видів подій у Telegram. І з ним пов'язані дві важливі особливості в 
+плані їхньої обробки aiogram-ом:<br>
+• Inner-мідлварь на Update викликається <strong>завжди</strong> (тобто в цьому разі немає різниці між Outer й Inner).<br>
+• Мідлвари на Update можна вішати тільки на диспетчер (кореневий роутер).</p>
 </div>
-<p>Рассмотрим простейшую мидлварь:</p>
+<p>Розглянемо найпростішу мідлварь:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
@@ -1873,35 +2019,34 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"After handler"</span><span class="p">)</span>
 </span><span id="__code-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15"></a>        <span class="k">return</span> <span class="n">result</span>
 </span></code></pre></div></td></tr></table></div>
-<p>Каждая мидлварь, построенная на классах (мы не будем рассматривать 
-<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/middlewares.html#function-based">иные варианты</a>), должна реализовывать 
-метод <code>__call__()</code> с тремя аргументами:</p>
+<p>Кожна мідлварь, побудована на класах (ми не будемо розглядати 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/middlewares.html#function-based">інші варіанти</a>), повинна реалізовувати 
+метод <code>__call__()</code> з трьома аргументами:</p>
 <ol>
-<li><strong>handler</strong> — собственно, объект хэндлера, который будет выполнен. Имеет смысл только для inner-мидлварей, 
-т.к. outer-мидлварь ещё не знает, в какой хэндлер попадёт апдейт.</li>
-<li><strong>event</strong> — тип Telegram-объекта, который обрабатываем. Обычно это Update, Message, CallbackQuery или InlineQuery 
-(но не только). Если точно знаете, какого типа объекты обрабатываете, смело пишите, например, <code>Message</code> вместо 
+<li><strong>handler</strong> — власне, об'єкт хендлера, який буде виконаний. Має сенс тільки для inner-мідлварей, 
+т.к. outer-мідлварь ще не знає, в який хендлер потрапить оновлення.</li>
+<li><strong>event</strong> — тип Telegram-об'єкту, який обробляємо. Звичайно це Update, Message, CallbackQuery або InlineQuery 
+(але не тільки). Якщо точно знаєте, якого типу об'єкти обробляєте, сміливо пишіть, наприклад, <code>Message</code> замість 
 <code>TelegramObject</code>.</li>
-<li><strong>data</strong> — связанные с текущим апдейтом данные: FSM, переданные доп. поля из фильтров, флаги (о них позже) и т.д. 
-В этот же <code>data</code> мы можем класть из мидлварей какие-то свои данные, которые будут доступны в виде 
-аргументов в хэндлерах (так же, как в фильтрах).</li>
+<li><strong>data</strong> — пов'язані з поточним оновленням дані: FSM, передані доп. поля з фільтрів, прапори (про них пізніше) й т.д. 
+У цей же <code>data</code> ми можемо класти з мідлварів якісь свої дані, які будуть доступні як аргументи в хендлерах (так само, як у фільтрах).</li>
 </ol>
-<p>С телом функции ещё интереснее. </p>
+<p>З тілом функції ще цікавіше. </p>
 <ul>
-<li>Всё, что вы напишете ДО 13-й строки, будет выполнено до передачи управления 
-нижестоящему обработчику (это может быть другая мидлварь или непосредственно хэндлер). </li>
-<li>Всё, что вы напишете ПОСЛЕ 13-й строки, будет выполнено уже после выхода из нижестоящего обработчика.</li>
-<li>Если вы хотите, чтобы обработка продолжилась, вы <strong>ОБЯЗАНЫ</strong> вызвать <code>await handler(event, data)</code>. Если хотите 
-«дропнуть» апдейт, просто не вызывайте его.</li>
-<li>Если вам не нужно получать данные из хэндлера, то последней строкой функции поставьте 
-<code>return await handler(event, data)</code>. Если не вернуть <code>await handler(event, data)</code> (неявный <code>return None</code>), 
-то апдейт будет считаться «дропнутым».</li>
+<li>Усе, що ви напишете ДО 13-го рядка, буде виконано до передачі керування 
+нижестоячому обробнику (це може бути інша мідлварь або безпосередньо хендлер). </li>
+<li>Усе, що ви напишете ПІСЛЯ 13-го рядка, буде виконано вже після виходу з нижестоячого обробника.</li>
+<li>Якщо ви хочете, щоб обробка продовжилась, ви <strong>ОБОВ'ЯЗАНІ</strong> викликати <code>await handler(event, data)</code>. Якщо хочете 
+«дропнути» оновлення, просто не викликайте його.</li>
+<li>Якщо вам не потрібно отримувати дані з хендлера, то останнім рядком функції поставте 
+<code>return await handler(event, data)</code>. Якщо не повернути <code>await handler(event, data)</code> (неявний <code>return None</code>), 
+то оновлення буде вважатися «дропнутим».</li>
 </ul>
-<p>Все привычные нам объекты (<code>Message</code>, <code>CallbackQuery</code> и т.д.) являются апдейтами (<code>Update</code>), поэтому для <code>Message</code> сначала 
-выполнятся мидлвари для <code>Update</code>, а уже затем для самого <code>Message</code>. Оставим на месте наши <code>print()</code> из примера выше и 
-проследим, как будут выполняться мидлвари, если мы зарегистрируем по одной outer- и inner-мидлвари для типов 
-<code>Update</code> и <code>Message</code>.</p>
-<p>Если сообщение (<code>Message</code>) в конечном счёте обработалось каким-то хэндлером:</p>
+<p>Усі знайомі нам об'єкти (<code>Message</code>, <code>CallbackQuery</code> й т.д.) є оновленнями (<code>Update</code>), тому для <code>Message</code> спочатку 
+виконуватимуться мідлвари для <code>Update</code>, а вже потім для самого <code>Message</code>. Залишимо на місці наші <code>print()</code> з прикладу вище й 
+простежимо, як будуть виконуватися мідлвари, якщо ми зареєструємо по одній outer- й inner-мідлварі для типів 
+<code>Update</code> та <code>Message</code>.</p>
+<p>Якщо повідомлення (<code>Message</code>) в кінцевому рахунку обробилось яким-то хендлером:</p>
 <ol>
 <li><code>[Update Outer] Before handler</code></li>
 <li><code>[Update Inner] Before handler</code></li>
@@ -1912,7 +2057,7 @@ Outer выполняются до начала проверки фильтрам
 <li><code>[Update Inner] After handler</code></li>
 <li><code>[Update Outer] After handler</code></li>
 </ol>
-<p>Если сообщение не нашло нужный хэндлер:</p>
+<p>Якщо повідомлення не знайшло потрібний хендлер:</p>
 <ol>
 <li><code>[Update Outer] Before handler</code></li>
 <li><code>[Update Inner] Before handler</code></li>
@@ -1922,20 +2067,20 @@ Outer выполняются до начала проверки фильтрам
 <li><code>[Update Outer] After handler</code></li>
 </ol>
 <div class="admonition question">
-<p class="admonition-title">Баним пользователей в боте</p>
-<p>Очень часто в группах по Telegram-ботам задают один и тот же вопрос: «а как банить пользователя в боте, чтобы 
-тот не мог боту писать?». Скорее всего, лучшим местом для этого будет outer-мидлварь на Update, как самый ранний 
-этап обработки запроса юзера. Более того, одна из встроенных в aiogram мидлварей кладёт в <code>data</code> словарик 
-с информацией о пользователе по ключу <code>event_from_user</code>. Далее вы можете достать оттуда ID юзера, сравнить с 
-каким-нибудь своим «списком заблокированных» и просто сделать <code>return</code>, чтобы предотвратить дальнейшую обработку 
-по цепочке.</p>
+<p class="admonition-title">Банимо користувачів у боті</p>
+<p>Дуже часто в групах по Telegram-ботам питають один і той же питання: «а як банити користувача в боті, щоб 
+той не міг боту писати?». Скоріше за все, найкращим місцем для цього буде outer-мідлварь на Update, як найранніший 
+етап обробки запиту користувача. Більше того, одна з вбудованих у aiogram мідлварей кладе в <code>data</code> словничок 
+з інформацією про користувача за ключем <code>event_from_user</code>. Далі ви можете достати звідти ID користувача, порівняти з 
+якимось своїм «списком заблокованих» й просто зробити <code>return</code>, щоб запобігти подальшій обробці 
+по ланцюгу.</p>
 </div>
-<h3 id="middlewares-examples">Примеры мидлварей<a class="headerlink" href="#middlewares-examples" title="Permanent link">¶</a></h3>
-<p>Рассмотрим несколько примеров мидлварей.</p>
-<h4 id="middleware-pass-arguments">Передача аргументов в мидлварь<a class="headerlink" href="#middleware-pass-arguments" title="Permanent link">¶</a></h4>
-<p>Мы используем мидлвари-классы, соответственно, у них есть конструктор. Это позволяет кастомизировать поведение кода внутри, 
-управляя им снаружи. Например, из файла конфигурации. Напишем бесполезную, но наглядную "замедляющую" мидлварь, 
-которая будет тормозить обработку входящих сообщений на указанное количество секунд:</p>
+<h3 id="middlewares-examples">Приклади мідлварів<a class="headerlink" href="#middlewares-examples" title="Permanent link">¶</a></h3>
+<p>Розглянемо кілька прикладів мідлварів.</p>
+<h4 id="middleware-pass-arguments">Передача аргументів у мідлварь<a class="headerlink" href="#middleware-pass-arguments" title="Permanent link">¶</a></h4>
+<p>Ми використовуємо мідлвари-класи, відповідно, у них є конструктор. Це дозволяє кастомізувати поведінку коду всередину, 
+керуючи ним зовні. Наприклад, з файлу конфігурації. Напишемо марну, але наочну "уповільнюючу" мідлварь, 
+яка буде гальмувати обробку вхідних повідомлень на указане кількість секунд:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span id="__code-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Awaitable</span>
 </span><span id="__code-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMiddleware</span>
@@ -1951,43 +2096,43 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>            <span class="n">event</span><span class="p">:</span> <span class="n">TelegramObject</span><span class="p">,</span>
 </span><span id="__code-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>            <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 </span><span id="__code-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-</span><span id="__code-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>        <span class="c1"># Ждём указанное количество секунд и передаём управление дальше по цепочке</span>
-</span><span id="__code-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>        <span class="c1"># (это может быть как хэндлер, так и следующая мидлварь)</span>
+</span><span id="__code-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>        <span class="c1"># Чекаємо указану кількість секунд й передаємо керування далі по ланцюгу</span>
+</span><span id="__code-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>        <span class="c1"># (це може бути як хендлер, так і наступна мідлварь)</span>
 </span><span id="__code-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="hll">        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sleep_sec</span><span class="p">)</span>
 </span></span><span id="__code-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</span><span id="__code-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>        <span class="c1"># Если в хэндлере сделать return, то это значение попадёт в result</span>
+</span><span id="__code-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>        <span class="c1"># Якщо в хендлері зробити return, то це значення потраплятиме в result</span>
 </span><span id="__code-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Handler was delayed by </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sleep_sec</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
 </span><span id="__code-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>        <span class="k">return</span> <span class="n">result</span>
 </span></code></pre></div>
-<p>И теперь повесим её на два роутера с разными значениями:</p>
+<p>І тепер повісимо її на два роутери з різними значеннями:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
 </span><span id="__code-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span><span class="w"> </span><span class="o">&lt;...&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">SlowpokeMiddleware</span>
 </span><span id="__code-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__code-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Где-то в другом месте</span>
+</span><span id="__code-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Де-небудь в іншому місці</span>
 </span><span id="__code-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">router1</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
 </span><span id="__code-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="n">router2</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
 </span><span id="__code-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
 </span><span id="__code-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">router1</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="n">SlowpokeMiddleware</span><span class="p">(</span><span class="n">sleep_sec</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 </span><span id="__code-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">router2</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="n">SlowpokeMiddleware</span><span class="p">(</span><span class="n">sleep_sec</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 </span></code></pre></div>
-<h4 id="middleware-store-data">Передача данных из мидлвари<a class="headerlink" href="#middleware-store-data" title="Permanent link">¶</a></h4>
-<p>Как мы уже выяснили <a href="#middlewares-structure">ранее</a>, при обработке очередного апдейта мидлварям доступен словарь <code>data</code>, 
-в котором лежат различные полезные объекты: бот, автор апдейта (event_from_user) и т.д. Но также мы можем наполнять этот 
-словарь чем угодно. Более того, позднее вызванные мидлвари могут видеть то, что туда положили ранее вызванные.</p>
-<p>Рассмотрим следующую ситуацию: первая мидлварь по Telegram ID юзера получает какой-то внутренний айдишник (например, из 
-якобы стороннего сервиса), а вторая мидлварь по этому внутреннему айди вычисляет «счастливый месяц» пользователя
-(остаток от деления внутреннего айди на 12). Всё это кладётся в хэндлер, который радует или огорчает человека, вызвавшего 
-команду. Звучит сложно, но сейчас всё поймёте. Начнём с мидлварей:</p>
+<h4 id="middleware-store-data">Передача даних з мідлвари<a class="headerlink" href="#middleware-store-data" title="Permanent link">¶</a></h4>
+<p>Як ми вже з'ясували <a href="#middlewares-structure">раніше</a>, при обробці чергового оновлення мідлварям доступний словник <code>data</code>, 
+у якому лежать різні корисні об'єкти: бот, автор оновлення (event_from_user) й т.д. Але також ми можемо наповнювати цей 
+словник чим угодно. Більше того, пізніше викликані мідлвари можуть бачити те, що туди положили раніше викликані.</p>
+<p>Розглянемо наступну ситуацію: перша мідлварь за Telegram ID користувача отримує якийсь внутрішній айдішник (наприклад, з 
+ніби побічного сервісу), а друга мідлварь за цим внутрішнім айді обчислює «щасливий місяць» користувача
+(залишок від ділення внутрішнього айді на 12). Усе це кладеться в хендлер, який радує або сумує людину, яка викликала 
+команду. Звучить складно, але зараз все зрозумієте. Почнемо з мідлварів:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">randint</span>
 </span><span id="__code-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Awaitable</span>
 </span><span id="__code-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 </span><span id="__code-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMiddleware</span>
 </span><span id="__code-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TelegramObject</span>
 </span><span id="__code-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-</span><span id="__code-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Мидлварь, которая достаёт внутренний айди юзера из какого-то стороннего сервиса</span>
+</span><span id="__code-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Мідлварь, яка достає внутрішній айді користувача з якогось побічного сервісу</span>
 </span><span id="__code-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">UserInternalIdMiddleware</span><span class="p">(</span><span class="n">BaseMiddleware</span><span class="p">):</span>
-</span><span id="__code-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    <span class="c1"># Разумеется, никакого сервиса у нас в примере нет,</span>
-</span><span id="__code-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="c1"># а только суровый рандом:</span>
+</span><span id="__code-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    <span class="c1"># Розумієтесь, ніякого сервісу у нас у прикладі немає,</span>
+</span><span id="__code-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="c1"># а тільки суровий рандом:</span>
 </span><span id="__code-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_internal_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 </span><span id="__code-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>        <span class="k">return</span> <span class="n">randint</span><span class="p">(</span><span class="mi">100_000_000</span><span class="p">,</span> <span class="mi">900_000_000</span><span class="p">)</span> <span class="o">+</span> <span class="n">user_id</span>
 </span><span id="__code-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
@@ -2001,7 +2146,7 @@ Outer выполняются до начала проверки фильтрам
 </span></span><span id="__code-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="hll">        <span class="n">data</span><span class="p">[</span><span class="s2">"internal_id"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_internal_id</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </span></span><span id="__code-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </span><span id="__code-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>
-</span><span id="__code-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="c1"># Мидлварь, которая вычисляет "счастливый месяц" пользователя</span>
+</span><span id="__code-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="c1"># Мідлварь, яка обчислює "щасливий місяць" користувача</span>
 </span><span id="__code-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="k">class</span><span class="w"> </span><span class="nc">HappyMonthMiddleware</span><span class="p">(</span><span class="n">BaseMiddleware</span><span class="p">):</span>
 </span><span id="__code-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
 </span><span id="__code-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>            <span class="bp">self</span><span class="p">,</span>
@@ -2009,44 +2154,44 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>            <span class="n">event</span><span class="p">:</span> <span class="n">TelegramObject</span><span class="p">,</span>
 </span><span id="__code-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>            <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 </span><span id="__code-17-31"><a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-</span><span id="__code-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a><span class="hll">        <span class="c1"># Получаем значение из предыдущей мидлвари</span>
+</span><span id="__code-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a><span class="hll">        <span class="c1"># Отримуємо значення з попередньої мідлвари</span>
 </span></span><span id="__code-17-33"><a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a><span class="hll">        <span class="n">internal_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"internal_id"</span><span class="p">]</span>
 </span></span><span id="__code-17-34"><a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a>        <span class="n">current_month</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">month</span>
 </span><span id="__code-17-35"><a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a>        <span class="n">is_happy_month</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="p">(</span><span class="n">internal_id</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="n">current_month</span>
-</span><span id="__code-17-36"><a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a><span class="hll">        <span class="c1"># Кладём True или False в data, чтобы забрать в хэндлере</span>
+</span><span id="__code-17-36"><a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a><span class="hll">        <span class="c1"># Кладемо True або False у data, щоб забрати в хендлері</span>
 </span></span><span id="__code-17-37"><a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a><span class="hll">        <span class="n">data</span><span class="p">[</span><span class="s2">"is_happy_month"</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_happy_month</span>
 </span></span><span id="__code-17-38"><a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Теперь напишем хэндлер, положим его в роутер и прицепим роутер к диспетчеру. Первую мидлварь повесим как outer на диспетчер, 
-потому что (по задумке) этот внутренний айди нужен всегда и везде. А вторую мидлварь повесим как inner на конкретный роутер, 
-поскольку вычисление счастливого месяца нужно только в нём.</p>
+<p>Тепер напишемо хендлер, положимо його в роутер й прицепимо роутер до диспетчера. Першу мідлварь повісимо як outer на диспетчер, 
+тому що (за задумкою) цей внутрішній айді потрібний завжди й везде. А другу мідлварь повісимо як inner на конкретний роутер, 
+оскільки обчислення щасливого місяця потрібне тільки в ньому.</p>
 <div class="highlight"><pre><span></span><code><span id="__code-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"happymonth"</span><span class="p">))</span>
 </span><span id="__code-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_happymonth</span><span class="p">(</span>
 </span><span id="__code-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> 
 </span><span id="__code-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="hll">        <span class="n">internal_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
 </span></span><span id="__code-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="hll">        <span class="n">is_happy_month</span><span class="p">:</span> <span class="nb">bool</span>
 </span></span><span id="__code-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="p">):</span>
-</span><span id="__code-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">phrases</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Ваш ID в нашем сервисе: </span><span class="si">{</span><span class="n">internal_id</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
+</span><span id="__code-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">phrases</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Ваш ID у нашому сервісі: </span><span class="si">{</span><span class="n">internal_id</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
 </span><span id="__code-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="k">if</span> <span class="n">is_happy_month</span><span class="p">:</span>
-</span><span id="__code-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>        <span class="n">phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Сейчас ваш счастливый месяц!"</span><span class="p">)</span>
+</span><span id="__code-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>        <span class="n">phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Зараз ваш щасливий місяць!"</span><span class="p">)</span>
 </span><span id="__code-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__code-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>        <span class="n">phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"В этом месяце будьте осторожнее..."</span><span class="p">)</span>
+</span><span id="__code-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>        <span class="n">phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"В цьому місяці будьте обережніше..."</span><span class="p">)</span>
 </span><span id="__code-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">". "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">phrases</span><span class="p">))</span>
 </span><span id="__code-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>
-</span><span id="__code-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="c1"># Где-то в другом месте:</span>
+</span><span id="__code-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="c1"># Де-небудь в іншому місці:</span>
 </span><span id="__code-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 </span><span id="__code-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">()</span>
 </span><span id="__code-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>    <span class="c1"># &lt;...&gt;</span>
 </span><span id="__code-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>    <span class="n">dp</span><span class="o">.</span><span class="n">update</span><span class="o">.</span><span class="n">outer_middleware</span><span class="p">(</span><span class="n">UserInternalIdMiddleware</span><span class="p">())</span>
 </span><span id="__code-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>    <span class="n">router</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="n">HappyMonthMiddleware</span><span class="p">())</span>
 </span></code></pre></div>
-<p>Вот какие результаты получились в ноябре (11-й месяц):</p>
-<p><img alt="У кого-то месяц счастливый, а у кого-то не очень" src="../../images/ru/filters-and-middlewares/happymonth.png"></p>
-<h4 id="no-callbacks-on-weekend">Никаких колбэков по выходным!<a class="headerlink" href="#no-callbacks-on-weekend" title="Permanent link">¶</a></h4>
-<p>Представим, что у некоторого завода есть Telegram-бот и каждое утро заводчане должны нажимать на инлайн-кнопку, 
-чтобы подтвердить своё наличие и дееспособность. Завод работает 5/2 и мы хотим, чтобы в субботу и воскресенье нажатия 
-не учитывались. Поскольку на нажатие на кнопку завязана сложная логика (отправка данных в СКД), то в выходные будем 
-просто «дропать» апдейт и выводить окошко с ошибкой. Следующий пример можно скопировать целиком и запустить:</p>
+<p>Ось які результати вийшли в листопаді (11-й місяць):</p>
+<p><img alt="У кого-то місяць щасливий, а у кого-то не дуже" src="../../images/ru/filters-and-middlewares/happymonth.png"></p>
+<h4 id="no-callbacks-on-weekend">Ніяких колбеків у вихідні!<a class="headerlink" href="#no-callbacks-on-weekend" title="Permanent link">¶</a></h4>
+<p>Припустимо, що на якомусь заводі є Telegram-бот й кожного ранку заводчане мають натискати на інлайн-кнопку, 
+щоб підтвердити свою присутність та дієздатність. Завод працює 5/2 й ми хочемо, щоб у суботу й неділю натискання 
+не враховувалися. Оскільки на натискання на кнопку прив'язана складна логіка (відправлення даних у СКД), то у вихідні будемо 
+просто «дропати» оновлення й виводити вікошко з помилкою. Наступний приклад можна скопіювати цілком і запустити:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 </span><span id="__code-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 </span><span id="__code-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -2060,10 +2205,10 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
 </span><span id="__code-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">()</span>
 </span><span id="__code-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
-</span><span id="__code-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="c1"># Это будет outer-мидлварь на любые колбэки</span>
+</span><span id="__code-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="c1"># Це буде outer-мідлварь на будь-які колбеки</span>
 </span><span id="__code-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">WeekendCallbackMiddleware</span><span class="p">(</span><span class="n">BaseMiddleware</span><span class="p">):</span>
 </span><span id="__code-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">is_weekend</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__code-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>        <span class="c1"># 5 - суббота, 6 - воскресенье</span>
+</span><span id="__code-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>        <span class="c1"># 5 - субота, 6 - неділя</span>
 </span><span id="__code-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 </span><span id="__code-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>
 </span><span id="__code-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
@@ -2072,20 +2217,20 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>            <span class="n">event</span><span class="p">:</span> <span class="n">TelegramObject</span><span class="p">,</span>
 </span><span id="__code-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>            <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 </span><span id="__code-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-</span><span id="__code-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>        <span class="c1"># Можно подстраховаться и игнорировать мидлварь,</span>
-</span><span id="__code-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>        <span class="c1"># если она установлена по ошибке НЕ на колбэки</span>
+</span><span id="__code-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>        <span class="c1"># Можна підстрахуватись й ігнорувати мідлварь,</span>
+</span><span id="__code-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>        <span class="c1"># якщо вона встановлена помилково НЕ на колбеки</span>
 </span><span id="__code-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">CallbackQuery</span><span class="p">):</span>
-</span><span id="__code-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>            <span class="c1"># тут как-нибудь залогировать</span>
+</span><span id="__code-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>            <span class="c1"># тут як-небудь залогувати</span>
 </span><span id="__code-19-30"><a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a>            <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </span><span id="__code-19-31"><a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a>
-</span><span id="__code-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>        <span class="c1"># Если сегодня не суббота и не воскресенье,</span>
-</span><span id="__code-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>        <span class="c1"># то продолжаем обработку.</span>
+</span><span id="__code-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>        <span class="c1"># Якщо сьогодні не субота й не неділя,</span>
+</span><span id="__code-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>        <span class="c1"># то продовжуємо обробку.</span>
 </span><span id="__code-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_weekend</span><span class="p">():</span>
 </span><span id="__code-19-35"><a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a>            <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</span><span id="__code-19-36"><a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a>        <span class="c1"># В противном случае отвечаем на колбэк самостоятельно</span>
-</span><span id="__code-19-37"><a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>        <span class="c1"># и прекращаем дальнейшую обработку</span>
+</span><span id="__code-19-36"><a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a>        <span class="c1"># В противному разі відповідаємо на колбек самостійно</span>
+</span><span id="__code-19-37"><a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>        <span class="c1"># й припиняємо подальшу обробку</span>
 </span><span id="__code-19-38"><a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a>        <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-19-39"><a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>            <span class="s2">"Какая работа? Завод остановлен до понедельника!"</span><span class="p">,</span>
+</span><span id="__code-19-39"><a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>            <span class="s2">"Яка робота? Завод зупинений до понеділка!"</span><span class="p">,</span>
 </span><span id="__code-19-40"><a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a>            <span class="n">show_alert</span><span class="o">=</span><span class="kc">True</span>
 </span><span id="__code-19-41"><a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a>        <span class="p">)</span>
 </span><span id="__code-19-42"><a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a>        <span class="k">return</span>
@@ -2094,18 +2239,18 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-19-45"><a id="__codelineno-19-45" name="__codelineno-19-45" href="#__codelineno-19-45"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"checkin"</span><span class="p">))</span>
 </span><span id="__code-19-46"><a id="__codelineno-19-46" name="__codelineno-19-46" href="#__codelineno-19-46"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_checkin</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
 </span><span id="__code-19-47"><a id="__codelineno-19-47" name="__codelineno-19-47" href="#__codelineno-19-47"></a>    <span class="n">builder</span> <span class="o">=</span> <span class="n">InlineKeyboardBuilder</span><span class="p">()</span>
-</span><span id="__code-19-48"><a id="__codelineno-19-48" name="__codelineno-19-48" href="#__codelineno-19-48"></a>    <span class="n">builder</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"Я на работе!"</span><span class="p">,</span> <span class="n">callback_data</span><span class="o">=</span><span class="s2">"checkin"</span><span class="p">)</span>
+</span><span id="__code-19-48"><a id="__codelineno-19-48" name="__codelineno-19-48" href="#__codelineno-19-48"></a>    <span class="n">builder</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"Я на роботі!"</span><span class="p">,</span> <span class="n">callback_data</span><span class="o">=</span><span class="s2">"checkin"</span><span class="p">)</span>
 </span><span id="__code-19-49"><a id="__codelineno-19-49" name="__codelineno-19-49" href="#__codelineno-19-49"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-19-50"><a id="__codelineno-19-50" name="__codelineno-19-50" href="#__codelineno-19-50"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Нажимайте эту кнопку только по будним дням!"</span><span class="p">,</span>
+</span><span id="__code-19-50"><a id="__codelineno-19-50" name="__codelineno-19-50" href="#__codelineno-19-50"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Натискайте цю кнопку тільки в робочі дні!"</span><span class="p">,</span>
 </span><span id="__code-19-51"><a id="__codelineno-19-51" name="__codelineno-19-51" href="#__codelineno-19-51"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">as_markup</span><span class="p">()</span>
 </span><span id="__code-19-52"><a id="__codelineno-19-52" name="__codelineno-19-52" href="#__codelineno-19-52"></a>    <span class="p">)</span>
 </span><span id="__code-19-53"><a id="__codelineno-19-53" name="__codelineno-19-53" href="#__codelineno-19-53"></a>
 </span><span id="__code-19-54"><a id="__codelineno-19-54" name="__codelineno-19-54" href="#__codelineno-19-54"></a>
 </span><span id="__code-19-55"><a id="__codelineno-19-55" name="__codelineno-19-55" href="#__codelineno-19-55"></a><span class="nd">@router</span><span class="o">.</span><span class="n">callback_query</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">"checkin"</span><span class="p">)</span>
 </span><span id="__code-19-56"><a id="__codelineno-19-56" name="__codelineno-19-56" href="#__codelineno-19-56"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">callback_checkin</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">CallbackQuery</span><span class="p">):</span>
-</span><span id="__code-19-57"><a id="__codelineno-19-57" name="__codelineno-19-57" href="#__codelineno-19-57"></a>    <span class="c1"># Тут много сложного кода</span>
+</span><span id="__code-19-57"><a id="__codelineno-19-57" name="__codelineno-19-57" href="#__codelineno-19-57"></a>    <span class="c1"># Тут багато складного коду</span>
 </span><span id="__code-19-58"><a id="__codelineno-19-58" name="__codelineno-19-58" href="#__codelineno-19-58"></a>    <span class="k">await</span> <span class="n">callback</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
-</span><span id="__code-19-59"><a id="__codelineno-19-59" name="__codelineno-19-59" href="#__codelineno-19-59"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Спасибо, что подтвердили своё присутствие!"</span><span class="p">,</span>
+</span><span id="__code-19-59"><a id="__codelineno-19-59" name="__codelineno-19-59" href="#__codelineno-19-59"></a>        <span class="n">text</span><span class="o">=</span><span class="s2">"Спасибо, що підтвердили свою присутність!"</span><span class="p">,</span>
 </span><span id="__code-19-60"><a id="__codelineno-19-60" name="__codelineno-19-60" href="#__codelineno-19-60"></a>        <span class="n">show_alert</span><span class="o">=</span><span class="kc">True</span>
 </span><span id="__code-19-61"><a id="__codelineno-19-61" name="__codelineno-19-61" href="#__codelineno-19-61"></a>    <span class="p">)</span>
 </span><span id="__code-19-62"><a id="__codelineno-19-62" name="__codelineno-19-62" href="#__codelineno-19-62"></a>
@@ -2122,23 +2267,23 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-19-73"><a id="__codelineno-19-73" name="__codelineno-19-73" href="#__codelineno-19-73"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 </span><span id="__code-19-74"><a id="__codelineno-19-74" name="__codelineno-19-74" href="#__codelineno-19-74"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </span></code></pre></div>
-<p>Теперь, если немного побаловаться с перемещениями во времени, можно увидеть, что по будним дням бот отвечает нормально, 
-а по выходным выводит ошибку.</p>
-<h3 id="flags">Флаги<a class="headerlink" href="#flags" title="Permanent link">¶</a></h3>
-<p>Ещё одна интересная фича <strong>aiogram 3.x</strong> — <a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/flags.html">флаги</a>. По сути, 
-это некие «маркеры» хэндлеров, которые можно читать в мидлварях и не только. С помощью флагов можно пометить хэндлеры, 
-не влезая в их внутреннюю структуру, чтобы затем что-то сделать в мидлварях, например, троттлинг. </p>
-<p>Рассмотрим немного изменённый код 
-<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/flags.html#example-in-middlewares">из документации</a>. Предположим, 
-в вашем боте много хэндлеров, которые занимаются отправкой медиафайлов или подготовкой текста для последующей 
-отправки. Если такие действия выполняются долго, то хорошим тоном считается показать статус печатает 
-или отправляет фото при помощи метода <a href="https://core.telegram.org/bots/api#sendchataction">sendChatAction</a>. 
-По умолчанию, такое событие отправляется всего на 5 секунд, но автоматически закончится, если сообщение 
-будет отправлено раньше. У aiogram есть вспомогательный класс <code>ChatActionSender</code>, который позволяет отправлять 
-выбранный статус до тех пор, пока не выполнится отправка сообщения.</p>
-<p>Мы также не хотим внутрь каждого хэндлера запихивать работу с <code>ChatActionSender</code>, пусть это делает мидлварь с теми 
-хэндлерами, у которых выставлен флаг <code>long_operation</code> со значением статуса (например, <code>typing</code>, <code>choose_sticker</code>...). 
-А вот и сама мидлварь:</p>
+<p>Тепер, якщо трошечки побалуватися з перміщеннями в часі, можна побачити, що в робочі дні бот відповідає нормально, 
+а у вихідні виводить помилку.</p>
+<h3 id="flags">Прапори<a class="headerlink" href="#flags" title="Permanent link">¶</a></h3>
+<p>Ще одна цікава фіча <strong>aiogram 3.x</strong> — <a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/flags.html">прапори</a>. По суті, 
+це деякі «маркери» хендлерів, які можна читати в мідлварях і не тільки. За допомогою прапорів можна позначити хендлери, 
+не залізучи в їхню внутрішню структуру, щоб потім щось зробити в мідлварях, наприклад, троттлинг. </p>
+<p>Розглянемо трошечки змінений код 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/flags.html#example-in-middlewares">із документації</a>. Припустимо, 
+у вашому боті багато хендлерів, які займаються відправленням медіафайлів або підготовкою тексту для подальшої 
+відправки. Якщо такі дії виконуються довго, то хорошим тоном вважається показати статус печатає 
+або відправляє фото при допомозі методу <a href="https://core.telegram.org/bots/api#sendchataction">sendChatAction</a>. 
+За замовчуванням, така подія відправляється всього на 5 секунд, але автоматично завершиться, якщо повідомлення 
+буде відправлено раніше. У aiogram є допоміжний клас <code>ChatActionSender</code>, який дозволяє відправляти 
+вибраний статус доти, доки не виконається відправка повідомлення.</p>
+<p>Ми також не хочемо всередину кожного хендлера запихувати роботу з <code>ChatActionSender</code>, нехай це робить мідлварь з тими 
+хендлерами, у яких установлений прапор <code>long_operation</code> зі значенням статусу (наприклад, <code>typing</code>, <code>choose_sticker</code>...). 
+А ось і сама мідлварь:</p>
 <div class="highlight"><pre><span></span><code><span id="__code-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span>
 </span><span id="__code-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
 </span><span id="__code-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMiddleware</span>
@@ -2156,11 +2301,11 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 </span><span id="__code-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>        <span class="n">long_operation_type</span> <span class="o">=</span> <span class="n">get_flag</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"long_operation"</span><span class="p">)</span>
 </span><span id="__code-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>
-</span><span id="__code-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>        <span class="c1"># Если такого флага на хэндлере нет</span>
+</span><span id="__code-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>        <span class="c1"># Якщо такого прапору на хендлері немає</span>
 </span><span id="__code-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">long_operation_type</span><span class="p">:</span>
 </span><span id="__code-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>            <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </span><span id="__code-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>
-</span><span id="__code-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>        <span class="c1"># Если флаг есть</span>
+</span><span id="__code-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>        <span class="c1"># Якщо прапор є</span>
 </span><span id="__code-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">ChatActionSender</span><span class="p">(</span>
 </span><span id="__code-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>                <span class="n">action</span><span class="o">=</span><span class="n">long_operation_type</span><span class="p">,</span>
 </span><span id="__code-20-25"><a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a>                <span class="n">chat_id</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
@@ -2168,11 +2313,11 @@ Outer выполняются до начала проверки фильтрам
 </span><span id="__code-20-27"><a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a>        <span class="p">):</span>
 </span><span id="__code-20-28"><a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a>            <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Соответственно, чтобы флаг был прочитан, его надо где-то указать. 
-Вариант: <code>@dp.message(&lt;тут ваши фильтры&gt;, flags={"long_operation": "upload_video_note"})</code></p>
+<p>Відповідно, щоб прапор був прочитаний, його треба де-небудь указати. 
+Варіант: <code>@dp.message(&lt;тут ваші фільтри&gt;, flags={"long_operation": "upload_video_note"})</code></p>
 <div class="admonition info">
-<p>Пример throttling-мидлвари можно увидеть в моём 
-<a href="https://github.com/MasterGroosha/telegram-casino-bot/blob/09ef66cd9d1ff4709791126b058c7313c71c99c5/bot/middlewares/throttling.py">казино-боте</a>.</p>
+<p>Приклад throttling-мідлвари можна побачити в моєму 
+<a href="https://github.com/MasterGroosha/telegram-casino-bot/blob/09ef66cd9d1ff4709791126b058c7313c71c99c5/bot/middlewares/throttling.py">казино-боті</a>.</p>
 </div></div>
 
 
@@ -2196,7 +2341,7 @@ Outer выполняются до начала проверки фильтрам
     <span class="md-icon" title="Востаннє оновлено">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="7 сентября 2025 г. 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="ru"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="7 сентября 2025 г. 14:41:01 UTC">2025-09-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="20 червня 2026 р. 16:11:16 UTC"><span class="timeago" datetime="2026-06-20T16:11:16+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="20 червня 2026 р. 16:11:16 UTC">2026-06-20</span>
   </span>
 
     
@@ -2206,7 +2351,7 @@ Outer выполняются до начала проверки фильтрам
     <span class="md-icon" title="Створено">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="7 сентября 2025 г. 14:41:01 UTC"><span class="timeago" datetime="2025-09-07T14:41:01+00:00" locale="ru"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="7 сентября 2025 г. 14:41:01 UTC">2025-09-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="20 червня 2026 р. 16:11:16 UTC"><span class="timeago" datetime="2026-06-20T16:11:16+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="20 червня 2026 р. 16:11:16 UTC">2026-06-20</span>
   </span>
 
     
@@ -2244,7 +2389,7 @@ Outer выполняются до начала проверки фильтрам
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Original Copyright &copy; 2020-2025 Groosha, Translation Copyright &copy; 2024-2025 VAI
+      Original Copyright &copy; 2020-2026 Groosha, Translation Copyright &copy; 2024-2026 VAI
     </div>
   
   
@@ -2255,14 +2400,15 @@ Outer выполняются до начала проверки фильтрам
   
 </div>
       
-        <div class="md-social">
+        
+<div class="md-social">
   
     
     
     
     
     <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Чат у Telegram" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m115 168.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7.2-.7.3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2.5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3.6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6.5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7.5 3.2.6 6.5.4 9.8z"/></svg>
     </a>
   
     
@@ -2270,7 +2416,7 @@ Outer выполняются до начала проверки фильтрам
     
     
     <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>
@@ -2287,10 +2433,12 @@ Outer выполняются до начала проверки фильтрам
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+  
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../../js/timeago.min.js"></script>
       
@@ -2305,5 +2453,30 @@ Outer выполняются до начала проверки фильтрам
         <script src="../../js/timeago_mkdocs_material.js"></script>
       
     
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const KEY = "translation_notice_dismissed_v2";
+      const dismissed = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+      document.querySelectorAll(".is-dismissible[data-notice-id]").forEach((notice) => {
+        const noticeId = notice.dataset.noticeId;
+        if (dismissed.includes(noticeId)) {
+          notice.classList.add("is-hidden");
+        }
+
+        const closeBtn = notice.querySelector(".translation-notice-dismiss");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          notice.classList.add("is-hidden");
+          if (!dismissed.includes(noticeId)) {
+            dismissed.push(noticeId);
+            localStorage.setItem(KEY, JSON.stringify(dismissed));
+          }
+        });
+      });
+    });
+  </script>
+
   </body>
 </html>
