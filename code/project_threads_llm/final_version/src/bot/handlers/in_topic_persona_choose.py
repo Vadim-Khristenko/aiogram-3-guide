@@ -44,7 +44,7 @@ async def prompt_chosen_correct_state(
     )
     await state.set_state(None)
     await callback.message.edit_text(
-        f"Выбран пресет: {prompts[callback_data.style]["name"]}\n\n"
+        f"Выбран пресет: {prompts[callback_data.style]['name']}\n\n"
         f"Пожалуйста, теперь напишите ваш запрос боту.",
         reply_markup=None,
     )
