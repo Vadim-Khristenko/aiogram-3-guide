@@ -15,6 +15,7 @@ logger: FilteringBoundLogger = structlog.get_logger()
 # async def set_bot_commands(bot: Bot) -> None:
 #     await bot.set_my_commands([
 #         BotCommand(command="sendrich", description="Богатое сообщение"),
+#         BotCommand(command="sendrichedit", description="Богатое сообщение с редактированием"),
 #         BotCommand(command="sendrichstream", description="Богатое сообщение со стримингом"),
 #         BotCommand(command="sendrichmedia", description="Богатое сообщение с картинками"),
 #     ])

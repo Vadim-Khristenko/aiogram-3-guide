@@ -59,8 +59,8 @@ Rich Messages **не заменяют** старый добрый `sendMessage` 
 
 * **Rich Messages** (`sendRichMessage`) — хороший вариант, когда нужно отправить «сложный» текст: отчёт, документацию,
   длинный ответ от нейросети. Заголовки, таблицы, сноски, формулы, сворачиваемые блоки — всё то, ради чего раньше
-  приходилось рендерить ответ картинкой через PIL или городить ASCII-арт. А ещё такие сообщения нельзя редактировать, 
-  только отправлять новые.
+  приходилось рендерить ответ картинкой через PIL или городить ASCII-арт. Такие сообщения при необходимости можно
+  и отредактировать — [ниже](#editing) посмотрим, как именно.
 
 Иными словами: если вам нужно отправить простое и короткое «Готово ✅» — это `sendMessage`. 
 Если вам нужно отправить структурированный отчёт с таблицами и сносками на пол-экрана — это `sendRichMessage`.
@@ -161,6 +161,88 @@ async def cmd_send_rich(
     Rich Markdown разрешает вставлять поддерживаемые HTML-теги прямо внутрь markdown-текста. Это удобно, когда какой-то
     блок проще выразить тегом, а основной текст хочется держать в markdown. А если нужен полный контроль над всеми
     возможностями форматирования — берите целиком `html`-вариант, как мы сделали выше.
+
+## Редактирование Rich Messages {: id="editing" }
+
+Отправлять научились, теперь про редактирование. Отдельного метода вроде `editRichMessage` в Bot API не завезли:
+вместо этого у [editMessageText](https://core.telegram.org/bots/api#editmessagetext) появился
+аргумент `rich_message`. Аргументы `text` и `rich_message` взаимоисключающие: нужно передать ровно один из них.
+В aiogram, соответственно, работает привычный шорткат `edit_text()`.
+
+Соберём маленький пример: по команде `/sendrichedit` бот отправляет чек-лист релиза (todo-лист — как раз одна из
+«фишек» RM) с инлайн-кнопкой, а по нажатию на кнопку отмечает все пункты выполненными:
+
+```python title="bot/handlers/rich_edit.py"
+from aiogram import F, Router
+from aiogram.filters import Command
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputRichMessage,
+    Message,
+)
+
+router = Router(name="rich_edit")
+
+CHECKLIST_BEFORE = """\
+# Чек-лист релиза
+
+Прогресс: **0 из 3**
+
+- [ ] Прогнать тесты
+- [ ] Обновить документацию
+- [ ] Задеплоить бота
+"""
+
+CHECKLIST_AFTER = """\
+# Чек-лист релиза
+
+Прогресс: **3 из 3** 🎉
+
+- [x] Прогнать тесты
+- [x] Обновить документацию
+- [x] Задеплоить бота
+"""
+
+
+@router.message(Command("sendrichedit"))
+async def cmd_send_rich_edit(
+        message: Message,
+) -> None:
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(
+            text="Выполнить все пункты",
+            callback_data="complete_checklist",
+        )
+    ]])
+    await message.answer_rich(                                    # [1]
+        rich_message=InputRichMessage(markdown=CHECKLIST_BEFORE),
+        reply_markup=keyboard,
+    )
+
+
+@router.callback_query(F.data == "complete_checklist")
+async def on_complete_checklist(
+        callback: CallbackQuery,
+) -> None:
+    await callback.message.edit_text(                             # [2]
+        rich_message=InputRichMessage(markdown=CHECKLIST_AFTER),  # [3]
+    )
+    await callback.answer()
+```
+
+По пунктам:
+
+1. Шорткат `answer_rich()` принимает `reply_markup` точно так же, как обычный `answer()`: к Rich Message можно
+   прикрутить любую инлайн-клавиатуру.
+2. Редактирование — через знакомый по обычным сообщениям `edit_text()`. А поскольку мы не передали `reply_markup`,
+   после редактирования кнопка исчезнет — все пункты выполнены, нажимать больше нечего.
+3. Вместо аргумента `text` передаём `rich_message` с новым содержимым — обычный `InputRichMessage`, 
+   точно такой же, как при отправке.
+
+![Rich Message](images/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
+![Rich Message](images/rich-messages/sendrichedit_light.png#only-light){ width="500" }
 
 ## Стриминг через `sendRichMessageDraft` {: id="streaming" }
 
@@ -423,7 +505,7 @@ Rich Message из 9 блоков.
 ## Заключение {: id="conclusion" }
 
 Rich Messages — это давно напрашивавшийся ответ Telegram на эпоху нейросетей и повсеместного использования Markdown.
-В этой главе мы научились отправлять такие сообщения (через `markdown`/`html`), разбирать входящие по блокам
-и стримить ответы через эфемерные черновики. За кадром осталось ещё много блоков — карты, сворачиваемые `details`,
+В этой главе мы научились отправлять такие сообщения (через `markdown`/`html`), редактировать их, разбирать входящие 
+по блокам и стримить ответы через эфемерные черновики. За кадром осталось ещё много блоков — карты, сворачиваемые `details`,
 аудио и видео, блочные формулы — но принцип везде один и тот же, так что вооружившись основами, остальное вы освоите
 по [документации](https://core.telegram.org/bots/api#inputrichmessage) и [демо-боту](https://t.me/richtextdemobot).
