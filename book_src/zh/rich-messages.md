@@ -233,7 +233,7 @@ async def on_complete_checklist(
 
 ## 通过 `sendRichMessageDraft` {: id="streaming" } 进行流式传输
 
-我们来谈谈文本的流式传输。在之前的某次更新中为普通消息引入了 `sendMessageDraft`，Rich Messages 也存在类似的方法。实际上，关于流式传输已经在[另一篇单独说明](blog/posts/project_threads_llm.md#_3)中有相当详细的介绍，但有必要再重复一次基本原则。
+我们来谈谈文本的流式传输。在之前的某次更新中为普通消息引入了 `sendMessageDraft`，Rich Messages 也存在类似的方法。实际上，关于流式传输已经在[另一篇单独说明](../blog/posts/project_threads_llm.md#_3)中有相当详细的介绍，但有必要再重复一次基本原则。
 
 流式传输的工作方式如下：
 

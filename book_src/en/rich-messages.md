@@ -228,7 +228,7 @@ Step by step:
 
 Let's talk about streaming text. In one of the previous updates `sendMessageDraft` was introduced for ordinary messages,
 and a similar method exists for Rich Messages. In fact, streaming was already covered in detail
-[in a separate note](blog/posts/project_threads_llm.md#_3), but it's worth repeating the general principles.
+[in a separate note](../blog/posts/project_threads_llm.md#_3), but it's worth repeating the general principles.
 
 Streaming works like this:
 
