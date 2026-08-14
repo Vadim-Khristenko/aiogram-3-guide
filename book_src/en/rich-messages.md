@@ -61,11 +61,11 @@ Example of preparing text in two different markup languages:
 ```python
 from aiogram.types import InputRichMessage
 
-# Вариант с Markdown
-md_content = InputRichMessage(markdown="# Заголовок\n\nПривет, **мир**!")
+# Markdown variant
+md_content = InputRichMessage(markdown="# Heading\n\nHello, **world**!")
 
-# Вариант с HTML — то же самое, но другим синтаксисом
-html_content = InputRichMessage(html="<h1>Заголовок</h1><p>Привет, <b>мир</b>!</p>")
+# HTML variant — the same thing but with different syntax
+html_content = InputRichMessage(html="<h1>Heading</h1><p>Hello, <b>world</b>!</p>")
 ```
 
 You can then send this object either directly via `bot.send_rich_message(...)`, or via the usual shortcuts in `Message`: `answer_rich()` and `reply_rich()`
@@ -82,23 +82,23 @@ from aiogram.types import InputRichMessage, Message
 router = Router(name="rich_send")
 
 REPORT_HTML = """\
-<h1>Отчёт за квартал</h1>
-<p>Небольшой пример того, как <b>Rich Messages</b> держат структуру: здесь есть \
-заголовки разного уровня, таблица, формула и сноска<sup><a name="ref-1"></a><a href="#note-1">1</a></sup>.</p>
-<h2>Ключевые метрики</h2>
+<h1>Quarterly Report</h1>
+<p>A small example of how <b>Rich Messages</b> preserve structure: here there are \
+headings of different levels, a table, a formula, and a footnote<sup><a name="ref-1"></a><a href="#note-1">1</a></sup>.</p>
+<h2>Key metrics</h2>
 <table>
-<tr><th align="left">Метрика</th><th align="right">Было</th><th align="right">Стало</th></tr>
+<tr><th align="left">Metric</th><th align="right">Before</th><th align="right">After</th></tr>
 <tr><td align="left">MRR</td><td align="right">$35k</td><td align="right">$42k</td></tr>
-<tr><td align="left">Активные чаты</td><td align="right">1 240</td><td align="right">1 510</td></tr>
-<tr><td align="left">Отвалившиеся боты</td><td align="right">12</td><td align="right">7</td></tr>
+<tr><td align="left">Active chats</td><td align="right">1 240</td><td align="right">1 510</td></tr>
+<tr><td align="left">Disconnected bots</td><td align="right">12</td><td align="right">7</td></tr>
 </table>
-<h2>Немного математики</h2>
-<p>Прирост считаем по простой формуле:</p>
+<h2>A bit of math</h2>
+<p>We calculate growth using a simple formula:</p>
 <tg-math-block>rate = (new - old) / old</tg-math-block>
-<blockquote>Это блочная цитата. Внутри неё можно держать <i>курсив</i>, \
-<code>код</code> и даже <tg-spoiler>спойлер</tg-spoiler>.</blockquote>
+<blockquote>This is a block quote. Inside it you can have <i>italics</i>, \
+<code>code</code> and even a <tg-spoiler>spoiler</tg-spoiler>.</blockquote>
 
-<footer><a name="note-1"></a><a href="#ref-1">1.</a>Цифры выдуманы для примера и ничего не отражают. ↩️</footer>
+<footer><a name="note-1"></a><a href="#ref-1">1.</a>Numbers are fictional for example purposes and do not reflect real data. ↩️</footer>
 """
 
 
@@ -167,23 +167,23 @@ from aiogram.types import (
 router = Router(name="rich_edit")
 
 CHECKLIST_BEFORE = """\
-# Чек-лист релиза
+# Release checklist
 
-Прогресс: **0 из 3**
+Progress: **0 of 3**
 
-- [ ] Прогнать тесты
-- [ ] Обновить документацию
-- [ ] Задеплоить бота
+- [ ] Run tests
+- [ ] Update documentation
+- [ ] Deploy the bot
 """
 
 CHECKLIST_AFTER = """\
-# Чек-лист релиза
+# Release checklist
 
-Прогресс: **3 из 3** 🎉
+Progress: **3 of 3** 🎉
 
-- [x] Прогнать тесты
-- [x] Обновить документацию
-- [x] Задеплоить бота
+- [x] Run tests
+- [x] Update documentation
+- [x] Deploy the bot
 """
 
 
@@ -193,7 +193,7 @@ async def cmd_send_rich_edit(
 ) -> None:
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
-            text="Выполнить все пункты",
+            text="Complete all items",
             callback_data="complete_checklist",
         )
     ]])
@@ -248,20 +248,20 @@ from aiogram.types import InputRichMessage, Message
 
 router = Router(name="rich_stream")
 
-# Финальный текст, который мы будем печатать по кусочкам.
+# Final text that we will print in chunks.
 FINAL_MARKDOWN = """\
-# Что такое стриминг черновика
+# What is draft streaming
 
-Метод `sendRichMessageDraft` показывает пользователю **временное превью**
-сообщения, пока оно ещё генерируется — ровно так ведут себя нейросетевые
-ассистенты, печатающие ответ постепенно.
+The method `sendRichMessageDraft` shows the user a **temporary preview**
+of the message while it's still being generated — exactly how neural
+assistants behave when they type an answer gradually.
 
-## Как это работает
+## How it works
 
-- Черновик **эфемерный**: он живёт около 30 секунд и сам исчезает.
-- Все апдейты с одним и тем же `draft_id` Telegram анимирует как плавную правку.
-- Чтобы сообщение осталось в чате насовсем, в конце нужно отправить его
-  обычным `sendRichMessage`.
+- The draft is **ephemeral**: it lives for about 30 seconds and disappears by itself.
+- Telegram animates all updates with the same `draft_id` as a smooth edit.
+- To make the message remain in the chat permanently, you need to send it
+  at the end using a regular `sendRichMessage`.
 """
 
 
@@ -279,16 +279,16 @@ async def cmd_send_rich_stream(
         message: Message,
         bot: Bot,
 ) -> None:
-    # Генерируем случайный айди черновика
+    # Generate a random draft id
     draft_id = randint(1, 100_000_000)                            # [2]
 
-    # Имитируем первичную задержку перед «первым токеном»:
-    # покажем заглушку для пустого текста и выждем паузу в 2 секунды.
+    # Simulate initial delay before the 'first token':
+    # show a placeholder for empty text and wait a 2-second pause.
     await bot.send_rich_message_draft(                            # [3]
         chat_id=message.chat.id,
         draft_id=draft_id,
         rich_message=InputRichMessage(
-            markdown="<tg-thinking>Думаю...</tg-thinking>"        # [4]
+            markdown="<tg-thinking>Thinking...</tg-thinking>"        # [4]
         ),
     )
     await asyncio.sleep(2.0)
@@ -337,24 +337,23 @@ from aiogram.types import InputRichMessage, Message
 router = Router(name="rich_media")
 
 GALLERY_MARKDOWN = """\
-# Галерея HTTP-котиков
+# HTTP Cats Gallery
 
-Несколько картинок внутри одного богатого сообщения, у каждой — описание и подпись.
+Several images inside a single rich message, each with a description and a caption.
 
-**204 No Content** — сервер успешно обработал запрос, но возвращать в теле ответа нечего. Клиент остаётся на текущей странице и при необходимости обновляет данные по заголовкам ответа.
+**204 No Content** — the server successfully processed the request, but there is no content to send in the response body. The client stays on the current page and, if necessary, updates data based on the response headers.
 
 ![](https://http.cat/images/204.jpg "HTTP 204 No Content")
 
-**301 Moved Permanently** — запрошенный ресурс окончательно переехал на новый адрес из заголовка `Location`. Все будущие запросы и закладки стоит направлять уже туда, а поисковики со временем обновят ссылки.
+**301 Moved Permanently** — the requested resource has permanently moved to the address from the `Location` header. All future requests and bookmarks should be directed there, and search engines will update links over time.
 
 ![](https://http.cat/images/301.jpg "HTTP 301 Moved Permanently")
 
-**418 I'm a teapot** — шуточный код из первоапрельского RFC 2324: сервер-чайник наотрез отказывается заваривать кофе. В реальных API не используется, но живёт как любимая пасхалка.
+**418 I'm a teapot** — a joke status code from the April Fools' RFC 2324: a teapot server refuses to brew coffee. Not used in real APIs, but lives on as a beloved Easter egg.
 
 ![](https://http.cat/images/418.jpg "HTTP 418 I am a Teapot")
 
-Под галереей можно спокойно продолжать текст: заголовки, списки и всё остальное
-работают как обычно.
+You can continue the text below the gallery: headings, lists, and everything else work as usual.
 """
 
 
@@ -402,7 +401,7 @@ def flatten_text(node) -> str:
         return node
     if isinstance(node, list):                                    # [2]
         return "".join(flatten_text(item) for item in node)
-    # У кастомных эмодзи нет вложенного text, зато есть альтернативный текст
+    # Custom emojis don't have nested text, but they have alternative text
     if getattr(node, "type", None) == "custom_emoji":             # [3]
         return node.alternative_text
     return flatten_text(getattr(node, "text", None))              # [4]
@@ -425,15 +424,15 @@ async def on_rich_message(
     table = next((b for b in blocks if b.type == "table"), None)  # [8]
 
     lines = [
-        f"Rich Message из {len(blocks)} блоков.",
-        f"Состав: {stats}",
+        f"Rich Message contains {len(blocks)} blocks.",
+        f"Contents: {stats}",
     ]
     if headings:
         toc = "\n".join(f"• {title}" for title in headings)
-        lines.append(f"\nЗаголовки:\n{toc}")
+        lines.append(f"\nHeadings:\n{toc}")
     if table is not None:
         first_row = " | ".join(flatten_text(cell.text) for cell in table.cells[0])
-        lines.append(f"\nПервая строка таблицы: {first_row}")
+        lines.append(f"\nFirst row of the table: {first_row}")
 
     await message.answer("\n".join(lines))
 ```
@@ -455,8 +454,8 @@ Let's go over the key points:
 If you forward the bot its own example with HTTP-kitties, you should see the following message:
 
 ```
-Rich Message из 9 блоков.
-Состав:
+Rich Message of 9 blocks.
+Composition:
 • heading
 • paragraph
 • paragraph
@@ -467,8 +466,8 @@ Rich Message из 9 блоков.
 • photo
 • paragraph
 
-Заголовки:
-• Галерея HTTP-котиков
+Headings:
+• HTTP Kittens Gallery
 ```
 
 
