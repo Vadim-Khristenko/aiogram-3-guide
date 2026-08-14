@@ -79,11 +79,11 @@ Rich Messages **не замінюють** старий добрий `sendMessage
 ```python
 from aiogram.types import InputRichMessage
 
-# Вариант с Markdown
-md_content = InputRichMessage(markdown="# Заголовок\n\nПривет, **мир**!")
+# Варіант з Markdown
+md_content = InputRichMessage(markdown="# Заголовок\n\nПривіт, **світ**!")
 
-# Вариант с HTML — то же самое, но другим синтаксисом
-html_content = InputRichMessage(html="<h1>Заголовок</h1><p>Привет, <b>мир</b>!</p>")
+# Варіант з HTML — те саме, але іншим синтаксисом
+html_content = InputRichMessage(html="<h1>Заголовок</h1><p>Привіт, <b>світ</b>!</p>")
 ```
 
 Далі цей об'єкт можна відправити або напряму через `bot.send_rich_message(...)`, або через звичні шорткати
@@ -101,23 +101,23 @@ from aiogram.types import InputRichMessage, Message
 router = Router(name="rich_send")
 
 REPORT_HTML = """\
-<h1>Отчёт за квартал</h1>
-<p>Небольшой пример того, как <b>Rich Messages</b> держат структуру: здесь есть \
-заголовки разного уровня, таблица, формула и сноска<sup><a name="ref-1"></a><a href="#note-1">1</a></sup>.</p>
-<h2>Ключевые метрики</h2>
+<h1>Звіт за квартал</h1>
+<p>Невеликий приклад того, як <b>Rich Messages</b> зберігають структуру: тут є \
+заголовки різного рівня, таблиця, формула і примітка<sup><a name="ref-1"></a><a href="#note-1">1</a></sup>.</p>
+<h2>Ключові метрики</h2>
 <table>
-<tr><th align="left">Метрика</th><th align="right">Было</th><th align="right">Стало</th></tr>
+<tr><th align="left">Метрика</th><th align="right">Було</th><th align="right">Стало</th></tr>
 <tr><td align="left">MRR</td><td align="right">$35k</td><td align="right">$42k</td></tr>
-<tr><td align="left">Активные чаты</td><td align="right">1 240</td><td align="right">1 510</td></tr>
-<tr><td align="left">Отвалившиеся боты</td><td align="right">12</td><td align="right">7</td></tr>
+<tr><td align="left">Активні чати</td><td align="right">1 240</td><td align="right">1 510</td></tr>
+<tr><td align="left">Відключені боти</td><td align="right">12</td><td align="right">7</td></tr>
 </table>
-<h2>Немного математики</h2>
-<p>Прирост считаем по простой формуле:</p>
+<h2>Трохи математики</h2>
+<p>Приріст рахуємо за простою формулою:</p>
 <tg-math-block>rate = (new - old) / old</tg-math-block>
-<blockquote>Это блочная цитата. Внутри неё можно держать <i>курсив</i>, \
-<code>код</code> и даже <tg-spoiler>спойлер</tg-spoiler>.</blockquote>
+<blockquote>Це блочна цитата. У ній можна містити <i>курсив</i>, \
+<code>код</code> і навіть <tg-spoiler>спойлер</tg-spoiler>.</blockquote>
 
-<footer><a name="note-1"></a><a href="#ref-1">1.</a>Цифры выдуманы для примера и ничего не отражают. ↩️</footer>
+<footer><a name="note-1"></a><a href="#ref-1">1.</a>Цифри вигадані для прикладу і нічого не відображають. ↩️</footer>
 """
 
 
@@ -186,23 +186,23 @@ from aiogram.types import (
 router = Router(name="rich_edit")
 
 CHECKLIST_BEFORE = """\
-# Чек-лист релиза
+# Чек-лист релізу
 
-Прогресс: **0 из 3**
+Прогрес: **0 із 3**
 
-- [ ] Прогнать тесты
-- [ ] Обновить документацию
-- [ ] Задеплоить бота
+- [ ] Прогнати тести
+- [ ] Оновити документацію
+- [ ] Задеплоїти бота
 """
 
 CHECKLIST_AFTER = """\
-# Чек-лист релиза
+# Чек-лист релізу
 
-Прогресс: **3 из 3** 🎉
+Прогрес: **3 із 3** 🎉
 
-- [x] Прогнать тесты
-- [x] Обновить документацию
-- [x] Задеплоить бота
+- [x] Прогнати тести
+- [x] Оновити документацію
+- [x] Задеплоїти бота
 """
 
 
@@ -212,7 +212,7 @@ async def cmd_send_rich_edit(
 ) -> None:
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
-            text="Выполнить все пункты",
+            text="Виконати всі пункти",
             callback_data="complete_checklist",
         )
     ]])
@@ -268,20 +268,20 @@ from aiogram.types import InputRichMessage, Message
 
 router = Router(name="rich_stream")
 
-# Финальный текст, который мы будем печатать по кусочкам.
+# Остаточний текст, який ми будемо друкувати шматками.
 FINAL_MARKDOWN = """\
-# Что такое стриминг черновика
+# Що таке стрімінг чернетки
 
-Метод `sendRichMessageDraft` показывает пользователю **временное превью**
-сообщения, пока оно ещё генерируется — ровно так ведут себя нейросетевые
-ассистенты, печатающие ответ постепенно.
+Метод `sendRichMessageDraft` показує користувачу **тимчасове прев'ю**
+повідомлення, поки воно ще генерується — точно так само поводяться нейромережні
+асистенти, які поступово друкують відповідь.
 
-## Как это работает
+## Як це працює
 
-- Черновик **эфемерный**: он живёт около 30 секунд и сам исчезает.
-- Все апдейты с одним и тем же `draft_id` Telegram анимирует как плавную правку.
-- Чтобы сообщение осталось в чате насовсем, в конце нужно отправить его
-  обычным `sendRichMessage`.
+- Чернетка **ефемерна**: вона живе близько 30 секунд і сама зникає.
+- Всі оновлення з одним і тим же `draft_id` Telegram анімує як плавну правку.
+- Щоб повідомлення лишилося в чаті назавжди, наприкінці потрібно відправити його
+  звичайним `sendRichMessage`.
 """
 
 
@@ -299,11 +299,11 @@ async def cmd_send_rich_stream(
         message: Message,
         bot: Bot,
 ) -> None:
-    # Генерируем случайный айди черновика
+    # Генеруємо випадковий id чернетки
     draft_id = randint(1, 100_000_000)                            # [2]
 
-    # Имитируем первичную задержку перед «первым токеном»:
-    # покажем заглушку для пустого текста и выждем паузу в 2 секунды.
+    # Імітуємо початкову затримку перед «першим токеном»:
+    # покажемо заглушку для порожнього тексту і почекаємо паузу в 2 секунди.
     await bot.send_rich_message_draft(                            # [3]
         chat_id=message.chat.id,
         draft_id=draft_id,
@@ -358,24 +358,24 @@ from aiogram.types import InputRichMessage, Message
 router = Router(name="rich_media")
 
 GALLERY_MARKDOWN = """\
-# Галерея HTTP-котиков
+# Галерея HTTP-котиків
 
-Несколько картинок внутри одного богатого сообщения, у каждой — описание и подпись.
+Кілька зображень у межах одного багатого повідомлення, у кожного — опис і підпис.
 
-**204 No Content** — сервер успешно обработал запрос, но возвращать в теле ответа нечего. Клиент остаётся на текущей странице и при необходимости обновляет данные по заголовкам ответа.
+**204 No Content** — сервер успішно опрацював запит, але повертати в тілі відповіді нічого. Клієнт залишається на поточній сторінці і при необхідності оновлює дані за заголовками відповіді.
 
 ![](https://http.cat/images/204.jpg "HTTP 204 No Content")
 
-**301 Moved Permanently** — запрошенный ресурс окончательно переехал на новый адрес из заголовка `Location`. Все будущие запросы и закладки стоит направлять уже туда, а поисковики со временем обновят ссылки.
+**301 Moved Permanently** — запитуваний ресурс остаточно перемістився на нову адресу зі заголовка `Location`. Усі наступні запити й закладки варто направляти вже туди, а пошукові системи з часом оновлять посилання.
 
 ![](https://http.cat/images/301.jpg "HTTP 301 Moved Permanently")
 
-**418 I'm a teapot** — шуточный код из первоапрельского RFC 2324: сервер-чайник наотрез отказывается заваривать кофе. В реальных API не используется, но живёт как любимая пасхалка.
+**418 I'm a teapot** — жартівливий код з першоквітневого RFC 2324: сервер-чайник категорично відмовляється заварювати каву. У реальних API не використовується, але живе як улюблена пасхалка.
 
 ![](https://http.cat/images/418.jpg "HTTP 418 I am a Teapot")
 
-Под галереей можно спокойно продолжать текст: заголовки, списки и всё остальное
-работают как обычно.
+Під галереєю можна спокійно продовжувати текст: заголовки, списки і все інше
+працюють як зазвичай.
 """
 
 
@@ -428,7 +428,7 @@ def flatten_text(node) -> str:
         return node
     if isinstance(node, list):                                    # [2]
         return "".join(flatten_text(item) for item in node)
-    # У кастомных эмодзи нет вложенного text, зато есть альтернативный текст
+    # У кастомних емодзі немає вкладеного text, натомість є альтернативний текст
     if getattr(node, "type", None) == "custom_emoji":             # [3]
         return node.alternative_text
     return flatten_text(getattr(node, "text", None))              # [4]
@@ -451,15 +451,15 @@ async def on_rich_message(
     table = next((b for b in blocks if b.type == "table"), None)  # [8]
 
     lines = [
-        f"Rich Message из {len(blocks)} блоков.",
-        f"Состав: {stats}",
+        f"Rich Message з {len(blocks)} блоків.",
+        f"Склад: {stats}",
     ]
     if headings:
         toc = "\n".join(f"• {title}" for title in headings)
         lines.append(f"\nЗаголовки:\n{toc}")
     if table is not None:
         first_row = " | ".join(flatten_text(cell.text) for cell in table.cells[0])
-        lines.append(f"\nПервая строка таблицы: {first_row}")
+        lines.append(f"\nПерший рядок таблиці: {first_row}")
 
     await message.answer("\n".join(lines))
 ```
@@ -481,8 +481,8 @@ async def on_rich_message(
 Якщо переслати боту його власний приклад із HTTP-котиками, то ви повинні побачити таке повідомлення:
 
 ```
-Rich Message из 9 блоков.
-Состав:
+Rich Message із 9 блоків.
+Склад:
 • heading
 • paragraph
 • paragraph
@@ -494,7 +494,7 @@ Rich Message из 9 блоков.
 • paragraph
 
 Заголовки:
-• Галерея HTTP-котиков
+• Галерея HTTP-котиків
 ```
 
 

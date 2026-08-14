@@ -74,11 +74,11 @@ Rich Messages **并不替代** 久经考验的 `sendMessage`，支持 MarkdownV2
 ```python
 from aiogram.types import InputRichMessage
 
-# Вариант с Markdown
-md_content = InputRichMessage(markdown="# Заголовок\n\nПривет, **мир**!")
+# 使用 Markdown 的示例
+md_content = InputRichMessage(markdown="# 标题\n\n你好，**世界**!")
 
-# Вариант с HTML — то же самое, но другим синтаксисом
-html_content = InputRichMessage(html="<h1>Заголовок</h1><p>Привет, <b>мир</b>!</p>")
+# 使用 HTML 的示例 — 相同内容，不同语法
+html_content = InputRichMessage(html="<h1>标题</h1><p>你好，<b>世界</b>!</p>")
 ```
 
 接下来这个对象可以直接通过 `bot.send_rich_message(...)` 发送，或者通过位于 `Message` 的常用快捷方式：`answer_rich()` 和 `reply_rich()`
@@ -95,23 +95,23 @@ from aiogram.types import InputRichMessage, Message
 router = Router(name="rich_send")
 
 REPORT_HTML = """\
-<h1>Отчёт за квартал</h1>
-<p>Небольшой пример того, как <b>Rich Messages</b> держат структуру: здесь есть \
-заголовки разного уровня, таблица, формула и сноска<sup><a name="ref-1"></a><a href="#note-1">1</a></sup>.</p>
-<h2>Ключевые метрики</h2>
+<h1>季度报告</h1>
+<p>这是一个小示例，展示了 <b>Rich Messages</b> 如何保持结构：这里有 \
+标题各个层级、表格、公式和脚注<sup><a name="ref-1"></a><a href="#note-1">1</a></sup>.</p>
+<h2>关键指标</h2>
 <table>
-<tr><th align="left">Метрика</th><th align="right">Было</th><th align="right">Стало</th></tr>
+<tr><th align="left">指标</th><th align="right">之前</th><th align="right">之后</th></tr>
 <tr><td align="left">MRR</td><td align="right">$35k</td><td align="right">$42k</td></tr>
-<tr><td align="left">Активные чаты</td><td align="right">1 240</td><td align="right">1 510</td></tr>
-<tr><td align="left">Отвалившиеся боты</td><td align="right">12</td><td align="right">7</td></tr>
+<tr><td align="left">活跃聊天</td><td align="right">1 240</td><td align="right">1 510</td></tr>
+<tr><td align="left">掉线的机器人</td><td align="right">12</td><td align="right">7</td></tr>
 </table>
-<h2>Немного математики</h2>
-<p>Прирост считаем по простой формуле:</p>
+<h2>一些数学</h2>
+<p>增长按简单公式计算：</p>
 <tg-math-block>rate = (new - old) / old</tg-math-block>
-<blockquote>Это блочная цитата. Внутри неё можно держать <i>курсив</i>, \
-<code>код</code> и даже <tg-spoiler>спойлер</tg-spoiler>.</blockquote>
+<blockquote>这是一个块引用。在其中可以包含 <i>斜体</i>、 \
+<code>代码</code> 和甚至 <tg-spoiler>剧透</tg-spoiler>.</blockquote>
 
-<footer><a name="note-1"></a><a href="#ref-1">1.</a>Цифры выдуманы для примера и ничего не отражают. ↩️</footer>
+<footer><a name="note-1"></a><a href="#ref-1">1.</a>这些数字为示例虚构，不代表任何真实情况。 ↩️</footer>
 """
 
 
@@ -176,23 +176,23 @@ from aiogram.types import (
 router = Router(name="rich_edit")
 
 CHECKLIST_BEFORE = """\
-# Чек-лист релиза
+# 发布检查表
 
-Прогресс: **0 из 3**
+进度: **0 / 3**
 
-- [ ] Прогнать тесты
-- [ ] Обновить документацию
-- [ ] Задеплоить бота
+- [ ] 运行测试
+- [ ] 更新文档
+- [ ] 部署机器人
 """
 
 CHECKLIST_AFTER = """\
-# Чек-лист релиза
+# 发布检查表
 
-Прогресс: **3 из 3** 🎉
+进度: **3 / 3** 🎉
 
-- [x] Прогнать тесты
-- [x] Обновить документацию
-- [x] Задеплоить бота
+- [x] 运行测试
+- [x] 更新文档
+- [x] 部署机器人
 """
 
 
@@ -202,7 +202,7 @@ async def cmd_send_rich_edit(
 ) -> None:
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
-            text="Выполнить все пункты",
+            text="完成所有项目",
             callback_data="complete_checklist",
         )
     ]])
@@ -253,20 +253,18 @@ from aiogram.types import InputRichMessage, Message
 
 router = Router(name="rich_stream")
 
-# Финальный текст, который мы будем печатать по кусочкам.
+# 我们将分块打印的最终文本。
 FINAL_MARKDOWN = """\
-# Что такое стриминг черновика
+# 什么是草稿的流式输出
 
-Метод `sendRichMessageDraft` показывает пользователю **временное превью**
-сообщения, пока оно ещё генерируется — ровно так ведут себя нейросетевые
-ассистенты, печатающие ответ постепенно.
+方法 `sendRichMessageDraft` 在消息仍在生成时向用户显示**临时预览**
+—— 就像逐步输出回复的神经网络助手一样。
 
-## Как это работает
+## 工作原理
 
-- Черновик **эфемерный**: он живёт около 30 секунд и сам исчезает.
-- Все апдейты с одним и тем же `draft_id` Telegram анимирует как плавную правку.
-- Чтобы сообщение осталось в чате насовсем, в конце нужно отправить его
-  обычным `sendRichMessage`.
+- 草稿是**短暂的**：它存在大约 30 秒并会自动消失。
+- 所有具有相同 `draft_id` 的更新，Telegram 会将其动画化为平滑的编辑。
+- 要让消息永久保留在聊天中，最后需要用普通的 `sendRichMessage` 发送它。
 """
 
 
@@ -284,16 +282,16 @@ async def cmd_send_rich_stream(
         message: Message,
         bot: Bot,
 ) -> None:
-    # Генерируем случайный айди черновика
+    # 生成随机草稿 ID
     draft_id = randint(1, 100_000_000)                            # [2]
 
-    # Имитируем первичную задержку перед «первым токеном»:
-    # покажем заглушку для пустого текста и выждем паузу в 2 секунды.
+    # 模拟在“第一个标记”到来之前的初始延迟：
+    # 显示空文本的占位符并等待 2 秒。
     await bot.send_rich_message_draft(                            # [3]
         chat_id=message.chat.id,
         draft_id=draft_id,
         rich_message=InputRichMessage(
-            markdown="<tg-thinking>Думаю...</tg-thinking>"        # [4]
+            markdown="<tg-thinking>思考中...</tg-thinking>"        # [4]
         ),
     )
     await asyncio.sleep(2.0)
@@ -347,24 +345,23 @@ from aiogram.types import InputRichMessage, Message
 router = Router(name="rich_media")
 
 GALLERY_MARKDOWN = """\
-# Галерея HTTP-котиков
+# HTTP 猫咪画廊
 
-Несколько картинок внутри одного богатого сообщения, у каждой — описание и подпись.
+在一条富媒体消息中包含多张图片，每张都有说明和标题。
 
-**204 No Content** — сервер успешно обработал запрос, но возвращать в теле ответа нечего. Клиент остаётся на текущей странице и при необходимости обновляет данные по заголовкам ответа.
+**204 No Content** — 服务器已成功处理请求，但响应体中没有要返回的内容。客户端保持在当前页面，并在需要时根据响应头刷新数据。
 
 ![](https://http.cat/images/204.jpg "HTTP 204 No Content")
 
-**301 Moved Permanently** — запрошенный ресурс окончательно переехал на новый адрес из заголовка `Location`. Все будущие запросы и закладки стоит направлять уже туда, а поисковики со временем обновят ссылки.
+**301 Moved Permanently** — 请求的资源已永久移动到 `Location` 头中给出的新地址。今后的所有请求和书签都应指向该地址，搜索引擎会随着时间更新链接。
 
 ![](https://http.cat/images/301.jpg "HTTP 301 Moved Permanently")
 
-**418 I'm a teapot** — шуточный код из первоапрельского RFC 2324: сервер-чайник наотрез отказывается заваривать кофе. В реальных API не используется, но живёт как любимая пасхалка.
+**418 I'm a teapot** — 这是来自愚人节 RFC 2324 的一个玩笑状态码：茶壶服务器坚决拒绝为咖啡冲泡。虽然在真实 API 中不使用，但作为一个受欢迎的彩蛋存在。
 
 ![](https://http.cat/images/418.jpg "HTTP 418 I am a Teapot")
 
-Под галереей можно спокойно продолжать текст: заголовки, списки и всё остальное
-работают как обычно.
+在画廊下面可以继续写文本：标题、列表和其他内容照常工作。
 """
 
 
@@ -415,7 +412,7 @@ def flatten_text(node) -> str:
         return node
     if isinstance(node, list):                                    # [2]
         return "".join(flatten_text(item) for item in node)
-    # У кастомных эмодзи нет вложенного text, зато есть альтернативный текст
+    # 自定义表情没有嵌套的 text，但有替代文本
     if getattr(node, "type", None) == "custom_emoji":             # [3]
         return node.alternative_text
     return flatten_text(getattr(node, "text", None))              # [4]
@@ -438,15 +435,15 @@ async def on_rich_message(
     table = next((b for b in blocks if b.type == "table"), None)  # [8]
 
     lines = [
-        f"Rich Message из {len(blocks)} блоков.",
-        f"Состав: {stats}",
+        f"Rich Message 由 {len(blocks)} 个块组成。",
+        f"组成：{stats}",
     ]
     if headings:
         toc = "\n".join(f"• {title}" for title in headings)
-        lines.append(f"\nЗаголовки:\n{toc}")
+        lines.append(f"\n标题：\n{toc}")
     if table is not None:
         first_row = " | ".join(flatten_text(cell.text) for cell in table.cells[0])
-        lines.append(f"\nПервая строка таблицы: {first_row}")
+        lines.append(f"\n表格的第一行：{first_row}")
 
     await message.answer("\n".join(lines))
 ```
@@ -468,8 +465,8 @@ async def on_rich_message(
 如果把机器人转发它自己的带 HTTP 猫的示例，你应该会看到以下消息：
 
 ```
-Rich Message из 9 блоков.
-Состав:
+Rich Message 由 9 个块。
+组成：
 • heading
 • paragraph
 • paragraph
@@ -480,8 +477,8 @@ Rich Message из 9 блоков.
 • photo
 • paragraph
 
-Заголовки:
-• Галерея HTTP-котиков
+标题：
+• HTTP 猫咪画廊
 ```
 
 
