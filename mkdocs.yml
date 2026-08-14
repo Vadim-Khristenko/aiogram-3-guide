@@ -185,6 +185,7 @@ nav:
   - 'Введение': index.md
   - 'Знакомство с aiogram': quickstart.md
   - 'Работа с сообщениями': messages.md
+  - 'Rich Messages': rich-messages.md
   - 'Кнопки': buttons.md
   - 'Роутеры. Структура': routers.md
   - 'Фильтры и мидлвари': filters-and-middlewares.md
@@ -273,6 +274,7 @@ plugins:
             - 'About Translation': about-translation.md
             - 'Getting Started with aiogram': quickstart.md
             - 'Working with Messages': messages.md
+            - 'Rich Messages': rich-messages.md
             - 'Buttons': buttons.md
             - 'Routers. Structure': routers.md
             - 'Filters and Middlewares': filters-and-middlewares.md
@@ -369,6 +371,7 @@ plugins:
             - 'Про переклад': about-translation.md
             - 'Знайомство з aiogram': quickstart.md
             - 'Робота з повідомленнями': messages.md
+            - 'Rich Messages': rich-messages.md
             - 'Кнопки': buttons.md
             - 'Роутери. Структура': routers.md
             - 'Фільтри та мідлвари': filters-and-middlewares.md
@@ -463,6 +466,7 @@ plugins:
             - '关于翻译': about-translation.md
             - 'aiogram 入门': quickstart.md
             - '消息处理': messages.md
+            - 'Rich Messages': rich-messages.md
             - '按钮': buttons.md
             - '路由器与结构': routers.md
             - '过滤器与中间件': filters-and-middlewares.md
