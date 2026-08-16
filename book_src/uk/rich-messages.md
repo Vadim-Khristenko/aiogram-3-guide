@@ -150,8 +150,8 @@ async def cmd_send_rich(
 
 Результат виглядає так: 
 
-![Розширене повідомлення](images/rich-messages/sendrich_dark.png#only-dark){ width="600" }
-![Розширене повідомлення](images/rich-messages/sendrich_light.png#only-light){ width="600" }
+![Розширене повідомлення](images/rich-messages/uk/sendrich_dark.png#only-dark){ width="460" }
+![Розширене повідомлення](images/rich-messages/uk/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "Не забувайте екранувати"
     Як і в звичайному HTML-форматуванні, символи `<`, `>` і `&`, які не є частиною тега, потрібно замінювати на

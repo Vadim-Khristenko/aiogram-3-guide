@@ -131,8 +131,8 @@ Since we've filled the `html` field, Telegram treats the text as Rich HTML.
 
 The result looks like this: 
 
-![Rich Message](images/rich-messages/sendrich_dark.png#only-dark){ width="600" }
-![Rich Message](images/rich-messages/sendrich_light.png#only-light){ width="600" }
+![Rich Message](images/rich-messages/en/sendrich_dark.png#only-dark){ width="460" }
+![Rich Message](images/rich-messages/en/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "Don't forget to escape"
     As with regular HTML formatting, characters `<`, `>` and `&` that are not part of a tag must be replaced with
