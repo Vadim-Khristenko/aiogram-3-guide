@@ -143,8 +143,8 @@ async def cmd_send_rich(
 
 结果如下： 
 
-![富媒体消息](images/rich-messages/sendrich_dark.png#only-dark){ width="600" }
-![富媒体消息](images/rich-messages/sendrich_light.png#only-light){ width="600" }
+![富媒体消息](images/rich-messages/zh/sendrich_dark.png#only-dark){ width="460" }
+![富媒体消息](images/rich-messages/zh/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "不要忘记转义"
     像在普通的 HTML 格式化中一样，任何不是标签一部分的符号 `<`, `>` 和 `&` 都需要替换为

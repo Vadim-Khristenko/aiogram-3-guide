@@ -148,10 +148,10 @@ async def cmd_send_rich(
 * Шорткат `answer_rich()` отправляет `InputRichMessage` в тот же чат. 
 Поскольку мы заполнили поле `html`, Telegram трактует текст как Rich HTML.
 
-Результат выглядит так: 
+Результат выглядит так:
 
-![Rich Message](images/rich-messages/sendrich_dark.png#only-dark){ width="600" }
-![Rich Message](images/rich-messages/sendrich_light.png#only-light){ width="600" }
+![Rich Message](images/rich-messages/sendrich_dark.png#only-dark){ width="460" }
+![Rich Message](images/rich-messages/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "Не забывайте экранировать"
     Как и в обычном HTML-форматировании, символы `<`, `>` и `&`, не являющиеся частью тега, нужно заменять на
