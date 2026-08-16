@@ -143,8 +143,8 @@ async def cmd_send_rich(
 
 结果如下： 
 
-![富媒体消息](images/rich-messages/zh/sendrich_dark.png#only-dark){ width="460" }
-![富媒体消息](images/rich-messages/zh/sendrich_light.png#only-light){ width="460" }
+![富媒体消息](../images/zh/rich-messages/sendrich_dark.png#only-dark){ width="460" }
+![富媒体消息](../images/zh/rich-messages/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "不要忘记转义"
     像在普通的 HTML 格式化中一样，任何不是标签一部分的符号 `<`, `>` 和 `&` 都需要替换为
@@ -228,8 +228,8 @@ async def on_complete_checklist(
 2. 编辑 — 通过与普通消息相同的 `edit_text()`。由于我们没有传递 `reply_markup`，编辑后按钮会消失 — 所有事项已完成，已无可按。
 3. 我们不是传递参数 `text`，而是传入包含新内容的 `rich_message` —— 普通的 `InputRichMessage`，与发送时完全相同。
 
-![富消息](images/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
-![富消息](images/rich-messages/sendrichedit_light.png#only-light){ width="500" }
+![富消息](../images/ru/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
+![富消息](../images/ru/rich-messages/sendrichedit_light.png#only-light){ width="500" }
 
 ## 通过 `sendRichMessageDraft` {: id="streaming" } 进行流式传输
 
@@ -325,7 +325,7 @@ async def cmd_send_rich_stream(
 
 在视频中动态演示如下：
 
-![类型:视频](images/rich-messages/streaming_dark.mp4)
+![类型:视频](../images/ru/rich-messages/streaming_dark.mp4)
 
 ## 媒体文件 {: id="media" }
 
@@ -376,8 +376,8 @@ async def cmd_send_rich_media(
 
 截图中成品消息的顶部:
 
-![富消息](images/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" } 
-![富消息](images/rich-messages/sendrichmedia_light.png#only-light){ width="500" } 
+![富消息](../images/ru/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" }
+![富消息](../images/ru/rich-messages/sendrichmedia_light.png#only-light){ width="500" }
 
 !!! note "拼贴、幻灯片和其他媒体"
     几张图片连在一起——这是基本情况。要在 Rich HTML 中精细控制布局，有单独的

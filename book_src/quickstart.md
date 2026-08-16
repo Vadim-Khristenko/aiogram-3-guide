@@ -131,8 +131,8 @@ if __name__ == '__main__':
 $ BOT_TOKEN=1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo uv run single_file_bot.py
 ```
 
-![Бот работает](images/quickstart/l01_1_new_dark.png#only-dark)
-![Бот работает](images/quickstart/l01_1_new_light.png#only-light)
+![Бот работает](images/ru/quickstart/l01_1_new_dark.png#only-dark)
+![Бот работает](images/ru/quickstart/l01_1_new_light.png#only-light)
 
 Поздравляю: ваш первый бот готов! Но, как и было сказано ранее, держать весь код в одном файле – не самая лучшая идея. Поэтому быстренько похлопаем себя по плечу за hello world и будем делать по-нормальному.
 
@@ -489,7 +489,7 @@ $ uv run -m bot
 
 Напишите что-нибудь боту, чтобы убедиться, что он работает корректно:
 
-![Бот работает](images/quickstart/l01_2_new_dark.png#only-dark)
-![Бот работает](images/quickstart/l01_2_new_light.png#only-light)
+![Бот работает](images/ru/quickstart/l01_2_new_dark.png#only-dark)
+![Бот работает](images/ru/quickstart/l01_2_new_light.png#only-light)
 
 И снова поздравляю! Вы написали второго бота на aiogram и заложили фундамент, на основе которого в следующих главах будем рассматривать другие возможности фреймворка и Telegram Bot API.

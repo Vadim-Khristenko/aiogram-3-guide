@@ -150,8 +150,8 @@ async def cmd_send_rich(
 
 Результат выглядит так:
 
-![Rich Message](images/rich-messages/sendrich_dark.png#only-dark){ width="460" }
-![Rich Message](images/rich-messages/sendrich_light.png#only-light){ width="460" }
+![Rich Message](images/ru/rich-messages/sendrich_dark.png#only-dark){ width="460" }
+![Rich Message](images/ru/rich-messages/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "Не забывайте экранировать"
     Как и в обычном HTML-форматировании, символы `<`, `>` и `&`, не являющиеся частью тега, нужно заменять на
@@ -241,8 +241,8 @@ async def on_complete_checklist(
 3. Вместо аргумента `text` передаём `rich_message` с новым содержимым — обычный `InputRichMessage`, 
    точно такой же, как при отправке.
 
-![Rich Message](images/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
-![Rich Message](images/rich-messages/sendrichedit_light.png#only-light){ width="500" }
+![Rich Message](images/ru/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
+![Rich Message](images/ru/rich-messages/sendrichedit_light.png#only-light){ width="500" }
 
 ## Стриминг через `sendRichMessageDraft` {: id="streaming" }
 
@@ -342,7 +342,7 @@ async def cmd_send_rich_stream(
 
 Как это выглядит «в динамике» на видео:
 
-![type:video](images/rich-messages/streaming_dark.mp4)
+![type:video](images/ru/rich-messages/streaming_dark.mp4)
 
 ## Медиафайлы {: id="media" }
 
@@ -394,8 +394,8 @@ async def cmd_send_rich_media(
 
 Верхняя часть готового сообщения на скриншоте:
 
-![Rich Message](images/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" } 
-![Rich Message](images/rich-messages/sendrichmedia_light.png#only-light){ width="500" } 
+![Rich Message](images/ru/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" }
+![Rich Message](images/ru/rich-messages/sendrichmedia_light.png#only-light){ width="500" }
 
 !!! note "Коллаж, слайд-шоу и прочее медиа"
     Несколько изображений подряд — это базовый случай. Для тонкого управления компоновкой в Rich HTML есть отдельные
