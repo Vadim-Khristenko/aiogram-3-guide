@@ -30,14 +30,12 @@ jobs:
       - name: Build strict production site
         env:
           REPOSITORY: ${{ github.repository }}
+          PAGES_BASE_URL: https://vai-rice.space/aiogram-3-guide
         run: |
           set -euo pipefail
-          pages_owner="${REPOSITORY%%/*}"
-          pages_owner="$(printf '%s' "$pages_owner" | tr '[:upper:]' '[:lower:]')"
-          repo_slug="${REPOSITORY##*/}"
-          mkdocs build --strict \
-            --site-dir site \
-            --site-url "https://${pages_owner}.github.io/${repo_slug}/"
+          site_url="${PAGES_BASE_URL}/"
+          sed -i "s|^site_url:.*|site_url: ${site_url}|" mkdocs.yml
+          mkdocs build --strict --site-dir site
 
       - name: Publish production site and preserve previews
         uses: peaceiris/actions-gh-pages@v4
