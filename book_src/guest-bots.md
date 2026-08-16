@@ -19,8 +19,8 @@ description: Гостевой режим (Guest mode)
 является ответом (reply) на какое-то другое сообщение, то ещё и то самое другое сообщение (т.е. в `message` будет ещё и `.reply_to_message`).
 * Бот может ответить ровно один раз и только в течение небольшого периода времени.
 
-![Сравнение гостевого режима и инлайн-режима](images/guest_bots/intro_dark.png#only-dark)
-![Сравнение гостевого режима и инлайн-режима](images/guest_bots/intro_light.png#only-light)
+![Сравнение гостевого режима и инлайн-режима](images/ru/guest_bots/intro_dark.png#only-dark)
+![Сравнение гостевого режима и инлайн-режима](images/ru/guest_bots/intro_light.png#only-light)
 
 Визуально и архитектурно гостевой режим и инлайн-режим являются родственниками. Архитектурно Guest Mode 
 выглядит как инлайн-режим с одним вариантом выбора, а сообщение отправляется от имени самого бота.
@@ -52,7 +52,7 @@ description: Гостевой режим (Guest mode)
 с некоторыми AI-фишками. Но сначала надо боту включить поддержку гостевого режима: откройте веб-апп у `@BotFather` 
 (именно веб-приложение!), затем выберите из списка своего бота, откройте `Bot Settings` и включите `Guest Chat Mode`:
 
-![Сравнение гостевого режима и инлайн-режима](images/guest_bots/guest_chat_enable.png)
+![Сравнение гостевого режима и инлайн-режима](images/ru/guest_bots/guest_chat_enable.png)
 
 
 ## Простой пример {: id="simple-example" }
@@ -114,8 +114,8 @@ BOT_TOKEN=1234567890:AaBbCcDdEeFfGrOoShAHhIiJjKkLlMmNnOo uv run simple_example.p
 
 Результат – на скриншоте ниже:
 
-![Простой пример](images/guest_bots/simple_example_result_dark.png#only-dark)
-![Простой пример](images/guest_bots/simple_example_result_light.png#only-light)
+![Простой пример](images/ru/guest_bots/simple_example_result_dark.png#only-dark)
+![Простой пример](images/ru/guest_bots/simple_example_result_light.png#only-light)
 
 
 ## Продвинутый пример {: id="advanced-example" }
@@ -266,12 +266,12 @@ uv run -m bot
 Теперь можно проверить пару сценариев. Например, бот не умеет читать картинки, но может ли он примерно 
 догадаться, что там, имея лишь описание?
 
-![Бот догадался о содержимом картинки по описанию](images/guest_bots/advanced_cloudflare_dark.png#only-dark)
-![Бот догадался о содержимом картинки по описанию](images/guest_bots/advanced_cloudflare_light.png#only-light)
+![Бот догадался о содержимом картинки по описанию](images/ru/guest_bots/advanced_cloudflare_dark.png#only-dark)
+![Бот догадался о содержимом картинки по описанию](images/ru/guest_bots/advanced_cloudflare_light.png#only-light)
 
 Что ж, вполне себе получилось. А как у него обстоят дела с цепочкой сообщений и с «чутьём» времени?
 
-![Бот знает текущую дату и возраст Дурова](images/guest_bots/advanced_durov_dark.png#only-dark)
-![Бот знает текущую дату и возраст Дурова](images/guest_bots/advanced_durov_light.png#only-light)
+![Бот знает текущую дату и возраст Дурова](images/ru/guest_bots/advanced_durov_dark.png#only-dark)
+![Бот знает текущую дату и возраст Дурова](images/ru/guest_bots/advanced_durov_light.png#only-light)
 
 Тоже корректно (этот текст готовился 10 мая 2026 года). Как видите, даже без продвинутых штук, типа веб-поиска и tool calling, можно получить довольно полезный в быту инструмент. На этом знакомство с гостевым режимом ботов подходит к концу.

@@ -131,8 +131,8 @@ Since we've filled the `html` field, Telegram treats the text as Rich HTML.
 
 The result looks like this: 
 
-![Rich Message](images/rich-messages/en/sendrich_dark.png#only-dark){ width="460" }
-![Rich Message](images/rich-messages/en/sendrich_light.png#only-light){ width="460" }
+![Rich Message](../images/en/rich-messages/sendrich_dark.png#only-dark){ width="460" }
+![Rich Message](../images/en/rich-messages/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "Don't forget to escape"
     As with regular HTML formatting, characters `<`, `>` and `&` that are not part of a tag must be replaced with
@@ -221,8 +221,8 @@ Step by step:
 3. Instead of the `text` argument we pass `rich_message` with the new content — a regular `InputRichMessage`,
    exactly the same as when sending.
 
-![Rich Message](images/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
-![Rich Message](images/rich-messages/sendrichedit_light.png#only-light){ width="500" }
+![Rich Message](../images/ru/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
+![Rich Message](../images/ru/rich-messages/sendrichedit_light.png#only-light){ width="500" }
 
 ## Streaming via `sendRichMessageDraft` {: id="streaming" }
 
@@ -321,7 +321,7 @@ and not an `Message` object — after all, this is not a real message but a prev
 
 How this looks "in action" on video:
 
-![type:video](images/rich-messages/streaming_dark.mp4)
+![type:video](../images/ru/rich-messages/streaming_dark.mp4)
 
 ## Media files {: id="media" }
 
@@ -368,8 +368,8 @@ async def cmd_send_rich_media(
 
 The top part of the finished message in the screenshot:
 
-![Rich Message](images/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" } 
-![Rich Message](images/rich-messages/sendrichmedia_light.png#only-light){ width="500" } 
+![Rich Message](../images/ru/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" }
+![Rich Message](../images/ru/rich-messages/sendrichmedia_light.png#only-light){ width="500" }
 
 !!! note "Collage, slideshow and other media"
     Several images in a row are the basic case. For fine-grained layout control in Rich HTML there are separate tags: `<photo>`, `<video>` and `<audio>` for single media, as well as custom `<tg-collage>` (collage) and

@@ -152,7 +152,7 @@ async def cmd_donate(
     )
 ```
 
-![ввод суммы доната](images/payments/cmd_donate.png)
+![ввод суммы доната](images/ru/payments/cmd_donate.png)
 
 Кнопка "Оплатить" вместе с суммой генерируется телеграмом автоматически, её не нужно генерировать вручную. 
 Но при желании можно создать собственную инлайн-клавиатуру и прицепить её к инвойсу. Главное требование: первой должна быть 
@@ -187,7 +187,7 @@ async def cmd_donate(
     )
 ```
 
-![инвойс с дополнительными кнопками](images/payments/extra_buttons_invoice.jpg)
+![инвойс с дополнительными кнопками](images/ru/payments/extra_buttons_invoice.jpg)
 
 К слову, инвойс можно отправить и в виде кликабельной ссылки в тексте сообщения:
 
@@ -265,7 +265,7 @@ async def on_pre_checkout_query(
 
 В этом случае бот увидит что-то такое:
 
-![Ошибка на pre checkout](images/payments/pre_checkout_failed.png)
+![Ошибка на pre checkout](images/ru/payments/pre_checkout_failed.png)
 
 Но чаще всего всё будет хорошо и можно разрешить оплату:
 
@@ -312,7 +312,7 @@ payment-successful =
     Сохраните его, если вдруг сделать рефанд в будущем 😢
 ```
 
-![type:video](images/payments/payment_video.MP4){: style='height: 50%; width: 50%'}
+![type:video](images/ru/payments/payment_video.MP4){: style='height: 50%; width: 50%'}
 
 ### Возвраты покупок {: id="refunds" }
 
@@ -408,7 +408,7 @@ cmd-paysupport =
 
 Результат:
 
-![успешный возврат средств](images/payments/refunds.png)
+![успешный возврат средств](images/ru/payments/refunds.png)
 
 !!! info "Попробовать бота в деле"
     Вы можете попробовать оплату при помощи Telegram Stars в боте [@GrooshaDonateBot](https://telegram.dog/GrooshaDonateBot). 

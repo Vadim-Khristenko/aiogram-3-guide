@@ -150,8 +150,8 @@ async def cmd_send_rich(
 
 Результат виглядає так: 
 
-![Розширене повідомлення](images/rich-messages/uk/sendrich_dark.png#only-dark){ width="460" }
-![Розширене повідомлення](images/rich-messages/uk/sendrich_light.png#only-light){ width="460" }
+![Розширене повідомлення](../images/uk/rich-messages/sendrich_dark.png#only-dark){ width="460" }
+![Розширене повідомлення](../images/uk/rich-messages/sendrich_light.png#only-light){ width="460" }
 
 !!! warning "Не забувайте екранувати"
     Як і в звичайному HTML-форматуванні, символи `<`, `>` і `&`, які не є частиною тега, потрібно замінювати на
@@ -241,8 +241,8 @@ async def on_complete_checklist(
 3. Замість аргумента `text` передаємо `rich_message` з новим вмістом — звичайний `InputRichMessage`, 
    точно такий самий, як при відправленні.
 
-![Розширене повідомлення](images/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
-![Розширене повідомлення](images/rich-messages/sendrichedit_light.png#only-light){ width="500" }
+![Розширене повідомлення](../images/ru/rich-messages/sendrichedit_dark.png#only-dark){ width="500" }
+![Розширене повідомлення](../images/ru/rich-messages/sendrichedit_light.png#only-light){ width="500" }
 
 ## Стрімінг через `sendRichMessageDraft` {: id="streaming" }
 
@@ -342,7 +342,7 @@ async def cmd_send_rich_stream(
 
 Як це виглядає «у дії» на відео:
 
-![тип:відео](images/rich-messages/streaming_dark.mp4)
+![тип:відео](../images/ru/rich-messages/streaming_dark.mp4)
 
 ## Медіафайли {: id="media" }
 
@@ -390,8 +390,8 @@ async def cmd_send_rich_media(
 
 Верхня частина готового повідомлення на скріншоті:
 
-![Розширене повідомлення](images/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" } 
-![Розширене повідомлення](images/rich-messages/sendrichmedia_light.png#only-light){ width="500" } 
+![Розширене повідомлення](../images/ru/rich-messages/sendrichmedia_dark.png#only-dark){ width="500" }
+![Розширене повідомлення](../images/ru/rich-messages/sendrichmedia_light.png#only-light){ width="500" }
 
 !!! note "Колаж, слайд-шоу та інші медіа"
     Кілька зображень підряд — це базовий випадок. Для тонкого керування компонуванням у Rich HTML є окремі

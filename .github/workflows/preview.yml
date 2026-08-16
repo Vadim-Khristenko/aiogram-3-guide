@@ -1,0 +1,63 @@
+name: preview
+
+on:
+  push:
+    branches:
+      - 'preview/**'
+      - '**/*-preview'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Share the lock with the production workflow because both publish gh-pages.
+concurrency:
+  group: github-pages-publish
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    # A manual run is still restricted to explicitly marked branches.
+    if: startsWith(github.ref_name, 'preview/') || endsWith(github.ref_name, '-preview')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the marked branch
+        uses: actions/checkout@v4.1.5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.1.0
+        with:
+          python-version: 3.x
+
+      - name: Install documentation dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build strict preview
+        id: slug
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          branch_slug="$(printf '%s' "$REF_NAME" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's#[^a-z0-9._-]+#-#g; s#-+#-#g; s#^-##; s#-$##')"
+          repo_slug="${REPOSITORY##*/}"
+          pages_owner="${REPOSITORY%%/*}"
+          pages_owner="$(printf '%s' "$pages_owner" | tr '[:upper:]' '[:lower:]')"
+          site_url="https://${pages_owner}.github.io/${repo_slug}/gh-branch/${branch_slug}/"
+          echo "branch_slug=${branch_slug}" >> "$GITHUB_OUTPUT"
+          echo "site_url=${site_url}" >> "$GITHUB_OUTPUT"
+          mkdocs build --strict --site-dir site --site-url "$site_url"
+
+      - name: Publish preview under gh-branch/branch-slug
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./site
+          destination_dir: gh-branch/${{ steps.slug.outputs.branch_slug }}
+          keep_files: true
+          commit_message: 'deploy preview: ${{ github.ref_name }}'
