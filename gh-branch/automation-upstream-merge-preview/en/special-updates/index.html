@@ -1,0 +1,1929 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+  <script src="https://telegram.org/js/telegram-web-app.js?35"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const webapp = window.Telegram.WebApp;
+      
+      webapp.ready();
+      webapp.expand();
+      webapp.disableVerticalSwipes();
+
+      const initData = webapp.initDataUnsafe;
+      
+
+      const normalizePath = (path) => {
+        if (!path) return '/';
+        const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+        return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+      };
+      const pathFromUrl = (urlValue) => {
+        try {
+          return new URL(urlValue, window.location.origin).pathname;
+        } catch {
+          return '';
+        }
+      };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
+      const siteBasePath = normalizePath(pathFromUrl('https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/'));
+      const canonicalPath = normalizePath(pathFromUrl('https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
+
+      const currentPath = normalizePath(window.location.pathname);
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
+        : currentPath.slice(1);
+      const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
+
+      const isDocsRoot = relativeSegments.length === 0
+        || hasLocaleRoot;
+
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
+        ? `${relativeSegments[0]}/`
+        : '';
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
+
+      if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
+        if (initData.start_param) {
+          const routeMap = {
+            'quickstart': 'quickstart',
+            'messages': 'messages',
+            'buttons': 'buttons',
+            'routers': 'routers',
+            'special-updates': 'special-updates',
+            'fsm': 'fsm',
+            'inline-mode': 'inline-mode',
+            
+            'filters': 'filters-and-middlewares/#filters',
+            'middlewares': 'filters-and-middlewares/#middlewares',
+            'magic-filter': 'filters-and-middlewares/#magic-filters',
+            'magic': 'filters-and-middlewares/#magic-filters',
+            'entities': 'messages/#message-entities',
+            'escaping': 'messages/#input-escaping',
+            'keep-formatting': 'messages/#keep-formatting',
+            'send-files': 'messages/#uploading-media',
+            'upload': 'messages/#uploading-media',
+            'download-files': 'messages/#downloading-media',
+            'download': 'messages/#downloading-media',
+            'hide-image': 'messages/#bonus',
+            'callback-factory': 'buttons/#callback-factory',
+            'my-chat-member': 'special-updates/#my-chat-member',
+            'chat-member': 'special-updates/#chat-member',
+          };
+
+          const path = routeMap[initData.start_param];
+          // Unknown start_param — do nothing, don't break or reload current page
+          if (!path) {
+            return;
+          }
+
+          const targetUrl = new URL(`${redirectRoot}${path}`, window.location.origin);
+
+          window.location.href = targetUrl.toString();
+        }
+      }
+    });
+  </script>
+
+  
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="my_chat_member and chat_member Updates">
+      
+      
+        <meta name="author" content="MasterGroosha, Translated by VAI">
+      
+      
+        <link rel="canonical" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/">
+      
+      
+        <link rel="prev" href="../filters-and-middlewares/">
+      
+      
+        <link rel="next" href="../fsm/">
+      
+      
+        
+          <link rel="alternate" href="../../special-updates/" hreflang="ru">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../../uk/special-updates/" hreflang="uk">
+        
+          <link rel="alternate" href="../../zh/special-updates/" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+
+    
+      
+        <title>my_chat_member and chat_member Updates - Writing Telegram Bots with aiogram 3.x</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    /* ==================================================================
+       TRANSLATION NOTIFICATION STYLES
+       ================================================================== */
+    
+    /* Language notification */
+    .language-notification {
+      margin: 1.5em 0 2em 0;
+      border-left-width: 4px;
+      border-left-color: var(--md-primary-fg-color) !important;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.1) 0%, transparent 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Translation status notification */
+    .translation-status {
+      margin: 1.5em 0 2em 0;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .translation-notice-dismiss {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0.25rem;
+      opacity: 0.75;
+    }
+
+    .translation-notice-dismiss:hover {
+      opacity: 1;
+    }
+    
+    /* Icons styling */
+    .language-icon svg,
+    .status-icon svg,
+    .github-icon svg,
+    .issue-icon svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+    
+    /* Content sections */
+    .translation-notification-content {
+      margin-top: 1em;
+    }
+    
+    .translation-fallback-message {
+      margin-bottom: 1.5em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.05);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-primary-fg-color);
+    }
+    
+    .help-translation-section {
+      margin-top: 1.5em;
+      padding: 1.5em;
+      background: rgba(var(--md-primary-fg-color--rgb), 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(var(--md-primary-fg-color--rgb), 0.1);
+    }
+    
+    .help-translation-section h4 {
+      margin: 0 0 0.5em 0;
+      color: var(--md-primary-fg-color);
+      font-weight: 600;
+    }
+    
+    .help-translation-section p {
+      margin: 0.5em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    /* Action buttons */
+    .translation-actions {
+      display: flex;
+      gap: 0.75em;
+      margin-top: 1.5em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .md-button {
+      border-radius: 6px;
+      padding: 0.6em 1.2em;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      min-width: 140px;
+    }
+    
+    .md-button--primary {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      box-shadow: 0 2px 4px rgba(var(--md-primary-fg-color--rgb), 0.3);
+    }
+    
+    .md-button--primary:hover {
+      background: var(--md-primary-fg-color--dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(var(--md-primary-fg-color--rgb), 0.4);
+    }
+    
+    .md-button--secondary {
+      background: transparent;
+      color: var(--md-default-fg-color);
+      border-color: var(--md-default-fg-color--lighter);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .md-button--secondary:hover {
+      background: var(--md-default-fg-color--lightest);
+      border-color: var(--md-default-fg-color--light);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .md-button:active {
+      transform: translateY(0);
+    }
+    
+    .md-button:hover .github-icon svg,
+    .md-button:hover .issue-icon svg {
+      transform: scale(1.1);
+    }
+    
+    .button-text {
+      margin-left: 0.25em;
+    }
+    
+    /* Status specific styling */
+    .translation-status[data-status="in_progress"] {
+      border-left-color: var(--md-warning-fg-color);
+    }
+    
+    .translation-status[data-status="dropped"] {
+      border-left-color: var(--md-default-fg-color--light);
+    }
+    
+    .translation-status[data-status="need_help"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    .translation-status[data-status="complete_except_images"] {
+      border-left-color: var(--md-success-fg-color);
+    }
+    
+    .translation-status[data-status="unique_content"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    /* Help section */
+    .status-help-section {
+      margin-top: 1em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.03);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-accent-fg-color);
+    }
+    
+    .status-help-section ul {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    
+    .status-help-section li {
+      margin: 0.25em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info a {
+      color: var(--md-primary-fg-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive design */
+    @media screen and (max-width: 768px) {
+      .translation-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .md-button {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .help-translation-section {
+        padding: 1em;
+      }
+    }
+    
+    /* Dark theme adjustments */
+    [data-md-color-scheme="slate"] .translation-fallback-message {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-md-color-scheme="slate"] .help-translation-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-md-color-scheme="slate"] .status-help-section {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animation for status changes */
+    @keyframes statusFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .translation-status {
+      animation: statusFadeIn 0.4s ease-out;
+    }
+    
+    /* Print styles */
+    @media print {
+      .language-notification,
+      .translation-status {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      
+      .translation-actions {
+        display: none;
+      }
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Writing Telegram Bots with aiogram 3.x - my_chat_member and chat_member Updates">
+  <meta property="og:description" content="my_chat_member and chat_member Updates">
+  <meta property="og:url" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/">
+  <meta property="og:image" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/">
+  <meta name="twitter:title" content="Writing Telegram Bots with aiogram 3.x - my_chat_member and chat_member Updates">
+  <meta name="twitter:description" content="my_chat_member and chat_member Updates">
+  <meta name="twitter:image" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/images/social.png">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#”special-updates”" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../" title="Writing Telegram Bots with aiogram 3.x" class="md-header__button md-logo" aria-label="Writing Telegram Bots with aiogram 3.x" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Writing Telegram Bots with aiogram 3.x
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              my_chat_member and chat_member Updates
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="indigo"  aria-label="Switch to Dark Theme"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to Dark Theme" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="purple" data-md-color-accent="indigo"  aria-label="Switch to Light Theme"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to Light Theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../special-updates/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../uk/special-updates/" hreflang="uk" class="md-select__link">
+              Українська
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/special-updates/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+
+<nav
+  class="md-nav md-nav--primary"
+  aria-label="Navigation"
+  data-md-level="0"
+>
+  <label class="md-nav__title" for="__drawer">
+    <a
+      href="../"
+      title="Writing Telegram Bots with aiogram 3.x"
+      class="md-nav__button md-logo"
+      aria-label="Writing Telegram Bots with aiogram 3.x"
+      data-md-component="logo"
+    >
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    
+  </label>
+
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+    </div>
+  
+
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about-translation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Translation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started with aiogram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Messages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rich-messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rich Messages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Buttons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routers. Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filters-and-middlewares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filters and Middlewares
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Special Updates
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Special Updates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#”intro”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#”chatmemberupdated”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatMemberUpdated Object
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#”my-chat-member”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        my_chat_member Update
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="my_chat_member Update">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#”ban-unban-pm”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bans/Unbans in Private Chat
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fsm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Finite State Machines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inline-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inline Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../payments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guest-bots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guest Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced-teaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔒 Advanced Level
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#”intro”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#”chatmemberupdated”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatMemberUpdated Object
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#”my-chat-member”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        my_chat_member Update
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="my_chat_member Update">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#”ban-unban-pm”" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bans/Unbans in Private Chat
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+  
+    
+    
+    <!-- Translation status notification -->
+    
+  
+  
+  
+                  
+
+
+  
+  
+
+
+<div><h1 id="”special-updates”">Special Updates<a class="headerlink" href="#%E2%80%9Dspecial-updates%E2%80%9D" title="Permanent link">¶</a></h1>
+<p>!!! info “”
+    aiogram version used: 3.7.0</p>
+<h2 id="”intro”">Introduction<a class="headerlink" href="#%E2%80%9Dintro%E2%80%9D" title="Permanent link">¶</a></h2>
+<p>Nearly all types of events in Telegram have some external representation for the user. Service messages, regular messages, 
+callbacks, inline mode... but there are two types of updates designed specifically for the bots themselves. We’re talking about 
+<code>my_chat_member</code> and <code>chat_member</code>.</p>
+<p>Once upon a time, bots in groups existed in an “information vacuum”: basically, for any moderator actions, whether bans or 
+restrictions, it was necessary to check the rights of the user making the call through the methods 
+<a href="https://core.telegram.org/bots/api#getchatadministrators">getChatMember</a> or 
+<a href="https://core.telegram.org/bots/api#getchatadministrators">getChatAdministrators</a>, and also cache the result for a short period 
+to avoid hitting the Bot API limits, the exact values of which remain a mystery. </p>
+<p>Or, for example, some clever user might add a bot to a group, remove its write permission, and start sending commands, expecting 
+the bot not to handle the error and crash. And with sending to private chats, things were even trickier: without knowing exactly 
+what the bot’s active user base was, developers had to either send some message to all users in their database, or, which is 
+slightly more humane, send these users some ChatAction like “<em>typing...</em>”; it turned out that those who blocked the bot wouldn’t receive 
+this “<em>typing...</em>”, returning an error from the Bot API.</p>
+<p>In March 2021, the situation changed dramatically for the better with the release of 
+<a href="https://core.telegram.org/bots/api-changelog#march-9-2021">Bot API v5.1 update</a>, which 
+added two new types of updates: <code>my_chat_member</code> and <code>chat_member</code>. Both updates 
+contain an object of the same type <a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a>. 
+The difference between these two events is as follows:</p>
+<ul>
+<li><code>my_chat_member</code>. Here everything that concerns the bot directly or a private chat with the user: blocking/unblocking 
+the bot by the user in private chat, adding the bot to a group or channel, removing it from there, changing the bot’s rights 
+and status in different chats, etc.</li>
+<li><code>chat_member</code>. Contains all changes in the status of users in groups and channels where the bot is an administrator: 
+users joining/leaving groups, subscribing/unsubscribing from channels, changes in user rights and statuses, 
+assigning/removing admins, and much more.</li>
+</ul>
+<p>!!! warning “Important”
+    By default, Telegram does not send <code>chat_member</code> updates to bots; you need to enable receiving them separately. More details — 
+    in the <a href="#chat-member">corresponding section</a></p>
+<p>In this chapter, we’ll try to consider these updates for the most commonly needed tasks, but before moving to the next sections, 
+I strongly recommend familiarizing yourself with 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">this page</a> 
+from the <strong>aiogram 3.x</strong> documentation.</p>
+<h2 id="”chatmemberupdated”">ChatMemberUpdated Object<a class="headerlink" href="#%E2%80%9Dchatmemberupdated%E2%80%9D" title="Permanent link">¶</a></h2>
+<p>The <a href="https://core.telegram.org/bots/api#chatmemberupdated">ChatMemberUpdated</a> object itself deserves special attention. 
+To study it more closely, let’s assume that in a certain group, administrator Alice banned regular member Vitya. 
+With the <code>chat</code> and <code>date</code> fields, everything is obvious, we’ll skip them.</p>
+<p>The <code>from</code> field (in your Python code this will be <code>from_user</code>) contains information about the subject of the action. 
+In our case, the subject of the action is Alice, so in <code>from</code> (<code>from_user</code>) there will be a <a href="https://core.telegram.org/bots/api#user">User</a> 
+object with Alice’s data.</p>
+<p><code>old_chat_member</code> and <code>new_chat_member</code>. These fields hide the “states” 
+of the action subject BEFORE and AFTER the event. Accordingly, in <code>old_chat_member</code> there will be an object of type 
+<a href="https://core.telegram.org/bots/api#chatmembermember">ChatMemberMember</a> (this is not a typo), and a <code>user</code> field with information 
+about Vitya, and in <code>new_chat_member</code> — a <a href="https://core.telegram.org/bots/api#chatmemberbanned">ChatMemberBanned</a> object with the 
+<code>user</code> field still containing information about the unfortunate Viktor.</p>
+<p>Finally, if a hypothetical Masha joined the group or channel, then in the ChatMemberUpdated object there will be a non-empty 
+<code>invite_link</code> field of type <a href="https://core.telegram.org/bots/api#chatinvitelink">ChatInviteLink</a> with information about which 
+invite link she used to join. </p>
+<p>!!! warning “About Invite Links”
+    It’s worth noting here that each administrator of a group/channel (including bots) can create multiple invite links with 
+    different parameters. If the bot “caught” a user joining via an invite link created by the bot itself, then in the <code>invite_link</code> 
+    field of the ChatInviteLink object, the link will be visible in full (without <code>https://t.me</code>, of course). But if a user came 
+    through another administrator’s link, the bot will only see the first part, with the second part replaced by ellipsis. </p>
+<div class="highlight"><pre><span></span><code>Most likely, this was done to prevent bots from sending invite links created by other chat administrators to just anyone.
+
+Interestingly, due to some quirky Telegram logic, if you join a public group through an invite link 
+(even if not by username), the bot won’t see the link (will get `None`). Telegram 🤷‍♂️
+</code></pre></div>
+<h2 id="”my-chat-member”">my_chat_member Update<a class="headerlink" href="#%E2%80%9Dmy-chat-member%E2%80%9D" title="Permanent link">¶</a></h2>
+<h3 id="”ban-unban-pm”">Bans/Unbans in Private Chat<a class="headerlink" href="#%E2%80%9Dban-unban-pm%E2%80%9D" title="Permanent link">¶</a></h3>
+<p>In specialized chats, the question periodically arises: “how do I make a broadcast to bot users 
+if someone might have blocked it?”. Of course, the first and main advice would be: 
+“create a <a href="https://telegram.org/faq_channels">channel</a>”, because channels are the best way to inform users 
+about something.</p>
+<p>But if you’ve still firmly decided to broadcast to users directly through the bot, there are three main 
+ways to keep the list of active bot users up to date:</p>
+<ol>
+<li>Directly during the broadcast by catching sending errors and making changes to the user database.</li>
+<li>Through periodic <a href="https://core.telegram.org/bots/api#sendchataction">sending of some ChatAction</a>, 
+for example, “typing” to the list of users.</li>
+<li>By listening to the my_chat_member update.</li>
+</ol>
+<p>Now we’re only interested in item 3. Let’s learn to use <code>my_chat_member</code> to determine that a user 
+has blocked or unblocked the bot. But before we try aiogram “magic”, let’s figure out how the mentioned situations 
+look in the Bot API itself. To do this, we’ll stop the bot process, open a dialog with it in Telegram, and sequentially 
+block and unblock it using the options in the messenger’s UI. Then we’ll open a web browser or some 
+Insomnia/Postman tool and go to the URL <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getupdates</code> to see the unprocessed messages 
+in JSON format.</p>
+<p>So, here’s what the bot receives when someone blocks it:</p>
+<p><img alt="User blocked the bot" src="../../images/ru/special-updates/my_chat_member-blocked.png"></p>
+<p>Things to pay attention to:</p>
+<ul>
+<li>The <code>my_chat_member</code> event occurred in a private chat with the user Groosha (chat_id equals my Telegram ID).</li>
+<li>The initiator (subject) of the event is also Groosha.</li>
+<li>In the <code>old_chat_member</code> field, we can see who the action was performed on (the bot) and what status the bot had in the private chat BEFORE: “member”, 
+i.e., the bot was NOT blocked before.</li>
+<li>In the <code>new_chat_member</code> field, the <code>user</code> contents are the same, but the status is now “kicked”, i.e., AFTER the event the bot was 
+blocked by the user.</li>
+</ul>
+<p>That is, the bot in the private chat with Groosha made a transition from “member” to “kicked” status. Now let’s see what came from 
+Telegram after unblocking:</p>
+<p><img alt="User unblocked the bot" src="../../images/ru/special-updates/my_chat_member-unblocked.png"></p>
+<p>This screenshot is similar to the previous one, but if you look closely, you can notice a difference: different <code>update_id</code> 
+(increased by one), and also the statuses before and after have swapped places. The bot in the private chat with Groosha made a transition 
+from “kicked” to “member”.<br>
+Additionally, there will usually be another update with type <code>message</code> and the <code>/start</code> 
+command in the content. Official clients send the <code>/start</code> command immediately when unblocking the bot, but don’t rely on this: 
+such actions are left to the clients, which may behave differently.</p>
+<p>Now let’s learn to react to such events through aiogram with a simple example: suppose we have a list of two active 
+bot users with IDs 111 and 222. With the <code>/start</code> command, we’ll add the user to the broadcast list, and with the <code>/users</code> 
+command, we’ll display the IDs of those who haven’t blocked the bot (in other words, when the bot is blocked, we’ll remove the ID 
+from the list, and when unblocked, we’ll add it again).</p>
+<p>Here’s a ready-made router for the conditions described above:</p>
+<p>```python title=”handlers/in_pm.py”
+from aiogram import F, Router
+from aiogram.filters.chat_member_updated import \
+    ChatMemberUpdatedFilter, MEMBER, KICKED
+from aiogram.filters.command import \
+    CommandStart, Command
+from aiogram.types import ChatMemberUpdated, Message</p>
+<p>router = Router()
+router.my_chat_member.filter(F.chat.type == “private”)
+router.message.filter(F.chat.type == “private”)</p>
+<h1 id="for-example-purposes-only">For example purposes only!<a class="headerlink" href="#for-example-purposes-only" title="Permanent link">¶</a></h1>
+<h1 id="in-real-life-use-more-reliable">In real life, use more reliable<a class="headerlink" href="#in-real-life-use-more-reliable" title="Permanent link">¶</a></h1>
+<h1 id="sources-of-user-ids">sources of user IDs<a class="headerlink" href="#sources-of-user-ids" title="Permanent link">¶</a></h1>
+<p>users = {111, 222}</p>
+<p>@router.my_chat_member(
+    ChatMemberUpdatedFilter(member_status_changed=KICKED)
+)
+async def user_blocked_bot(event: ChatMemberUpdated):
+    users.discard(event.from_user.id)</p>
+<p>@router.my_chat_member(
+    ChatMemberUpdatedFilter(member_status_changed=MEMBER)
+)
+async def user_unblocked_bot(event: ChatMemberUpdated):
+    users.add(event.from_user.id)</p>
+<p>@router.message(CommandStart())
+async def cmd_start(message: Message):
+    await message.answer(“Hello”)
+    users.add(message.from_user.id)</p>
+<p>@router.message(Command(“users”))
+async def cmd_users(message: Message):
+    await message.answer(“\n”.join(f”• {user_id}” for user_id in users))</p>
+<div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Pay attention: for handlers on the `my_chat_member` update, we use the `ChatMemberUpdatedFilter` filter with 
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>specifying the result we’re catching AFTER (i.e., the `new_chat_member` attribute of the update). That is, in this case, 
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>we don’t care what state the user was in BEFORE.
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>And here’s how it looks in practice:
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>![type:video](../images/ru/special-updates/my_chat_member_video.mp4)
+</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>### Adding to a Group {: id=”bot-added-to-group” }
+</span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Another common question from beginner developers: “how do I catch the event of the bot being added to a group?”. Well, 
+</span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>let’s figure it out. But first, let’s look at what the possible 
+</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>“[statuses](https://core.telegram.org/bots/api#chatmember)” of a user can be:
+</span><span id="__code-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__code-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>* creator (also owner) — chat owner. It seems that a bot cannot have such a status. The owner unconditionally has 
+</span><span id="__code-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>all possible rights in the chat except “anonymity”, which can be switched freely.
+</span><span id="__code-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>* administrator — any other administrator. In the application interface, you can remove all their rights, 
+</span><span id="__code-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>but they will still remain an administrator and can, for example, view Recent Actions and ignore slow mode.
+</span><span id="__code-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>* member — chat participant with default rights. These “default rights” for groups can be found by calling 
+</span><span id="__code-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>the [getChat](https://core.telegram.org/bots/api#getchat) API method and looking at the `permissions` field.
+</span><span id="__code-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>* restricted — a user with restrictions on certain rights. For example, in so-called “read-only” mode. 
+</span><span id="__code-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>**IMPORTANT**: in the `restricted` state, a user can both be in the group and not be in it, so 
+</span><span id="__code-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>with [ChatMemberRestricted](https://youtu.be/ndTTmWiOS-M) you must additionally check the `is_member` flag.
+</span><span id="__code-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>* left — “they flew away, but promised to come back”, i.e., the user left the group, 
+</span><span id="__code-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>but can return if desired. And at the time of leaving, they were not in a `restricted` state.
+</span><span id="__code-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>* banned — the user is banned and cannot return on their own until they are 
+</span><span id="__code-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>[unbanned](https://core.telegram.org/bots/api#unbanchatmember).
+</span><span id="__code-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+</span><span id="__code-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>With this information at hand, it’s not hard to guess that the event “bot was added to a group” is a transition from 
+</span><span id="__code-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>the set of states `{banned, left, restricted(is_member=False)}` 
+</span><span id="__code-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>to the set `{restricted(is_member=True), member, administrator}`. Such a transition in English is called a transition, and 
+</span><span id="__code-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>in **aiogram 3.x** there are already templates for this. 
+</span><span id="__code-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
+</span><span id="__code-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>Option #1: simply list all states before and after:
+</span><span id="__code-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
+</span><span id="__code-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>```python
+</span><span id="__code-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a># Don’t forget the imports:
+</span><span id="__code-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>from aiogram.filters.chat_member_updated import \
+</span><span id="__code-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    ChatMemberUpdatedFilter, KICKED, LEFT, MEMBER, \
+</span><span id="__code-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    RESTRICTED, ADMINISTRATOR, CREATOR
+</span><span id="__code-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
+</span><span id="__code-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>@router.my_chat_member(
+</span><span id="__code-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    ChatMemberUpdatedFilter(
+</span><span id="__code-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>        member_status_changed=
+</span><span id="__code-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>        (KICKED | LEFT | -RESTRICTED)
+</span><span id="__code-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>        &gt;&gt;
+</span><span id="__code-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>        (+RESTRICTED | MEMBER | ADMINISTRATOR | CREATOR)
+</span><span id="__code-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>    )
+</span><span id="__code-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>)
+</span></code></pre></div>
+<p>The vertical bar means “or”, the bitwise operator “&gt;&gt;” shows the direction of the transition, 
+and the “plus” and “minus” symbols around RESTRICTED relate to the <code>is_member</code> flag (plus - True, minus - False).</p>
+<p>But the aiogram developer went further and wrapped these two sets in separate states <code>IS_NOT_MEMBER</code> and <code>IS_MEMBER</code> 
+respectively. Let’s simplify our code as option #2:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Slightly different imports</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">IS_NOT_MEMBER</span><span class="p">,</span> <span class="n">IS_MEMBER</span>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="n">member_status_changed</span><span class="o">=</span>
+</span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="n">IS_NOT_MEMBER</span> <span class="o">&gt;&gt;</span> <span class="n">IS_MEMBER</span>
+</span><span id="__code-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="p">)</span>
+</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>But since, I repeat, such a transition is quite common in bots, the developer went <em>even further</em> and 
+wrapped such a transition in the <code>JOIN_TRANSITION</code> variable, getting option #3:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Even fewer imports</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters.chat_member_updated</span><span class="w"> </span><span class="kn">import</span> \
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">,</span> <span class="n">JOIN_TRANSITION</span>
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nd">@router</span><span class="o">.</span><span class="n">my_chat_member</span><span class="p">(</span>
+</span><span id="__code-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">ChatMemberUpdatedFilter</span><span class="p">(</span>
+</span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="n">member_status_changed</span><span class="o">=</span><span class="n">JOIN_TRANSITION</span>
+</span><span id="__code-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">)</span>
+</span><span id="__code-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>I strongly recommend checking out all the state sets and transitions 
+<a href="https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/chat_member_updated.html">in the documentation</a> 
+to make your code cleaner.</p>
+<p>Now let’s create another router with two handlers that react to adding the bot 
+to a group or supergroup as an administrator and regular member. 
+When added, we’ll send a summary of where the bot was added to the chat:</p>
+<p>```python title=”handlers/bot_in_group.py”
+from aiogram import F, Router
+from aiogram.filters.chat_member_updated import \
+    ChatMemberUpdatedFilter, IS_NOT_MEMBER, MEMBER, ADMINISTRATOR
+from aiogram.types import ChatMemberUpdated</p>
+<p>router = Router()
+router.my_chat_member.filter(F.chat.type.in_({“group”, “supergroup”}))</p>
+<p>chats_variants = {
+    “group”: “group”,
+    “supergroup”: “supergroup”
+}</p>
+<h1 id="couldnt-reproduce-the-case-of-adding-the-bot-as-restricted">Couldn’t reproduce the case of adding the bot as Restricted,<a class="headerlink" href="#couldnt-reproduce-the-case-of-adding-the-bot-as-restricted" title="Permanent link">¶</a></h1>
+<h1 id="so-there-will-be-no-example-with-it">so there will be no example with it<a class="headerlink" href="#so-there-will-be-no-example-with-it" title="Permanent link">¶</a></h1>
+<p>@router.my_chat_member(
+    ChatMemberUpdatedFilter(
+        member_status_changed=IS_NOT_MEMBER &gt;&gt; ADMINISTRATOR
+    )
+)
+async def bot_added_as_admin(event: ChatMemberUpdated):
+    # Simplest case: bot added as admin.
+    # We can easily send a message
+    await event.answer(
+        text=f”Hello! Thank you for adding me to “
+             f’the {chats_variants[event.chat.type]} “{event.chat.title}” ‘
+             f”as an administrator. Chat ID: {event.chat.id}”
+    )</p>
+<p>@router.my_chat_member(
+    ChatMemberUpdatedFilter(
+        member_status_changed=IS_NOT_MEMBER &gt;&gt; MEMBER
+    )
+)
+async def bot_added_as_member(event: ChatMemberUpdated, bot: Bot):
+    # More complex case: bot added as regular member.
+    # But there may be no write permission, so let’s check in advance.
+    chat_info = await bot.get_chat(event.chat.id)
+    if chat_info.permissions.can_send_messages:
+        await event.answer(
+            text=f”Hello! Thank you for adding me to “
+                 f’the {chats_variants[event.chat.type]} “{event.chat.title}” ‘
+                 f”as a regular member. Chat ID: {event.chat.id}”
+        )
+    else:
+        print(“Log this situation somehow”)
+</p><div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>But, as always, there’s a nuance, and to see it, you need to add the bot to a group, 
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>and then convert it to a supergroup. For clarity, I created a group 
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>with my bot [@my_id_bot](https://t.me/my_id_bot), and then added a test bot with the code described above. 
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Pay attention to the screenshot:
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>![converting a group to a supergroup](../images/ru/special-updates/group_supergroup.png)
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Oh, why did the bot react as if it was just added, when nothing seems to have changed. 
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>In fact, converting a group to a supergroup looks to the bot like adding to a new chat. Fortunately, in 
+</span><span id="__code-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>this case, the bot also receives a Message with non-empty 
+</span><span id="__code-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>`migrate_from_chat_id` and `migrate_to_chat_id` fields. And then it’s simple: when the `my_chat_member` event 
+</span><span id="__code-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>triggers on adding to a supergroup, check that there haven’t been any messages 
+</span><span id="__code-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>with a non-empty `migrate_to_chat_id` field recently (say, in the last couple of seconds).
+</span><span id="__code-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__code-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>The solution practically fully repeats the examples described above and moreover, it’s implemented in my [@my_id_bot](https://t.me/my_id_bot): 
+</span><span id="__code-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>[like this](https://github.com/MasterGroosha/my-id-bot/blob/17fa99945dd4eb186a7f2a200567829641edbe74/bot/handlers/add_or_migrate.py)
+</span><span id="__code-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>(stars on GitHub are always welcome)
+</span><span id="__code-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__code-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>!!! info “Groups and Supergroups”
+</span><span id="__code-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    Contrary to popular misconception, regular groups still exist and have no intention of disappearing. The official 
+</span><span id="__code-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>    Telegram clients initially create a regular group, which implicitly converts to a supergroup when some event occurs. 
+</span><span id="__code-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    And there are serious suspicions that such behavior won’t change in the coming years, 
+</span><span id="__code-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    especially given that regular (non-premium) accounts have a limit of 500 supergroups and channels combined.
+</span><span id="__code-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+</span><span id="__code-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    During conversion, in addition to the chat ID change, there are also some side effects, so often the simplest thing 
+</span><span id="__code-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    to do is convert the group to a supergroup immediately after creation, get the final ID, and not worry about it. 
+</span><span id="__code-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>    The complete list of actions that lead to converting a group to a supergroup can be seen here: 
+</span><span id="__code-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>    [https://t.me/tgbeta/3424](https://t.me/tgbeta/3424).
+</span><span id="__code-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>
+</span><span id="__code-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
+</span><span id="__code-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>## chat_member Update {: id=”chat-member” }
+</span><span id="__code-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>
+</span><span id="__code-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>The next special type of updates `chat_member` is tricky. The thing is, it’s not sent by Telegram by default, 
+</span><span id="__code-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>and for the Bot API to send it, you need to pass a list of desired event types when calling **getUpdates** or **setWebhook**. 
+</span><span id="__code-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>For example:
+</span><span id="__code-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>
+</span><span id="__code-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>```python
+</span><span id="__code-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a># imports here
+</span><span id="__code-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>
+</span><span id="__code-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>async def main():
+</span><span id="__code-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>    # code here
+</span><span id="__code-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>    dp = Dispatcher()
+</span><span id="__code-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>    bot = Bot(“token”)
+</span><span id="__code-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>    await dp.start_polling(
+</span><span id="__code-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>        bot, 
+</span><span id="__code-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>        allowed_updates=[“message”, “inline_query”, “chat_member”]
+</span><span id="__code-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>    )
+</span></code></pre></div>
+<p>Then, after starting the bot, Telegram will start sending the three specified types of events, but without all the others.</p>
+<p>The aiogram developers approached this topic elegantly: if you don’t explicitly specify <code>allowed_updates</code>, then 
+the framework will recursively go through all routers, starting with the dispatcher, look at the handlers, and automatically 
+collect the list of desired updates to receive. Want to override this behavior? Pass <code>allowed_updates</code> explicitly.</p>
+<p>!!! tip “Why am I not receiving the <xxx> update???”
+    In specialized chats, people regularly ask: “My code doesn’t work, doesn’t respond to the event, why?”</xxx></p>
+<div class="highlight"><pre><span></span><code>The first thing you should do is make sure the required update is being received by the bot at all. In other words, check 
+what `allowed_updates` was used when polling/webhooks were last called. The easiest way to do this is right in the browser:
+
+1. Take the bot token, let’s call it AAAAA
+2. Form a URL like `https://api.telegram.org/botAAAAA/getWebhookInfo`
+3. Go to it
+
+Then carefully study the JSON in the response. If the `allowed_updates` key is present, make sure the desired 
+update type is in the list. If the key is missing, this is equivalent to “everything comes except `chat_member`”
+</code></pre></div>
+<h3 id="”actualizing-admins”">Actualizing the Admin List in Groups<a class="headerlink" href="#%E2%80%9Dactualizing-admins%E2%80%9D" title="Permanent link">¶</a></h3>
+<p>A common problem for moderator bots: how to impose access rights checks on called commands. 
+For example, how to make only group administrators able to ban participants with the /ban command. </p>
+<p>The first and naive idea is to call getChatMember each time to determine the calling user’s status in the group. 
+The second idea is to cache this knowledge for a short time. 
+The third and more correct idea is to get the admin list when the bot starts, 
+and then listen to chat_member updates about changes in their composition and edit the list yourself. 
+Did the bot restart? No problem, we get the current list again and work with it.</p>
+<p>Let’s write a router in which we’ll monitor changes in the admin composition and update the externally passed list 
+(more precisely, in Python terms, it will be a set):</p>
+<p>```python title=”handlers/admin_changes_in_group.py”
+from aiogram import F, Router
+from aiogram.filters.chat_member_updated import \
+    ChatMemberUpdatedFilter, KICKED, LEFT, \
+    RESTRICTED, MEMBER, ADMINISTRATOR, CREATOR
+from aiogram.types import ChatMemberUpdated</p>
+<p>from config_reader import config</p>
+<p>router = Router()
+router.chat_member.filter(F.chat.id == config.main_chat_id)</p>
+<p>@router.chat_member(
+    ChatMemberUpdatedFilter(
+        member_status_changed=
+        (KICKED | LEFT | RESTRICTED | MEMBER)
+        &gt;&gt;
+        (ADMINISTRATOR | CREATOR)
+    )
+)
+async def admin_promoted(event: ChatMemberUpdated, admins: set[int]):
+    admins.add(event.new_chat_member.user.id)
+    await event.answer(
+        f”{event.new_chat_member.user.first_name} “
+        f”was promoted to Administrator!”
+    )</p>
+<p>@router.chat_member(
+    ChatMemberUpdatedFilter(
+        # Pay attention to the arrow direction
+        # Or you could swap the objects in the parentheses
+        member_status_changed=
+        (KICKED | LEFT | RESTRICTED | MEMBER)
+        &lt;&lt;
+        (ADMINISTRATOR | CREATOR)
+    )
+)
+async def admin_demoted(event: ChatMemberUpdated, admins: set[int]):
+    admins.discard(event.new_chat_member.user.id)
+    await event.answer(
+        f”{event.new_chat_member.user.first_name} “
+        f”was demoted to regular user!”
+    )
+</p><div class="highlight"><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Now let’s write another router with a handler for the `/ban` command. In the handler itself, we’ll check if the calling 
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>user’s ID is in the `admins` set and allow or disallow the ban based on this:
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>```python title=”handlers/events_in_group.py”
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>from aiogram import Router, F
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>from aiogram.filters.command import Command
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>from aiogram.types import Message
+</span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__code-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>router = Router()
+</span><span id="__code-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__code-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a># Actually, you can hang a custom filter on the router
+</span><span id="__code-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a># that checks if the calling user’s ID is in the admins set.
+</span><span id="__code-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a># Then all handlers in the router will automatically be called
+</span><span id="__code-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a># only for people from admins, this will reduce code and avoid unnecessary if
+</span><span id="__code-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a># But for the example, we’ll do it through if-else, to make it clearer
+</span><span id="__code-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__code-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__code-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>@router.message(Command(“ban”), F.reply_to_message)
+</span><span id="__code-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>async def cmd_ban(message: Message, admins: set[int]):
+</span><span id="__code-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    if message.from_user.id not in admins:
+</span><span id="__code-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        await message.answer(
+</span><span id="__code-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>            “You don’t have enough rights to perform this action”
+</span><span id="__code-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        )
+</span><span id="__code-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    else:
+</span><span id="__code-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        await message.chat.ban(
+</span><span id="__code-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>            user_id=message.reply_to_message.from_user.id
+</span><span id="__code-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        )
+</span><span id="__code-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        await message.answer(“Violator has been banned”)
+</span></code></pre></div>
+<p>It remains to register the routers in the main file and load the admin list at startup. Here’s the full 
+contents, along with all the previous changes.</p>
+<p>```python title=”bot.py”
+import asyncio
+import logging</p>
+<p>from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode</p>
+<p>from config_reader import config
+from handlers import in_pm, bot_in_group, admin_changes_in_group, events_in_group</p>
+<p>async def main():
+    logging.basicConfig(
+        level=logging.INFO,
+        format=”%(asctime)s - %(levelname)s - %(name)s - %(message)s”,
+    )</p>
+<div class="highlight"><pre><span></span><code>dp = Dispatcher()
+bot = Bot(
+    config.bot_token.get_secret_value(),
+    default=DefaultBotProperties(
+        parse_mode=ParseMode.HTML
+    )
+)
+dp.include_routers(
+    in_pm.router, events_in_group.router,
+    bot_in_group.router, admin_changes_in_group.router
+)
+
+# Loading the admin list
+admins = await bot.get_chat_administrators(config.main_chat_id)
+admin_ids = {admin.user.id for admin in admins}
+
+await dp.start_polling(bot, admins=admin_ids)
+</code></pre></div>
+<p>if <strong>name</strong> == ‘<strong>main</strong>’:
+    asyncio.run(main())
+```</p>
+<p>Now let’s see what we ended up with. Try calling the <code>/ban</code> command as a non-admin:</p>
+<p><img alt="User doesn’t have enough rights" src="../../images/ru/special-updates/ban_insufficient_rights.png"></p>
+<p>Go to the group settings and make Arthur an administrator (the bot will see the change and report it in the chat):</p>
+<p><img alt="Now there’s enough rights" src="../../images/ru/special-updates/ban_ok.png"></p>
+<p>Revoke admin rights from our test subject and ask them to call the <code>/ban</code> command again:</p>
+<p><img alt="Not enough rights again" src="../../images/ru/special-updates/ban_insufficient_again.png"></p>
+<p>Now you know how to work with these “invisible” updates, hooray! Finally, I recommend checking out 
+<a href="https://github.com/MasterGroosha/telegram-report-bot">one more demonstration bot</a>, which 
+uses some of the tricks described above.</p></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="June 20, 2026 16:11:16 UTC"><span class="timeago" datetime="2026-06-20T16:11:16+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="June 20, 2026 16:11:16 UTC">2026-06-20</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 23, 2026 22:59:21 UTC"><span class="timeago" datetime="2026-04-23T22:59:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 23, 2026 22:59:21 UTC">2026-04-23</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Original Copyright &copy; 2020-2026 Groosha, Translation Copyright &copy; 2024-2026 VAI
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Chat in Telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m115 168.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7.2-.7.3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2.5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3.6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6.5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7.5 3.2.6 6.5.4 9.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const KEY = "translation_notice_dismissed_v2";
+      const dismissed = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+      document.querySelectorAll(".is-dismissible[data-notice-id]").forEach((notice) => {
+        const noticeId = notice.dataset.noticeId;
+        if (dismissed.includes(noticeId)) {
+          notice.classList.add("is-hidden");
+        }
+
+        const closeBtn = notice.querySelector(".translation-notice-dismiss");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          notice.classList.add("is-hidden");
+          if (!dismissed.includes(noticeId)) {
+            dismissed.push(noticeId);
+            localStorage.setItem(KEY, JSON.stringify(dismissed));
+          }
+        });
+      });
+    });
+  </script>
+
+  </body>
+</html>

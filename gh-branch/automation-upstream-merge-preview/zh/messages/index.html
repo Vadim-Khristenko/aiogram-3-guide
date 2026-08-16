@@ -1,0 +1,2327 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+  <script src="https://telegram.org/js/telegram-web-app.js?35"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const webapp = window.Telegram.WebApp;
+      
+      webapp.ready();
+      webapp.expand();
+      webapp.disableVerticalSwipes();
+
+      const initData = webapp.initDataUnsafe;
+      
+
+      const normalizePath = (path) => {
+        if (!path) return '/';
+        const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+        return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+      };
+      const pathFromUrl = (urlValue) => {
+        try {
+          return new URL(urlValue, window.location.origin).pathname;
+        } catch {
+          return '';
+        }
+      };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
+      const siteBasePath = normalizePath(pathFromUrl('https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/'));
+      const canonicalPath = normalizePath(pathFromUrl('https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
+
+      const currentPath = normalizePath(window.location.pathname);
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
+        : currentPath.slice(1);
+      const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
+
+      const isDocsRoot = relativeSegments.length === 0
+        || hasLocaleRoot;
+
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
+        ? `${relativeSegments[0]}/`
+        : '';
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
+
+      if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
+        if (initData.start_param) {
+          const routeMap = {
+            'quickstart': 'quickstart',
+            'messages': 'messages',
+            'buttons': 'buttons',
+            'routers': 'routers',
+            'special-updates': 'special-updates',
+            'fsm': 'fsm',
+            'inline-mode': 'inline-mode',
+            
+            'filters': 'filters-and-middlewares/#filters',
+            'middlewares': 'filters-and-middlewares/#middlewares',
+            'magic-filter': 'filters-and-middlewares/#magic-filters',
+            'magic': 'filters-and-middlewares/#magic-filters',
+            'entities': 'messages/#message-entities',
+            'escaping': 'messages/#input-escaping',
+            'keep-formatting': 'messages/#keep-formatting',
+            'send-files': 'messages/#uploading-media',
+            'upload': 'messages/#uploading-media',
+            'download-files': 'messages/#downloading-media',
+            'download': 'messages/#downloading-media',
+            'hide-image': 'messages/#bonus',
+            'callback-factory': 'buttons/#callback-factory',
+            'my-chat-member': 'special-updates/#my-chat-member',
+            'chat-member': 'special-updates/#chat-member',
+          };
+
+          const path = routeMap[initData.start_param];
+          // Unknown start_param — do nothing, don't break or reload current page
+          if (!path) {
+            return;
+          }
+
+          const targetUrl = new URL(`${redirectRoot}${path}`, window.location.origin);
+
+          window.location.href = targetUrl.toString();
+        }
+      }
+    });
+  </script>
+
+  
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="消息格式化与媒体处理">
+      
+      
+        <meta name="author" content="MasterGroosha, Translated by VAI">
+      
+      
+        <link rel="canonical" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/">
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../rich-messages/">
+      
+      
+        
+          <link rel="alternate" href="../../messages/" hreflang="ru">
+        
+          <link rel="alternate" href="../../en/messages/" hreflang="en">
+        
+          <link rel="alternate" href="../../uk/messages/" hreflang="uk">
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+
+    
+      
+        <title>消息处理 - 使用 aiogram 3.x 编写 Telegram 机器人</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    /* ==================================================================
+       TRANSLATION NOTIFICATION STYLES
+       ================================================================== */
+    
+    /* Language notification */
+    .language-notification {
+      margin: 1.5em 0 2em 0;
+      border-left-width: 4px;
+      border-left-color: var(--md-primary-fg-color) !important;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.1) 0%, transparent 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Translation status notification */
+    .translation-status {
+      margin: 1.5em 0 2em 0;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .translation-notice-dismiss {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0.25rem;
+      opacity: 0.75;
+    }
+
+    .translation-notice-dismiss:hover {
+      opacity: 1;
+    }
+    
+    /* Icons styling */
+    .language-icon svg,
+    .status-icon svg,
+    .github-icon svg,
+    .issue-icon svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+    
+    /* Content sections */
+    .translation-notification-content {
+      margin-top: 1em;
+    }
+    
+    .translation-fallback-message {
+      margin-bottom: 1.5em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.05);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-primary-fg-color);
+    }
+    
+    .help-translation-section {
+      margin-top: 1.5em;
+      padding: 1.5em;
+      background: rgba(var(--md-primary-fg-color--rgb), 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(var(--md-primary-fg-color--rgb), 0.1);
+    }
+    
+    .help-translation-section h4 {
+      margin: 0 0 0.5em 0;
+      color: var(--md-primary-fg-color);
+      font-weight: 600;
+    }
+    
+    .help-translation-section p {
+      margin: 0.5em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    /* Action buttons */
+    .translation-actions {
+      display: flex;
+      gap: 0.75em;
+      margin-top: 1.5em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .md-button {
+      border-radius: 6px;
+      padding: 0.6em 1.2em;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      min-width: 140px;
+    }
+    
+    .md-button--primary {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      box-shadow: 0 2px 4px rgba(var(--md-primary-fg-color--rgb), 0.3);
+    }
+    
+    .md-button--primary:hover {
+      background: var(--md-primary-fg-color--dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(var(--md-primary-fg-color--rgb), 0.4);
+    }
+    
+    .md-button--secondary {
+      background: transparent;
+      color: var(--md-default-fg-color);
+      border-color: var(--md-default-fg-color--lighter);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .md-button--secondary:hover {
+      background: var(--md-default-fg-color--lightest);
+      border-color: var(--md-default-fg-color--light);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .md-button:active {
+      transform: translateY(0);
+    }
+    
+    .md-button:hover .github-icon svg,
+    .md-button:hover .issue-icon svg {
+      transform: scale(1.1);
+    }
+    
+    .button-text {
+      margin-left: 0.25em;
+    }
+    
+    /* Status specific styling */
+    .translation-status[data-status="in_progress"] {
+      border-left-color: var(--md-warning-fg-color);
+    }
+    
+    .translation-status[data-status="dropped"] {
+      border-left-color: var(--md-default-fg-color--light);
+    }
+    
+    .translation-status[data-status="need_help"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    .translation-status[data-status="complete_except_images"] {
+      border-left-color: var(--md-success-fg-color);
+    }
+    
+    .translation-status[data-status="unique_content"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    /* Help section */
+    .status-help-section {
+      margin-top: 1em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.03);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-accent-fg-color);
+    }
+    
+    .status-help-section ul {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    
+    .status-help-section li {
+      margin: 0.25em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info a {
+      color: var(--md-primary-fg-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive design */
+    @media screen and (max-width: 768px) {
+      .translation-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .md-button {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .help-translation-section {
+        padding: 1em;
+      }
+    }
+    
+    /* Dark theme adjustments */
+    [data-md-color-scheme="slate"] .translation-fallback-message {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-md-color-scheme="slate"] .help-translation-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-md-color-scheme="slate"] .status-help-section {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animation for status changes */
+    @keyframes statusFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .translation-status {
+      animation: statusFadeIn 0.4s ease-out;
+    }
+    
+    /* Print styles */
+    @media print {
+      .language-notification,
+      .translation-status {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      
+      .translation-actions {
+        display: none;
+      }
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 消息处理">
+  <meta property="og:description" content="消息格式化与媒体处理">
+  <meta property="og:url" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/">
+  <meta property="og:image" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/">
+  <meta name="twitter:title" content="使用 aiogram 3.x 编写 Telegram 机器人 - 消息处理">
+  <meta name="twitter:description" content="消息格式化与媒体处理">
+  <meta name="twitter:image" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/images/social.png">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#消息处理" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../" title="使用 aiogram 3.x 编写 Telegram 机器人" class="md-header__button md-logo" aria-label="使用 aiogram 3.x 编写 Telegram 机器人" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            使用 aiogram 3.x 编写 Telegram 机器人
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              消息处理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../messages/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/messages/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../uk/messages/" hreflang="uk" class="md-select__link">
+              Українська
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+
+<nav
+  class="md-nav md-nav--primary"
+  aria-label="导航栏"
+  data-md-level="0"
+>
+  <label class="md-nav__title" for="__drawer">
+    <a
+      href="../"
+      title="使用 aiogram 3.x 编写 Telegram 机器人"
+      class="md-nav__button md-logo"
+      aria-label="使用 aiogram 3.x 编写 Telegram 机器人"
+      data-md-component="logo"
+    >
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    
+  </label>
+
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+    </div>
+  
+
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about-translation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    关于翻译
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    aiogram 入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    消息处理
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    消息处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="文本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formatting-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        格式化输出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-escaping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输入转义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保留格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理 entities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令及其参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deeplinks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        深层链接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#link-previews" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        链接预览
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="媒体文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uploading-media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        发送文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#albums" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体组
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        服务（辅助）消息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        奖励：在文本中隐藏链接
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rich-messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rich Messages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    按钮
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    路由器与结构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filters-and-middlewares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    过滤器与中间件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    特殊更新
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fsm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    有限状态机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inline-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内联模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../payments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    支付
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guest-bots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    访客模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced-teaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔒 进阶内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="文本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formatting-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        格式化输出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-escaping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输入转义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保留格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理 entities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令及其参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deeplinks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        深层链接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#link-previews" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        链接预览
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="媒体文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uploading-media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        发送文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#albums" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体组
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        服务（辅助）消息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        奖励：在文本中隐藏链接
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+  
+    
+    
+    <!-- Translation status notification -->
+    
+  
+  
+  
+                  
+
+
+  
+  
+
+
+<div><h1 id="消息处理">消息处理<a class="headerlink" href="#%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86" title="Permanent link">¶</a></h1>
+<div class="admonition info">
+<p>使用的 aiogram 版本: 3.7.0</p>
+</div>
+<p>在本章中，我们将学习如何对消息应用各种类型的格式，以及如何处理媒体文件。</p>
+<h2 id="text">文本<a class="headerlink" href="#text" title="Permanent link">¶</a></h2>
+<p>处理文本消息可能是大多数机器人最重要的操作之一。文本可以表达几乎任何内容，
+并且我们希望 <em>漂亮地</em> 呈现信息。开发人员可以使用三种文本标记方式：HTML、Markdown 和 MarkdownV2。
+其中最先进的是 HTML 和 MarkdownV2，"经典的" Markdown 支持的功能更少，在 aiogram 中不再使用。</p>
+<p>在我们研究如何在 aiogram 中处理文本之前，有必要提及 aiogram 3.x 与 2.x 的一个重要区别：
+在"2.x"中，默认只处理文本消息，而在"3.x"中处理任何类型的消息。更准确地说，
+现在接收仅文本消息的方式是：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 之前（使用装饰器）</span>
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message_handler</span><span class="p">()</span>
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">func_name</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 之前（使用注册函数）</span>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">dp</span><span class="o">.</span><span class="n">register_message_handler</span><span class="p">(</span><span class="n">func_name</span><span class="p">)</span>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__code-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># 现在（使用装饰器）</span>
+</span><span id="__code-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span>
+</span><span id="__code-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">func_name</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span><span id="__code-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__code-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># 现在（使用注册函数）</span>
+</span><span id="__code-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">dp</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span></code></pre></div>
+<p>关于"魔法过滤器" <strong>F</strong> 我们将在 <a href="../filters-and-middlewares/">另一章</a> 中讨论。</p>
+<h3 id="formatting-options">格式化输出<a class="headerlink" href="#formatting-options" title="Permanent link">¶</a></h3>
+<p>发送消息时选择格式由 <code>parse_mode</code> 参数决定，例如：
+</p><div class="highlight"><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParseMode</span>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># 如果不指定过滤器 F.text，</span>
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># 那么处理程序甚至会对带有标题 /test 的图片起作用</span>
+</span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">Command</span><span class="p">(</span><span class="s2">"test"</span><span class="p">))</span>
+</span><span id="__code-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">any_message</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="s2">"Hello, &lt;b&gt;world&lt;/b&gt;!"</span><span class="p">,</span> 
+</span><span id="__code-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">parse_mode</span><span class="o">=</span><span class="n">ParseMode</span><span class="o">.</span><span class="n">HTML</span>
+</span><span id="__code-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="p">)</span>
+</span><span id="__code-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="s2">"Hello, *world*\!"</span><span class="p">,</span> 
+</span><span id="__code-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="n">parse_mode</span><span class="o">=</span><span class="n">ParseMode</span><span class="o">.</span><span class="n">MARKDOWN_V2</span>
+</span><span id="__code-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="各种格式的 Hello world" src="../../images/ru/messages/l02_1.png"></p>
+<p>如果机器人中普遍使用某种格式，那么每次都指定 <code>parse_mode</code> 参数会很麻烦。幸运的是，
+在 aiogram 中，您可以设置机器人的默认参数。为此，创建 <code>DefaultBotProperties</code> 对象
+并将所需设置传递给它：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.client.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultBotProperties</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span>
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">token</span><span class="o">=</span><span class="s2">"123:abcxyz"</span><span class="p">,</span>
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">default</span><span class="o">=</span><span class="n">DefaultBotProperties</span><span class="p">(</span>
+</span><span id="__code-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="n">parse_mode</span><span class="o">=</span><span class="n">ParseMode</span><span class="o">.</span><span class="n">HTML</span>
+</span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="c1"># 这里还有许多其他有趣的设置</span>
+</span><span id="__code-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">)</span>
+</span><span id="__code-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span><span id="__code-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__code-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># 在函数中的某个地方...</span>
+</span><span id="__code-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"带有 &lt;u&gt;HTML 标记&lt;/u&gt; 的消息"</span><span class="p">)</span>
+</span><span id="__code-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># 要在特定请求中明确禁用格式，</span>
+</span><span id="__code-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1"># 传递 parse_mode=None</span>
+</span><span id="__code-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="s2">"没有 &lt;s&gt;任何标记&lt;/s&gt; 的消息"</span><span class="p">,</span> 
+</span><span id="__code-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="n">parse_mode</span><span class="o">=</span><span class="kc">None</span>
+</span><span id="__code-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="设置默认标记类型" src="../../images/ru/messages/l02_2.png"></p>
+<h3 id="input-escaping">输入转义<a class="headerlink" href="#input-escaping" title="Permanent link">¶</a></h3>
+<p>通常会出现这样的情况：最终消息文本事先不知道，并根据某些外部数据形成：用户名、
+其输入等。编写一个对 <code>/hello</code> 命令的处理程序，它将按用户的全名（<code>first_name + last_name</code>）
+问候用户，例如："Hello, Ivan Ivanov"：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">))</span>
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_hello</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="sa">f</span><span class="s2">"Hello, &lt;b&gt;</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">full_name</span><span class="si">}</span><span class="s2">&lt;/b&gt;"</span><span class="p">,</span>
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="n">parse_mode</span><span class="o">=</span><span class="n">ParseMode</span><span class="o">.</span><span class="n">HTML</span>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>一切似乎都很好，机器人向用户问好：</p>
+<p><img alt="/hello 命令的工作" src="../../images/ru/messages/cmd_hello_before.png"></p>
+<p>但是一个名字为 &lt;Slavik777&gt; 的用户到来了，机器人沉默了！而且在日志中看到以下内容：
+<code>aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: can't parse entities: 
+Unsupported start tag "Slavik777" at byte offset 7</code></p>
+<p>哎呀，我们有 HTML 格式模式，Telegram 试图将 &lt;Slavik777&gt; 解析为 HTML 标签。不好。
+但这个问题有几个解决方案。首先：转义传递的值。</p>
+<div class="highlight"><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">html</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">))</span>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_hello</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">bold</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">full_name</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="n">parse_mode</span><span class="o">=</span><span class="n">ParseMode</span><span class="o">.</span><span class="n">HTML</span>
+</span><span id="__code-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>第二个稍微复杂一些，但更高级：使用一个特殊的工具，它将分别收集文本和有关
+应该格式化哪些部分的信息。</p>
+<div class="highlight"><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.utils.formatting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Bold</span>
+</span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">))</span>
+</span><span id="__code-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_hello</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">content</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+</span><span id="__code-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="s2">"Hello, "</span><span class="p">,</span>
+</span><span id="__code-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">Bold</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">full_name</span><span class="p">)</span>
+</span><span id="__code-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="p">)</span>
+</span><span id="__code-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="o">**</span><span class="n">content</span><span class="o">.</span><span class="n">as_kwargs</span><span class="p">()</span>
+</span><span id="__code-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>在上面的例子中，构造 <code>**content.as_kwargs()</code> 将返回参数 <code>text</code>、<code>entities</code>、<code>parse_mode</code>
+并将它们代入 <code>answer()</code> 调用。</p>
+<p><img alt="修复后 /hello 命令的工作" src="../../images/ru/messages/cmd_hello_after.png"></p>
+<p>提到的格式化工具相当复杂，
+<a href="https://docs.aiogram.dev/en/latest/utils/formatting.html">官方文档</a> 演示了方便的复杂构造显示，例如：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.utils.formatting</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">Bold</span><span class="p">,</span> <span class="n">as_list</span><span class="p">,</span> <span class="n">as_marked_section</span><span class="p">,</span> <span class="n">as_key_value</span><span class="p">,</span> <span class="n">HashTag</span>
+</span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">)</span>
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"advanced_example"</span><span class="p">))</span>
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_advanced_example</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">content</span> <span class="o">=</span> <span class="n">as_list</span><span class="p">(</span>
+</span><span id="__code-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>        <span class="n">as_marked_section</span><span class="p">(</span>
+</span><span id="__code-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>            <span class="n">Bold</span><span class="p">(</span><span class="s2">"Success:"</span><span class="p">),</span>
+</span><span id="__code-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>            <span class="s2">"Test 1"</span><span class="p">,</span>
+</span><span id="__code-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>            <span class="s2">"Test 3"</span><span class="p">,</span>
+</span><span id="__code-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>            <span class="s2">"Test 4"</span><span class="p">,</span>
+</span><span id="__code-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>            <span class="n">marker</span><span class="o">=</span><span class="s2">"✅ "</span><span class="p">,</span>
+</span><span id="__code-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="p">),</span>
+</span><span id="__code-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="n">as_marked_section</span><span class="p">(</span>
+</span><span id="__code-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>            <span class="n">Bold</span><span class="p">(</span><span class="s2">"Failed:"</span><span class="p">),</span>
+</span><span id="__code-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>            <span class="s2">"Test 2"</span><span class="p">,</span>
+</span><span id="__code-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>            <span class="n">marker</span><span class="o">=</span><span class="s2">"❌ "</span><span class="p">,</span>
+</span><span id="__code-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>        <span class="p">),</span>
+</span><span id="__code-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>        <span class="n">as_marked_section</span><span class="p">(</span>
+</span><span id="__code-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>            <span class="n">Bold</span><span class="p">(</span><span class="s2">"Summary:"</span><span class="p">),</span>
+</span><span id="__code-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>            <span class="n">as_key_value</span><span class="p">(</span><span class="s2">"Total"</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+</span><span id="__code-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>            <span class="n">as_key_value</span><span class="p">(</span><span class="s2">"Success"</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+</span><span id="__code-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>            <span class="n">as_key_value</span><span class="p">(</span><span class="s2">"Failed"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span id="__code-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>            <span class="n">marker</span><span class="o">=</span><span class="s2">"  "</span><span class="p">,</span>
+</span><span id="__code-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>        <span class="p">),</span>
+</span><span id="__code-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>        <span class="n">HashTag</span><span class="p">(</span><span class="s2">"#test"</span><span class="p">),</span>
+</span><span id="__code-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>        <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="p">)</span>
+</span><span id="__code-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="o">**</span><span class="n">content</span><span class="o">.</span><span class="n">as_kwargs</span><span class="p">())</span>
+</span></code></pre></div>
+<p><img alt="高级示例" src="../../images/ru/messages/advanced_example.png"></p>
+<div class="admonition info">
+<p>有关各种格式化方法和支持的标签的更多信息可在
+<a href="https://core.telegram.org/bots/api#formatting-options">Bot API 文档</a>中找到。</p>
+</div>
+<h3 id="keep-formatting">保留格式<a class="headerlink" href="#keep-formatting" title="Permanent link">¶</a></h3>
+<p>假设机器人应该从用户那里获取格式化的文本并向其中添加一些内容，例如时间戳。
+让我们编写一些简单的代码：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 新导入！</span>
+</span><span id="__code-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span id="__code-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__code-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">echo_with_time</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="c1"># 获取当前时间（本地时区）</span>
+</span><span id="__code-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">time_now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%H:%M'</span><span class="p">)</span>
+</span><span id="__code-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="c1"># 创建带下划线的文本</span>
+</span><span id="__code-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">added_text</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">underline</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Created at </span><span class="si">{</span><span class="n">time_now</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__code-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="c1"># 发送带有添加文本的新消息</span>
+</span><span id="__code-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">added_text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">parse_mode</span><span class="o">=</span><span class="s2">"HTML"</span><span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="添加的文本（失败的尝试）" src="../../images/ru/messages/keep_formatting_bad.png"></p>
+<p>嗯，出了问题，为什么原始消息的格式坏了？
+这是因为 <code>message.text</code> 返回纯文本，没有任何格式。要获得所需格式的文本，
+我们将使用替代属性：<code>message.html_text</code> 或 <code>message.md_text</code>。现在我们需要第一个。
+在上面的示例中将 <code>message.text</code> 替换为 <code>message.html_text</code>，我们得到正确的结果：</p>
+<p><img alt="添加的文本（成功）" src="../../images/ru/messages/keep_formatting_good.png"></p>
+<h3 id="message-entities">处理 entities<a class="headerlink" href="#message-entities" title="Permanent link">¶</a></h3>
+<p>Telegram 大大简化了开发人员的生活，在其一方对用户消息进行预处理。例如，
+某些实体，如电子邮件、电话号码、用户名等，可以不用 <a href="https://ru.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B3%D1%83%D0%BB%D1%8F%D1%80%D0%BD%D1%8B%D0%B5_%D0%B2%D1%8B%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F">正则表达式</a>
+提取，而可以直接从对象 <a href="https://core.telegram.org/bots/api#message">Message</a> 和
+<code>entities</code> 字段中提取，该字段包含 <a href="https://core.telegram.org/bots/api#messageentity">MessageEntity</a>
+类型对象的数组。作为例子，让我们编写一个处理程序，从消息中提取链接、电子邮件和等宽文本（每个一个）。
+这里隐藏着一个重要的陷阱。<strong>Telegram 返回的不是值本身，而是它们在文本中的开始和长度</strong>。
+而且，文本被视为 UTF-8 符号，但实体使用 UTF-16，因为如果您只是取位置和长度，
+那么在存在 UTF-16 符号（例如，表情符号）时，您处理的文本就会出错。</p>
+<p>下面的例子最好地演示了这一点。在屏幕截图中，机器人的第一条回复是"粗暴"解析的结果，
+第二条是应用 aiogram 方法 <code>extract_from()</code> 到实体的结果。为其传递整个原始文本：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__code-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>        <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"&lt;N/A&gt;"</span><span class="p">,</span>
+</span><span id="__code-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"&lt;N/A&gt;"</span><span class="p">,</span>
+</span><span id="__code-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        <span class="s2">"code"</span><span class="p">:</span> <span class="s2">"&lt;N/A&gt;"</span>
+</span><span id="__code-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="p">}</span>
+</span><span id="__code-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">entities</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">entities</span> <span class="ow">or</span> <span class="p">[]</span>
+</span><span id="__code-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+</span><span id="__code-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span id="__code-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>            <span class="c1"># 不正确</span>
+</span><span id="__code-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>            <span class="c1"># data[item.type] = message.text[item.offset : item.offset+item.length]</span>
+</span><span id="__code-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>            <span class="c1"># 正确</span>
+</span><span id="__code-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>            <span class="n">data</span><span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">extract_from</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span>
+</span><span id="__code-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>        <span class="s2">"Вот что я нашёл:</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="sa">f</span><span class="s2">"URL: </span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'url'</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        <span class="sa">f</span><span class="s2">"E-mail: </span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'email'</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>        <span class="sa">f</span><span class="s2">"Пароль: </span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'code'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="解析 entities" src="../../images/ru/messages/parse_entities.png"></p>
+<h3 id="commands-args">命令及其参数<a class="headerlink" href="#commands-args" title="Permanent link">¶</a></h3>
+<p>Telegram <a href="https://core.telegram.org/bots/features#inputs">为用户提供</a> 许多输入信息的方式。
+其中之一是命令：以斜杠开头的关键字，例如 <code>/new</code> 或 <code>/ban</code>。有时，机器人可能被设计为
+在命令本身之后期望一些 <em>参数</em>，例如 <code>/ban 2d</code> 或 <code>/settimer 20h This is delayed message</code>。
+aiogram 包含一个 <code>Command()</code> 过滤器，可以简化开发人员的生活。实现最后一个例子：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"settimer"</span><span class="p">))</span>
+</span><span id="__code-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_settimer</span><span class="p">(</span>
+</span><span id="__code-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="n">command</span><span class="p">:</span> <span class="n">CommandObject</span>
+</span><span id="__code-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">):</span>
+</span><span id="__code-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="c1"># 如果没有传递任何参数，</span>
+</span><span id="__code-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="c1"># 那么 command.args 将为 None</span>
+</span><span id="__code-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>            <span class="s2">"Error: no arguments passed"</span>
+</span><span id="__code-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="p">)</span>
+</span><span id="__code-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="k">return</span>
+</span><span id="__code-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="c1"># 尝试按第一个空格将参数分成两部分</span>
+</span><span id="__code-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__code-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        <span class="n">delay_time</span><span class="p">,</span> <span class="n">text_to_send</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__code-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="c1"># 如果我们得到少于两个部分，将抛出 ValueError</span>
+</span><span id="__code-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span id="__code-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>            <span class="s2">"Error: incorrect command format. Example:</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>            <span class="s2">"/settimer &lt;time&gt; &lt;message&gt;"</span>
+</span><span id="__code-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>        <span class="p">)</span>
+</span><span id="__code-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>        <span class="k">return</span>
+</span><span id="__code-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>        <span class="s2">"Timer added!</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>        <span class="sa">f</span><span class="s2">"Time: </span><span class="si">{</span><span class="n">delay_time</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        <span class="sa">f</span><span class="s2">"Text: </span><span class="si">{</span><span class="n">text_to_send</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>尝试使用不同的参数传递命令（或根本不使用参数）并检查响应：</p>
+<p><img alt="命令参数" src="../../images/ru/messages/command_args.png"></p>
+<p>在组中可能会出现命令的小问题：Telegram 自动突出显示以斜杠开头的命令，这有时会导致这样的情况
+（感谢我亲爱的订户帮助创建屏幕截图）：</p>
+<p><img alt="命令洪泛" src="../../images/ru/messages/commands_flood.png"></p>
+<p>为了避免这种情况，您可以强制机器人对具有其他前缀的命令做出反应。它们不会被突出显示，
+并且需要完全手动输入，所以自己评估这种方法的好处。</p>
+<div class="highlight"><pre><span></span><code><span id="__code-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"custom1"</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"%"</span><span class="p">))</span>
+</span><span id="__code-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_custom1</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"I see the command!"</span><span class="p">)</span>
+</span><span id="__code-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__code-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__code-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># 您可以指定多个前缀....vv...</span>
+</span><span id="__code-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"custom2"</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/!"</span><span class="p">))</span>
+</span><span id="__code-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_custom2</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"And I see this one too!"</span><span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="自定义前缀" src="../../images/ru/messages/command_custom_prefix.png"></p>
+<p>在组中使用自定义前缀的问题只在于，启用了隐私模式的非管理员机器人（默认情况下）
+可能由于 <a href="https://core.telegram.org/bots/faq#what-messages-will-my-bot-get">特性</a>
+看不到这样的命令。最常见的用例是已经是管理员的群组审核机器人。</p>
+<h3 id="deeplinks">深层链接<a class="headerlink" href="#deeplinks" title="Permanent link">¶</a></h3>
+<p>在 Telegram 中有一个命令具有稍微更多的功能。这是 <code>/start</code>。事实上，
+您可以形成形如 <code>t.me/bot?start=xxx</code> 的链接，当用户点击这样的链接时，
+他们会看到一个"开始"按钮，点击它机器人会收到消息 <code>/start xxx</code>。
+即在链接中植入某个额外的参数，不需要手动输入。这称为深层链接（不要与 deepdive 混淆），
+可用于许多不同的事情：激活各种命令的快捷方式、转介系统、快速配置机器人等。
+让我们编写两个例子：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+</span><span id="__code-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span>
+</span><span id="__code-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">CommandObject</span><span class="p">,</span> <span class="n">CommandStart</span>
+</span><span id="__code-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__code-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"help"</span><span class="p">))</span>
+</span><span id="__code-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">CommandStart</span><span class="p">(</span>
+</span><span id="__code-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">deep_link</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">magic</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">args</span> <span class="o">==</span> <span class="s2">"help"</span>
+</span><span id="__code-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">))</span>
+</span><span id="__code-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start_help</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"This is a help message"</span><span class="p">)</span>
+</span><span id="__code-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__code-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+</span><span id="__code-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">CommandStart</span><span class="p">(</span>
+</span><span id="__code-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>    <span class="n">deep_link</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__code-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>    <span class="n">magic</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">regexp</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">'book_(\d+)'</span><span class="p">))</span>
+</span><span id="__code-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="p">))</span>
+</span><span id="__code-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_start_book</span><span class="p">(</span>
+</span><span id="__code-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>        <span class="n">command</span><span class="p">:</span> <span class="n">CommandObject</span>
+</span><span id="__code-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="p">):</span>
+</span><span id="__code-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>    <span class="n">book_number</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__code-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sending book №</span><span class="si">{</span><span class="n">book_number</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="深层链接的例子" src="../../images/ru/messages/deeplinks.png"></p>
+<p>请注意，通过 <code>start</code> 的深层链接会将用户发送到与机器人的私聊。要选择一个群组
+并将深层链接发送到那里，请将 <code>start</code> 替换为 <code>startgroup</code>。此外，aiogram 有一个方便的
+<a href="https://github.com/aiogram/aiogram/blob/228a86afdc3c594dd9db9e82d8d6d445adb5ede1/aiogram/utils/deep_linking.py#L126-L158">函数</a>
+用于直接从代码创建深层链接。</p>
+<div class="admonition tip">
+<p class="admonition-title">更多深层链接，但不是针对机器人的</p>
+<p>在 Telegram 文档中，有对客户端应用程序的所有可能的深层链接的详细描述：
+<a href="https://core.telegram.org/api/links">https://core.telegram.org/api/links</a></p>
+</div>
+<h3 id="link-previews">链接预览<a class="headerlink" href="#link-previews" title="Permanent link">¶</a></h3>
+<p>通常，在发送带有链接的文本消息时，Telegram 会尝试查找并显示序列中第一个链接的预览。
+可以通过将 <code>link_preview_options</code> 作为 <code>send_message()</code> 方法的参数传递 <code>LinkPreviewOptions</code> 对象
+来自定义此行为：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># 新导入</span>
+</span><span id="__code-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinkPreviewOptions</span>
+</span><span id="__code-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__code-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"links"</span><span class="p">))</span>
+</span><span id="__code-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_links</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="n">links_text</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__code-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>        <span class="s2">"https://nplus1.ru/news/2024/05/23/voyager-1-science-data"</span>
+</span><span id="__code-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="s2">"https://t.me/telegram"</span>
+</span><span id="__code-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="p">)</span>
+</span><span id="__code-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="c1"># 禁用链接</span>
+</span><span id="__code-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    <span class="n">options_1</span> <span class="o">=</span> <span class="n">LinkPreviewOptions</span><span class="p">(</span><span class="n">is_disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__code-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>        <span class="sa">f</span><span class="s2">"No link preview</span><span class="se">\n</span><span class="si">{</span><span class="n">links_text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>        <span class="n">link_preview_options</span><span class="o">=</span><span class="n">options_1</span>
+</span><span id="__code-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>    <span class="p">)</span>
+</span><span id="__code-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
+</span><span id="__code-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="c1"># -------------------- #</span>
+</span><span id="__code-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__code-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>    <span class="c1"># 小预览</span>
+</span><span id="__code-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>    <span class="c1"># 要使用 prefer_small_media，必须还指定 url</span>
+</span><span id="__code-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>    <span class="n">options_2</span> <span class="o">=</span> <span class="n">LinkPreviewOptions</span><span class="p">(</span>
+</span><span id="__code-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>        <span class="n">url</span><span class="o">=</span><span class="s2">"https://nplus1.ru/news/2024/05/23/voyager-1-science-data"</span><span class="p">,</span>
+</span><span id="__code-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>        <span class="n">prefer_small_media</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__code-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>    <span class="p">)</span>
+</span><span id="__code-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>        <span class="sa">f</span><span class="s2">"Small preview</span><span class="se">\n</span><span class="si">{</span><span class="n">links_text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>        <span class="n">link_preview_options</span><span class="o">=</span><span class="n">options_2</span>
+</span><span id="__code-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>    <span class="p">)</span>
+</span><span id="__code-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>
+</span><span id="__code-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>    <span class="c1"># -------------------- #</span>
+</span><span id="__code-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>
+</span><span id="__code-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>    <span class="c1"># 大预览</span>
+</span><span id="__code-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>    <span class="c1"># 要使用 prefer_large_media，必须还指定 url</span>
+</span><span id="__code-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>    <span class="n">options_3</span> <span class="o">=</span> <span class="n">LinkPreviewOptions</span><span class="p">(</span>
+</span><span id="__code-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>        <span class="n">url</span><span class="o">=</span><span class="s2">"https://nplus1.ru/news/2024/05/23/voyager-1-science-data"</span><span class="p">,</span>
+</span><span id="__code-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>        <span class="n">prefer_large_media</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__code-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>    <span class="p">)</span>
+</span><span id="__code-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>        <span class="sa">f</span><span class="s2">"Large preview</span><span class="se">\n</span><span class="si">{</span><span class="n">links_text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>        <span class="n">link_preview_options</span><span class="o">=</span><span class="n">options_3</span>
+</span><span id="__code-12-42"><a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a>    <span class="p">)</span>
+</span><span id="__code-12-43"><a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a>
+</span><span id="__code-12-44"><a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a>    <span class="c1"># -------------------- #</span>
+</span><span id="__code-12-45"><a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a>
+</span><span id="__code-12-46"><a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>    <span class="c1"># 您可以组合：小预览和在文本上方放置</span>
+</span><span id="__code-12-47"><a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a>    <span class="n">options_4</span> <span class="o">=</span> <span class="n">LinkPreviewOptions</span><span class="p">(</span>
+</span><span id="__code-12-48"><a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a>        <span class="n">url</span><span class="o">=</span><span class="s2">"https://nplus1.ru/news/2024/05/23/voyager-1-science-data"</span><span class="p">,</span>
+</span><span id="__code-12-49"><a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a>        <span class="n">prefer_small_media</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__code-12-50"><a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a>        <span class="n">show_above_text</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__code-12-51"><a id="__codelineno-12-51" name="__codelineno-12-51" href="#__codelineno-12-51"></a>    <span class="p">)</span>
+</span><span id="__code-12-52"><a id="__codelineno-12-52" name="__codelineno-12-52" href="#__codelineno-12-52"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-12-53"><a id="__codelineno-12-53" name="__codelineno-12-53" href="#__codelineno-12-53"></a>        <span class="sa">f</span><span class="s2">"Small preview above text</span><span class="se">\n</span><span class="si">{</span><span class="n">links_text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-12-54"><a id="__codelineno-12-54" name="__codelineno-12-54" href="#__codelineno-12-54"></a>        <span class="n">link_preview_options</span><span class="o">=</span><span class="n">options_4</span>
+</span><span id="__code-12-55"><a id="__codelineno-12-55" name="__codelineno-12-55" href="#__codelineno-12-55"></a>    <span class="p">)</span>
+</span><span id="__code-12-56"><a id="__codelineno-12-56" name="__codelineno-12-56" href="#__codelineno-12-56"></a>
+</span><span id="__code-12-57"><a id="__codelineno-12-57" name="__codelineno-12-57" href="#__codelineno-12-57"></a>    <span class="c1"># -------------------- #</span>
+</span><span id="__code-12-58"><a id="__codelineno-12-58" name="__codelineno-12-58" href="#__codelineno-12-58"></a>
+</span><span id="__code-12-59"><a id="__codelineno-12-59" name="__codelineno-12-59" href="#__codelineno-12-59"></a>    <span class="c1"># 您可以选择哪个链接将用于预览</span>
+</span><span id="__code-12-60"><a id="__codelineno-12-60" name="__codelineno-12-60" href="#__codelineno-12-60"></a>    <span class="n">options_5</span> <span class="o">=</span> <span class="n">LinkPreviewOptions</span><span class="p">(</span>
+</span><span id="__code-12-61"><a id="__codelineno-12-61" name="__codelineno-12-61" href="#__codelineno-12-61"></a>        <span class="n">url</span><span class="o">=</span><span class="s2">"https://t.me/telegram"</span>
+</span><span id="__code-12-62"><a id="__codelineno-12-62" name="__codelineno-12-62" href="#__codelineno-12-62"></a>    <span class="p">)</span>
+</span><span id="__code-12-63"><a id="__codelineno-12-63" name="__codelineno-12-63" href="#__codelineno-12-63"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-12-64"><a id="__codelineno-12-64" name="__codelineno-12-64" href="#__codelineno-12-64"></a>        <span class="sa">f</span><span class="s2">"Preview not of the first link</span><span class="se">\n</span><span class="si">{</span><span class="n">links_text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-12-65"><a id="__codelineno-12-65" name="__codelineno-12-65" href="#__codelineno-12-65"></a>        <span class="n">link_preview_options</span><span class="o">=</span><span class="n">options_5</span>
+</span><span id="__code-12-66"><a id="__codelineno-12-66" name="__codelineno-12-66" href="#__codelineno-12-66"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>结果：
+<img alt="链接预览示例" src="../../images/ru/messages/link_preview_options.png"></p>
+<p>还可以在 <code>DefaultBotProperties</code> 中指定某些预览参数，如本章开头所述。</p>
+<h2 id="media">媒体文件<a class="headerlink" href="#media" title="Permanent link">¶</a></h2>
+<h3 id="uploading-media">发送文件<a class="headerlink" href="#uploading-media" title="Permanent link">¶</a></h3>
+<p>除了普通文本消息外，Telegram 还允许交换各种类型的媒体文件：照片、视频、动画、
+地理位置、贴纸等。大多数媒体文件都有 <code>file_id</code> 和 <code>file_unique_id</code> 属性。
+第一个可用于多次重新发送同一文件，而且发送会是即时的，因为文件已经位于 Telegram 服务器上。
+这是最首选的方法。</p>
+<p>例如，以下代码将强制机器人立即用用户发送的同一 gif 回复用户：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">animation</span><span class="p">)</span>
+</span><span id="__code-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">echo_gif</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply_animation</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">animation</span><span class="o">.</span><span class="n">file_id</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">始终使用正确的 file_id!</p>
+<p>机器人应该仅使用它直接接收的 <code>file_id</code>，例如，
+从用户在私聊中或在组/频道中"看到"媒体文件。同时，
+如果您尝试使用来自另一个机器人的 <code>file_id</code>，这 <em>可能会起作用</em>，
+但在某个时间点您将收到错误 <strong>wrong url/file_id specified</strong>。
+所以——只有自己的 <code>file_id</code>！</p>
+</div>
+<p>与 <code>file_id</code> 不同，标识符 <code>file_unique_id</code> 不能用于重新发送或下载媒体文件，
+但对于特定媒体的所有机器人都是相同的。当多个机器人需要知道它们自己的 <code>file_id</code>
+指代同一个文件时，通常需要 <code>file_unique_id</code>。</p>
+<p>如果文件在 Telegram 服务器上不存在，机器人可以通过三种不同的方式上传：
+作为文件系统中的文件、通过链接和直接作为字节集。为了加快发送速度并更好地对待
+信使的服务器，应该一次性上传（upload）文件，之后使用 <code>file_id</code>，
+该 ID 在首次上传媒体后将可用。</p>
+<p>在 aiogram 3.x 中有 3 个类用于发送文件和媒体 - <code>FSInputFile</code>、<code>BufferedInputFile</code>、
+<code>URLInputFile</code>，您可以在 <a href="https://docs.aiogram.dev/en/dev-3.x/api/upload_file.html">文档</a>中了解它们。</p>
+<p>让我们考虑使用所有不同方式发送图像的简单示例：
+</p><div class="highlight"><pre><span></span><code><span id="__code-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSInputFile</span><span class="p">,</span> <span class="n">URLInputFile</span><span class="p">,</span> <span class="n">BufferedInputFile</span>
+</span><span id="__code-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__code-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s1">'images'</span><span class="p">))</span>
+</span><span id="__code-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">upload_photo</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="c1"># 我们将存储发送的文件的 file_id，以便之后使用它们</span>
+</span><span id="__code-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">file_ids</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__code-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+</span><span id="__code-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="c1"># 要演示 BufferedInputFile，我们将使用"经典"</span>
+</span><span id="__code-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    <span class="c1"># 通过 `open()` 打开文件。但一般来说，这种方法</span>
+</span><span id="__code-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="c1"># 最适合从内存中发送字节</span>
+</span><span id="__code-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    <span class="c1"># 在进行某些操作之后，例如，通过 Pillow 编辑</span>
+</span><span id="__code-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"buffer_emulation.jpg"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">image_from_buffer</span><span class="p">:</span>
+</span><span id="__code-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_photo</span><span class="p">(</span>
+</span><span id="__code-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>            <span class="n">BufferedInputFile</span><span class="p">(</span>
+</span><span id="__code-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>                <span class="n">image_from_buffer</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
+</span><span id="__code-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>                <span class="n">filename</span><span class="o">=</span><span class="s2">"image from buffer.jpg"</span>
+</span><span id="__code-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>            <span class="p">),</span>
+</span><span id="__code-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>            <span class="n">caption</span><span class="o">=</span><span class="s2">"Image from buffer"</span>
+</span><span id="__code-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>        <span class="p">)</span>
+</span><span id="__code-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>        <span class="n">file_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">file_id</span><span class="p">)</span>
+</span><span id="__code-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
+</span><span id="__code-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="c1"># 从文件系统发送文件</span>
+</span><span id="__code-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="n">image_from_pc</span> <span class="o">=</span> <span class="n">FSInputFile</span><span class="p">(</span><span class="s2">"image_from_pc.jpg"</span><span class="p">)</span>
+</span><span id="__code-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_photo</span><span class="p">(</span>
+</span><span id="__code-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>        <span class="n">image_from_pc</span><span class="p">,</span>
+</span><span id="__code-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>        <span class="n">caption</span><span class="o">=</span><span class="s2">"Image from file on computer"</span>
+</span><span id="__code-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="p">)</span>
+</span><span id="__code-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>    <span class="n">file_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">file_id</span><span class="p">)</span>
+</span><span id="__code-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>
+</span><span id="__code-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>    <span class="c1"># 通过链接发送文件</span>
+</span><span id="__code-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>    <span class="n">image_from_url</span> <span class="o">=</span> <span class="n">URLInputFile</span><span class="p">(</span><span class="s2">"https://picsum.photos/seed/groosha/400/300"</span><span class="p">)</span>
+</span><span id="__code-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_photo</span><span class="p">(</span>
+</span><span id="__code-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>        <span class="n">image_from_url</span><span class="p">,</span>
+</span><span id="__code-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>        <span class="n">caption</span><span class="o">=</span><span class="s2">"Image via link"</span>
+</span><span id="__code-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>    <span class="p">)</span>
+</span><span id="__code-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>    <span class="n">file_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">file_id</span><span class="p">)</span>
+</span><span id="__code-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"Sent files:</span><span class="se">\n</span><span class="s2">"</span><span class="o">+</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_ids</span><span class="p">))</span>
+</span></code></pre></div>
+<p>照片、视频和 GIF 的标题可以移到顶部：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"gif"</span><span class="p">))</span>
+</span><span id="__code-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_gif</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_animation</span><span class="p">(</span>
+</span><span id="__code-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>        <span class="n">animation</span><span class="o">=</span><span class="s2">"&lt;gif file_id&gt;"</span><span class="p">,</span>
+</span><span id="__code-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>        <span class="n">caption</span><span class="o">=</span><span class="s2">"I am today:"</span><span class="p">,</span>
+</span><span id="__code-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>        <span class="n">show_caption_above_media</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__code-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="媒体上方的标题" src="../../images/ru/messages/caption_above_media.jpg"></p>
+<h3 id="downloading-media">下载文件<a class="headerlink" href="#downloading-media" title="Permanent link">¶</a></h3>
+<p>除了重新发送外，机器人还可以将媒体下载到自己的计算机/服务器。为此，
+<code>Bot</code> 类型的对象具有 <code>download()</code> 方法。在下面的示例中，文件直接下载到文件系统，
+但没有人阻止您在内存中保存到 BytesIO 对象，以便进一步传递到应用程序
+（例如，pillow）。</p>
+<div class="highlight"><pre><span></span><code><span id="__code-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">photo</span><span class="p">)</span>
+</span><span id="__code-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">download_photo</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
+</span><span id="__code-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+</span><span id="__code-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>        <span class="n">message</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+</span><span id="__code-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>        <span class="n">destination</span><span class="o">=</span><span class="sa">f</span><span class="s2">"/tmp/</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">photo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">file_id</span><span class="si">}</span><span class="s2">.jpg"</span>
+</span><span id="__code-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="p">)</span>
+</span><span id="__code-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+</span><span id="__code-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__code-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">sticker</span><span class="p">)</span>
+</span><span id="__code-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">download_sticker</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
+</span><span id="__code-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+</span><span id="__code-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>        <span class="n">message</span><span class="o">.</span><span class="n">sticker</span><span class="p">,</span>
+</span><span id="__code-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="c1"># 对于 Windows 路径需要调整</span>
+</span><span id="__code-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>        <span class="n">destination</span><span class="o">=</span><span class="sa">f</span><span class="s2">"/tmp/</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">sticker</span><span class="o">.</span><span class="n">file_id</span><span class="si">}</span><span class="s2">.webp"</span>
+</span><span id="__code-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>对于图像，我们使用了不是 <code>message.photo</code>，而是 <code>message.photo[-1]</code>，为什么？
+照片在 Telegram 中的消息中以多个副本形式出现；这是同一图像的不同大小。
+因此，如果我们取最后一个元素（索引 -1），我们处理的是最大可用照片大小。</p>
+<div class="admonition info">
+<p class="admonition-title">下载大文件</p>
+<p>使用 Telegram Bot API 的机器人最多可以下载 <a href="https://core.telegram.org/bots/api#getfile">20 兆字节</a> 大小的文件。
+如果您计划下载/上传大文件，最好查看与 Telegram Client API 交互的库，
+而不是 Telegram Bot API，例如，<a href="https://docs.telethon.dev/en/latest/index.html">Telethon</a>
+或 <a href="https://docs.pyrogram.org/">Pyrogram</a>。</p>
+<p>不是很多人知道，但客户端 API 不仅可以由普通帐户使用，还可以由
+<a href="https://docs.telethon.dev/en/latest/concepts/botapi-vs-mtproto.html">机器人</a>使用。</p>
+<p>从 Bot API 版本 5.0 开始，您可以使用
+<a href="https://core.telegram.org/bots/api#using-a-local-bot-api-server">自己的 Bot API 服务器</a>来处理大文件。</p>
+</div>
+<h3 id="albums">媒体组<a class="headerlink" href="#albums" title="Permanent link">¶</a></h3>
+<p>我们在 Telegram 中所说的"相册"（媒体组）实际上是具有共同 <code>media_group_id</code> 
+的单独媒体消息，在客户端上以视觉方式"粘合"在一起。从版本 3.1 开始，
+aiogram 有一个 <a href="https://docs.aiogram.dev/en/latest/utils/media_group.html">相册"收集器"</a>，
+我们现在将考虑它的工作原理。但首先，值得提到媒体组的几个特性：</p>
+<ul>
+<li>您不能为其附加内联键盘或与其一起发送回复键盘。没有办法。根本不可能。</li>
+<li>相册中的每个媒体文件都可以有自己的标题（caption）。如果只有一个媒体有标题，
+那么它将被显示为整个相册的通用标题。</li>
+<li>照片可以在一个相册中与视频混合，文档（Document）和音乐（Audio）不能与任何东西混合，
+只能与相同类型的媒体混合。</li>
+<li>相册中最多可以有 10（十）个媒体文件。</li>
+</ul>
+<p>现在让我们看看如何在 aiogram 中做到这一点：</p>
+<div class="highlight"><pre><span></span><code><span id="__code-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSInputFile</span><span class="p">,</span> <span class="n">Message</span>
+</span><span id="__code-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.utils.media_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">MediaGroupBuilder</span>
+</span><span id="__code-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__code-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"album"</span><span class="p">))</span>
+</span><span id="__code-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_album</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">album_builder</span> <span class="o">=</span> <span class="n">MediaGroupBuilder</span><span class="p">(</span>
+</span><span id="__code-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>        <span class="n">caption</span><span class="o">=</span><span class="s2">"Future album general caption"</span>
+</span><span id="__code-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    <span class="p">)</span>
+</span><span id="__code-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="n">album_builder</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+</span><span id="__code-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>        <span class="nb">type</span><span class="o">=</span><span class="s2">"photo"</span><span class="p">,</span>
+</span><span id="__code-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>        <span class="n">media</span><span class="o">=</span><span class="n">FSInputFile</span><span class="p">(</span><span class="s2">"image_from_pc.jpg"</span><span class="p">)</span>
+</span><span id="__code-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>        <span class="c1"># caption="Caption to specific media"</span>
+</span><span id="__code-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>
+</span><span id="__code-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>    <span class="p">)</span>
+</span><span id="__code-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>    <span class="c1"># 如果我们立即知道类型，那么使用特定的 add</span>
+</span><span id="__code-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>    <span class="c1"># 而不是通用的 add_&lt;type&gt;</span>
+</span><span id="__code-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>    <span class="n">album_builder</span><span class="o">.</span><span class="n">add_photo</span><span class="p">(</span>
+</span><span id="__code-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>        <span class="c1"># 对于链接或 file_id，足以立即指定值</span>
+</span><span id="__code-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>        <span class="n">media</span><span class="o">=</span><span class="s2">"https://picsum.photos/seed/groosha/400/300"</span>
+</span><span id="__code-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>    <span class="p">)</span>
+</span><span id="__code-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>    <span class="n">album_builder</span><span class="o">.</span><span class="n">add_photo</span><span class="p">(</span>
+</span><span id="__code-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>        <span class="n">media</span><span class="o">=</span><span class="s2">"&lt;your file_id&gt;"</span>
+</span><span id="__code-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>    <span class="p">)</span>
+</span><span id="__code-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_media_group</span><span class="p">(</span>
+</span><span id="__code-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>        <span class="c1"># 不要忘记调用 build()</span>
+</span><span id="__code-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>        <span class="n">media</span><span class="o">=</span><span class="n">album_builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</span><span id="__code-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>结果：</p>
+<p><img alt="构建器的工作结果" src="../../images/ru/messages/media_group_builder.png"></p>
+<p>但下载相册就困难多了...如上所述，相册只是分组的单个消息，
+这意味着它们也以不同的更新的形式到达机器人。可能不存在 100% 可靠的方式
+一次性接收整个相册，但您可以尝试以最小的损失来做到这一点。
+通常这是通过中间件完成的，我自己接收媒体组的实现可以在
+<a href="https://github.com/MasterGroosha/telegram-feedback-bot-topics/blob/master/bot/middlewares/albums_collector.py">此链接</a>
+处找到。</p>
+<h2 id="service">服务（辅助）消息<a class="headerlink" href="#service" title="Permanent link">¶</a></h2>
+<p>Telegram 中的消息分为文本、媒体文件和服务（也称为辅助）。现在是时候讨论最后一个了。</p>
+<p><img alt="服务消息" src="../../images/ru/messages/service_messages.png"></p>
+<p>尽管它们看起来不寻常，与它们的交互是有限的，但这仍然是具有自己的 ID
+甚至所有者的消息。值得注意的是，多年来服务消息的应用范围发生了变化，
+现在您的机器人可能根本不会与它们一起工作，或者只是删除它们。</p>
+<p>我们不会深入细节，而是考虑一个具体的例子：向新加入的参与者发送欢迎消息。
+这样的服务消息将有一个 content_type 等于"new_chat_members"，但实际上这是一个
+Message 对象，其中填充了相同名称的字段。</p>
+<div class="highlight"><pre><span></span><code><span id="__code-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">new_chat_members</span><span class="p">)</span>
+</span><span id="__code-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">somebody_added</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">new_chat_members</span><span class="p">:</span>
+</span><span id="__code-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>        <span class="c1"># full_name 属性立即获取名和姓</span>
+</span><span id="__code-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>        <span class="c1"># （在上面的屏幕截图中，用户没有姓氏）</span>
+</span><span id="__code-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">full_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="添加了多个用户" src="../../images/ru/messages/multiple_add.png"></p>
+<p>重要的是要记住，<code>message.new_chat_members</code> 是一个列表，因为一个用户可以立即添加多个参与者。
+同时，不要混淆 <code>message.from_user</code> 和 <code>message.new_chat_members</code> 字段。
+第一个是主体，即执行操作的人。第二个是操作的对象。
+即，如果您看到一条消息说"Anna 添加了 Boris 和 Victor"，
+那么 <code>message.from_user</code> 是关于 Anna 的信息，而 <code>message.new_chat_members</code> 列表
+包含关于 Boris 和 Victor 的信息。</p>
+<div class="admonition warning">
+<p class="admonition-title">不要完全依赖服务消息！</p>
+<p>关于添加（new_chat_members）和离开（left_chat_member）的服务消息有一个
+不愉快的特性：它们不可靠，即它们根本可能不会被创建。
+例如，当组中大约有 10,000 个参与者时，new_chat_members 消息不再创建，
+而 left_chat_member 则在 50 个时已经不创建（但在撰写本章时，
+我遇到了一个组，其中 left_chat_member 即使在 9 个参与者时也没有出现。
+半小时后，另一个人离开时它出现了）。</p>
+<p>随着 Bot API 5.0 的发布，开发人员有了一个更可靠的方式来查看
+任何大小的群组中的条目/退出，<strong>以及频道中的条目/退出</strong>。
+但我们下次再讨论这个。</p>
+</div>
+<h2 id="bonus">奖励：在文本中隐藏链接<a class="headerlink" href="#bonus" title="Permanent link">¶</a></h2>
+<p>有时您想发送一条长消息和一张图片，但媒体文件的标题限制只有 1024 个字符，
+而普通文本的限制是 4096，将链接放在底部看起来不太好。
+为了解决这个问题，许多年前人们想出了"隐藏链接"的 HTML 标记方法。
+要点是您可以将链接放在 <a href="http://www.fileformat.info/info/unicode/char/200b/index.htm">零宽度空间</a>
+中，并将整个构造插入到消息的开头。对于观察者来说，消息中没有多余的东西，
+但 Telegram 服务器看到一切，并诚实地添加了预览。
+aiogram 开发人员为此做了一个特殊的帮助方法 <code>hide_link()</code>：
+</p><div class="highlight"><pre><span></span><code><span id="__code-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># 新导入！</span>
+</span><span id="__code-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.utils.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">hide_link</span>
+</span><span id="__code-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__code-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="nd">@dp</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"hidden_link"</span><span class="p">))</span>
+</span><span id="__code-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_hidden_link</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+</span><span id="__code-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span>
+</span><span id="__code-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">hide_link</span><span class="p">(</span><span class="s1">'https://telegra.ph/file/562a512448876923e28c3.png'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__code-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>        <span class="sa">f</span><span class="s2">"Telegram Documentation: *exists*</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>        <span class="sa">f</span><span class="s2">"Users: *don't read documentation*</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="__code-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>        <span class="sa">f</span><span class="s2">"Pear:"</span>
+</span><span id="__code-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p><img alt="带有隐藏链接的图像" src="../../images/ru/messages/hidden_link.png"></p>
+<p>使用 LinkPreviewOptions（见上文），您可以在顶部放置一个媒体文件，
+在下方放置一个长 4096 个字符的标题。</p>
+<p>就这样。直到下一章！
+<s><small>点赞、订阅、按铃</small></s></p></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年6月20日 23:36:49 UTC"><span class="timeago" datetime="2026-06-20T23:36:49+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年6月20日 23:36:49 UTC">2026-06-20</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="创建日期">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026年4月23日 22:59:21 UTC"><span class="timeago" datetime="2026-04-23T22:59:21+00:00" locale="zh"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026年4月23日 22:59:21 UTC">2026-04-23</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Original Copyright &copy; 2020-2026 Groosha, Translation Copyright &copy; 2024-2026 VAI
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Telegram 群组" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m115 168.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7.2-.7.3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2.5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3.6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6.5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7.5 3.2.6 6.5.4 9.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const KEY = "translation_notice_dismissed_v2";
+      const dismissed = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+      document.querySelectorAll(".is-dismissible[data-notice-id]").forEach((notice) => {
+        const noticeId = notice.dataset.noticeId;
+        if (dismissed.includes(noticeId)) {
+          notice.classList.add("is-hidden");
+        }
+
+        const closeBtn = notice.querySelector(".translation-notice-dismiss");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          notice.classList.add("is-hidden");
+          if (!dismissed.includes(noticeId)) {
+            dismissed.push(noticeId);
+            localStorage.setItem(KEY, JSON.stringify(dismissed));
+          }
+        });
+      });
+    });
+  </script>
+
+  </body>
+</html>
