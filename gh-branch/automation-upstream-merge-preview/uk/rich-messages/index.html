@@ -1,0 +1,2019 @@
+
+<!doctype html>
+<html lang="uk" class="no-js">
+  <head>
+    
+  <script src="https://telegram.org/js/telegram-web-app.js?35"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const webapp = window.Telegram.WebApp;
+      
+      webapp.ready();
+      webapp.expand();
+      webapp.disableVerticalSwipes();
+
+      const initData = webapp.initDataUnsafe;
+      
+
+      const normalizePath = (path) => {
+        if (!path) return '/';
+        const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+        return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+      };
+      const pathFromUrl = (urlValue) => {
+        try {
+          return new URL(urlValue, window.location.origin).pathname;
+        } catch {
+          return '';
+        }
+      };
+      const localePattern = /^[a-z]{2}(?:-[a-z]{2})?$/i;
+      const siteBasePath = normalizePath(pathFromUrl('https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/'));
+      const canonicalPath = normalizePath(pathFromUrl('https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/'));
+      const docsBasePath = (() => {
+        if (siteBasePath !== '/') {
+          return siteBasePath;
+        }
+        if (!canonicalPath || canonicalPath === '/') {
+          return '/';
+        }
+
+        const canonicalSegments = canonicalPath.split('/').filter(Boolean);
+        if (canonicalSegments.length > 0 && localePattern.test(canonicalSegments.at(-1))) {
+          canonicalSegments.pop();
+        }
+        return canonicalSegments.length > 0 ? `/${canonicalSegments.join('/')}/` : '/';
+      })();
+
+      const currentPath = normalizePath(window.location.pathname);
+      if (docsBasePath !== '/' && !currentPath.startsWith(docsBasePath)) {
+        return;
+      }
+
+      const relativeToBase = currentPath.startsWith(docsBasePath)
+        ? currentPath.slice(docsBasePath.length)
+        : currentPath.slice(1);
+      const relativeSegments = relativeToBase.split('/').filter(Boolean);
+      const hasLocaleRoot = relativeSegments.length === 1 && localePattern.test(relativeSegments[0]);
+
+      const isDocsRoot = relativeSegments.length === 0
+        || hasLocaleRoot;
+
+      // Keep locale root (/en/, /uk/, /zh/, etc.) when redirecting from Telegram start_param
+      const localePrefix = hasLocaleRoot
+        ? `${relativeSegments[0]}/`
+        : '';
+      const redirectRoot = `${docsBasePath}${localePrefix}`;
+
+      if (isDocsRoot && Object.hasOwn(initData, 'auth_date')) {
+        if (initData.start_param) {
+          const routeMap = {
+            'quickstart': 'quickstart',
+            'messages': 'messages',
+            'buttons': 'buttons',
+            'routers': 'routers',
+            'special-updates': 'special-updates',
+            'fsm': 'fsm',
+            'inline-mode': 'inline-mode',
+            
+            'filters': 'filters-and-middlewares/#filters',
+            'middlewares': 'filters-and-middlewares/#middlewares',
+            'magic-filter': 'filters-and-middlewares/#magic-filters',
+            'magic': 'filters-and-middlewares/#magic-filters',
+            'entities': 'messages/#message-entities',
+            'escaping': 'messages/#input-escaping',
+            'keep-formatting': 'messages/#keep-formatting',
+            'send-files': 'messages/#uploading-media',
+            'upload': 'messages/#uploading-media',
+            'download-files': 'messages/#downloading-media',
+            'download': 'messages/#downloading-media',
+            'hide-image': 'messages/#bonus',
+            'callback-factory': 'buttons/#callback-factory',
+            'my-chat-member': 'special-updates/#my-chat-member',
+            'chat-member': 'special-updates/#chat-member',
+          };
+
+          const path = routeMap[initData.start_param];
+          // Unknown start_param — do nothing, don't break or reload current page
+          if (!path) {
+            return;
+          }
+
+          const targetUrl = new URL(`${redirectRoot}${path}`, window.location.origin);
+
+          window.location.href = targetUrl.toString();
+        }
+      }
+    });
+  </script>
+
+  
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Розширені повідомлення">
+      
+      
+        <meta name="author" content="MasterGroosha, Translated by VAI">
+      
+      
+        <link rel="canonical" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/">
+      
+      
+        <link rel="prev" href="../messages/">
+      
+      
+        <link rel="next" href="../buttons/">
+      
+      
+        
+          <link rel="alternate" href="../../rich-messages/" hreflang="ru">
+        
+          <link rel="alternate" href="../../en/rich-messages/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="uk">
+        
+          <link rel="alternate" href="../../zh/rich-messages/" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+
+    
+      
+        <title>Розширені повідомлення - Написання ботів для Telegram з aiogram 3.x</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    /* ==================================================================
+       TRANSLATION NOTIFICATION STYLES
+       ================================================================== */
+    
+    /* Language notification */
+    .language-notification {
+      margin: 1.5em 0 2em 0;
+      border-left-width: 4px;
+      border-left-color: var(--md-primary-fg-color) !important;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.1) 0%, transparent 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Translation status notification */
+    .translation-status {
+      margin: 1.5em 0 2em 0;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .translation-notice-dismiss {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0.25rem;
+      opacity: 0.75;
+    }
+
+    .translation-notice-dismiss:hover {
+      opacity: 1;
+    }
+    
+    /* Icons styling */
+    .language-icon svg,
+    .status-icon svg,
+    .github-icon svg,
+    .issue-icon svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+    
+    /* Content sections */
+    .translation-notification-content {
+      margin-top: 1em;
+    }
+    
+    .translation-fallback-message {
+      margin-bottom: 1.5em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.05);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-primary-fg-color);
+    }
+    
+    .help-translation-section {
+      margin-top: 1.5em;
+      padding: 1.5em;
+      background: rgba(var(--md-primary-fg-color--rgb), 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(var(--md-primary-fg-color--rgb), 0.1);
+    }
+    
+    .help-translation-section h4 {
+      margin: 0 0 0.5em 0;
+      color: var(--md-primary-fg-color);
+      font-weight: 600;
+    }
+    
+    .help-translation-section p {
+      margin: 0.5em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    /* Action buttons */
+    .translation-actions {
+      display: flex;
+      gap: 0.75em;
+      margin-top: 1.5em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .md-button {
+      border-radius: 6px;
+      padding: 0.6em 1.2em;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      min-width: 140px;
+    }
+    
+    .md-button--primary {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      box-shadow: 0 2px 4px rgba(var(--md-primary-fg-color--rgb), 0.3);
+    }
+    
+    .md-button--primary:hover {
+      background: var(--md-primary-fg-color--dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(var(--md-primary-fg-color--rgb), 0.4);
+    }
+    
+    .md-button--secondary {
+      background: transparent;
+      color: var(--md-default-fg-color);
+      border-color: var(--md-default-fg-color--lighter);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .md-button--secondary:hover {
+      background: var(--md-default-fg-color--lightest);
+      border-color: var(--md-default-fg-color--light);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .md-button:active {
+      transform: translateY(0);
+    }
+    
+    .md-button:hover .github-icon svg,
+    .md-button:hover .issue-icon svg {
+      transform: scale(1.1);
+    }
+    
+    .button-text {
+      margin-left: 0.25em;
+    }
+    
+    /* Status specific styling */
+    .translation-status[data-status="in_progress"] {
+      border-left-color: var(--md-warning-fg-color);
+    }
+    
+    .translation-status[data-status="dropped"] {
+      border-left-color: var(--md-default-fg-color--light);
+    }
+    
+    .translation-status[data-status="need_help"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    .translation-status[data-status="complete_except_images"] {
+      border-left-color: var(--md-success-fg-color);
+    }
+    
+    .translation-status[data-status="unique_content"] {
+      border-left-color: var(--md-accent-fg-color);
+    }
+    
+    /* Help section */
+    .status-help-section {
+      margin-top: 1em;
+      padding: 1em;
+      background: rgba(var(--md-default-fg-color--rgb), 0.03);
+      border-radius: 6px;
+      border-left: 3px solid var(--md-accent-fg-color);
+    }
+    
+    .status-help-section ul {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    
+    .status-help-section li {
+      margin: 0.25em 0;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: var(--md-default-fg-color--light);
+    }
+    
+    .contact-info a {
+      color: var(--md-primary-fg-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive design */
+    @media screen and (max-width: 768px) {
+      .translation-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .md-button {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .help-translation-section {
+        padding: 1em;
+      }
+    }
+    
+    /* Dark theme adjustments */
+    [data-md-color-scheme="slate"] .translation-fallback-message {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-md-color-scheme="slate"] .help-translation-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-md-color-scheme="slate"] .status-help-section {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--primary:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-md-color-scheme="slate"] .md-button--secondary:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animation for status changes */
+    @keyframes statusFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .translation-status {
+      animation: statusFadeIn 0.4s ease-out;
+    }
+    
+    /* Print styles */
+    @media print {
+      .language-notification,
+      .translation-status {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      
+      .translation-actions {
+        display: none;
+      }
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Написання ботів для Telegram з aiogram 3.x - Розширені повідомлення">
+  <meta property="og:description" content="Розширені повідомлення">
+  <meta property="og:url" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/">
+  <meta property="og:image" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/">
+  <meta name="twitter:title" content="Написання ботів для Telegram з aiogram 3.x - Розширені повідомлення">
+  <meta name="twitter:description" content="Розширені повідомлення">
+  <meta name="twitter:image" content="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/images/social.png">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#розширені-повідомлення" class="md-skip">
+          Перейти до змісту
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Хедер">
+    <a href="../" title="Написання ботів для Telegram з aiogram 3.x" class="md-header__button md-logo" aria-label="Написання ботів для Telegram з aiogram 3.x" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Написання ботів для Telegram з aiogram 3.x
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Розширені повідомлення
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Перемкнути на темну тему"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Перемкнути на темну тему" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Перемкнути на світлу тему"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Перемкнути на світлу тему" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Обрати мову">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../rich-messages/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/rich-messages/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="uk" class="md-select__link">
+              Українська
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/rich-messages/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Пошук" placeholder="Пошук" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Шукати">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистити" aria-label="Очистити" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Пошук розпочато
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+
+<nav
+  class="md-nav md-nav--primary"
+  aria-label="Навігація"
+  data-md-level="0"
+>
+  <label class="md-nav__title" for="__drawer">
+    <a
+      href="../"
+      title="Написання ботів для Telegram з aiogram 3.x"
+      class="md-nav__button md-logo"
+      aria-label="Написання ботів для Telegram з aiogram 3.x"
+      data-md-component="logo"
+    >
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
+
+    </a>
+    
+  </label>
+
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasterGroosha/aiogram-3-guide" title="Перейти до вихідного коду" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasterGroosha/aiogram-3-guide
+  </div>
+</a>
+    </div>
+  
+
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Вступ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about-translation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Про переклад
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Знайомство з aiogram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Робота з повідомленнями
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rich Messages
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rich Messages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Загальна інформація
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rich-vs-regular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Відмінність від звичайних повідомлень
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Як відправити Rich Message
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#editing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Редагування Rich Messages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Стрімінг через sendRichMessageDraft
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Медіафайли
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Як перехопити та розібрати Rich Message
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Висновок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Кнопки
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Роутери. Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filters-and-middlewares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Фільтри та мідлвари
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Особливі оновлення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fsm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Кінцеві автомати
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inline-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Інлайн-режим
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../payments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Платежі
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guest-bots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Гостьовий режим
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced-teaser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔒 Просунутий рівень
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Загальна інформація
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rich-vs-regular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Відмінність від звичайних повідомлень
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Як відправити Rich Message
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#editing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Редагування Rich Messages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Стрімінг через sendRichMessageDraft
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Медіафайли
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Як перехопити та розібрати Rich Message
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Висновок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+  
+    
+    
+    <!-- Translation status notification -->
+    
+  
+  
+  
+                  
+
+
+  
+  
+
+
+<div><h1 id="розширені-повідомлення">Розширені повідомлення<a class="headerlink" href="#%D1%80%D0%BE%D0%B7%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D1%96-%D0%BF%D0%BE%D0%B2%D1%96%D0%B4%D0%BE%D0%BC%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F" title="Permanent link">¶</a></h1>
+<div class="admonition info">
+<p>Використовувана версія aiogram: 3.29.0</p>
+</div>
+<p>Багато років у Telegram існувало лише три способи форматування повідомлень: <strong>plaintext</strong>, тобто без форматування,
+<strong>HTML</strong> та <strong>Markdown</strong> у двох варіантах, один із яких визнано застарілим. Коли планету охопив бум нейромереж, можливості 
+прикрашання тексту в месенджері почали виглядати доволі скромно. ChatGPT генерує красиві таблиці, формули 
+і списки зі сносками, а відобразити все це в Telegram без костилів неможливо. Розробники Bot API в оновленні 
+Bot API 10.1 (червень 2026 р.) додали функцію під назвою Rich Messages, покликану вирішити цю проблему. 
+У цій главі поговоримо про ці повідомлення, наскільки вони «розширені».</p>
+<h2 id="intro">Загальна інформація<a class="headerlink" href="#intro" title="Permanent link">¶</a></h2>
+<p>Що ж таке «багаті повідомлення» (звучить крінжово, тож далі я буду називати їх англійською Rich Messages або RM)? 
+Документація описує їх так:</p>
+<blockquote>
+<p>Rich Messages призначені для сильно структурованих відповідей: звітів, відповідей від ШІ, 
+документації, технічних статей та іншого подібного складного контенту.
+Такі повідомлення підтримують як Rich Markdown, так і Rich HTML. 
+Rich Markdown використовує GitHub Flavored Markdown і може включати підтримувані 
+HTML-теги прямо в тому самому повідомленні. Rich HTML дає ботам більш точний контроль над ще більшою кількістю 
+можливостей форматування за допомогою спеціальних тегів.</p>
+<p>Підтримувані стилі включають:<br>
+- Заголовки, абзаци, роздільники, списки та todo-списки.<br>
+- Вкладене inline-форматування, включно з жирним шрифтом, курсивом, підкресленням, закресленням, спойлером, кодом, нижнім і верхнім регістром.<br>
+- Таблиці з вирівнюванням, підписами, рамками, «смугастим» стилем, об'єднанням колонок та об'єднанням рядків.<br>
+- Медіаблоки для фотографій, відео та аудіофайлів, з підписами та вказанням авторства.<br>
+- Блокові цитати, виділені цитати, згортальні блоки details, якорі та посилання всередині документа.<br>
+- Примітки та текст, на який можна посилатися.<br>
+- Повна підтримка LaTeX, включно як inline-формул, так і блочних формул.<br>
+- Карти з координатами, колажі, слайдшоу та багато іншого.  </p>
+<p><strong>Обмеження Rich Messages</strong>. На Rich Messages діють такі обмеження:<br>
+- До <strong>32768</strong> UTF-8 символів у тексті розширеного повідомлення, включаючи альтернативний текст кастомних емодзі та вихідний код формули.<br>
+- До <strong>500</strong> блоків, включно з вкладеними блоками, елементами списків, елементами нумерованих списків, рядками таблиць, блоками цитат та блоками <code>details</code>.<br>
+- До <strong>16</strong> рівнів вкладеного форматування та блоків.<br>
+- До <strong>50</strong> медіа-вкладень загалом, включно з фотографіями, відео та аудіофайлами.<br>
+- До <strong>20</strong> колонок у таблиці.  </p>
+</blockquote>
+<p>Виглядають RM справді круто. Якщо ще не бачили їх у дії, можете подивитися гарну демонстрацію в 
+<a href="https://core.telegram.org/bots/features#advanced-formatting-options">документації</a> або в 
+офіційному демонстраційному боті <a href="https://telegram.dog/richtextdemobot">@richtextdemobot</a>.</p>
+<h2 id="rich-vs-regular">Відмінність від звичайних повідомлень<a class="headerlink" href="#rich-vs-regular" title="Permanent link">¶</a></h2>
+<p>Rich Messages <strong>не замінюють</strong> старий добрий <code>sendMessage</code> з MarkdownV2 і HTML. 
+Це два різні інструменти для різних завдань:</p>
+<ul>
+<li>
+<p><strong>Звичайні повідомлення</strong> (<code>sendMessage</code>) — це легкий формат для коротких текстів: підтверджень введення, реплік у діалозі, 
+  пари рядків з жирним словом і посиланням. Тут також лишаються «ексклюзивні» можливості, як-от часткове цитування
+  і пересилання цитати в інший чат.</p>
+</li>
+<li>
+<p><strong>Rich Messages</strong> (<code>sendRichMessage</code>) — вдалий варіант, коли потрібно надіслати «складний» текст: звіт, документацію,
+  довгу відповідь від нейромережі. Заголовки, таблиці, сноски, формули, згортальні блоки — усе те, заради чого раніше
+  доводилося рендерити відповідь картинкою через PIL або робити ASCII-арт. Такі повідомлення за потреби можна
+  й відредагувати — <a href="#editing">нижче</a> подивимося, як саме.</p>
+</li>
+</ul>
+<p>Іншими словами: якщо вам потрібно надіслати просте і коротке «Готово ✅» — це <code>sendMessage</code>. 
+Якщо вам потрібно надіслати структурований звіт з таблицями і сносками на половину екрана — це <code>sendRichMessage</code>.</p>
+<p>Ще один важливий момент, який варто згадати перед переходом до практичної частини:
+у RM не існує такого поняття, як "parse mode": мова розмітки залежить від того, який саме аргумент
+функції ви оберете — <code>markdown</code> або <code>html</code>. Краще явно, ніж неявно.</p>
+<h2 id="how-to-send">Як відправити Rich Message<a class="headerlink" href="#how-to-send" title="Permanent link">¶</a></h2>
+<p>У Bot API за відправлення відповідає метод <a href="https://core.telegram.org/bots/api#sendrichmessage">sendRichMessage</a>,
+а сам контент описується об'єктом <a href="https://core.telegram.org/bots/api#inputrichmessage">InputRichMessage</a>.</p>
+<p>Приклад підготовки тексту в двох різних мовах розмітки:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputRichMessage</span>
+</span><span id="__code-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__code-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Варіант з Markdown</span>
+</span><span id="__code-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">md_content</span> <span class="o">=</span> <span class="n">InputRichMessage</span><span class="p">(</span><span class="n">markdown</span><span class="o">=</span><span class="s2">"# Заголовок</span><span class="se">\n\n</span><span class="s2">Привіт, **світ**!"</span><span class="p">)</span>
+</span><span id="__code-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__code-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Варіант з HTML — те саме, але іншим синтаксисом</span>
+</span><span id="__code-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">html_content</span> <span class="o">=</span> <span class="n">InputRichMessage</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="s2">"&lt;h1&gt;Заголовок&lt;/h1&gt;&lt;p&gt;Привіт, &lt;b&gt;світ&lt;/b&gt;!&lt;/p&gt;"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Далі цей об'єкт можна відправити або напряму через <code>bot.send_rich_message(...)</code>, або через звичні шорткати
+у <code>Message</code>: <code>answer_rich()</code> і <code>reply_rich()</code></p>
+<p>Зберемо осмислений приклад, в якому задіяні заголовки різних рівнів, таблиця, формула та сноска. Цього разу
+опишемо повідомлення через <strong>Rich HTML</strong> — для цього достатньо покласти текст у поле <code>html</code>. Текст опишемо
+окремою константою:</p>
+<div class="highlight"><span class="filename">bot/handlers/rich_send.py</span><pre><span></span><code><span id="__code-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+</span><span id="__code-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputRichMessage</span><span class="p">,</span> <span class="n">Message</span>
+</span><span id="__code-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__code-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"rich_send"</span><span class="p">)</span>
+</span><span id="__code-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__code-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">REPORT_HTML</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+</span><span id="__code-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s2">&lt;h1&gt;Звіт за квартал&lt;/h1&gt;</span>
+</span><span id="__code-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="s2">&lt;p&gt;Невеликий приклад того, як &lt;b&gt;Rich Messages&lt;/b&gt; зберігають структуру: тут є </span><span class="se">\</span>
+</span><span id="__code-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="s2">заголовки різного рівня, таблиця, формула і примітка&lt;sup&gt;&lt;a name="ref-1"&gt;&lt;/a&gt;&lt;a href="#note-1"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;</span>
+</span><span id="__code-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="s2">&lt;h2&gt;Ключові метрики&lt;/h2&gt;</span>
+</span><span id="__code-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s2">&lt;table&gt;</span>
+</span><span id="__code-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s2">&lt;tr&gt;&lt;th align="left"&gt;Метрика&lt;/th&gt;&lt;th align="right"&gt;Було&lt;/th&gt;&lt;th align="right"&gt;Стало&lt;/th&gt;&lt;/tr&gt;</span>
+</span><span id="__code-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="s2">&lt;tr&gt;&lt;td align="left"&gt;MRR&lt;/td&gt;&lt;td align="right"&gt;$35k&lt;/td&gt;&lt;td align="right"&gt;$42k&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span id="__code-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="s2">&lt;tr&gt;&lt;td align="left"&gt;Активні чати&lt;/td&gt;&lt;td align="right"&gt;1 240&lt;/td&gt;&lt;td align="right"&gt;1 510&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span id="__code-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="s2">&lt;tr&gt;&lt;td align="left"&gt;Відключені боти&lt;/td&gt;&lt;td align="right"&gt;12&lt;/td&gt;&lt;td align="right"&gt;7&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span id="__code-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="s2">&lt;/table&gt;</span>
+</span><span id="__code-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="s2">&lt;h2&gt;Трохи математики&lt;/h2&gt;</span>
+</span><span id="__code-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="s2">&lt;p&gt;Приріст рахуємо за простою формулою:&lt;/p&gt;</span>
+</span><span id="__code-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="s2">&lt;tg-math-block&gt;rate = (new - old) / old&lt;/tg-math-block&gt;</span>
+</span><span id="__code-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="s2">&lt;blockquote&gt;Це блочна цитата. У ній можна містити &lt;i&gt;курсив&lt;/i&gt;, </span><span class="se">\</span>
+</span><span id="__code-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="s2">&lt;code&gt;код&lt;/code&gt; і навіть &lt;tg-spoiler&gt;спойлер&lt;/tg-spoiler&gt;.&lt;/blockquote&gt;</span>
+</span><span id="__code-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+</span><span id="__code-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="s2">&lt;footer&gt;&lt;a name="note-1"&gt;&lt;/a&gt;&lt;a href="#ref-1"&gt;1.&lt;/a&gt;Цифри вигадані для прикладу і нічого не відображають. ↩️&lt;/footer&gt;</span>
+</span><span id="__code-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="s2">"""</span>
+</span><span id="__code-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+</span><span id="__code-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+</span><span id="__code-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"sendrich"</span><span class="p">))</span>
+</span><span id="__code-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_send_rich</span><span class="p">(</span>
+</span><span id="__code-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_rich</span><span class="p">(</span>
+</span><span id="__code-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>        <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">REPORT_HTML</span><span class="p">),</span>
+</span><span id="__code-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>Що тут відбувається:</p>
+<ul>
+<li>Заголовки задаються звичними тегами <code>&lt;h1&gt;</code>…<code>&lt;h6&gt;</code>, абзаци — тегом <code>&lt;p&gt;</code>. </li>
+<li>Примітка — справжня інтерактивна, працює в обох напрямках на якорях. 
+У тексті маркер це <code>&lt;sup&gt;</code>, всередині якого якір <code>&lt;a name="ref-1"&gt;</code> (точка повернення) і посилання 
+<code>&lt;a href="#note-1"&gt;1&lt;/a&gt;</code> на текст примітки. У футері (пункт 5) все дзеркально. 
+Тег <code>&lt;a&gt;</code> з атрибутом name задає якір, а <code>&lt;a href="#имя"&gt;</code> — посилання на нього всередині повідомлення 
+(з пустим <code>&lt;a href="#"&gt;</code> посилання веде на початок).</li>
+<li>Таблиця — це тег <code>&lt;table&gt;</code> зі рядками <code>&lt;tr&gt;</code> і комірками <code>&lt;td&gt;</code>/<code>&lt;th&gt;</code> (заголовочні). 
+Вирівнювання задається атрибутом <code>align</code> (<code>left</code>/<code>center</code>/<code>right</code>), а для вертикального є <code>valign</code>. 
+Підтримуються також <code>colspan</code>/<code>rowspan</code>, рамки та «смугастий» стиль.</li>
+<li>Блочна формула — кастомний тег <code>&lt;tg-math-block&gt;</code>, всередині звичайний LaTeX. Telegram відрендерить формулу сам.</li>
+<li>Футер <code>&lt;footer&gt;</code> — тут живе текст примітки і зворотнє посилання ↩️ до маркера: якір <code>&lt;a name="note-1"&gt;</code> 
+дозволяє «перейти» вниз до примітки, а посилання <code>&lt;a href="#ref-1"&gt;</code> повертає нагору. </li>
+<li>Всередині <code>&lt;blockquote&gt;</code>, видно, що inline-теги (<code>&lt;i&gt;</code>, <code>&lt;code&gt;</code>, <code>&lt;tg-spoiler&gt;</code>) працюють і у вкладених блоках.</li>
+<li>Шорткат <code>answer_rich()</code> відправляє <code>InputRichMessage</code> у той самий чат. 
+Оскільки ми заповнили поле <code>html</code>, Telegram трактує текст як Rich HTML.</li>
+</ul>
+<p>Результат виглядає так: </p>
+<p><img alt="Розширене повідомлення" src="../../images/uk/rich-messages/sendrich_dark.png#only-dark" width="460">
+<img alt="Розширене повідомлення" src="../../images/uk/rich-messages/sendrich_light.png#only-light" width="460"></p>
+<div class="admonition warning">
+<p class="admonition-title">Не забувайте екранувати</p>
+<p>Як і в звичайному HTML-форматуванні, символи <code>&lt;</code>, <code>&gt;</code> і <code>&amp;</code>, які не є частиною тега, потрібно замінювати на
+<code>&amp;lt;</code>, <code>&amp;gt;</code> і <code>&amp;amp;</code>. Інакше Telegram спробує прийняти частину тексту за тег і зламає розмітку.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Markdown і HTML можна поєднувати</p>
+<p>Rich Markdown дозволяє вставляти підтримувані HTML-теги прямо всередину markdown-тексту. Це зручно, коли якийсь
+блок простіше виразити тегом, а основний текст хочеться тримати в markdown. А якщо потрібен повний контроль над усіма
+можливостями форматування — беріть цілком <code>html</code>-варіант, як ми зробили вище.</p>
+</div>
+<h2 id="editing">Редагування Rich Messages<a class="headerlink" href="#editing" title="Permanent link">¶</a></h2>
+<p>Навчилися відправляти, тепер про редагування. Окремого методу на кшталт <code>editRichMessage</code> у Bot API не додали:
+натомість у <a href="https://core.telegram.org/bots/api#editmessagetext">editMessageText</a> з'явився
+аргумент <code>rich_message</code>. Аргументи <code>text</code> і <code>rich_message</code> взаємовиключні: потрібно передати рівно один з них.
+У aiogram, відповідно, працює звичний шорткат <code>edit_text()</code>.</p>
+<p>Зберемо маленький приклад: на команду <code>/sendrichedit</code> бот відправляє чек-лист релізу (todo-список — якраз одна з
+«фішок» RM) з інлайн-кнопкою, а при натисканні на кнопку позначає всі пункти виконаними:</p>
+<div class="highlight"><span class="filename">bot/handlers/rich_edit.py</span><pre><span></span><code><span id="__code-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__code-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">CallbackQuery</span><span class="p">,</span>
+</span><span id="__code-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">InlineKeyboardButton</span><span class="p">,</span>
+</span><span id="__code-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">InlineKeyboardMarkup</span><span class="p">,</span>
+</span><span id="__code-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">InputRichMessage</span><span class="p">,</span>
+</span><span id="__code-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span><span id="__code-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__code-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"rich_edit"</span><span class="p">)</span>
+</span><span id="__code-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__code-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">CHECKLIST_BEFORE</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+</span><span id="__code-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="s2"># Чек-лист релізу</span>
+</span><span id="__code-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__code-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="s2">Прогрес: **0 із 3**</span>
+</span><span id="__code-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+</span><span id="__code-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="s2">- [ ] Прогнати тести</span>
+</span><span id="__code-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="s2">- [ ] Оновити документацію</span>
+</span><span id="__code-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="s2">- [ ] Задеплоїти бота</span>
+</span><span id="__code-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="s2">"""</span>
+</span><span id="__code-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__code-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">CHECKLIST_AFTER</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+</span><span id="__code-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="s2"># Чек-лист релізу</span>
+</span><span id="__code-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+</span><span id="__code-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="s2">Прогрес: **3 із 3** 🎉</span>
+</span><span id="__code-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
+</span><span id="__code-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="s2">- [x] Прогнати тести</span>
+</span><span id="__code-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="s2">- [x] Оновити документацію</span>
+</span><span id="__code-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="s2">- [x] Задеплоїти бота</span>
+</span><span id="__code-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="s2">"""</span>
+</span><span id="__code-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
+</span><span id="__code-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>
+</span><span id="__code-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"sendrichedit"</span><span class="p">))</span>
+</span><span id="__code-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_send_rich_edit</span><span class="p">(</span>
+</span><span id="__code-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>    <span class="n">keyboard</span> <span class="o">=</span> <span class="n">InlineKeyboardMarkup</span><span class="p">(</span><span class="n">inline_keyboard</span><span class="o">=</span><span class="p">[[</span>
+</span><span id="__code-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>        <span class="n">InlineKeyboardButton</span><span class="p">(</span>
+</span><span id="__code-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>            <span class="n">text</span><span class="o">=</span><span class="s2">"Виконати всі пункти"</span><span class="p">,</span>
+</span><span id="__code-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>            <span class="n">callback_data</span><span class="o">=</span><span class="s2">"complete_checklist"</span><span class="p">,</span>
+</span><span id="__code-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>        <span class="p">)</span>
+</span><span id="__code-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>    <span class="p">]])</span>
+</span><span id="__code-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_rich</span><span class="p">(</span>                                    <span class="c1"># [1]</span>
+</span><span id="__code-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>        <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span><span class="n">markdown</span><span class="o">=</span><span class="n">CHECKLIST_BEFORE</span><span class="p">),</span>
+</span><span id="__code-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>        <span class="n">reply_markup</span><span class="o">=</span><span class="n">keyboard</span><span class="p">,</span>
+</span><span id="__code-2-47"><a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>    <span class="p">)</span>
+</span><span id="__code-2-48"><a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>
+</span><span id="__code-2-49"><a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a>
+</span><span id="__code-2-50"><a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="nd">@router</span><span class="o">.</span><span class="n">callback_query</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">"complete_checklist"</span><span class="p">)</span>
+</span><span id="__code-2-51"><a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_complete_checklist</span><span class="p">(</span>
+</span><span id="__code-2-52"><a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a>        <span class="n">callback</span><span class="p">:</span> <span class="n">CallbackQuery</span><span class="p">,</span>
+</span><span id="__code-2-53"><a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-2-54"><a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a>    <span class="k">await</span> <span class="n">callback</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">edit_text</span><span class="p">(</span>                             <span class="c1"># [2]</span>
+</span><span id="__code-2-55"><a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a>        <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span><span class="n">markdown</span><span class="o">=</span><span class="n">CHECKLIST_AFTER</span><span class="p">),</span>  <span class="c1"># [3]</span>
+</span><span id="__code-2-56"><a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a>    <span class="p">)</span>
+</span><span id="__code-2-57"><a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a>    <span class="k">await</span> <span class="n">callback</span><span class="o">.</span><span class="n">answer</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Покроково:</p>
+<ol>
+<li>Шорткат <code>answer_rich()</code> приймає <code>reply_markup</code> точно так само, як звичайний <code>answer()</code>: до розширеного повідомлення можна
+   прикрутити будь-яку інлайн-клавіатуру.</li>
+<li>Редагування — через знайомий, як у звичайних повідомленнях, <code>edit_text()</code>. А оскільки ми не передали <code>reply_markup</code>,
+   після редагування кнопка зникне — усі пункти виконано, натискати більше нічого.</li>
+<li>Замість аргумента <code>text</code> передаємо <code>rich_message</code> з новим вмістом — звичайний <code>InputRichMessage</code>, 
+   точно такий самий, як при відправленні.</li>
+</ol>
+<p><img alt="Розширене повідомлення" src="../../images/ru/rich-messages/sendrichedit_dark.png#only-dark" width="500">
+<img alt="Розширене повідомлення" src="../../images/ru/rich-messages/sendrichedit_light.png#only-light" width="500"></p>
+<h2 id="streaming">Стрімінг через <code>sendRichMessageDraft</code><a class="headerlink" href="#streaming" title="Permanent link">¶</a></h2>
+<p>Поговоримо про стрімінг тексту. В одному з минулих оновлень додали <code>sendMessageDraft</code> для звичайних повідомлень, 
+аналогічний метод існує і для розширених повідомлень. Взагалі, про стрімінг уже було достатньо докладно написано 
+<a href="../blog/2026/02/topics-and-llm/#_3">в окремій замітці</a>, але варто повторити загальні принципи ще раз.</p>
+<p>Стрімінг працює так:</p>
+<ul>
+<li>Метод показує користувачу <strong>чернетку</strong> — тимчасовий попередній перегляд повідомлення. Ця чернетка ефемерна: вона живе близько
+  30 секунд і сама зникає, в історії чату не залишається.</li>
+<li>У чернетки є <code>draft_id</code> — ненульовий ідентифікатор. Усі оновлення з одним і тим самим <code>draft_id</code> Telegram анімує
+  як плавну зміну тієї самої чернетки, без мерехтіння.</li>
+<li>Коли генерація завершена, чернетку потрібно «зафіксувати»: відправити готове повідомлення звичайним <code>sendRichMessage</code>.</li>
+</ul>
+<div class="highlight"><span class="filename">bot/handlers/rich_stream.py</span><pre><span></span><code><span id="__code-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__code-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">randint</span>
+</span><span id="__code-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__code-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputRichMessage</span><span class="p">,</span> <span class="n">Message</span>
+</span><span id="__code-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__code-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"rich_stream"</span><span class="p">)</span>
+</span><span id="__code-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__code-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Остаточний текст, який ми будемо друкувати шматками.</span>
+</span><span id="__code-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">FINAL_MARKDOWN</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+</span><span id="__code-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="s2"># Що таке стрімінг чернетки</span>
+</span><span id="__code-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__code-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="s2">Метод `sendRichMessageDraft` показує користувачу **тимчасове прев'ю**</span>
+</span><span id="__code-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="s2">повідомлення, поки воно ще генерується — точно так само поводяться нейромережні</span>
+</span><span id="__code-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="s2">асистенти, які поступово друкують відповідь.</span>
+</span><span id="__code-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__code-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="s2">## Як це працює</span>
+</span><span id="__code-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
+</span><span id="__code-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="s2">- Чернетка **ефемерна**: вона живе близько 30 секунд і сама зникає.</span>
+</span><span id="__code-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="s2">- Всі оновлення з одним і тим же `draft_id` Telegram анімує як плавну правку.</span>
+</span><span id="__code-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="s2">- Щоб повідомлення лишилося в чаті назавжди, наприкінці потрібно відправити його</span>
+</span><span id="__code-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="s2">  звичайним `sendRichMessage`.</span>
+</span><span id="__code-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="s2">"""</span>
+</span><span id="__code-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+</span><span id="__code-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+</span><span id="__code-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="k">def</span><span class="w"> </span><span class="nf">_build_chunks</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>                        <span class="c1"># [1]</span>
+</span><span id="__code-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>    <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
+</span><span id="__code-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>    <span class="n">chunks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__code-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>    <span class="n">step</span> <span class="o">=</span> <span class="mi">12</span>
+</span><span id="__code-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">),</span> <span class="n">step</span><span class="p">):</span>
+</span><span id="__code-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>        <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">[:</span><span class="n">i</span><span class="p">]))</span>
+</span><span id="__code-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>    <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>    <span class="k">return</span> <span class="n">chunks</span>
+</span><span id="__code-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>
+</span><span id="__code-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"sendrichstream"</span><span class="p">))</span>
+</span><span id="__code-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_send_rich_stream</span><span class="p">(</span>
+</span><span id="__code-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>        <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">,</span>
+</span><span id="__code-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>    <span class="c1"># Генеруємо випадковий id чернетки</span>
+</span><span id="__code-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>    <span class="n">draft_id</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100_000_000</span><span class="p">)</span>                            <span class="c1"># [2]</span>
+</span><span id="__code-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>
+</span><span id="__code-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>    <span class="c1"># Імітуємо початкову затримку перед «першим токеном»:</span>
+</span><span id="__code-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>    <span class="c1"># покажемо заглушку для порожнього тексту і почекаємо паузу в 2 секунди.</span>
+</span><span id="__code-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_rich_message_draft</span><span class="p">(</span>                            <span class="c1"># [3]</span>
+</span><span id="__code-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>        <span class="n">chat_id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span id="__code-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>        <span class="n">draft_id</span><span class="o">=</span><span class="n">draft_id</span><span class="p">,</span>
+</span><span id="__code-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>        <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span>
+</span><span id="__code-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>            <span class="n">markdown</span><span class="o">=</span><span class="s2">"&lt;tg-thinking&gt;Думаю...&lt;/tg-thinking&gt;"</span>        <span class="c1"># [4]</span>
+</span><span id="__code-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>        <span class="p">),</span>
+</span><span id="__code-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>    <span class="p">)</span>
+</span><span id="__code-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+</span><span id="__code-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a>
+</span><span id="__code-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">_build_chunks</span><span class="p">(</span><span class="n">FINAL_MARKDOWN</span><span class="p">):</span>
+</span><span id="__code-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a>        <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_rich_message_draft</span><span class="p">(</span>
+</span><span id="__code-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>            <span class="n">chat_id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span id="__code-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>            <span class="n">draft_id</span><span class="o">=</span><span class="n">draft_id</span><span class="p">,</span>
+</span><span id="__code-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a>            <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span><span class="n">markdown</span><span class="o">=</span><span class="n">chunk</span><span class="p">),</span>
+</span><span id="__code-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a>        <span class="p">)</span>
+</span><span id="__code-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>                                  <span class="c1"># [5]</span>
+</span><span id="__code-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_rich</span><span class="p">(</span>                                    <span class="c1"># [6]</span>
+</span><span id="__code-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a>        <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span><span class="n">markdown</span><span class="o">=</span><span class="n">FINAL_MARKDOWN</span><span class="p">),</span>
+</span><span id="__code-3-64"><a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>Пункт за пунктом:</p>
+<ol>
+<li>В навчальних цілях ми ріжемо підсумковий текст на зростаючі префікси. У реальному боті на їхньому місці були б токени 
+від LLM, які ви накопичуєте в буфер і періодично відправляєте як чернетку.</li>
+<li><code>draft_id</code> має бути ненульовим. Використаємо випадкове число як такий ідентифікатор.</li>
+<li>Безпосередньо відправлення чергової частини. Зауважте, що метод повертає <code>True</code>/<code>False</code>, \
+а не об'єкт <code>Message</code> — це ж не справжнє повідомлення, а прев'ю.</li>
+<li>Заглушка, яку можна показувати, поки взагалі немає тексту. Красиво анімовано, до речі.</li>
+<li>Невелика пауза між оновленнями, щоб не вийти на ліміти флуду. Підбирайте інтервал під своє навантаження.</li>
+<li>Фінал: відправляємо повний текст звичайним <code>answer_rich()</code>. Це повідомлення вже залишиться в чаті.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Не намагайтеся стрімити посимвольно</p>
+<p>Кожен виклик <code>send_rich_message_draft</code> — це мережевий запит. Накопичіть розумний буфер (кілька слів або один рядок)
+і надсилайте попередній перегляд раз на кілька сотень мілісекунд, інакше Telegram швидко накладе на вас обмеження.</p>
+</div>
+<p>Як це виглядає «у дії» на відео:</p>
+<p><img alt="тип:відео" src="../../images/ru/rich-messages/streaming_dark.mp4"></p>
+<h2 id="media">Медіафайли<a class="headerlink" href="#media" title="Permanent link">¶</a></h2>
+<p>Не тільки текст — у RM можна вбудовувати медіа. Тут виникає неприємна особливість \nRich Messages: медіафайли не можна передавати через <code>file_id</code>, лише за HTTP(S)-посиланнями. </p>
+<p>У Rich Markdown для медіафайлів підтримується стандартний Markdown-синтаксис: <code>![alt-текст](URL "title")</code>. Однак \nчастина з alt-текстом (в звичайному вебі він використовується в разі, коли медіафайл не завантажився або в режимі «тільки текст») \nу Telegram ніде не відображається, а видимий підпис потрібно задавати одразу після URL у лапках. \nВтім, подивіться приклад нижче — і все стане зрозуміло:</p>
+<div class="highlight"><span class="filename">bot/handlers/rich_media.py</span><pre><span></span><code><span id="__code-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+</span><span id="__code-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__code-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputRichMessage</span><span class="p">,</span> <span class="n">Message</span>
+</span><span id="__code-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__code-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"rich_media"</span><span class="p">)</span>
+</span><span id="__code-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__code-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">GALLERY_MARKDOWN</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+</span><span id="__code-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s2"># Галерея HTTP-котиків</span>
+</span><span id="__code-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__code-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s2">Кілька зображень у межах одного багатого повідомлення, у кожного — опис і підпис.</span>
+</span><span id="__code-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__code-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="s2">**204 No Content** — сервер успішно опрацював запит, але повертати в тілі відповіді нічого. Клієнт залишається на поточній сторінці і при необхідності оновлює дані за заголовками відповіді.</span>
+</span><span id="__code-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__code-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="s2">![](https://http.cat/images/204.jpg "HTTP 204 No Content")</span>
+</span><span id="__code-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__code-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="s2">**301 Moved Permanently** — запитуваний ресурс остаточно перемістився на нову адресу зі заголовка `Location`. Усі наступні запити й закладки варто направляти вже туди, а пошукові системи з часом оновлять посилання.</span>
+</span><span id="__code-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__code-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="s2">![](https://http.cat/images/301.jpg "HTTP 301 Moved Permanently")</span>
+</span><span id="__code-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+</span><span id="__code-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="s2">**418 I'm a teapot** — жартівливий код з першоквітневого RFC 2324: сервер-чайник категорично відмовляється заварювати каву. У реальних API не використовується, але живе як улюблена пасхалка.</span>
+</span><span id="__code-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+</span><span id="__code-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="s2">![](https://http.cat/images/418.jpg "HTTP 418 I am a Teapot")</span>
+</span><span id="__code-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__code-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="s2">Під галереєю можна спокійно продовжувати текст: заголовки, списки і все інше</span>
+</span><span id="__code-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="s2">працюють як зазвичай.</span>
+</span><span id="__code-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="s2">"""</span>
+</span><span id="__code-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+</span><span id="__code-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+</span><span id="__code-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">"sendrichmedia"</span><span class="p">))</span>
+</span><span id="__code-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cmd_send_rich_media</span><span class="p">(</span>
+</span><span id="__code-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer_rich</span><span class="p">(</span>
+</span><span id="__code-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        <span class="n">rich_message</span><span class="o">=</span><span class="n">InputRichMessage</span><span class="p">(</span><span class="n">markdown</span><span class="o">=</span><span class="n">GALLERY_MARKDOWN</span><span class="p">),</span>
+</span><span id="__code-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>Верхня частина готового повідомлення на скріншоті:</p>
+<p><img alt="Розширене повідомлення" src="../../images/ru/rich-messages/sendrichmedia_dark.png#only-dark" width="500">
+<img alt="Розширене повідомлення" src="../../images/ru/rich-messages/sendrichmedia_light.png#only-light" width="500"></p>
+<div class="admonition note">
+<p class="admonition-title">Колаж, слайд-шоу та інші медіа</p>
+<p>Кілька зображень підряд — це базовий випадок. Для тонкого керування компонуванням у Rich HTML є окремі
+теги: <code>&lt;photo&gt;</code>, <code>&lt;video&gt;</code> і <code>&lt;audio&gt;</code> для одиночних медіа, а також кастомні <code>&lt;tg-collage&gt;</code> (колаж) і
+<code>&lt;tg-slideshow&gt;</code> (слайд-шоу), всередину яких вкладаються медіа-блоки. Переглянути рендеринг у живому режимі можна в
+<a href="https://telegram.dog/richtextdemobot">@richtextdemobot</a>.</p>
+</div>
+<h2 id="parsing">Як перехопити та розібрати Rich Message<a class="headerlink" href="#parsing" title="Permanent link">¶</a></h2>
+<p>Окрім відправки Rich Messages, потрібно навчитися їх приймати та «розуміти». Тим паче, що одними з перших, 
+хто опанував новий тип повідомлень, стали спамери. У класі <a href="https://core.telegram.org/bots/api#message">Message</a>
+з'явилося нове поле <code>rich_message</code> типу <a href="https://core.telegram.org/bots/api#richmessage">RichMessage</a>. Воно заповнюється,
+коли боту надходить RM.</p>
+<p>Влаштований <code>RichMessage</code> просто: це список блоків (<code>blocks</code>). Кожен блок має спільне поле <code>type</code> (<code>heading</code>, <code>paragraph</code>,
+<code>table</code>, <code>list</code>, <code>photo</code>, <code>slideshow</code>, <code>collage</code>, <code>footer</code> тощо), а текстові блоки несуть у поле <code>text</code> дерево об'єктів
+<code>RichText</code>. Це дерево може бути рядком, списком вузлів або стилізованим вузлом (жирний, курсив...), всередині якого знову
+лежить <code>RichText</code>. Щоб витягти з нього «чистий» текст, зручно написати маленьку рекурсивну функцію:</p>
+<div class="highlight"><span class="filename">bot/handlers/rich_parse.py</span><pre><span></span><code><span id="__code-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+</span><span id="__code-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__code-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">F</span><span class="p">,</span> <span class="n">Router</span>
+</span><span id="__code-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">aiogram.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+</span><span id="__code-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__code-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"rich_parse"</span><span class="p">)</span>
+</span><span id="__code-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__code-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__code-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">flatten_text</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__code-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="k">return</span> <span class="s2">""</span>
+</span><span id="__code-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>                                     <span class="c1"># [1]</span>
+</span><span id="__code-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="k">return</span> <span class="n">node</span>
+</span><span id="__code-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                                    <span class="c1"># [2]</span>
+</span><span id="__code-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>        <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flatten_text</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">node</span><span class="p">)</span>
+</span><span id="__code-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="c1"># У кастомних емодзі немає вкладеного text, натомість є альтернативний текст</span>
+</span><span id="__code-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"custom_emoji"</span><span class="p">:</span>             <span class="c1"># [3]</span>
+</span><span id="__code-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">alternative_text</span>
+</span><span id="__code-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="k">return</span> <span class="n">flatten_text</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>              <span class="c1"># [4]</span>
+</span><span id="__code-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__code-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
+</span><span id="__code-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="nd">@router</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">rich_message</span><span class="p">)</span>                                   <span class="c1"># [5]</span>
+</span><span id="__code-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_rich_message</span><span class="p">(</span>
+</span><span id="__code-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>        <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span>
+</span><span id="__code-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="n">blocks</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">rich_message</span><span class="o">.</span><span class="n">blocks</span>
+</span><span id="__code-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>
+</span><span id="__code-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>    <span class="n">stats</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• </span><span class="si">{</span><span class="n">block</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">)</span>      <span class="c1"># [6]</span>
+</span><span id="__code-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>
+</span><span id="__code-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>    <span class="n">headings</span> <span class="o">=</span> <span class="p">[</span>                                                  <span class="c1"># [7]</span>
+</span><span id="__code-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>        <span class="n">flatten_text</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__code-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span>
+</span><span id="__code-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"heading"</span>
+</span><span id="__code-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>    <span class="p">]</span>
+</span><span id="__code-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+</span><span id="__code-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>    <span class="n">table</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"table"</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># [8]</span>
+</span><span id="__code-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>
+</span><span id="__code-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__code-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>        <span class="sa">f</span><span class="s2">"Rich Message з </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span><span class="si">}</span><span class="s2"> блоків."</span><span class="p">,</span>
+</span><span id="__code-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>        <span class="sa">f</span><span class="s2">"Склад: </span><span class="si">{</span><span class="n">stats</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__code-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>    <span class="p">]</span>
+</span><span id="__code-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>    <span class="k">if</span> <span class="n">headings</span><span class="p">:</span>
+</span><span id="__code-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>        <span class="n">toc</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">headings</span><span class="p">)</span>
+</span><span id="__code-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Заголовки:</span><span class="se">\n</span><span class="si">{</span><span class="n">toc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__code-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>    <span class="k">if</span> <span class="n">table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__code-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>        <span class="n">first_row</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flatten_text</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="__code-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Перший рядок таблиці: </span><span class="si">{</span><span class="n">first_row</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__code-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>
+</span><span id="__code-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a>    <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+</span></code></pre></div>
+<p>Розберемо ключові місця:</p>
+<ol>
+<li>Базовий випадок рекурсії: якщо вузол — звичайний рядок, повертаємо його як є.</li>
+<li>Якщо вузол — список, з'єднуємо результати обходу кожного елемента.</li>
+<li>У кастомного емодзі немає вкладеного <code>text</code>, натомість є <code>alternative_text</code> — беремо його.</li>
+<li>У всіх інших випадках це стилізований вузол: спускаємося в його поле <code>text</code> ще на рівень глибше.</li>
+<li>Магічний фільтр <code>F.rich_message</code> спрацьовує лише якщо у вхідного повідомлення заповнене поле <code>rich_message</code>. 
+   Так ми ловимо саме багаті повідомлення і не заважаємо командам.</li>
+<li>Збираємо блоки в порядку їх появи.</li>
+<li>Збираємо всі заголовки в зміст. Одночасно видно, як <code>flatten_text</code> витягує текст із заголовка, 
+   навіть якщо він обгорнутий у курсив або жирний.</li>
+<li>Якщо всередині є таблиця, дістаємо її перший рядок. Комірки лежать в <code>table.cells</code> як список списків (<code>строки → ячейки</code>), 
+   а текст комірки — знову дерево RichText.</li>
+</ol>
+<p>Якщо переслати боту його власний приклад із HTTP-котиками, то ви повинні побачити таке повідомлення:</p>
+<div class="highlight"><pre><span></span><code><span id="__code-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Rich Message із 9 блоків.
+</span><span id="__code-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Склад:
+</span><span id="__code-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>• heading
+</span><span id="__code-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>• paragraph
+</span><span id="__code-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>• paragraph
+</span><span id="__code-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>• photo
+</span><span id="__code-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>• paragraph
+</span><span id="__code-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>• photo
+</span><span id="__code-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>• paragraph
+</span><span id="__code-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>• photo
+</span><span id="__code-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>• paragraph
+</span><span id="__code-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__code-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>Заголовки:
+</span><span id="__code-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>• Галерея HTTP-котиків
+</span></code></pre></div>
+<h2 id="conclusion">Висновок<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h2>
+<p>Rich Messages — це давно назрілий відповідь Telegram на епоху нейромереж і повсюдного використання Markdown.
+У цій главі ми навчилися надсилати такі повідомлення (через <code>markdown</code>/<code>html</code>), редагувати їх, розбирати вхідні 
+по блоках і стримити відповіді через ефемерні чернетки. За кадром залишилося ще багато блоків — карти, згортані <code>details</code>,
+аудіо та відео, блочні формули — але принцип скрізь один і той самий, тож, озброївшись основами, решту ви опануєте
+за <a href="https://core.telegram.org/bots/api#inputrichmessage">документацією</a> та <a href="https://telegram.dog/richtextdemobot">демо-ботом</a>.</p></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Востаннє оновлено">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="16 серпня 2026 р. 16:02:25 UTC"><span class="timeago" datetime="2026-08-16T16:02:25+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="16 серпня 2026 р. 16:02:25 UTC">2026-08-16</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Створено">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="14 серпня 2026 р. 19:50:46 UTC"><span class="timeago" datetime="2026-08-14T19:50:46+00:00" locale="uk"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="14 серпня 2026 р. 19:50:46 UTC">2026-08-14</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Повернутись нагору
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Original Copyright &copy; 2020-2026 Groosha, Translation Copyright &copy; 2024-2026 VAI
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://t.me/+DE0_2nCvbXozZjUy" target="_blank" rel="noopener" title="Чат у Telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m115 168.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7.2-.7.3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2.5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3.6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6.5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7.5 3.2.6 6.5.4 9.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/MasterGroosha/aiogram-3-guide" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const KEY = "translation_notice_dismissed_v2";
+      const dismissed = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+      document.querySelectorAll(".is-dismissible[data-notice-id]").forEach((notice) => {
+        const noticeId = notice.dataset.noticeId;
+        if (dismissed.includes(noticeId)) {
+          notice.classList.add("is-hidden");
+        }
+
+        const closeBtn = notice.querySelector(".translation-notice-dismiss");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          notice.classList.add("is-hidden");
+          if (!dismissed.includes(noticeId)) {
+            dismissed.push(noticeId);
+            localStorage.setItem(KEY, JSON.stringify(dismissed));
+          }
+        });
+      });
+    });
+  </script>
+
+  </body>
+</html>

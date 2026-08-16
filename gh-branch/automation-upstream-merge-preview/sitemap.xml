@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/advanced-teaser/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/book/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/book/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/book/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/book/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/book/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/buttons/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/buttons/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/filters-and-middlewares/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/fsm/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/fsm/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/guest-bots/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/guest-bots/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/inline-mode/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/messages/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/payments/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/payments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/payments/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/payments/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/quickstart/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/rich-messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/rich-messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/routers/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/routers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/routers/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/routers/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/special-updates/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/blog/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/blog/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/blog/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/blog/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/blog/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/advanced-teaser/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/book/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/book/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/book/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/book/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/book/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/buttons/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/buttons/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/filters-and-middlewares/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/fsm/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/fsm/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/guest-bots/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/guest-bots/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/inline-mode/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/messages/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/payments/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/payments/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/payments/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/payments/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/quickstart/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/rich-messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/rich-messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/routers/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/routers/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/routers/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/routers/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/blog/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/blog/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/blog/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/blog/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/blog/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/about-translation/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/about-translation/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/advanced-teaser/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/book/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/book/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/book/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/book/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/book/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/buttons/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/buttons/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/filters-and-middlewares/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/fsm/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/fsm/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/guest-bots/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/guest-bots/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/inline-mode/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/messages/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/payments/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/payments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/payments/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/payments/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/quickstart/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/rich-messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/routers/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/routers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/routers/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/routers/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/special-updates/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/blog/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/blog/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/blog/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/blog/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/blog/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/about-translation/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/about-translation/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/advanced-teaser/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/advanced-teaser/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/advanced-teaser/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/book/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/book/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/book/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/book/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/book/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/buttons/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/buttons/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/buttons/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/filters-and-middlewares/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/filters-and-middlewares/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/filters-and-middlewares/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/fsm/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/fsm/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/fsm/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/guest-bots/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/guest-bots/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/guest-bots/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/inline-mode/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/inline-mode/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/inline-mode/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/payments/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/payments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/payments/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/payments/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/payments/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/quickstart/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/quickstart/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/quickstart/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/rich-messages/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/rich-messages/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/rich-messages/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/routers/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/routers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/routers/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/routers/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/routers/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/special-updates/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/special-updates/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/special-updates/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/blog/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/blog/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/blog/"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/blog/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/blog/"/>
+    </url>
+    <url>
+        <loc>https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/about-translation/</loc>
+        <lastmod>2026-08-16</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/zh/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/en/about-translation/"/>
+        <xhtml:link rel="alternate" hreflang="uk" href="https://vai-rice.space/aiogram-3-guide/gh-branch/automation-upstream-merge-preview/uk/about-translation/"/>
+    </url>
+</urlset>
