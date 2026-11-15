@@ -14,8 +14,8 @@
 ---
 Доступные языки интерфейса и перевода: **RU**, **EN**, **UK**, **ZH** (китайский в активной стадии заполнения).
 ---
-### Переводит [VAI || Programmer](https://github.com/Vadim-Khristenko)
-**Перевод книги поддерживает не лично автор**, а Переводчик (Указано выше), если перевод не успевает за оригиналом можете смело жаловаться [VAI || Programmer](https://github.com/Vadim-Khristenko).
+### Переводит [VAI || Programmer](https://github.com/VAIPROG)
+**Перевод книги поддерживает не лично автор**, а Переводчик (Указано выше), если перевод не успевает за оригиналом можете смело жаловаться [VAI || Programmer](https://github.com/VAIPROG).
 Также можете писать в [Личные сообщения Telegram Переводчика](https://t.me/VAI_Programmer).
 
 Книга собрана с помощью [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).

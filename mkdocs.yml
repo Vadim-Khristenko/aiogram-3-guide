@@ -76,7 +76,7 @@ extra:
       name: GitHub
   
   # Translation project settings
-  translations_url: https://github.com/Vadim-Khristenko/aiogram-3-guide
+  translations_url: https://github.com/VAIPROG/aiogram-3-guide
   announcement: Кажется эта страница не была переведена на этот Язык и предварительно будет показана на Русском Языке.
   
   # Translation status messages (Russian)

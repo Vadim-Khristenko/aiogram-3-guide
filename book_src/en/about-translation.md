@@ -8,7 +8,7 @@ t_status: unique_content
 
 ## Translation Project Overview {: id="project-overview" }
 
-This comprehensive guide has been professionally translated by [VAI || Programmer](https://github.com/Vadim-Khristenko/), an independent programmer dedicated to making technical education accessible globally. The translation is provided free of charge to the international developer community.
+This comprehensive guide has been professionally translated by [VAI || Programmer](https://github.com/VAIPROG/), an independent programmer dedicated to making technical education accessible globally. The translation is provided free of charge to the international developer community.
 
 !!! info "Translation Impact"
     **📊 By the Numbers**: This translation makes aiogram knowledge accessible to over **1.5 billion English speakers** worldwide, bridging the gap between Russian technical expertise and the global developer community.
@@ -226,14 +226,14 @@ Every contribution has real impact:
 
 ### 📞 Contact Information {: id="contact-info" }
 - **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
-- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
-- **Issues**: [Project Repository](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues)
+- **GitHub**: [VAIPROG](https://github.com/VAIPROG)
+- **Issues**: [Project Repository](https://github.com/VAIPROG/aiogram-3-guide/issues)
 
 ## Behind the Scenes: Translator's Journey {: id="translator-journey" }
 
 ### 👨‍💻 Meet the Translator {: id="meet-translator" }
 
-**Vadim Khristenko** (known online as **VAI || Programmer**) is a developer and open-source enthusiast from the CIS region, passionate about making quality technical education accessible beyond language barriers.
+**VAI_PROG (Vadim)** (known online as **VAI || Programmer**) is a developer and open-source enthusiast from the CIS region, passionate about making quality technical education accessible beyond language barriers.
 
 **About Vadim:**
 - A Python developer with expertise in Telegram bot development and the aiogram framework
@@ -242,7 +242,7 @@ Every contribution has real impact:
 - Believes that knowledge should know no borders
 
 **Connect with Vadim:**
-- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
+- **GitHub**: [VAIPROG](https://github.com/VAIPROG)
 - **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
 
 !!! quote "Personal Mission"

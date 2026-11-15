@@ -38,7 +38,7 @@ async def examples_buttons(message: types.Message):
             [
                 types.InlineKeyboardButton(
                     text='This is an Inline button',
-                    url="https://vadim-khristenko.github.io/aiogram-3-guide/en/buttons/"
+                    url="https://vai-rice.space/aiogram-3-guide/en/buttons/"
                     # Failure to specify one of the Optional parameters will
                     # result in an error.
                 )

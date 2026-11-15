@@ -1,6 +1,6 @@
 # Платежі
 
-У цьому каталозі знаходяться вихідні файли для розділу https://vadim-khristenko.github.io/aiogram-3-guide/uk/payments/
+У цьому каталозі знаходяться вихідні файли для розділу https://vai-rice.space/aiogram-3-guide/uk/payments/
 
 Для запуску бота (потребує Python 3.11 та вище) скопіюйте файл `settings.example.toml` під ім'ям 
 `settings.toml` та заповніть своїми значеннями. Далі можна запустити (з-під venv) командою:

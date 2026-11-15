@@ -4,7 +4,7 @@ title: Introduction
 
 # **Welcome!** {: id="welcome" }
 
-What you see before you is what I, translator [VAI || Programmer](https://github.com/Vadim-Khristenko/), call a book on creating Telegram bots in Python using the [aiogram](https://github.com/aiogram/aiogram) framework. This book can be seen as a study material, referring to individual chapters as needed, but for the first reading, I recommend doing it in the order that the chapters are listed to the left of this text.
+What you see before you is what I, translator [VAI || Programmer](https://github.com/VAIPROG/), call a book on creating Telegram bots in Python using the [aiogram](https://github.com/aiogram/aiogram) framework. This book can be seen as a study material, referring to individual chapters as needed, but for the first reading, I recommend doing it in the order that the chapters are listed to the left of this text.
 
 ## About This Guide {: id="about-guide" }
 
@@ -25,13 +25,13 @@ everything related to the code will work smoothly for you too, and for specific 
 
 ## License & Availability {: id="license" }
 
-The text of the book and the source code in the [relevant repository](https://github.com/Vadim-Khristenko/aiogram-3-guide) 
+The text of the book and the source code in the [relevant repository](https://github.com/VAIPROG/aiogram-3-guide) 
 are completely free, published under the MIT license, and available to anyone for download, modification, and use for any purpose.
 
 ## Translation Notice {: id="translation-notice" }
 
 !!! warning "Important Note"
-    This is a translation and adaptation of the original Russian guide by [Groosha](https://mastergroosha.github.io/). While I strive for accuracy, you may find inconsistencies or translation-specific content. If you notice any errors or have suggestions for improvement, please feel free to [create an issue](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues) or contact me directly.
+    This is a translation and adaptation of the original Russian guide by [Groosha](https://mastergroosha.github.io/). While I strive for accuracy, you may find inconsistencies or translation-specific content. If you notice any errors or have suggestions for improvement, please feel free to [create an issue](https://github.com/VAIPROG/aiogram-3-guide/issues) or contact me directly.
 
 ## Supporting the Original Author {: id="support-author" }
 

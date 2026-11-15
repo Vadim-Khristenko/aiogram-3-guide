@@ -23,9 +23,9 @@ description: Знайомство з aiogram
     aiogram, а не взагалі весь Computer Science у всьому його різноманітті.**
 
 !!! info "Про переклад"
-    Цей посібник перекладено з російської **[Вадимом Христенком (VAI || Programmer)](https://github.com/Vadim-Khristenko/)**. Переклад охоплює всі розділи та синхронізується з оригіналом.
+    Цей посібник перекладено з російської **[Вадимом Христенком (VAI || Programmer)](https://github.com/VAIPROG/)**. Переклад охоплює всі розділи та синхронізується з оригіналом.
     
-    Знайшли помилку або незручне формулювання? [Відкрийте issue на GitHub](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues) або зв'яжіться з перекладачем у [Telegram](https://t.me/VAI_Programmer) — зворотний зв'язок дуже вітається.
+    Знайшли помилку або незручне формулювання? [Відкрийте issue на GitHub](https://github.com/VAIPROG/aiogram-3-guide/issues) або зв'яжіться з перекладачем у [Telegram](https://t.me/VAI_Programmer) — зворотний зв'язок дуже вітається.
     
     → [Детальніше про проєкт перекладу](about-translation.md)
 

@@ -14,8 +14,8 @@ Previous versions:
 ---
 Available interface/translation languages: **RU**, **EN**, **UK**, **ZH** (Chinese is currently being expanded).
 ---
-### Translated by [VAI || Programmer](https://github.com/Vadim-Khristenko)
-**The book's translation is not supported by the author personally**, but by the Translator (mentioned above), if the translation lags behind the original, you may directly complain to [VAI || Programmer](https://github.com/Vadim-Khristenko).
+### Translated by [VAI || Programmer](https://github.com/VAIPROG)
+**The book's translation is not supported by the author personally**, but by the Translator (mentioned above), if the translation lags behind the original, you may directly complain to [VAI || Programmer](https://github.com/VAIPROG).
 You can also write to the Translator's [Telegram DM](https://t.me/VAI_Programmer).
 
 The book is built using [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).

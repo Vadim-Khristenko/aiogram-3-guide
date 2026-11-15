@@ -8,14 +8,14 @@ t_status: unique_content
 
 ## Огляд проєкту перекладу {: id="project-overview" }
 
-Цей повний посібник було професійно перекладено [VAI || Programmer](https://github.com/Vadim-Khristenko/), незалежним програмістом, який присвятив себе доступності технічної освіти у всьому світі. Переклад надається безкоштовно українській спільноті розробників.
+Цей повний посібник було професійно перекладено [VAI || Programmer](https://github.com/VAIPROG/), незалежним програмістом, який присвятив себе доступності технічної освіти у всьому світі. Переклад надається безкоштовно українській спільноті розробників.
 
 !!! warning "Важлива примітка про переклад"
     **⚠️ Мовне зауваження**: Переводчик **не є носієм української мови**. Попри всі зусилля для забезпечення якісного перекладу, можливі помилки в термінології або стилістиці. 
     
     **🙏 Просимо вашої допомоги**: Якщо ви знайшли помилку, неточність або маєте пропозицію щодо покращення:
 
-    - 📝 [Створіть Issue на GitHub](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues)
+    - 📝 [Створіть Issue на GitHub](https://github.com/VAIPROG/aiogram-3-guide/issues)
     - 💬 Зв'яжіться напряму: [@VAI_Programmer](https://t.me/VAI_Programmer)
     
     Ваша допомога допоможе зробити цей ресурс кращим для всієї україномовної спільноти!
@@ -241,14 +241,14 @@ t_status: unique_content
 
 ### 📞 Контактна інформація {: id="contact-info" }
 - **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
-- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
-- **Issues**: [Репозиторій проєкту](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues)
+- **GitHub**: [VAIPROG](https://github.com/VAIPROG)
+- **Issues**: [Репозиторій проєкту](https://github.com/VAIPROG/aiogram-3-guide/issues)
 
 ## За лаштунками: Подорож перекладача {: id="translator-journey" }
 
 ### 👨‍💻 Знайомтеся з перекладачем {: id="meet-translator" }
 
-**Вадим Христенко** (онлайн-псевдонім: **VAI || Programmer**) привносить унікальну перспективу в цей проєкт перекладу:
+**VAI_PROG (Вадим)** (онлайн-псевдонім: **VAI || Programmer**) привносить унікальну перспективу в цей проєкт перекладу:
 
 **Розробник та ентузіаст відкритого коду**, пристрасно любить робити якісну технічну освіту доступною незалежно від мовних бар'єрів. Підтримує переклади для англійської, української та китайської мов.
 
@@ -259,7 +259,7 @@ t_status: unique_content
     "Я вірю, що знання повинні бути універсально доступними. Коли я відкрив винятковий посібник Groosha з aiogram, я знав, що він повинен досягти української спільноти розробників. Це не просто переклад — це демократизація знань."
 
 **Контакти:**
-- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
+- **GitHub**: [VAIPROG](https://github.com/VAIPROG)
 - **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
 
 ### 🎯 Філософія та підхід до перекладу {: id="translation-philosophy" }

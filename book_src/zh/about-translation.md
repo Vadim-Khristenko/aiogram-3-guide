@@ -8,7 +8,7 @@ t_status: unique_content
 
 ## 翻译项目概述 {: id="project-overview" }
 
-本指南的中文（简体）翻译由 [VAI || Programmer](https://github.com/Vadim-Khristenko/)（Vadim Khristenko）独立完成。作为一名对技术教育充满热情的开发者，他致力于让全球中文开发者能够接触到高质量的技术资源。本翻译完全免费提供给社区。
+本指南的中文（简体）翻译由 [VAI || Programmer](https://github.com/VAIPROG/)（VAI_PROG (Vadim)）独立完成。作为一名对技术教育充满热情的开发者，他致力于让全球中文开发者能够接触到高质量的技术资源。本翻译完全免费提供给社区。
 
 !!! info "翻译的意义"
     **📊 数据说话**：这份翻译使得 aiogram 知识能够被全球超过 **15 亿中文使用者** 获取，架起了俄语技术知识与全球中文开发者之间的桥梁。
@@ -52,7 +52,7 @@ Groosha 创作的原始俄语指南被公认为 aiogram 学习的 **黄金标准
 
 ### 👨‍💻 认识翻译者 {: id="meet-translator" }
 
-**Vadim Khristenko**（网名：**VAI || Programmer**）是一位来自独联体地区的开发者和开源爱好者，致力于让高质量的技术教育突破语言限制。
+**VAI_PROG (Vadim)**（网名：**VAI || Programmer**）是一位来自独联体地区的开发者和开源爱好者，致力于让高质量的技术教育突破语言限制。
 
 **Vadim 的背景：**
 - Python 开发者，专精于 Telegram 机器人开发和 aiogram 框架
@@ -61,7 +61,7 @@ Groosha 创作的原始俄语指南被公认为 aiogram 学习的 **黄金标准
 - 坚信知识应该无国界
 
 **与 Vadim 取得联系：**
-- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
+- **GitHub**: [VAIPROG](https://github.com/VAIPROG)
 - **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
 
 !!! quote "翻译者的想法"
@@ -116,8 +116,8 @@ Groosha 创作的原始俄语指南被公认为 aiogram 学习的 **黄金标准
 ### 📞 联系信息 {: id="contact-info" }
 
 - **Telegram**: [@VAI_Programmer](https://t.me/VAI_Programmer)
-- **GitHub**: [Vadim-Khristenko](https://github.com/Vadim-Khristenko)
-- **Issues**: [项目仓库](https://github.com/Vadim-Khristenko/aiogram-3-guide/issues)
+- **GitHub**: [VAIPROG](https://github.com/VAIPROG)
+- **Issues**: [项目仓库](https://github.com/VAIPROG/aiogram-3-guide/issues)
 
 ## 致谢与鸣谢 {: id="acknowledgments" }
 
